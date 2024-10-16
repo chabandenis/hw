@@ -12,12 +12,12 @@ import java.util.List;
 public class TestServiceImpl implements TestService {
 
     private final IOService ioService;
+
     private final QuestionDao questionDao;
 
     private List<Question> questions = new ArrayList<>();
 
-    private void printQuestion()
-    {
+    private void printQuestion() {
         for (Question question : questions) {
             System.out.println("\nQuestion=" + question.text());
             for (Answer answer : question.answers()) {

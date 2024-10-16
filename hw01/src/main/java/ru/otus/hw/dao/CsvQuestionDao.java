@@ -3,7 +3,6 @@ package ru.otus.hw.dao;
 import com.opencsv.bean.CsvToBeanBuilder;
 import lombok.RequiredArgsConstructor;
 import ru.otus.hw.config.TestFileNameProvider;
-import ru.otus.hw.dao.dto.AnswerCsvConverter;
 import ru.otus.hw.dao.dto.QuestionDto;
 import ru.otus.hw.domain.Question;
 
@@ -18,9 +17,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CsvQuestionDao implements QuestionDao {
     private final TestFileNameProvider fileNameProvider;
-    private final QuestionDto questionDto;
-    private final AnswerCsvConverter answerCsvConverter;
-
 
     private File getFileFromResource(String fileName) throws URISyntaxException {
 
@@ -35,7 +31,7 @@ public class CsvQuestionDao implements QuestionDao {
     }
 
     private File getFile() {
-        String fileName = fileNameProvider.getTestFileName();//"json/file1.json";
+        String fileName = fileNameProvider.getTestFileName();
         System.out.println("\ngetResource : " + fileName);
         File file = null;
         try {
@@ -53,8 +49,7 @@ public class CsvQuestionDao implements QuestionDao {
 
         try {
             questionsDtos = new CsvToBeanBuilder(new FileReader(getFile()))
-                    .withSeparator(';')
-                    .withType(QuestionDto.class).build().parse();
+                    .withSeparator(';').withType(QuestionDto.class).build().parse();
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         }
