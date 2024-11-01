@@ -8,7 +8,6 @@ public class Application {
     public static void main(String[] args) {
         System.out.println("Start");
 
-        //Прописать бины в spring-context.xml и создать контекст на его основе
         ApplicationContext context = new ClassPathXmlApplicationContext("/spring-context.xml");
         var testRunnerService = context.getBean(TestRunnerService.class);
         testRunnerService.run();

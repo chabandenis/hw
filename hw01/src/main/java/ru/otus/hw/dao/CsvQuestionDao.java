@@ -5,59 +5,53 @@ import lombok.RequiredArgsConstructor;
 import ru.otus.hw.config.TestFileNameProvider;
 import ru.otus.hw.dao.dto.QuestionDto;
 import ru.otus.hw.domain.Question;
+import ru.otus.hw.exceptions.QuestionReadException;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.net.URISyntaxException;
-import java.net.URL;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @RequiredArgsConstructor
 public class CsvQuestionDao implements QuestionDao {
     private final TestFileNameProvider fileNameProvider;
 
-    private File getFileFromResource(String fileName) throws URISyntaxException {
-
+    private InputStream getFileFromResourceAsStream(String fileName) {
         ClassLoader classLoader = getClass().getClassLoader();
-        URL resource = classLoader.getResource(fileName);
-        if (resource == null) {
-            throw new IllegalArgumentException("file not found! " + fileName);
+        InputStream inputStream = classLoader.getResourceAsStream(fileName);
+
+        if (inputStream == null) {
+            throw new QuestionReadException("file not found! " + fileName);
         } else {
-            return new File(resource.toURI());
+            return inputStream;
         }
-
     }
 
-    private File getFile() {
-        String fileName = fileNameProvider.getTestFileName();
-        System.out.println("\ngetResource : " + fileName);
-        File file = null;
-        try {
-            file = getFileFromResource(fileName);
-        } catch (URISyntaxException e) {
-            throw new RuntimeException(e);
-        }
-        return file;
-    }
 
     @Override
     public List<Question> findAll() {
 
-        List<QuestionDto> questionsDtos;
-
-        try {
-            questionsDtos = new CsvToBeanBuilder(new FileReader(getFile()))
-                    .withSeparator(';').withType(QuestionDto.class).build().parse();
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
-        }
-
+        List<QuestionDto> questionsDtos3;
         List<Question> questions = new ArrayList<>();
 
-        for (QuestionDto questionDtoIndex : questionsDtos) {
-            questions.add(questionDtoIndex.toDomainObject());
+        try (InputStream inputStream = getFileFromResourceAsStream(fileNameProvider.getTestFileName())) {
+            Reader reader = new BufferedReader(new InputStreamReader(inputStream));
+            questionsDtos3 = new CsvToBeanBuilder(reader).withSeparator(';').withType(QuestionDto.class).build().parse();
+
+            Objects.requireNonNull(questionsDtos3);
+            for (QuestionDto questionDtoIndex : questionsDtos3) {
+                questions.add(questionDtoIndex.toDomainObject());
+            }
+        } catch (IOException e) {
+            System.out.println(e);
+        } catch (IllegalArgumentException e) {
+            System.out.println(e);
+        } catch (QuestionReadException e) {
+            System.out.println(e);
         }
 
         return questions;
