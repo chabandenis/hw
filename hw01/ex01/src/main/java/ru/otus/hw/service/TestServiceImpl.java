@@ -20,8 +20,11 @@ public class TestServiceImpl implements TestService {
     private void printQuestion() {
         for (Question question : questions) {
             System.out.println("\nQuestion=" + question.text());
+            int i = 1;
             for (Answer answer : question.answers()) {
-                System.out.println("\t" + answer.text());
+                answer.setPosition(i);
+                System.out.println("\t" + answer.getPosition() + "; " + answer.getText());
+                i++;
             }
         }
     }
