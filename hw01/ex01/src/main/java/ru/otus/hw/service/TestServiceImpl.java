@@ -15,9 +15,7 @@ public class TestServiceImpl implements TestService {
 
     private final QuestionDao questionDao;
 
-    private List<Question> questions = new ArrayList<>();
-
-    private void printQuestion() {
+    private void printQuestion(List<Question> questions) {
         for (Question question : questions) {
             System.out.println("\nQuestion=" + question.text());
             int i = 1;
@@ -31,10 +29,11 @@ public class TestServiceImpl implements TestService {
 
     @Override
     public void executeTest() {
+        List<Question> questions = new ArrayList<>();
         ioService.printLine("");
         ioService.printFormattedLine("Please answer the questions below%n");
         // Получить вопросы из дао и вывести их с вариантами ответов
         questions = questionDao.findAll();
-        printQuestion();
+        printQuestion(questions);
     }
 }
