@@ -23,6 +23,15 @@ public class TestServiceImpl implements TestService {
 
         for (var question: questions) {
             var isAnswerValid = false; // Задать вопрос, получить ответ
+            System.out.println("Вопрос: " + question.text());
+
+            for (var answer : question.answers())
+            {
+                System.out.println("\t" + answer.text());
+            }
+
+            ioService.readIntForRangeWithPrompt(1, 3, "число:", "Выберите число в указанном диапазоне");
+
             testResult.applyAnswer(question, isAnswerValid);
         }
         return testResult;
