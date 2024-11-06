@@ -9,7 +9,7 @@
         <version>1.0</version>
     </parent>
 
-    <artifactId>ex01</artifactId>
+    <artifactId>ex02</artifactId>
 
     <properties>
         <maven.compiler.target>17</maven.compiler.target>
@@ -47,6 +47,7 @@
         </dependency>
 
 
+
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-engine</artifactId>
@@ -73,6 +74,18 @@
             <artifactId>lombok</artifactId>
             <optional>true</optional>
             <version>${lombok.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.assertj</groupId>
+            <artifactId>assertj-core</artifactId>
+            <version>3.25.3</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <version>5.10.2</version>
+            <scope>compile</scope>
         </dependency>
 
     </dependencies>
@@ -130,4 +143,5 @@
             </plugin>
         </plugins>
     </build>
+
 </project>

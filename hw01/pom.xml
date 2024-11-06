@@ -6,12 +6,13 @@
 
 
     <groupId>ru.otus.hw</groupId>
-    <artifactId>hw01-xml-config</artifactId>
+    <artifactId>chaban</artifactId>
     <version>1.0</version>
 
     <packaging>pom</packaging>
     <modules>
         <module>ex01</module>
+        <module>ex02</module>
     </modules>
 
 
