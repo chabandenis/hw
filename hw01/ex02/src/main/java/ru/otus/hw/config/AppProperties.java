@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 
 @Service
 @Data
-@PropertySource("application.properties")
 public class AppProperties implements TestConfig, TestFileNameProvider {
 
     // внедрить свойство из application.properties
