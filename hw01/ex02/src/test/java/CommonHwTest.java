@@ -6,8 +6,12 @@ import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.ClassPathScanningCandidateComponentProvider;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.util.Assert;
 import ru.otus.hw.Application;
 import ru.otus.hw.config.AppProperties;
+import ru.otus.hw.config.TestFileNameProvider;
+import ru.otus.hw.dao.CsvQuestionDao;
+import ru.otus.hw.dao.QuestionDao;
 
 import java.util.Arrays;
 import java.util.stream.Collectors;
@@ -17,6 +21,17 @@ import static org.assertj.core.api.Assertions.assertThat;
 class CommonHwTest {
 
     private static final String CONFIGURATION_ANNOTATION_NAME = "org.springframework.context.annotation.Configuration";
+
+    @DisplayName("Интеграционный тест класса, читающего вопросы")
+    @Test
+    void verifyReadQuestionFromFile(){
+        int rightAnswersCountToPass = 3;
+        String testFileName = "questions.csv";
+        TestFileNameProvider fileNameProvider = new AppProperties(rightAnswersCountToPass, testFileName);
+        QuestionDao questionDao = new CsvQuestionDao(fileNameProvider);
+        var questions = questionDao.findAll();
+        assertThat(questions.size()).isEqualTo(5);
+    }
 
     @DisplayName("")
     @Test

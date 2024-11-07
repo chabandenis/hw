@@ -14,8 +14,6 @@ public class TestServiceImpl implements TestService {
 
     private final QuestionDao questionDao;
 
-
-
     @Override
     public TestResult executeTestFor(Student student) {
         ioService.printLine("");
