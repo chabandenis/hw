@@ -14,6 +14,8 @@ public class TestServiceImpl implements TestService {
 
     private final QuestionDao questionDao;
 
+
+
     @Override
     public TestResult executeTestFor(Student student) {
         ioService.printLine("");
@@ -21,16 +23,20 @@ public class TestServiceImpl implements TestService {
         var questions = questionDao.findAll();
         var testResult = new TestResult(student);
 
-        for (var question: questions) {
+        for (var question : questions) {
             var isAnswerValid = false; // Задать вопрос, получить ответ
             System.out.println("Вопрос: " + question.text());
 
-            for (var answer : question.answers())
-            {
+            for (var answer : question.answers()) {
                 System.out.println("\t" + answer.text());
             }
 
-            ioService.readIntForRangeWithPrompt(1, 3, "число:", "Выберите число в указанном диапазоне");
+            int enteredAnswer = -1;
+            enteredAnswer = ioService.readIntForRangeWithPrompt(1,
+                    question.answers().size(),
+                    "число:",
+                    "Выберите число в указанном диапазоне");
+            isAnswerValid = question.answers().get(enteredAnswer - 1).isCorrect();
 
             testResult.applyAnswer(question, isAnswerValid);
         }
