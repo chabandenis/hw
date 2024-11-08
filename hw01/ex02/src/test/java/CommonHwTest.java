@@ -52,11 +52,8 @@ class CommonHwTest {
         ioService = mock(IOService.class);
 
         given(ioService.readStringWithPrompt(anyString())).willReturn("XXX");
-
         StudentService resultService = new StudentServiceImpl(ioService);
-
         assertThat(resultService.determineCurrentStudent().getFullName()).isEqualTo("XXX XXX");
-
     }
 
     @DisplayName("")
