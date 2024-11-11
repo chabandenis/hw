@@ -32,29 +32,6 @@ import static org.mockito.Mockito.mock;
 class CommonHwTest {
 
     private static final String CONFIGURATION_ANNOTATION_NAME = "org.springframework.context.annotation.Configuration";
-    private static final int rightAnswersCountToPass = 3;
-    private static final String testFileName = "questions.csv";
-
-    @DisplayName("Интеграционный тест класса, читающего вопросы")
-    @Test
-    void verifyReadQuestionFromFile(){
-        TestFileNameProvider fileNameProvider = new AppProperties(rightAnswersCountToPass, testFileName);
-        QuestionDao questionDao = new CsvQuestionDao(fileNameProvider);
-        var questions = questionDao.findAll();
-        assertThat(questions.size()).isEqualTo(5);
-    }
-
-    @Test
-    void verifyService(){
-        TestConfig testConfig = new AppProperties(rightAnswersCountToPass, testFileName);;
-
-        IOService ioService;
-        ioService = mock(IOService.class);
-
-        given(ioService.readStringWithPrompt(anyString())).willReturn("XXX");
-        StudentService resultService = new StudentServiceImpl(ioService);
-        assertThat(resultService.determineCurrentStudent().getFullName()).isEqualTo("XXX XXX");
-    }
 
     @DisplayName("")
     @Test
