@@ -49,10 +49,6 @@ public class CsvQuestionDao implements QuestionDao {
             }
         } catch (IOException e) {
             System.out.println(e);
-        } catch (IllegalArgumentException e) {
-            System.out.println(e);
-        } catch (QuestionReadException e) {
-            System.out.println(e);
         }
 
         return questions;
