@@ -12,7 +12,7 @@ import java.util.Map;
 @Service
 @Setter
 @ConfigurationProperties(prefix = "test")
-@Primary
+//@Primary
 // Использовать @ConfigurationProperties.
 // Сейчас класс соответствует файлу настроек. Чтобы они сюда отобразились нужно только правильно разместить аннотации
 public class AppProperties implements TestConfig, TestFileNameProvider, LocaleConfig {
