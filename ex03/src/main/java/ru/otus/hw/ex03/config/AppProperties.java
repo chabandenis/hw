@@ -3,6 +3,7 @@ package ru.otus.hw.ex03.config;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
 import java.util.Locale;
@@ -11,7 +12,7 @@ import java.util.Map;
 @Service
 @Setter
 @ConfigurationProperties(prefix = "test")
-//@Primary
+@Primary
 // Использовать @ConfigurationProperties.
 // Сейчас класс соответствует файлу настроек. Чтобы они сюда отобразились нужно только правильно разместить аннотации
 public class AppProperties implements TestConfig, TestFileNameProvider, LocaleConfig {
