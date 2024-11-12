@@ -5,8 +5,8 @@
     <modelVersion>4.0.0</modelVersion>
 
 
-    <groupId>ru.otus.hw</groupId>
-    <artifactId>chaban</artifactId>
+    <groupId>ru.chaban</groupId>
+    <artifactId>homework</artifactId>
     <version>1.0</version>
 
     <packaging>pom</packaging>

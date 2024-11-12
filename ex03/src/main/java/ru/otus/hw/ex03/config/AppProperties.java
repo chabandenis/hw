@@ -15,7 +15,7 @@ import java.util.Map;
 
 @Service
 @Setter
-@ConfigurationProperties(prefix = "test")
+//@ConfigurationProperties(prefix = "test")
 //@Primary
 // Использовать @ConfigurationProperties.
 // Сейчас класс соответствует файлу настроек. Чтобы они сюда отобразились нужно только правильно разместить аннотации

@@ -11,8 +11,8 @@
         <relativePath/>
     </parent>
 
-    <groupId>ex03</groupId>
-    <artifactId>chaban</artifactId>
+    <groupId>ru.chaban</groupId>
+    <artifactId>ex03</artifactId>
     <version>1.0</version>
 
     <properties>
