@@ -1,6 +1,7 @@
 package ru.otus.hw.ex03.service;
 
 public interface LocalizedIOService extends LocalizedMessagesService, IOService {
+
     void printLineLocalized(String code);
 
     void printFormattedLineLocalized(String code, Object ...args);

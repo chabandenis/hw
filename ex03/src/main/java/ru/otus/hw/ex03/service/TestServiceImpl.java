@@ -11,6 +11,7 @@ import ru.otus.hw.ex03.domain.TestResult;
 public class TestServiceImpl implements TestService {
 
     private final LocalizedIOService ioService;
+    private final LocalizedMessagesServiceImpl localizedMessagesService;
 
     private final QuestionDao questionDao;
 
@@ -23,19 +24,22 @@ public class TestServiceImpl implements TestService {
         var questions = questionDao.findAll();
         var testResult = new TestResult(student);
 
-        for (var question: questions) {
+        for (var question : questions) {
             var isAnswerValid = false; // Задать вопрос, получить ответ
-            System.out.println("Вопрос: " + question.text());
+            System.out.println(question.text());
 
+            int i = 0;
             for (var answer : question.answers()) {
-                System.out.println("\t" + answer.text());
+                System.out.println("\t" + ++i + " - " + answer.text());
             }
 
             int enteredAnswer = -1;
             enteredAnswer = ioService.readIntForRangeWithPrompt(1,
                     question.answers().size(),
-                    "число:",
-                    "Выберите число в указанном диапазоне");
+                    localizedMessagesService.getMessage("TestService.number"),
+                    localizedMessagesService.getMessage("TestService.number.in.range"));
+
+
             isAnswerValid = question.answers().get(enteredAnswer - 1).isCorrect();
 
             testResult.applyAnswer(question, isAnswerValid);
