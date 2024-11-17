@@ -48,7 +48,8 @@ public class CsvQuestionDao implements QuestionDao {
                 questions.add(questionDtoIndex.toDomainObject());
             }
         } catch (IOException e) {
-            System.out.println(e);
+            System.out.println("error: " + fileNameProvider.getTestFileName());
+            throw new QuestionReadException(fileNameProvider.getTestFileName());
         }
 
         return questions;
