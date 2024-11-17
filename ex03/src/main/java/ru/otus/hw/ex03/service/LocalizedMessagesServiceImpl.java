@@ -10,6 +10,7 @@ import ru.otus.hw.ex03.config.LocaleConfig;
 public class LocalizedMessagesServiceImpl implements LocalizedMessagesService {
 
     private final LocaleConfig localeConfig;
+
     private final MessageSource messageSource;
 
     // Доделать

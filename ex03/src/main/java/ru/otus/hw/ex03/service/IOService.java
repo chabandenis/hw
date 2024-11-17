@@ -3,7 +3,7 @@ package ru.otus.hw.ex03.service;
 public interface IOService {
     void printLine(String s);
 
-    void printFormattedLine(String s, Object ...args);
+    void printFormattedLine(String s, Object... args);
 
     String readString();
 
