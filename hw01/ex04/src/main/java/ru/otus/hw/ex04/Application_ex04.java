@@ -7,8 +7,8 @@ import ru.otus.hw.ex04.config.AppProperties;
 
 @SpringBootApplication
 @EnableConfigurationProperties(AppProperties.class)
-public class Application_ex03 {
+public class Application_ex04 {
     public static void main(String[] args) {
-       SpringApplication.run(Application_ex03.class, args);
+       SpringApplication.run(Application_ex04.class, args);
     }
 }
