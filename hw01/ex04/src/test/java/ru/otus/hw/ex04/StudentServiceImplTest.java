@@ -6,7 +6,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import ru.otus.hw.ex04.service.LocalizedIOServiceImpl;
 import ru.otus.hw.ex04.service.StudentService;
-import ru.otus.hw.ex04.service.TestRunnerService;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.anyString;

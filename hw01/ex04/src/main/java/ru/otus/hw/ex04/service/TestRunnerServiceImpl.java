@@ -1,12 +1,11 @@
 package ru.otus.hw.ex04.service;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class TestRunnerServiceImpl implements TestRunnerService/*, CommandLineRunner */{
+public class TestRunnerServiceImpl implements TestRunnerService/*, CommandLineRunner */ {
 
     private final TestService testService;
 
