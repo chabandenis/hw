@@ -2,15 +2,18 @@ package ru.otus.hw.ex05.services;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import ru.otus.hw.ex05.converters.BookConverter;
 import ru.otus.hw.ex05.exceptions.EntityNotFoundException;
 import ru.otus.hw.ex05.models.Book;
 import ru.otus.hw.ex05.repositories.AuthorRepository;
 import ru.otus.hw.ex05.repositories.BookRepository;
 import ru.otus.hw.ex05.repositories.GenreRepository;
+import ru.otus.hw.ex05.repositories.JdbcBookRepository;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import static org.springframework.util.CollectionUtils.isEmpty;
 
@@ -23,6 +26,8 @@ public class BookServiceImpl implements BookService {
 
     private final BookRepository bookRepository;
 
+    private final JdbcBookRepository jdbcBookRepository;
+
     @Override
     public Optional<Book> findById(long id) {
         return bookRepository.findById(id);
@@ -30,7 +35,7 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public List<Book> findAll() {
-        return bookRepository.findAll();
+        return jdbcBookRepository.findAll();
     }
 
     @Override

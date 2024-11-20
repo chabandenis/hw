@@ -15,7 +15,6 @@ import java.util.stream.Collectors;
 public class BookCommands {
 
     private final BookService bookService;
-
     private final BookConverter bookConverter;
 
     @ShellMethod(value = "Find all books", key = "ab")
