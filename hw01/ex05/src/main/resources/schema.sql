@@ -1,3 +1,8 @@
+drop table if exists books_genres;
+drop table if exists genres;
+drop table if exists books;
+drop table if exists authors;
+
 create table authors (
     id bigserial,
     full_name varchar(255),

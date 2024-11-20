@@ -8,14 +8,18 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.stereotype.Repository;
+import ru.otus.hw.ex05.models.Author;
 import ru.otus.hw.ex05.models.Book;
 import ru.otus.hw.ex05.models.Genre;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Repository
 @RequiredArgsConstructor
@@ -28,16 +32,35 @@ public class JdbcBookRepository implements BookRepository {
 
     private final NamedParameterJdbcOperations namedParameterJdbcOperations;
 
+    private final JdbcBookGenreRepository jdbcBookGenreRepository;
+
     @Override
     public Optional<Book> findById(long id) {
-        return Optional.empty();
+        Map<String, Object> params = Collections.singletonMap("id", id);
+        var book = namedParameterJdbcOperations.queryForObject(
+                "select b.id, b.title, b.author_id, a.full_name "
+                        + "from books b, authors a "
+                        + "where a.id = :id and a.id = b.author_id"
+                , params
+                , new JdbcBookRepository.BookRowMapper());
+        var bookGenre = jdbcBookGenreRepository.findAllByBookId(book.getId());
+        List<Genre> genres = genreRepository.findAllByIds(
+                bookGenre
+                        .stream()
+                        .map(x -> x.getGenreId())
+                        .collect(Collectors.toSet()));
+
+        mergeBooksInfo(book, genres);
+
+        return Optional.of(book);
     }
 
     @Override
     public List<Book> findAll() {
-        var genres = genreRepository.findAll();
-        var relations = getAllGenreRelations();
         var books = getAllBooksWithoutGenres();
+        List<Genre> genres = genreRepository.findAll();
+        var relations = getAllGenreRelations();
+
         mergeBooksInfo(books, genres, relations);
         return books;
     }
@@ -56,12 +79,28 @@ public class JdbcBookRepository implements BookRepository {
     }
 
     private List<Book> getAllBooksWithoutGenres() {
-        return jdbc.query("select id, title, author_id from books", new JdbcBookRepository.BookRowMapper());
+        return jdbc.query(
+                "select b.id, b.title, b.author_id, a.full_name "
+                        + "from books b, authors a "
+                        + "where a.id = b.author_id"
+                , new JdbcBookRepository.BookRowMapper());
     }
 
     private List<BookGenreRelation> getAllGenreRelations() {
         return new ArrayList<>();
     }
+
+    private void mergeBooksInfo(Book booksWithoutGenres, List<Genre> genres) {
+
+        List<Genre> genreList = new ArrayList<>();
+
+        for (Genre genre : genres) {
+            genreList.add(genre);
+        }
+
+        booksWithoutGenres.setGenres(genreList);
+    }
+
 
     private void mergeBooksInfo(List<Book> booksWithoutGenres, List<Genre> genres,
                                 List<BookGenreRelation> relations) {
@@ -104,6 +143,7 @@ public class JdbcBookRepository implements BookRepository {
             Book book = new Book();
 
             book.setId(rs.getLong("id"));
+            book.setAuthor(new Author(rs.getLong("author_id"), rs.getString("full_name")));
             book.setTitle(rs.getString("title"));
             book.setGenres(new ArrayList<>());
 
