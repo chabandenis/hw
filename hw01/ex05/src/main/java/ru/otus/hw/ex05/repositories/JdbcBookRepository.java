@@ -2,6 +2,7 @@ package ru.otus.hw.ex05.repositories;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataAccessException;
+import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.JdbcOperations;
 import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.jdbc.core.RowMapper;
@@ -12,6 +13,7 @@ import ru.otus.hw.ex05.models.Author;
 import ru.otus.hw.ex05.models.Book;
 import ru.otus.hw.ex05.models.Genre;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -34,6 +36,17 @@ public class JdbcBookRepository implements BookRepository {
 
     private final JdbcBookGenreRepository jdbcBookGenreRepository;
 
+    private void updateBook(Book book){
+        var bookGenre = jdbcBookGenreRepository.findAllByBookId(book.getId());
+        List<Genre> genres = genreRepository.findAllByIds(
+                bookGenre
+                        .stream()
+                        .map(x -> x.getGenreId())
+                        .collect(Collectors.toSet()));
+
+        mergeBooksInfo(book, genres);
+    }
+
     @Override
     public Optional<Book> findById(long id) {
         Map<String, Object> params = Collections.singletonMap("id", id);
@@ -43,14 +56,8 @@ public class JdbcBookRepository implements BookRepository {
                         + "where a.id = :id and a.id = b.author_id"
                 , params
                 , new JdbcBookRepository.BookRowMapper());
-        var bookGenre = jdbcBookGenreRepository.findAllByBookId(book.getId());
-        List<Genre> genres = genreRepository.findAllByIds(
-                bookGenre
-                        .stream()
-                        .map(x -> x.getGenreId())
-                        .collect(Collectors.toSet()));
 
-        mergeBooksInfo(book, genres);
+        updateBook(book);
 
         return Optional.of(book);
     }
@@ -58,10 +65,11 @@ public class JdbcBookRepository implements BookRepository {
     @Override
     public List<Book> findAll() {
         var books = getAllBooksWithoutGenres();
-        List<Genre> genres = genreRepository.findAll();
-        var relations = getAllGenreRelations();
 
-        mergeBooksInfo(books, genres, relations);
+        for (Book book : books) {
+            updateBook(book);
+        }
+
         return books;
     }
 
@@ -109,11 +117,17 @@ public class JdbcBookRepository implements BookRepository {
 
     private Book insert(Book book) {
         var keyHolder = new GeneratedKeyHolder();
-
-        //...
-
-        //noinspection DataFlowIssue
+        keyHolder.getKey().longValue();
         book.setId(keyHolder.getKeyAs(Long.class));
+
+        namedParameterJdbcOperations.update(
+                "insert into books (id, title, author_id) values (:id, :title, :author_id)",
+                Map.of("id", book.getId(),
+                        "title", book.getTitle(),
+                        "author_id", book.getAuthor()
+                )
+        );
+
         batchInsertGenresRelationsFor(book);
         return book;
     }
@@ -130,6 +144,20 @@ public class JdbcBookRepository implements BookRepository {
 
     private void batchInsertGenresRelationsFor(Book book) {
         // Использовать метод batchUpdate
+        jdbc.batchUpdate(
+                "insert into books_genres (book_id, genre_id) values (?, ?)"
+                , new BatchPreparedStatementSetter() {
+                    @Override
+                    public void setValues(PreparedStatement preparedStatement, int i) throws SQLException {
+                        preparedStatement.setLong(1, book.getId());
+                        preparedStatement.setLong(2, book.getGenres().get(i).getId());
+                    }
+
+                    @Override
+                    public int getBatchSize() {
+                        return book.getGenres().size();
+                    }
+                });
     }
 
     private void removeGenresRelationsFor(Book book) {
@@ -148,20 +176,6 @@ public class JdbcBookRepository implements BookRepository {
             book.setGenres(new ArrayList<>());
 
             return book;
-        }
-    }
-
-    private static class GenreRelation implements RowMapper<GenreRelation> {
-
-        @Override
-        public GenreRelation mapRow(ResultSet rs, int rowNum) throws SQLException {
-            GenreRelation genreRelation = new GenreRelation();
-
-//            genreRelation.setId(rs.getLong("id"));
-//            genreRelation.setTitle(rs.getString("title"));
-//            genreRelation.setGenres(new ArrayList<>());
-
-            return genreRelation;
         }
     }
 
