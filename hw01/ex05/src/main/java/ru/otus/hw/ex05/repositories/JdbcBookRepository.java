@@ -23,7 +23,9 @@ import java.util.Optional;
 public class JdbcBookRepository implements BookRepository {
 
     private final GenreRepository genreRepository;
+
     private final JdbcOperations jdbc;
+
     private final NamedParameterJdbcOperations namedParameterJdbcOperations;
 
     @Override

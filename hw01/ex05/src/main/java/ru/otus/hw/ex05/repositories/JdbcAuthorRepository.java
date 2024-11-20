@@ -19,6 +19,7 @@ import java.util.Optional;
 public class JdbcAuthorRepository implements AuthorRepository {
 
     private final JdbcOperations jdbc;
+
     private final NamedParameterJdbcOperations namedParameterJdbcOperations;
 
 //    public JdbcAuthorRepository(NamedParameterJdbcOperations namedParameterJdbcOperations) {

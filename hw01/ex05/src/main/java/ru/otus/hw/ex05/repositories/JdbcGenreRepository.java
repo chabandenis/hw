@@ -18,6 +18,7 @@ import java.util.stream.Collectors;
 public class JdbcGenreRepository implements GenreRepository {
 
     private final JdbcOperations jdbc;
+
     private final NamedParameterJdbcOperations namedParameterJdbcOperations;
 
     @Override

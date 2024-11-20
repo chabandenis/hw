@@ -18,6 +18,7 @@ import java.util.Map;
 public class JdbcBookGenreRepository implements BookGenreRepository {
 
     private final JdbcOperations jdbc;
+
     private final NamedParameterJdbcOperations namedParameterJdbcOperations;
 
     @Override

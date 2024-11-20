@@ -28,7 +28,9 @@ public class GenreCommands {
     public String findGenresByIds(String ids) {
         return
                 genreService.findAllByIds(
-                                Arrays.stream(ids.split(",")).map(x -> Long.valueOf(x.replace(" ", ""))).collect(Collectors.toSet())
+                                Arrays.stream(ids.split(","))
+                                        .map(x -> Long.valueOf(x.replace(" ", "")))
+                                        .collect(Collectors.toSet())
                         ).stream()
                         .map(genreConverter::genreToString)
                         .collect(Collectors.joining("," + System.lineSeparator()));
