@@ -51,16 +51,24 @@ public class JdbcBookRepository implements BookRepository {
     @Override
     public Optional<Book> findById(long id) {
         Map<String, Object> params = Collections.singletonMap("id", id);
-        var book = namedParameterJdbcOperations.queryForObject(
-                "select b.id, b.title, b.author_id, a.full_name "
-                        + "from books b, authors a "
-                        + "where b.id = :id and a.id = b.author_id"
-                , params
-                , new JdbcBookRepository.BookRowMapper());
 
-        updateBook(book);
+        try {
+            var book = namedParameterJdbcOperations.queryForObject(
+                    "select b.id, b.title, b.author_id, a.full_name "
+                            + "from books b, authors a "
+                            + "where b.id = :id and a.id = b.author_id"
+                    , params
+                    , new JdbcBookRepository.BookRowMapper());
 
-        return Optional.of(book);
+            updateBook(book);
+
+            return Optional.of(book);
+
+        } catch (DataAccessException e){
+            System.out.println(e);
+        }
+
+        return Optional.empty();
     }
 
     @Override
