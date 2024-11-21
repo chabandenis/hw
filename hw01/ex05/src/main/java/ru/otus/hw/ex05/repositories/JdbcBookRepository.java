@@ -124,12 +124,6 @@ public class JdbcBookRepository implements BookRepository {
         booksWithoutGenres.setGenres(genreList);
     }
 
-
-    private void mergeBooksInfo(List<Book> booksWithoutGenres, List<Genre> genres,
-                                List<BookGenreRelation> relations) {
-        // Добавить книгам (booksWithoutGenres) жанры (genres) в соответствии со связями (relations)
-    }
-
     private Book insert(Book book) {
         var keyHolder = new GeneratedKeyHolder();
 
@@ -161,10 +155,6 @@ public class JdbcBookRepository implements BookRepository {
                 , keyHolder
                 , new String[]{"id"}
         );
-
-//        book.setId(keyHolder.getKeyAs(Long.class));
-//        batchInsertGenresRelationsFor(book);
-//        return book;
 
         // Выбросить EntityNotFoundException если не обновлено ни одной записи в БД
         removeGenresRelationsFor(book);
