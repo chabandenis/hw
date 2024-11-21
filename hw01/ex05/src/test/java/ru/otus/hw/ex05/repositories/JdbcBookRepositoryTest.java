@@ -69,7 +69,7 @@ class JdbcBookRepositoryTest {
                 .usingRecursiveComparison().ignoringExpectedNullFields().isEqualTo(expectedBook);
  */
 
-        System.out.println(repositoryJdbc.findById(4));
+        System.out.println(repositoryJdbc.findById(returnedBook.getId()));
 
 /*        assertThat(repositoryJdbc.findById(returnedBook.getId()))
                 .isPresent()
