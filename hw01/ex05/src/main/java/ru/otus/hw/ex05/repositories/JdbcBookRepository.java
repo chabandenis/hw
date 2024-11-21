@@ -6,6 +6,7 @@ import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.JdbcOperations;
 import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.stereotype.Repository;
@@ -36,7 +37,7 @@ public class JdbcBookRepository implements BookRepository {
 
     private final JdbcBookGenreRepository jdbcBookGenreRepository;
 
-    private void updateBook(Book book){
+    private void updateBook(Book book) {
         var bookGenre = jdbcBookGenreRepository.findAllByBookId(book.getId());
         List<Genre> genres = genreRepository.findAllByIds(
                 bookGenre
@@ -117,17 +118,17 @@ public class JdbcBookRepository implements BookRepository {
 
     private Book insert(Book book) {
         var keyHolder = new GeneratedKeyHolder();
-        keyHolder.getKey().longValue();
-        book.setId(keyHolder.getKeyAs(Long.class));
 
         namedParameterJdbcOperations.update(
-                "insert into books (id, title, author_id) values (:id, :title, :author_id)",
-                Map.of("id", book.getId(),
-                        "title", book.getTitle(),
-                        "author_id", book.getAuthor()
-                )
+                "insert into books (title, author_id) values (:title, :author_id)"
+                , new MapSqlParameterSource(Map.of("title", book.getTitle(),
+                        "author_id", book.getAuthor().getId()
+                ))
+                , keyHolder
+                , new String[]{"id"}
         );
 
+        book.setId(keyHolder.getKeyAs(Long.class));
         batchInsertGenresRelationsFor(book);
         return book;
     }
