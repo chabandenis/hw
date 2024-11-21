@@ -39,14 +39,14 @@ public class BookCommands {
         return bookConverter.bookToString(savedBook);
     }
 
-    // bupd 4 editedBook 3 2,5
+    // bupd 3 editedBook 3 2,5
     @ShellMethod(value = "Update book", key = "bupd")
     public String updateBook(long id, String title, long authorId, Set<Long> genresIds) {
         var savedBook = bookService.update(id, title, authorId, genresIds);
         return bookConverter.bookToString(savedBook);
     }
 
-    // bdel 4
+    // bdel 3
     @ShellMethod(value = "Delete book by id", key = "bdel")
     public void deleteBook(long id) {
         bookService.deleteById(id);

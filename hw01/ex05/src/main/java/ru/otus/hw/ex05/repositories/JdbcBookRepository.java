@@ -84,7 +84,13 @@ public class JdbcBookRepository implements BookRepository {
 
     @Override
     public void deleteById(long id) {
-        //...
+        namedParameterJdbcOperations.update(
+                "delete from books_genres where book_id = :book_id"
+                , Map.of("book_id", id));
+
+        namedParameterJdbcOperations.update(
+                "delete from books where id = :id"
+                , Map.of("id", id));
     }
 
     private List<Book> getAllBooksWithoutGenres() {
@@ -134,7 +140,23 @@ public class JdbcBookRepository implements BookRepository {
     }
 
     private Book update(Book book) {
-        //...
+        var keyHolder = new GeneratedKeyHolder();
+
+        namedParameterJdbcOperations.update(
+                "update books " +
+                        " set title = :title, author_id = :author_id " +
+                        " where id = :id"
+
+                , new MapSqlParameterSource(Map.of("id", book.getId(),
+                        "title", book.getTitle(),
+                        "author_id", book.getAuthor().getId()))
+                , keyHolder
+                , new String[]{"id"}
+        );
+
+//        book.setId(keyHolder.getKeyAs(Long.class));
+//        batchInsertGenresRelationsFor(book);
+//        return book;
 
         // Выбросить EntityNotFoundException если не обновлено ни одной записи в БД
         removeGenresRelationsFor(book);
@@ -162,7 +184,9 @@ public class JdbcBookRepository implements BookRepository {
     }
 
     private void removeGenresRelationsFor(Book book) {
-        //...
+        namedParameterJdbcOperations.update(
+                "delete from books_genres where book_id = :book_id"
+                , Map.of("book_id", book.getId()));
     }
 
     private static class BookRowMapper implements RowMapper<Book> {
