@@ -54,7 +54,7 @@ public class JdbcBookRepository implements BookRepository {
         var book = namedParameterJdbcOperations.queryForObject(
                 "select b.id, b.title, b.author_id, a.full_name "
                         + "from books b, authors a "
-                        + "where a.id = :id and a.id = b.author_id"
+                        + "where b.id = :id and a.id = b.author_id"
                 , params
                 , new JdbcBookRepository.BookRowMapper());
 
