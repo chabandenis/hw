@@ -64,17 +64,14 @@ class JdbcBookRepositoryTest {
         var expectedBook = new Book(0, "BookTitle_10500", dbAuthors.get(0),
                 List.of(dbGenres.get(0), dbGenres.get(2)));
         var returnedBook = repositoryJdbc.save(expectedBook);
-/*        assertThat(returnedBook).isNotNull()
+        assertThat(returnedBook).isNotNull()
                 .matches(book -> book.getId() > 0)
                 .usingRecursiveComparison().ignoringExpectedNullFields().isEqualTo(expectedBook);
- */
 
-        System.out.println(repositoryJdbc.findById(returnedBook.getId()));
-
-/*        assertThat(repositoryJdbc.findById(returnedBook.getId()))
+        assertThat(repositoryJdbc.findById(returnedBook.getId()))
                 .isPresent()
                 .get()
-                .isEqualTo(returnedBook);*/
+                .isEqualTo(returnedBook);
     }
 
     @DisplayName("должен сохранять измененную книгу")
