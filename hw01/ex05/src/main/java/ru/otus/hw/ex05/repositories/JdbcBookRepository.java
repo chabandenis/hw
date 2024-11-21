@@ -10,6 +10,7 @@ import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.stereotype.Repository;
+import ru.otus.hw.ex05.exceptions.EntityNotFoundException;
 import ru.otus.hw.ex05.models.Author;
 import ru.otus.hw.ex05.models.Book;
 import ru.otus.hw.ex05.models.Genre;
@@ -64,7 +65,7 @@ public class JdbcBookRepository implements BookRepository {
 
             return Optional.of(book);
 
-        } catch (DataAccessException e){
+        } catch (DataAccessException e) {
             System.out.println(e);
         }
 
@@ -142,25 +143,26 @@ public class JdbcBookRepository implements BookRepository {
     }
 
     private Book update(Book book) {
-        var keyHolder = new GeneratedKeyHolder();
+        try {
+            var keyHolder = new GeneratedKeyHolder();
+            namedParameterJdbcOperations.update(
+                    "update books " +
+                            " set title = :title, author_id = :author_id " +
+                            " where id = :id"
 
-        namedParameterJdbcOperations.update(
-                "update books " +
-                        " set title = :title, author_id = :author_id " +
-                        " where id = :id"
-
-                , new MapSqlParameterSource(Map.of("id", book.getId(),
-                        "title", book.getTitle(),
-                        "author_id", book.getAuthor().getId()))
-                , keyHolder
-                , new String[]{"id"}
-        );
-
-        // Выбросить EntityNotFoundException если не обновлено ни одной записи в БД
-        removeGenresRelationsFor(book);
-        batchInsertGenresRelationsFor(book);
-
-        return book;
+                    , new MapSqlParameterSource(Map.of("id", book.getId(),
+                            "title", book.getTitle(),
+                            "author_id", book.getAuthor().getId()))
+                    , keyHolder
+                    , new String[]{"id"}
+            );
+            removeGenresRelationsFor(book);
+            batchInsertGenresRelationsFor(book);
+            return book;
+        } catch (DataAccessException e) {
+            System.out.println(e);
+            throw new EntityNotFoundException(e.getMessage());
+        }
     }
 
     private void batchInsertGenresRelationsFor(Book book) {
