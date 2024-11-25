@@ -9,6 +9,6 @@ import ru.otus.hw.ex03.config.AppProperties;
 @EnableConfigurationProperties(AppProperties.class)
 public class Application_ex03 {
     public static void main(String[] args) {
-       SpringApplication.run(Application_ex03.class, args);
+        SpringApplication.run(Application_ex03.class, args);
     }
 }
