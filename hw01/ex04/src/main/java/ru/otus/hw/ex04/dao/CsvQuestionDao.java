@@ -1,12 +1,12 @@
-package ru.otus.hw.dao;
+package ru.otus.hw.ex04.dao;
 
 import com.opencsv.bean.CsvToBeanBuilder;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
-import ru.otus.hw.config.TestFileNameProvider;
-import ru.otus.hw.dao.dto.QuestionDto;
-import ru.otus.hw.domain.Question;
-import ru.otus.hw.exceptions.QuestionReadException;
+import org.springframework.stereotype.Component;
+import ru.otus.hw.ex04.config.TestFileNameProvider;
+import ru.otus.hw.ex04.dao.dto.QuestionDto;
+import ru.otus.hw.ex04.domain.Question;
+import ru.otus.hw.ex04.exceptions.QuestionReadException;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -17,8 +17,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-@Service
 @RequiredArgsConstructor
+@Component
 public class CsvQuestionDao implements QuestionDao {
     private final TestFileNameProvider fileNameProvider;
 
@@ -48,7 +48,8 @@ public class CsvQuestionDao implements QuestionDao {
                 questions.add(questionDtoIndex.toDomainObject());
             }
         } catch (IOException e) {
-            System.out.println(e);
+            System.out.println("error: " + fileNameProvider.getTestFileName());
+            throw new QuestionReadException(fileNameProvider.getTestFileName());
         }
 
         return questions;
