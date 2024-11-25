@@ -64,6 +64,7 @@ public class JdbcBookRepository implements BookRepository {
     }
 
     @Override
+    // поиск книги по идентификатору
     public Optional<Book> findById(long id) {
         Map<String, Object> params = Collections.singletonMap("id", id);
 
@@ -83,9 +84,11 @@ public class JdbcBookRepository implements BookRepository {
     }
 
     @Override
+    // Найти все книги без жанров
     public List<Book> findAll() {
         var books = getAllBooksWithoutGenres();
 
+        // пробежать по книгам
         for (Book book : books) {
             updateBook(book);
         }
@@ -201,7 +204,6 @@ public class JdbcBookRepository implements BookRepository {
     }
 
     private static class BookRowMapper implements RowMapper<Book> {
-
         @Override
         public Book mapRow(ResultSet rs, int rowNum) throws SQLException {
             Book book = new Book();
@@ -215,12 +217,10 @@ public class JdbcBookRepository implements BookRepository {
         }
     }
 
-
     // Использовать для findById
     @SuppressWarnings("ClassCanBeRecord")
     @RequiredArgsConstructor
     private static class BookResultSetExtractor implements ResultSetExtractor<Book> {
-
         @Override
         public Book extractData(ResultSet rs) throws SQLException, DataAccessException {
             return null;
