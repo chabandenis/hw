@@ -40,7 +40,7 @@ public class JdbcBookRepository implements BookRepository {
     private final NamedParameterJdbcOperations namedParameterJdbcOperations;
 
     // выбрать books_genres по книге
-    private List<BookGenre> findAllByBookId(Long id) {
+    private List<BookGenreRelation> findAllByBookId(Long id) {
         Map<String, Object> params = Collections.singletonMap("book_id", id);
         return namedParameterJdbcOperations.query(
                 "select book_id, genre_id from books_genres where book_id = :book_id",
@@ -51,7 +51,7 @@ public class JdbcBookRepository implements BookRepository {
     // обновить книгу
     private void updateBook(Book book) {
         // получить связи книги и жанров
-        List<BookGenre> bookGenre = findAllByBookId(book.getId());
+        List<BookGenreRelation> bookGenre = findAllByBookId(book.getId());
         // получить список жанров у книги по идентификаторам жанров
         List<Genre> genres = genreRepository.findAllByIds(
                 bookGenre
@@ -60,7 +60,36 @@ public class JdbcBookRepository implements BookRepository {
                         .collect(Collectors.toSet()));
 
         // обновить книгу полученными данными
-        mergeBooksInfo(book, genres, bookGenre);
+        mergeBooksInfo(book, genres/*, bookGenre*/);
+    }
+
+    // обновить книгу
+    private void updateBooks(List<Book> allSelectedBooks,
+                             List<Genre> allSelectedGenres,
+                             List<BookGenreRelation> allSelectedBookGenreRelations) {
+        // пройтись по книгам
+        for (Book book : allSelectedBooks) {
+            List<Genre> genresForBook = new ArrayList<>();
+            // подходящие жанры-книги для книги
+            List<BookGenreRelation> bookGenresForBook =
+                    allSelectedBookGenreRelations
+                            .stream()
+                            .filter(x -> x.getBookId() == book.getId())
+                            .collect(Collectors.toList());
+
+            // пройтись по отношениям жанры-книги и найти нужные жанры для кники
+            for (BookGenreRelation bookGenreRelation : bookGenresForBook) {
+                genresForBook.add(
+                        allSelectedGenres
+                                .stream()
+                                .filter(x -> x.getId() == bookGenreRelation.getGenreId())
+                                .findFirst()
+                                .get()
+                );
+            }
+            // жанры вписать в книгу
+            mergeBooksInfo(book, genresForBook);
+        }
     }
 
     @Override
@@ -84,14 +113,19 @@ public class JdbcBookRepository implements BookRepository {
     }
 
     @Override
-    // Найти все книги без жанров
+    // Найти все книги со всем
     public List<Book> findAll() {
+        // все книги одним запросом
         var books = getAllBooksWithoutGenres();
 
-        // пробежать по книгам
-        for (Book book : books) {
-            updateBook(book);
-        }
+        // все отношения жанров и книг одним запросом
+        var genreRelations = getAllGenreRelations();
+
+        // все жанры одним запросом
+        var genres = genreRepository.findAll();
+
+        // соедиение жанров с книгами
+        updateBooks(books, genres, genreRelations);
 
         return books;
     }
@@ -123,18 +157,44 @@ public class JdbcBookRepository implements BookRepository {
                 , new JdbcBookRepository.BookRowMapper());
     }
 
-    private List<BookGenreRelation> getAllGenreRelations() {
-        return new ArrayList<>();
+    private static class BookRowMapper implements RowMapper<Book> {
+        @Override
+        public Book mapRow(ResultSet rs, int rowNum) throws SQLException {
+            Book book = new Book();
+
+            book.setId(rs.getLong("id"));
+            book.setAuthor(new Author(rs.getLong("author_id"), rs.getString("full_name")));
+            book.setTitle(rs.getString("title"));
+            book.setGenres(new ArrayList<>());
+
+            return book;
+        }
     }
 
-    private void mergeBooksInfo(Book booksWithoutGenres, List<Genre> genres, List<BookGenre> bookGenres) {
+    private List<BookGenreRelation> getAllGenreRelations() {
+        return jdbc.query(
+                "select g.book_id, g.genre_id "
+                        + "from books_genres g"
+                , new JdbcBookRepository.GenreRelationsRowMapper());
+    }
 
+    private static class GenreRelationsRowMapper implements RowMapper<BookGenreRelation> {
+        @Override
+        public BookGenreRelation mapRow(ResultSet rs, int rowNum) throws SQLException {
+            BookGenreRelation bookGenreRelation = new BookGenreRelation();
+
+            bookGenreRelation.setBookId(rs.getLong("book_id"));
+            bookGenreRelation.setGenreId(rs.getLong("genre_id"));
+
+            return bookGenreRelation;
+        }
+    }
+
+    private void mergeBooksInfo(Book booksWithoutGenres, List<Genre> genres) {
         List<Genre> genreList = new ArrayList<>();
 
         for (Genre genre : genres) {
-//            if (bookGenres.contains(genre)) {
-                genreList.add(genre);
-//            }
+            genreList.add(genre);
             booksWithoutGenres.setGenres(genreList);
         }
     }
@@ -203,19 +263,6 @@ public class JdbcBookRepository implements BookRepository {
                 , Map.of("book_id", book.getId()));
     }
 
-    private static class BookRowMapper implements RowMapper<Book> {
-        @Override
-        public Book mapRow(ResultSet rs, int rowNum) throws SQLException {
-            Book book = new Book();
-
-            book.setId(rs.getLong("id"));
-            book.setAuthor(new Author(rs.getLong("author_id"), rs.getString("full_name")));
-            book.setTitle(rs.getString("title"));
-            book.setGenres(new ArrayList<>());
-
-            return book;
-        }
-    }
 
     // Использовать для findById
     @SuppressWarnings("ClassCanBeRecord")
@@ -227,22 +274,22 @@ public class JdbcBookRepository implements BookRepository {
         }
     }
 
-    private record BookGenreRelation(long bookId, long genreId) {
-    }
+/*    private record BookGenreRelation(long bookId, long genreId) {
+    }*/
 
     @Data
     @AllArgsConstructor
     @NoArgsConstructor
-    private static class BookGenre {
+    private static class BookGenreRelation {
         private long bookId;
 
         private long genreId;
     }
 
-    private static class BookGenreRowMapper implements RowMapper<BookGenre> {
+    private static class BookGenreRowMapper implements RowMapper<BookGenreRelation> {
         @Override
-        public BookGenre mapRow(ResultSet rs, int i) throws SQLException {
-            return new BookGenre(
+        public BookGenreRelation mapRow(ResultSet rs, int i) throws SQLException {
+            return new BookGenreRelation(
                     rs.getLong("book_id"),
                     rs.getLong("genre_id"));
         }
