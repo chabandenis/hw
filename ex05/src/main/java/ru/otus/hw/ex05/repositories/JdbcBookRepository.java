@@ -229,23 +229,25 @@ public class JdbcBookRepository implements BookRepository {
 
     private record BookGenreRelation(long bookId, long genreId) {
     }
-}
 
+    @Data
+    @AllArgsConstructor
+    @NoArgsConstructor
+    private static class BookGenre {
+        private long bookId;
 
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
-class BookGenre {
-    private long bookId;
+        private long genreId;
+    }
 
-    private long genreId;
-}
-
-class BookGenreRowMapper implements RowMapper<BookGenre> {
-    @Override
-    public BookGenre mapRow(ResultSet rs, int i) throws SQLException {
-        return new BookGenre(
-                rs.getLong("book_id"),
-                rs.getLong("genre_id"));
+    private static class BookGenreRowMapper implements RowMapper<BookGenre> {
+        @Override
+        public BookGenre mapRow(ResultSet rs, int i) throws SQLException {
+            return new BookGenre(
+                    rs.getLong("book_id"),
+                    rs.getLong("genre_id"));
+        }
     }
 }
+
+
+
