@@ -1,5 +1,8 @@
 package ru.otus.hw.ex05.repositories;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
@@ -36,40 +39,47 @@ public class JdbcBookRepository implements BookRepository {
 
     private final NamedParameterJdbcOperations namedParameterJdbcOperations;
 
-    private final JdbcBookGenreRepository jdbcBookGenreRepository;
+    // выбрать books_genres по книге
+    private List<BookGenre> findAllByBookId(Long id) {
+        Map<String, Object> params = Collections.singletonMap("book_id", id);
+        return namedParameterJdbcOperations.query(
+                "select book_id, genre_id from books_genres where book_id = :book_id",
+                params,
+                new BookGenreRowMapper());
+    }
 
+    // обновить книгу
     private void updateBook(Book book) {
-        var bookGenre = jdbcBookGenreRepository.findAllByBookId(book.getId());
+        // получить связи книги и жанров
+        List<BookGenre> bookGenre = findAllByBookId(book.getId());
+        // получить список жанров у книги по идентификаторам жанров
         List<Genre> genres = genreRepository.findAllByIds(
                 bookGenre
                         .stream()
                         .map(x -> x.getGenreId())
                         .collect(Collectors.toSet()));
 
-        mergeBooksInfo(book, genres);
+        // обновить книгу полученными данными
+        mergeBooksInfo(book, genres, bookGenre);
     }
 
     @Override
     public Optional<Book> findById(long id) {
         Map<String, Object> params = Collections.singletonMap("id", id);
 
-        try {
-            var book = namedParameterJdbcOperations.queryForObject(
-                    "select b.id, b.title, b.author_id, a.full_name "
-                            + "from books b, authors a "
-                            + "where b.id = :id and a.id = b.author_id"
-                    , params
-                    , new JdbcBookRepository.BookRowMapper());
+        var book = namedParameterJdbcOperations.query(
+                "select b.id, b.title, b.author_id, a.full_name "
+                        + "from books b, authors a "
+                        + "where b.id = :id and a.id = b.author_id"
+                , params
+                , new JdbcBookRepository.BookRowMapper());
 
-            updateBook(book);
-
-            return Optional.of(book);
-
-        } catch (DataAccessException e) {
-            System.out.println(e);
+        if (book.size() > 0) {
+            updateBook(book.get(0));
+            return Optional.of(book.get(0));
+        } else {
+            return Optional.empty();
         }
-
-        return Optional.empty();
     }
 
     @Override
@@ -114,15 +124,16 @@ public class JdbcBookRepository implements BookRepository {
         return new ArrayList<>();
     }
 
-    private void mergeBooksInfo(Book booksWithoutGenres, List<Genre> genres) {
+    private void mergeBooksInfo(Book booksWithoutGenres, List<Genre> genres, List<BookGenre> bookGenres) {
 
         List<Genre> genreList = new ArrayList<>();
 
         for (Genre genre : genres) {
-            genreList.add(genre);
+//            if (bookGenres.contains(genre)) {
+                genreList.add(genre);
+//            }
+            booksWithoutGenres.setGenres(genreList);
         }
-
-        booksWithoutGenres.setGenres(genreList);
     }
 
     private Book insert(Book book) {
@@ -217,5 +228,24 @@ public class JdbcBookRepository implements BookRepository {
     }
 
     private record BookGenreRelation(long bookId, long genreId) {
+    }
+}
+
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+class BookGenre {
+    private long bookId;
+
+    private long genreId;
+}
+
+class BookGenreRowMapper implements RowMapper<BookGenre> {
+    @Override
+    public BookGenre mapRow(ResultSet rs, int i) throws SQLException {
+        return new BookGenre(
+                rs.getLong("book_id"),
+                rs.getLong("genre_id"));
     }
 }

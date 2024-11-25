@@ -1,7 +1,6 @@
 package ru.otus.hw.ex05.repositories;
 
 import lombok.AllArgsConstructor;
-import org.springframework.jdbc.core.JdbcOperations;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
 import org.springframework.stereotype.Repository;
@@ -18,24 +17,17 @@ import java.util.Optional;
 @Repository
 public class JdbcAuthorRepository implements AuthorRepository {
 
-    private final JdbcOperations jdbc;
-
     private final NamedParameterJdbcOperations namedParameterJdbcOperations;
-
-//    public JdbcAuthorRepository(NamedParameterJdbcOperations namedParameterJdbcOperations) {
-//        this.jdbc = namedParameterJdbcOperations.getJdbcOperations();
-//        this.namedParameterJdbcOperations = namedParameterJdbcOperations;
-//    }
 
     @Override
     public List<Author> findAll() {
-        return jdbc.query("select id, full_name from authors", new AuthorRowMapper());
+        return namedParameterJdbcOperations.query("select id, full_name from authors", new AuthorRowMapper());
     }
 
     @Override
     public Optional<Author> findById(long id) {
         Map<String, Object> params = Collections.singletonMap("id", id);
-        return Optional.ofNullable(namedParameterJdbcOperations.queryForObject(
+        return Optional.ofNullable((Author) namedParameterJdbcOperations.query(
                 "select id, full_name from authors where id = :id", params, new AuthorRowMapper()));
     }
 
