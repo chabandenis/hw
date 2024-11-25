@@ -1,3 +1,5 @@
+package ru.otus.ex02;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import ru.otus.ex02.config.AppProperties;
