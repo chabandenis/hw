@@ -160,13 +160,14 @@ public class JdbcBookRepository implements BookRepository {
     private static class BookRowMapper implements RowMapper<Book> {
         @Override
         public Book mapRow(ResultSet rs, int rowNum) throws SQLException {
-            Book book = new Book();
 
+            Book book = new Book();
+/*todo
             book.setId(rs.getLong("id"));
             book.setAuthor(new Author(rs.getLong("author_id"), rs.getString("full_name")));
             book.setTitle(rs.getString("title"));
             book.setGenres(new ArrayList<>());
-
+*/
             return book;
         }
     }

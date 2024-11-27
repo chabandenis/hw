@@ -35,8 +35,12 @@ public class JdbcAuthorRepository implements AuthorRepository {
 
         @Override
         public Author mapRow(ResultSet rs, int i) throws SQLException {
+            /* todo
             return new Author(rs.getLong("id"),
                     rs.getString("full_name"));
+
+             */
+            return null;
         }
     }
 }

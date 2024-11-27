@@ -38,8 +38,8 @@ public class JdbcGenreRepository implements GenreRepository {
     private static class GenreRowMapper implements RowMapper<Genre> {
         @Override
         public Genre mapRow(ResultSet rs, int i) throws SQLException {
-            return new Genre(rs.getLong("id"),
-                    rs.getString("name"));
+            return new Genre(/*todo rs.getLong("id"),
+                    rs.getString("name")*/);
         }
     }
 }

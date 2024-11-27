@@ -23,13 +23,17 @@ import org.springframework.data.relational.core.mapping.Table;
 import java.util.ArrayList;
 import java.util.List;
 
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 @Getter
 @Setter
 @Entity
-@Table(name = "book")
+@jakarta.persistence.Table(name = "Books")
+@Table(name = "books")
 public class Book {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
 
@@ -41,24 +45,12 @@ public class Book {
     private Author author;
 
     @ManyToMany
-    @JoinTable(name = "Book_genres",
+    @JoinTable(name = "Books_genres",
             joinColumns = @JoinColumn(name = "book_id"),
-            inverseJoinColumns = @JoinColumn(name = "genres_id"))
+            inverseJoinColumns = @JoinColumn(name = "genre_id"))
     private List<Genre> genres = new ArrayList<>();
 
     @OneToMany(mappedBy = "book", orphanRemoval = true)
     private List<Comment> comments = new ArrayList<>();
-
-
-
-
-
-/*    @ElementCollection
-    @Column(name = "comment")
-    @CollectionTable(name = "Book_comments", joinColumns = @JoinColumn(name = "book_id"))
-    private List<Comment> comment = new ArrayList<>();
-
- */
-
 
 }
