@@ -5,6 +5,9 @@ import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
 import org.springframework.transaction.annotation.Transactional;
 import ru.otus.hw.ex06.converters.CommentConverter;
+import ru.otus.hw.ex06.models.Book;
+import ru.otus.hw.ex06.models.CommentBook;
+import ru.otus.hw.ex06.services.BookService;
 import ru.otus.hw.ex06.services.CommentService;
 
 import java.util.stream.Collectors;
@@ -16,6 +19,8 @@ public class CommentCommands {
     private final CommentService commentService;
 
     private final CommentConverter commentConverter;
+
+    private final BookService bookService;
 
     @ShellMethod(value = "Find book by id", key = "cbbi")
     public String findByBookId(long bookId) {
@@ -45,4 +50,20 @@ public class CommentCommands {
         return "удален";
     }
 
+
+    // cs 1111 1
+    // cbbi 1
+    @ShellMethod(value = "Find book by id", key = "cs")
+    public String save(String text, long bookId) {
+        CommentBook commentBook = new CommentBook();
+        commentBook.setText(text);
+
+        Book book = new Book();
+        book.setId(bookId);
+
+        commentBook.setBook(book);
+
+        commentService.save(commentBook);
+        return commentConverter.commentDtoToString(commentService.save(commentBook));
+    }
 }
