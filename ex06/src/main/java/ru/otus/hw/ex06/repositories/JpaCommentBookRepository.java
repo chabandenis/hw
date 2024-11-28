@@ -12,15 +12,14 @@ import java.util.Optional;
 
 @AllArgsConstructor
 @Repository
-public class JpaCommentRepository implements CommentRepository {
+public class JpaCommentBookRepository implements CommentBookRepository {
 
     @PersistenceContext
     private final EntityManager em;
 
-
     @Override
     public Optional<CommentBook> findById(long id) {
-        return Optional.empty();
+        return Optional.ofNullable(em.find(CommentBook.class, id));
     }
 
     @Override
@@ -35,18 +34,28 @@ public class JpaCommentRepository implements CommentRepository {
     }
 
     @Override
-    public CommentBook save(CommentBook commentDto) {
-        return null;
+    public CommentBook save(CommentBook commentBook) {
+        if (commentBook.getId() == 0) {
+            em.persist(commentBook);
+            return commentBook;
+        }
+        return em.merge(commentBook);
     }
 
     @Override
     public void deleteById(long id) {
-
+        CommentBook commentBook = findById(id).get();
+        em.remove(commentBook);
     }
 
     @Override
     public void deleteByBookId(long bookId) {
-
+        List<CommentBook> commentBooks = findCommentByBookId(bookId);
+        for (CommentBook commentBook : commentBooks) {
+            System.out.println("удаляю id: " + commentBook.getId());
+            em.remove(commentBook);
+            System.out.println("удален");
+        }
     }
 
 

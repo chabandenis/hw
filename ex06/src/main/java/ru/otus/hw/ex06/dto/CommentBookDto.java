@@ -7,7 +7,7 @@ import ru.otus.hw.ex06.models.CommentBook;
  * DTO for {@link CommentBook}
  */
 @Value
-public class CommentDto {
+public class CommentBookDto {
     long id;
     String text;
     long bookId;

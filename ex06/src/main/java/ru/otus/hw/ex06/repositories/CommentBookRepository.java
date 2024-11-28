@@ -5,7 +5,7 @@ import ru.otus.hw.ex06.models.CommentBook;
 import java.util.List;
 import java.util.Optional;
 
-public interface CommentRepository {
+public interface CommentBookRepository {
     Optional<CommentBook> findById(long id);
 
     List<CommentBook> findCommentByBookId(long bookId);

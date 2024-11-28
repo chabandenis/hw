@@ -18,20 +18,31 @@ public class CommentCommands {
     private final CommentConverter commentConverter;
 
     @ShellMethod(value = "Find book by id", key = "cbbi")
-    public String findBookById(long bookId) {
+    public String findByBookId(long bookId) {
         return commentService.findCommentsByBookId(bookId).stream()
                 .map(commentConverter::commentDtoToString)
                 .collect(Collectors.joining("," + System.lineSeparator()));
     }
 
-    @ShellMethod(value = "Find book by id", key = "fbi")
+    @ShellMethod(value = "Find book by id", key = "cfbi")
     public String findById(long id) {
-        commentConverter.commentDtoToString(commentService.findById(id).get());
-        return null;
-/*        return commentService.findCommentsByBookId(bookId).stream()
-                .map(commentConverter::commentDtoToString)
-                .collect(Collectors.joining("," + System.lineSeparator()));*/
+        return commentConverter.commentDtoToString(commentService.findById(id).get());
     }
 
+
+    // cdbi 1
+    @ShellMethod(value = "Find book by id", key = "cdbi")
+    public String deleteById(long id) {
+        commentService.deleteById(id);
+        return "удален";
+    }
+
+    // cdbbi 1
+    // cbbi 1
+    @ShellMethod(value = "Find book by id", key = "cdbbi")
+    public String deleteByBookId(long bookId) {
+        commentService.deleteByBookId(bookId);
+        return "удален";
+    }
 
 }
