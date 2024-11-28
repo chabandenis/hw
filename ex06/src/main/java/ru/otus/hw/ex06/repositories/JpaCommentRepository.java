@@ -5,7 +5,7 @@ import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TypedQuery;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;
-import ru.otus.hw.ex06.models.Comment;
+import ru.otus.hw.ex06.models.CommentBook;
 
 import java.util.List;
 import java.util.Optional;
@@ -19,23 +19,23 @@ public class JpaCommentRepository implements CommentRepository {
 
 
     @Override
-    public Optional<Comment> findById(long id) {
+    public Optional<CommentBook> findById(long id) {
         return Optional.empty();
     }
 
     @Override
-    public List<Comment> findCommentByBookId(long bookId) {
-        TypedQuery<Comment> query = em.createQuery(
+    public List<CommentBook> findCommentByBookId(long bookId) {
+        TypedQuery<CommentBook> query = em.createQuery(
                 "select c " +
-                        "from Comment c " +
+                        "from CommentBook c " +
                         "where c.book.id = :p1"
-                , Comment.class);
+                , CommentBook.class);
         query.setParameter("p1", bookId);
         return query.getResultList();
     }
 
     @Override
-    public Comment save(Comment commentDto) {
+    public CommentBook save(CommentBook commentDto) {
         return null;
     }
 

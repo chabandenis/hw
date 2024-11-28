@@ -1,10 +1,10 @@
 package ru.otus.hw.ex06.dto;
 
 import lombok.Value;
-import ru.otus.hw.ex06.models.Comment;
+import ru.otus.hw.ex06.models.CommentBook;
 
 /**
- * DTO for {@link Comment}
+ * DTO for {@link CommentBook}
  */
 @Value
 public class CommentDto {
