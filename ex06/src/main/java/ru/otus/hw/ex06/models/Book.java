@@ -21,7 +21,9 @@ import lombok.Setter;
 import org.springframework.data.relational.core.mapping.Table;
 
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 @Data
 @AllArgsConstructor
@@ -35,7 +37,7 @@ public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
-    private Long id;
+    private long id;
 
     @Column(name = "title")
     private String title;
@@ -50,7 +52,5 @@ public class Book {
             inverseJoinColumns = @JoinColumn(name = "genre_id"))
     private List<Genre> genres = new ArrayList<>();
 
-    @OneToMany(mappedBy = "book", orphanRemoval = true)
-    private List<Comment> comments = new ArrayList<>();
 
 }

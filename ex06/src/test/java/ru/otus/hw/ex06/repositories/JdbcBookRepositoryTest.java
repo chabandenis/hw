@@ -102,6 +102,7 @@ class JdbcBookRepositoryTest {
                 .isPresent()
                 .get()
                 .isEqualTo(returnedBook);
+
     }
 
     @DisplayName("должен сохранять измененную книгу")

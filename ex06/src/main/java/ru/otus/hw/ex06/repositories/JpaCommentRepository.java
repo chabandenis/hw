@@ -5,6 +5,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
 import org.springframework.stereotype.Repository;
 import ru.otus.hw.ex06.models.Author;
+import ru.otus.hw.ex06.models.Comment;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -15,8 +16,36 @@ import java.util.Optional;
 
 @AllArgsConstructor
 @Repository
-public class JdbcAuthorRepository implements AuthorRepository {
+public class JpaCommentRepository implements CommentRepository {
+    @Override
+    public Optional<Comment> findById(long id) {
+        return Optional.empty();
+    }
 
+    @Override
+    public List<Comment> findByBookId(long bookId) {
+        return List.of();
+    }
+
+    @Override
+    public Comment save(Comment comment) {
+        return null;
+    }
+
+    @Override
+    public void deleteById(long id) {
+
+    }
+
+    @Override
+    public void deleteByBookId(long bookId) {
+
+    }
+
+
+
+
+/*
     private final NamedParameterJdbcOperations namedParameterJdbcOperations;
 
     @Override
@@ -31,6 +60,26 @@ public class JdbcAuthorRepository implements AuthorRepository {
                 "select id, full_name from authors where id = :id", params, new AuthorRowMapper()));
     }
 
+    @Override
+    public List<Comment> findByBookId(long bookId) {
+        return List.of();
+    }
+
+    @Override
+    public Comment save(Comment comment) {
+        return null;
+    }
+
+    @Override
+    public void deleteById(long id) {
+
+    }
+
+    @Override
+    public void deleteByBookId(long bookId) {
+
+    }
+
     private static class AuthorRowMapper implements RowMapper<Author> {
 
         @Override
@@ -39,4 +88,6 @@ public class JdbcAuthorRepository implements AuthorRepository {
                     rs.getString("full_name"));
         }
     }
+
+ */
 }

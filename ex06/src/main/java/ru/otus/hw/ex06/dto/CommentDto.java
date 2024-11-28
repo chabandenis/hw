@@ -7,6 +7,7 @@ import lombok.Value;
  */
 @Value
 public class CommentDto {
-    Long id;
+    long id;
     String text;
+    long bookId;
 }

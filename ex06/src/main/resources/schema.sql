@@ -42,3 +42,8 @@ ALTER TABLE comments ADD CONSTRAINT FK_COMMENTS_ON_BOOK FOREIGN KEY (book_id) RE
 ALTER TABLE books_genres ADD CONSTRAINT fk_boogen_on_book FOREIGN KEY (book_id) REFERENCES books (id);
 
 ALTER TABLE books_genres ADD CONSTRAINT fk_boogen_on_genre FOREIGN KEY (genre_id) REFERENCES genres (id);
+
+----------------------
+
+
+
