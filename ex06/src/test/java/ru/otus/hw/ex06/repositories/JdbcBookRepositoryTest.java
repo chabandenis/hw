@@ -11,8 +11,6 @@ import org.springframework.context.annotation.Import;
 import ru.otus.hw.ex06.models.Author;
 import ru.otus.hw.ex06.models.Book;
 import ru.otus.hw.ex06.models.Genre;
-import ru.otus.hw.ex06.repositories.JdbcBookRepository;
-import ru.otus.hw.ex06.repositories.JdbcGenreRepository;
 
 import java.util.List;
 import java.util.stream.IntStream;
