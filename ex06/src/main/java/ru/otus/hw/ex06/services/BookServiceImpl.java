@@ -1,18 +1,14 @@
 package ru.otus.hw.ex06.services;
 
 import lombok.RequiredArgsConstructor;
-import org.hibernate.annotations.Comments;
 import org.springframework.stereotype.Service;
 import ru.otus.hw.ex06.exceptions.EntityNotFoundException;
 import ru.otus.hw.ex06.models.Book;
-import ru.otus.hw.ex06.models.Comment;
-import ru.otus.hw.ex06.models.Genre;
 import ru.otus.hw.ex06.repositories.AuthorRepository;
 import ru.otus.hw.ex06.repositories.BookRepository;
 import ru.otus.hw.ex06.repositories.GenreRepository;
 import ru.otus.hw.ex06.repositories.JdbcBookRepository;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;

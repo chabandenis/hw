@@ -1,6 +1,5 @@
 package ru.otus.hw.ex06.repositories;
 
-import ru.otus.hw.ex06.models.Book;
 import ru.otus.hw.ex06.models.Comment;
 
 import java.util.List;
@@ -9,9 +8,9 @@ import java.util.Optional;
 public interface CommentRepository {
     Optional<Comment> findById(long id);
 
-    List<Comment> findByBookId(long bookId);
+    List<Comment> findCommentByBookId(long bookId);
 
-    Comment save(Comment comment);
+    Comment save(Comment commentDto);
 
     void deleteById(long id);
 

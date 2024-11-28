@@ -1,34 +1,41 @@
 package ru.otus.hw.ex06.repositories;
 
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.TypedQuery;
 import lombok.AllArgsConstructor;
-import org.springframework.jdbc.core.RowMapper;
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
 import org.springframework.stereotype.Repository;
-import ru.otus.hw.ex06.models.Author;
 import ru.otus.hw.ex06.models.Comment;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 @AllArgsConstructor
 @Repository
 public class JpaCommentRepository implements CommentRepository {
+
+    @PersistenceContext
+    private final EntityManager em;
+
+
     @Override
     public Optional<Comment> findById(long id) {
         return Optional.empty();
     }
 
     @Override
-    public List<Comment> findByBookId(long bookId) {
-        return List.of();
+    public List<Comment> findCommentByBookId(long bookId) {
+        TypedQuery<Comment> query = em.createQuery(
+                "select c " +
+                        "from Comment c " +
+                        "where c.book.id = :p1"
+                , Comment.class);
+        query.setParameter("p1", bookId);
+        return query.getResultList();
     }
 
     @Override
-    public Comment save(Comment comment) {
+    public Comment save(Comment commentDto) {
         return null;
     }
 

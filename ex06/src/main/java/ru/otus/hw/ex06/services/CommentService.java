@@ -8,9 +8,9 @@ import java.util.Optional;
 public interface CommentService {
     Optional<Comment> findById(long id);
 
-    List<Comment> findByBookId(long bookId);
+    List<Comment> findCommentsByBookId(long bookId);
 
-    Comment save(Comment comment);
+    Comment save(Comment commentDto);
 
     void deleteById(long id);
 
