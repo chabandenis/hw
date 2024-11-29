@@ -15,13 +15,15 @@ import java.util.Set;
 public class GenreServiceImpl implements GenreService {
     private final GenreRepository genreRepository;
 
+    private final GenreConverter genreConverter;
+
     @Override
     @Transactional
     public List<GenreDto> findAll() {
 
         return genreRepository.findAll()
                 .stream()
-                .map(GenreConverter::toDto)
+                .map(genreConverter::toDto)
                 .toList();
     }
 
@@ -31,7 +33,7 @@ public class GenreServiceImpl implements GenreService {
 
         return genreRepository.findAllByIds(ids)
                 .stream()
-                .map(GenreConverter::toDto)
+                .map(genreConverter::toDto)
                 .toList();
     }
 }
