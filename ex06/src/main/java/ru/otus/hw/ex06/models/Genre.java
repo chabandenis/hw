@@ -12,8 +12,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.data.relational.core.mapping.Table;
 
-@Data
-@AllArgsConstructor
+//@Data
+//@AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter

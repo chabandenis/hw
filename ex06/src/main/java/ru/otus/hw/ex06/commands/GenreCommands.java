@@ -7,6 +7,7 @@ import ru.otus.hw.ex06.converters.GenreConverter;
 import ru.otus.hw.ex06.services.GenreService;
 
 import java.util.Arrays;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -24,14 +25,12 @@ public class GenreCommands {
                 .collect(Collectors.joining("," + System.lineSeparator()));
     }
 
+    // ag2 "1, 3, 5"
     @ShellMethod(value = "Find genres by ids", key = "ag2")
-    public String findGenresByIds(String ids) {
+    public String findGenresByIds(Set<Long> ids) {
         return
-                genreService.findAllByIds(
-                                Arrays.stream(ids.split(","))
-                                        .map(x -> Long.valueOf(x.replace(" ", "")))
-                                        .collect(Collectors.toSet())
-                        ).stream()
+                genreService.findAllByIds(ids)
+                        .stream()
                         .map(genreConverter::genreToString)
                         .collect(Collectors.joining("," + System.lineSeparator()));
     }
