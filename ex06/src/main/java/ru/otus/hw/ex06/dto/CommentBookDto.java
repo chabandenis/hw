@@ -8,7 +8,9 @@ import ru.otus.hw.ex06.models.CommentBook;
  */
 @Value
 public class CommentBookDto {
-    long id;
-    String text;
-    long bookId;
+    private long id;
+
+    private String text;
+
+    private long bookId;
 }

@@ -1,9 +1,7 @@
 package ru.otus.hw.ex06.converters;
 
 import org.springframework.stereotype.Component;
-import ru.otus.hw.ex06.dto.AuthorDto;
 import ru.otus.hw.ex06.dto.GenreDto;
-import ru.otus.hw.ex06.models.Author;
 import ru.otus.hw.ex06.models.Genre;
 
 @Component

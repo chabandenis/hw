@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.otus.hw.ex06.converters.AuthorConverter;
 import ru.otus.hw.ex06.dto.AuthorDto;
-import ru.otus.hw.ex06.models.Author;
 import ru.otus.hw.ex06.repositories.AuthorRepository;
 
 import java.util.List;

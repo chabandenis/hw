@@ -3,18 +3,11 @@ package ru.otus.hw.ex06.repositories;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import lombok.AllArgsConstructor;
-import org.springframework.jdbc.core.JdbcOperations;
-import org.springframework.jdbc.core.RowMapper;
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
 import org.springframework.stereotype.Repository;
-import ru.otus.hw.ex06.models.Author;
 import ru.otus.hw.ex06.models.Genre;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 @AllArgsConstructor
 @Repository

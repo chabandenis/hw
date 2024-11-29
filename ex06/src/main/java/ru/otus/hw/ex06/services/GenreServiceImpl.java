@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.otus.hw.ex06.converters.GenreConverter;
 import ru.otus.hw.ex06.dto.GenreDto;
-import ru.otus.hw.ex06.models.Genre;
 import ru.otus.hw.ex06.repositories.GenreRepository;
 
 import java.util.List;

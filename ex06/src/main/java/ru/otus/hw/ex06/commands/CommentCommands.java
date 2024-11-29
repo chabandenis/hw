@@ -3,7 +3,6 @@ package ru.otus.hw.ex06.commands;
 import lombok.RequiredArgsConstructor;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
-import org.springframework.transaction.annotation.Transactional;
 import ru.otus.hw.ex06.converters.CommentConverter;
 import ru.otus.hw.ex06.models.Book;
 import ru.otus.hw.ex06.models.CommentBook;

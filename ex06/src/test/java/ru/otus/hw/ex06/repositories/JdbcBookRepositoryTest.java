@@ -11,7 +11,6 @@ import org.springframework.context.annotation.Import;
 import ru.otus.hw.ex06.dto.GenreDto;
 import ru.otus.hw.ex06.models.Author;
 import ru.otus.hw.ex06.models.Book;
-import ru.otus.hw.ex06.models.Genre;
 
 import java.util.List;
 import java.util.stream.IntStream;

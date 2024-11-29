@@ -8,6 +8,7 @@ import ru.otus.hw.ex06.models.Author;
  */
 @Value
 public class AuthorDto {
-    long id;
-    String fullName;
+    private long id;
+
+    private String fullName;
 }

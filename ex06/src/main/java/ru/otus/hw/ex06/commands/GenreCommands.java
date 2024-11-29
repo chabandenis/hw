@@ -6,7 +6,6 @@ import org.springframework.shell.standard.ShellMethod;
 import ru.otus.hw.ex06.converters.GenreConverter;
 import ru.otus.hw.ex06.services.GenreService;
 
-import java.util.Arrays;
 import java.util.Set;
 import java.util.stream.Collectors;
 
