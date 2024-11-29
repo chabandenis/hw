@@ -1,5 +1,7 @@
 package ru.otus.hw.ex06.repositories;
 
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -35,21 +37,31 @@ public class JdbcBookRepository implements BookRepository {
 
     private final GenreRepository genreRepository;
 
-    private final JdbcOperations jdbc;
+    @PersistenceContext
+    private final EntityManager em;
+
+/*    private final JdbcOperations jdbc;
 
     private final NamedParameterJdbcOperations namedParameterJdbcOperations;
 
+ */
+
     // выбрать books_genres по книге
     private List<BookGenreRelation> findAllByBookId(Long id) {
+/*
         Map<String, Object> params = Collections.singletonMap("book_id", id);
         return namedParameterJdbcOperations.query(
                 "select book_id, genre_id from books_genres where book_id = :book_id",
                 params,
                 new BookGenreRowMapper());
+
+ */
+        return null;
     }
 
     // обновить книгу
     private void updateBook(Book book) {
+/*
         // получить связи книги и жанров
         List<BookGenreRelation> bookGenre = findAllByBookId(book.getId());
         // получить список жанров у книги по идентификаторам жанров
@@ -60,7 +72,9 @@ public class JdbcBookRepository implements BookRepository {
                         .collect(Collectors.toSet()));
 
         // обновить книгу полученными данными
-        mergeBooksInfo(book, genres/*, bookGenre*/);
+        mergeBooksInfo(book, genres/*, bookGenre*/
+/*        );
+*/
     }
 
     // обновить книгу
@@ -95,6 +109,7 @@ public class JdbcBookRepository implements BookRepository {
     @Override
     // поиск книги по идентификатору
     public Optional<Book> findById(long id) {
+/*
         Map<String, Object> params = Collections.singletonMap("id", id);
 
         var book = namedParameterJdbcOperations.query(
@@ -110,6 +125,9 @@ public class JdbcBookRepository implements BookRepository {
         } else {
             return Optional.empty();
         }
+
+ */
+        return null;
     }
 
     @Override
@@ -140,6 +158,7 @@ public class JdbcBookRepository implements BookRepository {
 
     @Override
     public void deleteById(long id) {
+/*
         namedParameterJdbcOperations.update(
                 "delete from books_genres where book_id = :book_id"
                 , Map.of("book_id", id));
@@ -147,14 +166,19 @@ public class JdbcBookRepository implements BookRepository {
         namedParameterJdbcOperations.update(
                 "delete from books where id = :id"
                 , Map.of("id", id));
+
+ */
     }
 
     private List<Book> getAllBooksWithoutGenres() {
+/*
         return jdbc.query(
                 "select b.id, b.title, b.author_id, a.full_name "
                         + "from books b, authors a "
                         + "where a.id = b.author_id"
                 , new BookRowMapper());
+ */
+        return null;
     }
 
     private static class BookRowMapper implements RowMapper<Book> {
@@ -163,7 +187,9 @@ public class JdbcBookRepository implements BookRepository {
 
             Book book = new Book();
             book.setId(rs.getLong("id"));
-            book.setAuthor(new Author(rs.getLong("author_id"), rs.getString("full_name")));
+            book.setAuthor(
+                    new Author(rs.getLong("author_id"), rs.getString("full_name")));
+
             book.setTitle(rs.getString("title"));
             book.setGenres(new ArrayList<>());
 
@@ -172,12 +198,17 @@ public class JdbcBookRepository implements BookRepository {
     }
 
     private List<BookGenreRelation> getAllGenreRelations() {
+/*
         return jdbc.query(
                 "select g.book_id, g.genre_id "
                         + "from books_genres g"
                 , new GenreRelationsRowMapper());
+
+ */
+        return null;
     }
 
+/*
     private static class GenreRelationsRowMapper implements RowMapper<BookGenreRelation> {
         @Override
         public BookGenreRelation mapRow(ResultSet rs, int rowNum) throws SQLException {
@@ -190,6 +221,8 @@ public class JdbcBookRepository implements BookRepository {
         }
     }
 
+ */
+
     private void mergeBooksInfo(Book booksWithoutGenres, List<Genre> genres) {
         List<Genre> genreList = new ArrayList<>();
 
@@ -200,6 +233,7 @@ public class JdbcBookRepository implements BookRepository {
     }
 
     private Book insert(Book book) {
+/*
         var keyHolder = new GeneratedKeyHolder();
 
         namedParameterJdbcOperations.update(
@@ -214,9 +248,13 @@ public class JdbcBookRepository implements BookRepository {
         book.setId(keyHolder.getKeyAs(Long.class));
         batchInsertGenresRelationsFor(book);
         return book;
+
+ */
+        return null;
     }
 
     private Book update(Book book) {
+/*
         try {
             var keyHolder = new GeneratedKeyHolder();
             namedParameterJdbcOperations.update(
@@ -237,9 +275,13 @@ public class JdbcBookRepository implements BookRepository {
             System.out.println(e);
             throw new EntityNotFoundException(e.getMessage());
         }
+
+ */
+        return null;
     }
 
     private void batchInsertGenresRelationsFor(Book book) {
+/*
         // Использовать метод batchUpdate
         jdbc.batchUpdate(
                 "insert into books_genres (book_id, genre_id) values (?, ?)"
@@ -255,15 +297,21 @@ public class JdbcBookRepository implements BookRepository {
                         return book.getGenres().size();
                     }
                 });
+
+ */
     }
 
     private void removeGenresRelationsFor(Book book) {
+/*
         namedParameterJdbcOperations.update(
                 "delete from books_genres where book_id = :book_id"
                 , Map.of("book_id", book.getId()));
+
+ */
     }
 
 
+/*
     // Использовать для findById
     @SuppressWarnings("ClassCanBeRecord")
     @RequiredArgsConstructor
@@ -273,6 +321,7 @@ public class JdbcBookRepository implements BookRepository {
             return null;
         }
     }
+    */
 
 /*    private record BookGenreRelation(long bookId, long genreId) {
     }*/
@@ -280,12 +329,13 @@ public class JdbcBookRepository implements BookRepository {
     @Data
     @AllArgsConstructor
     @NoArgsConstructor
-    private static class BookGenreRelation {
+    private class BookGenreRelation {
         private long bookId;
 
         private long genreId;
     }
 
+/*
     private static class BookGenreRowMapper implements RowMapper<BookGenreRelation> {
         @Override
         public BookGenreRelation mapRow(ResultSet rs, int i) throws SQLException {
@@ -294,6 +344,8 @@ public class JdbcBookRepository implements BookRepository {
                     rs.getLong("genre_id"));
         }
     }
+
+ */
 }
 
 

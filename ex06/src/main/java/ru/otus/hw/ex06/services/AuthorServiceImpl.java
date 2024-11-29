@@ -2,6 +2,7 @@ package ru.otus.hw.ex06.services;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.otus.hw.ex06.converters.AuthorConverter;
 import ru.otus.hw.ex06.dto.AuthorDto;
 import ru.otus.hw.ex06.repositories.AuthorRepository;
@@ -17,6 +18,7 @@ public class AuthorServiceImpl implements AuthorService {
     private final AuthorConverter authorConverter;
 
     @Override
+    @Transactional
     public List<AuthorDto> findAll() {
         return authorRepository.findAll()
                 .stream()
@@ -25,6 +27,7 @@ public class AuthorServiceImpl implements AuthorService {
     }
 
     @Override
+    @Transactional
     public Optional<AuthorDto> findById(long id) {
         return Optional.ofNullable(authorConverter.toDto(authorRepository.findById(id).get()));
     }

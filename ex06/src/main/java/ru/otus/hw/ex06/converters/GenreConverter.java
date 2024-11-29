@@ -7,7 +7,7 @@ import ru.otus.hw.ex06.models.Genre;
 @Component
 public class GenreConverter {
 
-    public static GenreDto toDto(Genre genre) {
+    public GenreDto toDto(Genre genre) {
         GenreDto genreDto = new GenreDto(
                 genre.getId(),
                 genre.getName());
