@@ -18,7 +18,7 @@ public class GenreServiceImpl implements GenreService {
     private final GenreConverter genreConverter;
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public List<GenreDto> findAll() {
 
         return genreRepository.findAll()
@@ -28,7 +28,7 @@ public class GenreServiceImpl implements GenreService {
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public List<GenreDto> findAllByIds(Set<Long> ids) {
 
         return genreRepository.findAllByIds(ids)

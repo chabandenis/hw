@@ -19,13 +19,13 @@ public class CommentServiceImpl implements CommentService {
     private final CommentConverter commentConverter;
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public Optional<CommentBookDto> findById(long id) {
         return Optional.ofNullable(commentConverter.toDto(commentBookRepository.findById(id).get()));
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public List<CommentBookDto> findCommentsByBookId(long bookId) {
         return commentBookRepository.findCommentByBookId(bookId)
                 .stream()

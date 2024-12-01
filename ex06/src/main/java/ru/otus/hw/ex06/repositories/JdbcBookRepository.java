@@ -1,34 +1,26 @@
 package ru.otus.hw.ex06.repositories;
 
+import jakarta.persistence.EntityGraph;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
-import org.springframework.dao.DataAccessException;
-import org.springframework.jdbc.core.BatchPreparedStatementSetter;
-import org.springframework.jdbc.core.JdbcOperations;
-import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.jdbc.core.RowMapper;
-import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
-import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.stereotype.Repository;
-import ru.otus.hw.ex06.exceptions.EntityNotFoundException;
 import ru.otus.hw.ex06.models.Author;
 import ru.otus.hw.ex06.models.Book;
 import ru.otus.hw.ex06.models.Genre;
 
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
+
+import static org.springframework.data.jpa.repository.EntityGraph.EntityGraphType.FETCH;
 
 @Repository
 @RequiredArgsConstructor
@@ -73,14 +65,17 @@ public class JdbcBookRepository implements BookRepository {
 
         // обновить книгу полученными данными
         mergeBooksInfo(book, genres/*, bookGenre*/
-/*        );
-*/
+        /*        );
+         */
     }
 
     // обновить книгу
     private void updateBooks(List<Book> allSelectedBooks,
                              List<Genre> allSelectedGenres,
                              List<BookGenreRelation> allSelectedBookGenreRelations) {
+        if (allSelectedBookGenreRelations == null) {
+            return;
+        }
         // пройтись по книгам
         for (Book book : allSelectedBooks) {
             List<Genre> genresForBook = new ArrayList<>();
@@ -109,40 +104,26 @@ public class JdbcBookRepository implements BookRepository {
     @Override
     // поиск книги по идентификатору
     public Optional<Book> findById(long id) {
-/*
-        Map<String, Object> params = Collections.singletonMap("id", id);
-
-        var book = namedParameterJdbcOperations.query(
-                "select b.id, b.title, b.author_id, a.full_name "
-                        + "from books b, authors a "
-                        + "where b.id = :id and a.id = b.author_id"
-                , params
-                , new BookRowMapper());
-
-        if (book.size() > 0) {
-            updateBook(book.get(0));
-            return Optional.of(book.get(0));
-        } else {
-            return Optional.empty();
-        }
-
- */
-        return null;
+        return Optional.ofNullable(em.find(Book.class, id));
     }
 
     @Override
     // Найти все книги со всем
     public List<Book> findAll() {
         // все книги одним запросом
+        System.out.println("все книги одним запросом");
         var books = getAllBooksWithoutGenres();
 
         // все отношения жанров и книг одним запросом
+        System.out.println("все отношения жанров и книг одним запросом");
         var genreRelations = getAllGenreRelations();
 
         // все жанры одним запросом
+        System.out.println("все жанры одним запросом");
         var genres = genreRepository.findAll();
 
-        // соедиение жанров с книгами
+        // соединение жанров с книгами
+        System.out.println("соединение жанров с книгами");
         updateBooks(books, genres, genreRelations);
 
         return books;
@@ -171,6 +152,12 @@ public class JdbcBookRepository implements BookRepository {
     }
 
     private List<Book> getAllBooksWithoutGenres() {
+        EntityGraph<?> entityGraph = em.getEntityGraph("book-genre-entity-graph");
+        var query = em.createQuery("select distinct b from Book b left join fetch b.genres", Book.class);
+        query.setHint(FETCH.getKey(), entityGraph);
+//        var query = em.createQuery("select b from Book b, Author a where a.id = b.author ", Book.class);
+        return query.getResultList();
+
 /*
         return jdbc.query(
                 "select b.id, b.title, b.author_id, a.full_name "
@@ -178,7 +165,7 @@ public class JdbcBookRepository implements BookRepository {
                         + "where a.id = b.author_id"
                 , new BookRowMapper());
  */
-        return null;
+
     }
 
     private static class BookRowMapper implements RowMapper<Book> {

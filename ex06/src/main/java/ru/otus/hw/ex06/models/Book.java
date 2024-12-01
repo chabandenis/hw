@@ -10,6 +10,8 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.NamedAttributeNode;
+import jakarta.persistence.NamedEntityGraph;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
@@ -25,6 +27,8 @@ import java.util.List;
 @Entity
 @jakarta.persistence.Table(name = "Books")
 @Table(name = "books")
+@NamedEntityGraph(name = "book-genre-entity-graph",
+        attributeNodes = {@NamedAttributeNode("genres")})
 public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

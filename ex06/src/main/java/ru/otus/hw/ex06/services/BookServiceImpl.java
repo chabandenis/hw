@@ -38,13 +38,13 @@ public class BookServiceImpl implements BookService {
     private final AuthorConverter authorConverter;
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public Optional<BookDto> findById(long id) {
         return Optional.ofNullable(bookConverter.toDto(bookRepository.findById(id).get()));
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public List<BookDto> findAll() {
         return jdbcBookRepository.findAll().stream().map(bookConverter::toDto).toList();
     }
