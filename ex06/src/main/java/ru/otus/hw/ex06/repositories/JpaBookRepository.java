@@ -60,11 +60,30 @@ public class JpaBookRepository implements BookRepository {
         return Optional.ofNullable(em.find(Book.class, id));
     }
 
+    private List<Book> mergeBooks(List<Book> booksWithGenre, List<Book> booksWithComments){
+        Map<Long, Book> bookWithGenreMap =  booksWithGenre.stream().collect(Collectors.toMap(Book::getId, book->book));
+        Map<Long, Book> bookWithCommentsMap =  booksWithComments.stream().collect(Collectors.toMap(Book::getId, book->book));
+
+        List<Book> result = new ArrayList<>();
+
+        for (Long pos : bookWithGenreMap.keySet())
+        {
+            Book tmpBook = bookWithGenreMap.get(pos);
+            tmpBook.setCommentBook(bookWithCommentsMap.get(pos).getCommentBook());
+            result.add(tmpBook);
+        }
+
+        return result;
+    }
+
+    @Override
+    // Найти все книги со всеми внутренностями
+
     // по следам разбора ошибки
     // https://struchkov.dev/blog/ru/hibernate-multiple-bag-fetch-exception/
     // hibernate не может выбрать несколько списков без ошибки.
     /*
-        Результат одним запросом не получился, порачен рабочий день, но без шансов.
+        Результат одним запросом не получился, потрачен рабочий день, но без шансов.
         Пробовал разные способы, наверное так оптимальнее, если пользоваться hibernate c автоматической обработкой
 
         Hibernate: select b1_0.id,a1_0.id,a1_0.full_name,g1_0.book_id,g1_1.id,g1_1.name,b1_0.title from books b1_0 left join authors a1_0 on a1_0.id=b1_0.author_id left join books_genres g1_0 on b1_0.id=g1_0.book_id left join genres g1_1 on g1_1.id=g1_0.genre_id
@@ -73,24 +92,6 @@ public class JpaBookRepository implements BookRepository {
         Id: 2, title: BookTitle_2, author: {Id: 2, FullName: Author_2}, genres: [{Id: 3, Name: Genre_3}, {Id: 4, Name: Genre_4}], comments: [Id: 3, BookId: 2, Text: comment 3, Id: 4, BookId: 2, Text: comment 4],
         Id: 3, title: BookTitle_3, author: {Id: 3, FullName: Author_3}, genres: [{Id: 5, Name: Genre_5}, {Id: 6, Name: Genre_6}], comments: [Id: 5, BookId: 3, Text: comment 5, Id: 6, BookId: 3, Text: comment 6]
      */
-    private List<Book> mergeBooks(List<Book> booksWithGenre, List<Book> booksWithComments){
-        Map<Long, Book> book1Map =  booksWithGenre.stream().collect(Collectors.toMap(Book::getId, book->book));
-        Map<Long, Book> book2Map =  booksWithComments.stream().collect(Collectors.toMap(Book::getId, book->book));
-
-        List<Book> result = new ArrayList<>();
-
-        for (Long pos : book1Map.keySet())
-        {
-            Book tmpBook = book1Map.get(pos);
-            tmpBook.setCommentBook(book2Map.get(pos).getCommentBook());
-            result.add(tmpBook);
-        }
-
-        return result;
-    }
-
-    @Override
-    // Найти все книги со всем
     public List<Book> findAll() {
         // все книги одним запросом (в реальности двумя запросами)
         System.out.println("все книги одним запросом");
