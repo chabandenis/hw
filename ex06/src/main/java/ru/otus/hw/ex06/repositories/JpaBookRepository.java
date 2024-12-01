@@ -17,7 +17,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static org.springframework.data.jpa.repository.EntityGraph.EntityGraphType.FETCH;
 
@@ -50,57 +53,6 @@ public class JpaBookRepository implements BookRepository {
         return null;
     }
 
-    // обновить книгу
-    private void updateBook(Book book) {
-/*
-        // получить связи книги и жанров
-        List<BookGenreRelation> bookGenre = findAllByBookId(book.getId());
-        // получить список жанров у книги по идентификаторам жанров
-        List<Genre> genres = genreRepository.findAllByIds(
-                bookGenre
-                        .stream()
-                        .map(x -> x.getGenreId())
-                        .collect(Collectors.toSet()));
-
-        // обновить книгу полученными данными
-        mergeBooksInfo(book, genres/*, bookGenre*/
-        /*        );
-         */
-    }
-
-    // обновить книгу
-/*
-    private void updateBooks(List<Book> allSelectedBooks,
-                             List<Genre> allSelectedGenres,
-                             List<BookGenreRelation> allSelectedBookGenreRelations) {
-        if (allSelectedBookGenreRelations == null) {
-            return;
-        }
-        // пройтись по книгам
-        for (Book book : allSelectedBooks) {
-            List<Genre> genresForBook = new ArrayList<>();
-            // подходящие жанры-книги для книги
-            List<BookGenreRelation> bookGenresForBook =
-                    allSelectedBookGenreRelations
-                            .stream()
-                            .filter(x -> x.getBookId() == book.getId())
-                            .collect(Collectors.toList());
-
-            // пройтись по отношениям жанры-книги и найти нужные жанры для кники
-            for (BookGenreRelation bookGenreRelation : bookGenresForBook) {
-                genresForBook.add(
-                        allSelectedGenres
-                                .stream()
-                                .filter(x -> x.getId() == bookGenreRelation.getGenreId())
-                                .findFirst()
-                                .get()
-                );
-            }
-            // жанры вписать в книгу
-            mergeBooksInfo(book, genresForBook);
-        }
-    }
-*/
 
     @Override
     // поиск книги по идентификатору
@@ -108,26 +60,47 @@ public class JpaBookRepository implements BookRepository {
         return Optional.ofNullable(em.find(Book.class, id));
     }
 
+    // по следам разбора ошибки
+    // https://struchkov.dev/blog/ru/hibernate-multiple-bag-fetch-exception/
+    // hibernate не может выбрать несколько списков без ошибки.
+    /*
+        Результат одним запросом не получился, порачен рабочий день, но без шансов.
+        Пробовал разные способы, наверное так оптимальнее, если пользоваться hibernate c автоматической обработкой
+
+        Hibernate: select b1_0.id,a1_0.id,a1_0.full_name,g1_0.book_id,g1_1.id,g1_1.name,b1_0.title from books b1_0 left join authors a1_0 on a1_0.id=b1_0.author_id left join books_genres g1_0 on b1_0.id=g1_0.book_id left join genres g1_1 on g1_1.id=g1_0.genre_id
+        Hibernate: select b1_0.id,a1_0.id,a1_0.full_name,cb1_0.book_id,cb1_0.id,cb1_0.text,b1_0.title from books b1_0 left join authors a1_0 on a1_0.id=b1_0.author_id left join comments cb1_0 on b1_0.id=cb1_0.book_id
+        Id: 1, title: BookTitle_1, author: {Id: 1, FullName: Author_1}, genres: [{Id: 1, Name: Genre_1}, {Id: 2, Name: Genre_2}], comments: [Id: 1, BookId: 1, Text: comment 1, Id: 2, BookId: 1, Text: comment 2],
+        Id: 2, title: BookTitle_2, author: {Id: 2, FullName: Author_2}, genres: [{Id: 3, Name: Genre_3}, {Id: 4, Name: Genre_4}], comments: [Id: 3, BookId: 2, Text: comment 3, Id: 4, BookId: 2, Text: comment 4],
+        Id: 3, title: BookTitle_3, author: {Id: 3, FullName: Author_3}, genres: [{Id: 5, Name: Genre_5}, {Id: 6, Name: Genre_6}], comments: [Id: 5, BookId: 3, Text: comment 5, Id: 6, BookId: 3, Text: comment 6]
+     */
+    private List<Book> mergeBooks(List<Book> booksWithGenre, List<Book> booksWithComments){
+        Map<Long, Book> book1Map =  booksWithGenre.stream().collect(Collectors.toMap(Book::getId, book->book));
+        Map<Long, Book> book2Map =  booksWithComments.stream().collect(Collectors.toMap(Book::getId, book->book));
+
+        List<Book> result = new ArrayList<>();
+
+        for (Long pos : book1Map.keySet())
+        {
+            Book tmpBook = book1Map.get(pos);
+            tmpBook.setCommentBook(book2Map.get(pos).getCommentBook());
+            result.add(tmpBook);
+        }
+
+        return result;
+    }
+
     @Override
     // Найти все книги со всем
     public List<Book> findAll() {
-        // все книги одним запросом
+        // все книги одним запросом (в реальности двумя запросами)
         System.out.println("все книги одним запросом");
-        var books = getAllBooksWithoutGenres();
+        var booksWithGenre = getAllBooksWithGenres();
 
-        // все отношения жанров и книг одним запросом
-//        System.out.println("все отношения жанров и книг одним запросом");
-//        var genreRelations = getAllGenreRelations();
+        var booksWithComment = getAllBooksWithComment();
 
-        // все жанры одним запросом
-//        System.out.println("все жанры одним запросом");
-//        var genres = genreRepository.findAll();
+        List<Book> result = mergeBooks(booksWithGenre, booksWithComment);
 
-        // соединение жанров с книгами
-//        System.out.println("соединение жанров с книгами");
-//        updateBooks(books, genres, genreRelations);
-
-        return books;
+        return result;
     }
 
     @Override
@@ -152,35 +125,26 @@ public class JpaBookRepository implements BookRepository {
  */
     }
 
-    private List<Book> getAllBooksWithoutGenres() {
+    private List<Book> getAllBooksWithGenres() {
         EntityGraph<?> entityGraph = em.getEntityGraph("book-genre-entity-graph");
-        //var query = em.createQuery("select distinct b from Book b left join fetch b.genres", Book.class);
-//        var query = em.createQuery("select new ru.otus.hw.ex06.models.SelectView.BookWithComments(b, c) " +
-        var query = em.createQuery("select b " +
-/*
-                " from Book b left join fetch b.author join CommentBook c   " +
-                "where c.book = b.id "
-*/
-
-                        " from Book b "
-                + "left join fetch b.author "
-                //"left join CommentBook cb " +
-                //        " on cb.book.id = b.id "
+        var query = em.createQuery("select  b " +
+                        " from Book b left join fetch b.author "
+                        + " left join fetch b.genres "
                 , Book.class);
 
+        query.setHint(FETCH.getKey(), entityGraph);
+        return query.getResultList();
+    }
+
+    private List<Book> getAllBooksWithComment() {
+        EntityGraph<?> entityGraph = em.getEntityGraph("book-comment-entity-graph");
+        var query = em.createQuery("select  b " +
+                        " from Book b left join fetch b.author "
+                + " left join fetch b.commentBook "
+                , Book.class);
 
         query.setHint(FETCH.getKey(), entityGraph);
-//        var query = em.createQuery("select b from Book b, Author a where a.id = b.author ", Book.class);
         return query.getResultList();
-
-/*
-        return jdbc.query(
-                "select b.id, b.title, b.author_id, a.full_name "
-                        + "from books b, authors a "
-                        + "where a.id = b.author_id"
-                , new BookRowMapper());
- */
-
     }
 
     private static class BookRowMapper implements RowMapper<Book> {
@@ -198,33 +162,6 @@ public class JpaBookRepository implements BookRepository {
             return book;
         }
     }
-
-/*
-    private List<BookGenreRelation> getAllGenreRelations() {
-/*
-        return jdbc.query(
-                "select g.book_id, g.genre_id "
-                        + "from books_genres g"
-                , new GenreRelationsRowMapper());
-
- */
-//        return null;
-//    }
-
-/*
-    private static class GenreRelationsRowMapper implements RowMapper<BookGenreRelation> {
-        @Override
-        public BookGenreRelation mapRow(ResultSet rs, int rowNum) throws SQLException {
-            BookGenreRelation bookGenreRelation = new BookGenreRelation();
-
-            bookGenreRelation.setBookId(rs.getLong("book_id"));
-            bookGenreRelation.setGenreId(rs.getLong("genre_id"));
-
-            return bookGenreRelation;
-        }
-    }
-
- */
 
     private void mergeBooksInfo(Book booksWithoutGenres, List<Genre> genres) {
         List<Genre> genreList = new ArrayList<>();

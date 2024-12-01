@@ -12,6 +12,7 @@ import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.NamedAttributeNode;
 import jakarta.persistence.NamedEntityGraph;
+import jakarta.persistence.OneToMany;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.relational.core.mapping.Table;
@@ -24,11 +25,18 @@ import java.util.List;
 @Entity
 @jakarta.persistence.Table(name = "Books")
 @Table(name = "books")
+
 @NamedEntityGraph(name = "book-genre-entity-graph",
         attributeNodes = {
-        @NamedAttributeNode("genres")
-         //       ,@NamedAttributeNode("genres")
-})
+                @NamedAttributeNode("genres")
+                //,@NamedAttributeNode("commentBook")
+        })
+
+@NamedEntityGraph(name = "book-comment-entity-graph",
+        attributeNodes = {
+                @NamedAttributeNode("commentBook")
+        })
+
 public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -49,4 +57,6 @@ public class Book {
     private List<Genre> genres = new ArrayList<>();
 
 
+    @OneToMany(mappedBy = "book", orphanRemoval = true)
+    private List<CommentBook> commentBook;
 }

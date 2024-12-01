@@ -73,17 +73,18 @@ public class BookServiceImpl implements BookService {
         }
 
 */
-        List<BookDto> bookWithCommentsDtos =
+
+        List<BookDto> books =
                 jpaBookRepository.findAll()
                         .stream()
                         .map(bookConverter::toDto)
                         .toList();
-
+/*
         for (BookDto bookDto : bookWithCommentsDtos) {
             bookDto.setCommentBooks(commentService.findCommentsByBookId(bookDto.getId()));
         }
-
-        return bookWithCommentsDtos;
+*/
+        return books;
     }
 
     @Override
