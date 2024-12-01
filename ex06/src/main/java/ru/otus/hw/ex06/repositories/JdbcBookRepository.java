@@ -70,6 +70,7 @@ public class JdbcBookRepository implements BookRepository {
     }
 
     // обновить книгу
+/*
     private void updateBooks(List<Book> allSelectedBooks,
                              List<Genre> allSelectedGenres,
                              List<BookGenreRelation> allSelectedBookGenreRelations) {
@@ -100,6 +101,7 @@ public class JdbcBookRepository implements BookRepository {
             mergeBooksInfo(book, genresForBook);
         }
     }
+*/
 
     @Override
     // поиск книги по идентификатору
@@ -115,16 +117,16 @@ public class JdbcBookRepository implements BookRepository {
         var books = getAllBooksWithoutGenres();
 
         // все отношения жанров и книг одним запросом
-        System.out.println("все отношения жанров и книг одним запросом");
-        var genreRelations = getAllGenreRelations();
+//        System.out.println("все отношения жанров и книг одним запросом");
+//        var genreRelations = getAllGenreRelations();
 
         // все жанры одним запросом
-        System.out.println("все жанры одним запросом");
-        var genres = genreRepository.findAll();
+//        System.out.println("все жанры одним запросом");
+//        var genres = genreRepository.findAll();
 
         // соединение жанров с книгами
-        System.out.println("соединение жанров с книгами");
-        updateBooks(books, genres, genreRelations);
+//        System.out.println("соединение жанров с книгами");
+//        updateBooks(books, genres, genreRelations);
 
         return books;
     }
@@ -153,7 +155,9 @@ public class JdbcBookRepository implements BookRepository {
 
     private List<Book> getAllBooksWithoutGenres() {
         EntityGraph<?> entityGraph = em.getEntityGraph("book-genre-entity-graph");
-        var query = em.createQuery("select distinct b from Book b left join fetch b.genres", Book.class);
+        //var query = em.createQuery("select distinct b from Book b left join fetch b.genres", Book.class);
+        var query = em.createQuery("select b from Book b left join fetch b.author ", Book.class);
+
         query.setHint(FETCH.getKey(), entityGraph);
 //        var query = em.createQuery("select b from Book b, Author a where a.id = b.author ", Book.class);
         return query.getResultList();
@@ -184,6 +188,7 @@ public class JdbcBookRepository implements BookRepository {
         }
     }
 
+/*
     private List<BookGenreRelation> getAllGenreRelations() {
 /*
         return jdbc.query(
@@ -192,8 +197,8 @@ public class JdbcBookRepository implements BookRepository {
                 , new GenreRelationsRowMapper());
 
  */
-        return null;
-    }
+//        return null;
+//    }
 
 /*
     private static class GenreRelationsRowMapper implements RowMapper<BookGenreRelation> {
