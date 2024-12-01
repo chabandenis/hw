@@ -59,4 +59,5 @@ public class Book {
 
     @OneToMany(mappedBy = "book", orphanRemoval = true)
     private List<CommentBook> commentBook;
+
 }

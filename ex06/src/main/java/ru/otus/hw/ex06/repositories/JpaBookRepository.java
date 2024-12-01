@@ -56,8 +56,20 @@ public class JpaBookRepository implements BookRepository {
 
     @Override
     // поиск книги по идентификатору
+/*
+Выбрать
+Hibernate: select b1_0.id,b1_0.author_id,b1_0.title from books b1_0 where b1_0.id=?
+Выбрал
+Hibernate: select cb1_0.book_id,cb1_0.id,cb1_0.text from comments cb1_0 where cb1_0.book_id=?
+Hibernate: select a1_0.id,a1_0.full_name from authors a1_0 where a1_0.id=?
+Hibernate: select g1_0.book_id,g1_1.id,g1_1.name from books_genres g1_0 join genres g1_1 on g1_1.id=g1_0.genre_id where g1_0.book_id=?
+Id: 1, title: BookTitle_1, author: {Id: 1, FullName: Author_1}, genres: [{Id: 1, Name: Genre_1}, {Id: 2, Name: Genre_2}], comments: [Id: 1, BookId: 1, Text: comment 1, Id: 2, BookId: 1, Text: comment 2]
+*/
     public Optional<Book> findById(long id) {
-        return Optional.ofNullable(em.find(Book.class, id));
+        System.out.println("Выбрать");
+        Optional<Book> retVal =  Optional.ofNullable(em.find(Book.class, id));
+        System.out.println("Выбрал");
+        return retVal;
     }
 
     private List<Book> mergeBooks(List<Book> booksWithGenre, List<Book> booksWithComments){
@@ -139,9 +151,9 @@ public class JpaBookRepository implements BookRepository {
 
     private List<Book> getAllBooksWithComment() {
         EntityGraph<?> entityGraph = em.getEntityGraph("book-comment-entity-graph");
-        var query = em.createQuery("select  b " +
-                        " from Book b left join fetch b.author "
-                + " left join fetch b.commentBook "
+        var query = em.createQuery("select b " +
+                        " from Book b "
+                        + " left join fetch b.commentBook "
                 , Book.class);
 
         query.setHint(FETCH.getKey(), entityGraph);
