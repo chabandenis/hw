@@ -18,14 +18,13 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import static org.springframework.data.jpa.repository.EntityGraph.EntityGraphType.FETCH;
 
 @Repository
 @RequiredArgsConstructor
 //@AllArgsConstructor
-public class JdbcBookRepository implements BookRepository {
+public class JpaBookRepository implements BookRepository {
 
     private final GenreRepository genreRepository;
 
@@ -156,7 +155,19 @@ public class JdbcBookRepository implements BookRepository {
     private List<Book> getAllBooksWithoutGenres() {
         EntityGraph<?> entityGraph = em.getEntityGraph("book-genre-entity-graph");
         //var query = em.createQuery("select distinct b from Book b left join fetch b.genres", Book.class);
-        var query = em.createQuery("select b from Book b left join fetch b.author ", Book.class);
+//        var query = em.createQuery("select new ru.otus.hw.ex06.models.SelectView.BookWithComments(b, c) " +
+        var query = em.createQuery("select b " +
+/*
+                " from Book b left join fetch b.author join CommentBook c   " +
+                "where c.book = b.id "
+*/
+
+                        " from Book b "
+                + "left join fetch b.author "
+                //"left join CommentBook cb " +
+                //        " on cb.book.id = b.id "
+                , Book.class);
+
 
         query.setHint(FETCH.getKey(), entityGraph);
 //        var query = em.createQuery("select b from Book b, Author a where a.id = b.author ", Book.class);

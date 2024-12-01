@@ -2,7 +2,6 @@ package ru.otus.hw.ex06.dto;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Value;
 
 import java.util.List;
 

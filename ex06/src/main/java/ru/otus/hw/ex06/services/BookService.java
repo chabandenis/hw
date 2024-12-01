@@ -1,7 +1,6 @@
 package ru.otus.hw.ex06.services;
 
 import ru.otus.hw.ex06.dto.BookDto;
-import ru.otus.hw.ex06.models.Book;
 
 import java.util.List;
 import java.util.Optional;

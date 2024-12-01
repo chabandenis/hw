@@ -3,16 +3,15 @@ package ru.otus.hw.ex06.services;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.otus.hw.ex06.converters.AuthorConverter;
 import ru.otus.hw.ex06.converters.BookConverter;
-import ru.otus.hw.ex06.converters.GenreConverter;
+import ru.otus.hw.ex06.converters.CommentConverter;
 import ru.otus.hw.ex06.dto.BookDto;
 import ru.otus.hw.ex06.exceptions.EntityNotFoundException;
 import ru.otus.hw.ex06.models.Book;
 import ru.otus.hw.ex06.repositories.AuthorRepository;
 import ru.otus.hw.ex06.repositories.BookRepository;
 import ru.otus.hw.ex06.repositories.GenreRepository;
-import ru.otus.hw.ex06.repositories.JdbcBookRepository;
+import ru.otus.hw.ex06.repositories.JpaBookRepository;
 
 import java.util.List;
 import java.util.Optional;
@@ -29,24 +28,62 @@ public class BookServiceImpl implements BookService {
 
     private final BookRepository bookRepository;
 
-    private final JdbcBookRepository jdbcBookRepository;
+    private final JpaBookRepository jpaBookRepository;
 
     private final BookConverter bookConverter;
 
+    /*
     private final GenreConverter genreConverter;
 
     private final AuthorConverter authorConverter;
+*/
+    private final CommentService commentService;
+
+    private final CommentConverter commentConverter;
+
 
     @Override
     @Transactional(readOnly = true)
     public Optional<BookDto> findById(long id) {
-        return Optional.ofNullable(bookConverter.toDto(bookRepository.findById(id).get()));
+        BookDto bookDto = bookConverter.toDto(bookRepository.findById(id).get());
+
+        //todo bookDto.setComments();
+        return Optional.ofNullable(bookDto);
     }
+
+    private BookDto addComment(BookDto book) {
+        book.setCommentBooks(commentService.findCommentsByBookId(book.getId()));
+        return book;
+    }
+
 
     @Override
     @Transactional(readOnly = true)
     public List<BookDto> findAll() {
-        return jdbcBookRepository.findAll().stream().map(bookConverter::toDto).toList();
+        // List<BookDto> bookDtos = jpaBookRepository.findAll().stream().map(bookConverter::toDto).toList();
+
+/*
+        for (BookDto bookDto : bookDtos) {
+            List<CommentBookDto> commentBookDtos =
+                    commentService.findCommentsByBookId(bookDto.getId())
+                            .stream().map(commentConverter::toDto())
+                            .toList();
+
+            bookDto.setCommentBooks(commentBookDtos);
+        }
+
+*/
+        List<BookDto> bookWithCommentsDtos =
+                jpaBookRepository.findAll()
+                        .stream()
+                        .map(bookConverter::toDto)
+                        .toList();
+
+        for (BookDto bookDto : bookWithCommentsDtos) {
+            bookDto.setCommentBooks(commentService.findCommentsByBookId(bookDto.getId()));
+        }
+
+        return bookWithCommentsDtos;
     }
 
     @Override
