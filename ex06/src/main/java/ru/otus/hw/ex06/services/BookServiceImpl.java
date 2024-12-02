@@ -33,22 +33,14 @@ public class BookServiceImpl implements BookService {
 
     private final BookConverter bookConverter;
 
-    /*
-    private final GenreConverter genreConverter;
-
-    private final AuthorConverter authorConverter;
-*/
     private final CommentService commentService;
 
     private final CommentConverter commentConverter;
-
 
     @Override
     @Transactional(readOnly = true)
     public Optional<BookDto> findById(long id) {
         BookDto bookDto = bookConverter.toDto(bookRepository.findById(id).get());
-
-        //todo bookDto.setComments();
         return Optional.ofNullable(bookDto);
     }
 
@@ -57,34 +49,14 @@ public class BookServiceImpl implements BookService {
         return book;
     }
 
-
     @Override
     @Transactional(readOnly = true)
     public List<BookDto> findAll() {
-        // List<BookDto> bookDtos = jpaBookRepository.findAll().stream().map(bookConverter::toDto).toList();
-
-/*
-        for (BookDto bookDto : bookDtos) {
-            List<CommentBookDto> commentBookDtos =
-                    commentService.findCommentsByBookId(bookDto.getId())
-                            .stream().map(commentConverter::toDto())
-                            .toList();
-
-            bookDto.setCommentBooks(commentBookDtos);
-        }
-
-*/
-
         List<BookDto> books =
                 jpaBookRepository.findAll()
                         .stream()
                         .map(bookConverter::toDto)
                         .toList();
-/*
-        for (BookDto bookDto : bookWithCommentsDtos) {
-            bookDto.setCommentBooks(commentService.findCommentsByBookId(bookDto.getId()));
-        }
-*/
         return books;
     }
 
