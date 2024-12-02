@@ -40,7 +40,7 @@ class ModelsCommonTest {
             <version>${reflections.version}</version>
         </dependency>
          */
-        var reflections = new Reflections("ru.otus.hw.models");
+        var reflections = new Reflections("ru.otus.hw.ex06.models");
         entitiesClasses = reflections.getTypesAnnotatedWith(Entity.class);
 
     }
