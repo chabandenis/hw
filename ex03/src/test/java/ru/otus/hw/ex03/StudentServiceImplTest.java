@@ -14,11 +14,10 @@ import static org.mockito.BDDMockito.given;
 @SpringBootTest
 class StudentServiceImplTest {
 
-    @Autowired
-    private StudentService resultService;
-
     @MockBean
     LocalizedIOServiceImpl ioService;
+    @Autowired
+    private StudentService resultService;
 
     @Test
     void verifyService() {
