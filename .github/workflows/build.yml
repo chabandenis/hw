@@ -2,6 +2,8 @@ name: Build_002
 
 on:
   pull_request:
+    branches:
+      - ex06
 
 jobs:
   build-app:
