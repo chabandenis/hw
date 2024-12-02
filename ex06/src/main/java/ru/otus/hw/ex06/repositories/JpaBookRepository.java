@@ -71,11 +71,17 @@ Id: 1, title: BookTitle_1, author: {Id: 1, FullName: Author_1}, genres: [{Id: 1,
         Результат одним запросом не получился, потрачен рабочий день, но без шансов.
         Пробовал разные способы, наверное так оптимальнее, если пользоваться hibernate c автоматической обработкой
 
-        Hibernate: select b1_0.id,a1_0.id,a1_0.full_name,g1_0.book_id,g1_1.id,g1_1.name,b1_0.title from books b1_0 left join authors a1_0 on a1_0.id=b1_0.author_id left join books_genres g1_0 on b1_0.id=g1_0.book_id left join genres g1_1 on g1_1.id=g1_0.genre_id
-        Hibernate: select b1_0.id,a1_0.id,a1_0.full_name,cb1_0.book_id,cb1_0.id,cb1_0.text,b1_0.title from books b1_0 left join authors a1_0 on a1_0.id=b1_0.author_id left join comments cb1_0 on b1_0.id=cb1_0.book_id
-        Id: 1, title: BookTitle_1, author: {Id: 1, FullName: Author_1}, genres: [{Id: 1, Name: Genre_1}, {Id: 2, Name: Genre_2}], comments: [Id: 1, BookId: 1, Text: comment 1, Id: 2, BookId: 1, Text: comment 2],
-        Id: 2, title: BookTitle_2, author: {Id: 2, FullName: Author_2}, genres: [{Id: 3, Name: Genre_3}, {Id: 4, Name: Genre_4}], comments: [Id: 3, BookId: 2, Text: comment 3, Id: 4, BookId: 2, Text: comment 4],
-        Id: 3, title: BookTitle_3, author: {Id: 3, FullName: Author_3}, genres: [{Id: 5, Name: Genre_5}, {Id: 6, Name: Genre_6}], comments: [Id: 5, BookId: 3, Text: comment 5, Id: 6, BookId: 3, Text: comment 6]
+        Hibernate: select b1_0.id,a1_0.id,a1_0.full_name,g1_0.book_id,g1_1.id,g1_1.name,b1_0.title from books b1_0
+        left join authors a1_0 on a1_0.id=b1_0.author_id left join books_genres g1_0 on b1_0.id=g1_0.book_id left
+        join genres g1_1 on g1_1.id=g1_0.genre_id
+        Hibernate: select b1_0.id,a1_0.id,a1_0.full_name,cb1_0.book_id,cb1_0.id,cb1_0.text,b1_0.title from books b1_0
+        left join authors a1_0 on a1_0.id=b1_0.author_id left join comments cb1_0 on b1_0.id=cb1_0.book_id
+        Id: 1, title: BookTitle_1, author: {Id: 1, FullName: Author_1}, genres: [{Id: 1, Name: Genre_1},
+        {Id: 2, Name: Genre_2}], comments: [Id: 1, BookId: 1, Text: comment 1, Id: 2, BookId: 1, Text: comment 2],
+        Id: 2, title: BookTitle_2, author: {Id: 2, FullName: Author_2}, genres: [{Id: 3, Name: Genre_3},
+        {Id: 4, Name: Genre_4}], comments: [Id: 3, BookId: 2, Text: comment 3, Id: 4, BookId: 2, Text: comment 4],
+        Id: 3, title: BookTitle_3, author: {Id: 3, FullName: Author_3}, genres: [{Id: 5, Name: Genre_5},
+        {Id: 6, Name: Genre_6}], comments: [Id: 5, BookId: 3, Text: comment 5, Id: 6, BookId: 3, Text: comment 6]
      */
     public List<Book> findAll() {
         // все книги одним запросом (в реальности двумя запросами)

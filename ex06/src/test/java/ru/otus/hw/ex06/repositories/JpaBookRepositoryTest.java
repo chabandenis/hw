@@ -80,10 +80,8 @@ class JpaBookRepositoryTest {
                                 ))
                         .toList();
 
-        for (Book book: retBooks)
-        {
-            for (CommentBook commentBook : book.getCommentBook())
-            {
+        for (Book book : retBooks) {
+            for (CommentBook commentBook : book.getCommentBook()) {
                 commentBook.setBook(book);
             }
         }
@@ -112,7 +110,7 @@ class JpaBookRepositoryTest {
     @MethodSource("getDbBooks")
     void shouldReturnCorrectBookById(Book expectedBook) {
         var actualBook = jpaBookRepository.findById(expectedBook.getId());
-        System.out.println("actualBook " +actualBook.get().getAuthor().getFullName());
+        System.out.println("actualBook " + actualBook.get().getAuthor().getFullName());
         assertThat(actualBook).isPresent()
                 .get()
                 .isEqualTo(expectedBook);
