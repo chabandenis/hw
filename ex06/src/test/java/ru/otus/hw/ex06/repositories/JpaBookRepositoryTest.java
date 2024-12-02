@@ -1,5 +1,6 @@
 package ru.otus.hw.ex06.repositories;
 
+import org.hibernate.annotations.Comments;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -11,6 +12,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.context.annotation.Import;
 import ru.otus.hw.ex06.models.Author;
 import ru.otus.hw.ex06.models.Book;
+import ru.otus.hw.ex06.models.CommentBook;
 import ru.otus.hw.ex06.models.Genre;
 
 import java.util.List;
@@ -44,6 +46,8 @@ class JpaBookRepositoryTest {
 
     private List<Book> dbBooks;
 
+    private List<CommentBook> dbComments;
+
     private static List<Author> getDbAuthors() {
         return IntStream.range(1, 4).boxed()
                 .map(id -> new Author(id, "Author_" + id))
@@ -56,14 +60,23 @@ class JpaBookRepositoryTest {
                 .toList();
     }
 
-    private static List<Book> getDbBooks(List<Author> dbAuthors, List<Genre> dbGenres) {
+    private static List<CommentBook> getDbComments() {
+        return IntStream.range(1, 6).boxed()
+                .map(id -> new CommentBook(id, "comment " + id, new Book()))
+                .toList();
+    }
+
+
+    private static List<Book> getDbBooks(List<Author> dbAuthors,
+                                         List<Genre> dbGenres,
+                                         List<CommentBook> dbComments) {
         return IntStream.range(1, 4).boxed()
                 .map(id ->
                         new Book(id,
                                 "BookTitle_" + id,
                                 dbAuthors.get(id - 1),
                                 dbGenres.subList((id - 1) * 2, (id - 1) * 2 + 2),
-                                List.of()
+                                dbComments
                         ))
                 .toList();
     }
@@ -71,14 +84,17 @@ class JpaBookRepositoryTest {
     private static List<Book> getDbBooks() {
         var dbAuthors = getDbAuthors();
         var dbGenres = getDbGenres();
-        return getDbBooks(dbAuthors, dbGenres);
+        var dbComments = getDbComments();
+
+        return getDbBooks(dbAuthors, dbGenres, dbComments);
     }
 
     @BeforeEach
     void setUp() {
         dbAuthors = getDbAuthors();
         dbGenres = getDbGenres();
-        dbBooks = getDbBooks(dbAuthors, dbGenres);
+        dbComments = getDbComments();
+        dbBooks = getDbBooks(dbAuthors, dbGenres, dbComments);
     }
 
     @DisplayName("должен загружать книгу по id")
