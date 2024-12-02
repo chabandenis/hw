@@ -3,18 +3,10 @@ package ru.otus.hw.ex06.repositories;
 import jakarta.persistence.EntityGraph;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
-import ru.otus.hw.ex06.models.Author;
 import ru.otus.hw.ex06.models.Book;
-import ru.otus.hw.ex06.models.Genre;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -25,35 +17,12 @@ import static org.springframework.data.jpa.repository.EntityGraph.EntityGraphTyp
 
 @Repository
 @RequiredArgsConstructor
-//@AllArgsConstructor
 public class JpaBookRepository implements BookRepository {
 
     private final GenreRepository genreRepository;
 
     @PersistenceContext
     private final EntityManager em;
-
-    //private final BookRepository bookRepository;
-
-/*    private final JdbcOperations jdbc;
-
-    private final NamedParameterJdbcOperations namedParameterJdbcOperations;
-
- */
-
-    // выбрать books_genres по книге
-    private List<BookGenreRelation> findAllByBookId(Long id) {
-/*
-        Map<String, Object> params = Collections.singletonMap("book_id", id);
-        return namedParameterJdbcOperations.query(
-                "select book_id, genre_id from books_genres where book_id = :book_id",
-                params,
-                new BookGenreRowMapper());
-
- */
-        return null;
-    }
-
 
     @Override
     // поиск книги по идентификатору
@@ -68,19 +37,18 @@ Id: 1, title: BookTitle_1, author: {Id: 1, FullName: Author_1}, genres: [{Id: 1,
 */
     public Optional<Book> findById(long id) {
         System.out.println("Выбрать");
-        Optional<Book> retVal =  Optional.ofNullable(em.find(Book.class, id));
+        Optional<Book> retVal = Optional.ofNullable(em.find(Book.class, id));
         System.out.println("Выбрал");
         return retVal;
     }
 
-    private List<Book> mergeBooks(List<Book> booksWithGenre, List<Book> booksWithComments){
-        Map<Long, Book> bookWithGenreMap =  booksWithGenre.stream().collect(Collectors.toMap(Book::getId, book->book));
-        Map<Long, Book> bookWithCommentsMap =  booksWithComments.stream().collect(Collectors.toMap(Book::getId, book->book));
+    private List<Book> mergeBooks(List<Book> booksWithGenre, List<Book> booksWithComments) {
+        Map<Long, Book> bookWithGenreMap = booksWithGenre.stream().collect(Collectors.toMap(Book::getId, book -> book));
+        Map<Long, Book> bookWithCommentsMap = booksWithComments.stream().collect(Collectors.toMap(Book::getId, book -> book));
 
         List<Book> result = new ArrayList<>();
 
-        for (Long pos : bookWithGenreMap.keySet())
-        {
+        for (Long pos : bookWithGenreMap.keySet()) {
             Book tmpBook = bookWithGenreMap.get(pos);
             tmpBook.setCommentBook(bookWithCommentsMap.get(pos).getCommentBook());
             result.add(tmpBook);
@@ -135,18 +103,7 @@ Id: 1, title: BookTitle_1, author: {Id: 1, FullName: Author_1}, genres: [{Id: 1,
 
     @Override
     public void deleteById(long id) {
-
         em.remove(findById(id).get());
-/*
-        namedParameterJdbcOperations.update(
-                "delete from books_genres where book_id = :book_id"
-                , Map.of("book_id", id));
-
-        namedParameterJdbcOperations.update(
-                "delete from books where id = :id"
-                , Map.of("id", id));
-
- */
     }
 
     private List<Book> getAllBooksWithGenres() {
@@ -170,98 +127,6 @@ Id: 1, title: BookTitle_1, author: {Id: 1, FullName: Author_1}, genres: [{Id: 1,
         query.setHint(FETCH.getKey(), entityGraph);
         return query.getResultList();
     }
-
-    private static class BookRowMapper implements RowMapper<Book> {
-        @Override
-        public Book mapRow(ResultSet rs, int rowNum) throws SQLException {
-
-            Book book = new Book();
-            book.setId(rs.getLong("id"));
-            book.setAuthor(
-                    new Author(rs.getLong("author_id"), rs.getString("full_name")));
-
-            book.setTitle(rs.getString("title"));
-            book.setGenres(new ArrayList<>());
-
-            return book;
-        }
-    }
-
-    private void mergeBooksInfo(Book booksWithoutGenres, List<Genre> genres) {
-        List<Genre> genreList = new ArrayList<>();
-
-        for (Genre genre : genres) {
-            genreList.add(genre);
-            booksWithoutGenres.setGenres(genreList);
-        }
-    }
-
-    private void batchInsertGenresRelationsFor(Book book) {
-/*
-        // Использовать метод batchUpdate
-        jdbc.batchUpdate(
-                "insert into books_genres (book_id, genre_id) values (?, ?)"
-                , new BatchPreparedStatementSetter() {
-                    @Override
-                    public void setValues(PreparedStatement preparedStatement, int i) throws SQLException {
-                        preparedStatement.setLong(1, book.getId());
-                        preparedStatement.setLong(2, book.getGenres().get(i).getId());
-                    }
-
-                    @Override
-                    public int getBatchSize() {
-                        return book.getGenres().size();
-                    }
-                });
-
- */
-    }
-
-    private void removeGenresRelationsFor(Book book) {
-/*
-        namedParameterJdbcOperations.update(
-                "delete from books_genres where book_id = :book_id"
-                , Map.of("book_id", book.getId()));
-
- */
-    }
-
-
-/*
-    // Использовать для findById
-    @SuppressWarnings("ClassCanBeRecord")
-    @RequiredArgsConstructor
-    private static class BookResultSetExtractor implements ResultSetExtractor<Book> {
-        @Override
-        public Book extractData(ResultSet rs) throws SQLException, DataAccessException {
-            return null;
-        }
-    }
-    */
-
-/*    private record BookGenreRelation(long bookId, long genreId) {
-    }*/
-
-    @Data
-    @AllArgsConstructor
-    @NoArgsConstructor
-    private class BookGenreRelation {
-        private long bookId;
-
-        private long genreId;
-    }
-
-/*
-    private static class BookGenreRowMapper implements RowMapper<BookGenreRelation> {
-        @Override
-        public BookGenreRelation mapRow(ResultSet rs, int i) throws SQLException {
-            return new BookGenreRelation(
-                    rs.getLong("book_id"),
-                    rs.getLong("genre_id"));
-        }
-    }
-
- */
 }
 
 

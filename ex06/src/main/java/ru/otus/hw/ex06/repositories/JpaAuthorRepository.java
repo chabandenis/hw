@@ -26,14 +26,4 @@ public class JpaAuthorRepository implements AuthorRepository {
     public Optional<Author> findById(long id) {
         return Optional.ofNullable(em.find(Author.class, id));
     }
-
-/*
-    private static class AuthorRowMapper implements RowMapper<Author> {
-
-        @Override
-        public Author mapRow(ResultSet rs, int i) throws SQLException {
-            return new Author(rs.getLong("id"),
-                    rs.getString("full_name"));
-        }
-    }*/
 }

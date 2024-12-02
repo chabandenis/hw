@@ -23,7 +23,6 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
-
 @NamedEntityGraph(name = "book-genre-entity-graph",
         attributeNodes = {
                 @NamedAttributeNode("genres")
