@@ -13,13 +13,17 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.NamedAttributeNode;
 import jakarta.persistence.NamedEntityGraph;
 import jakarta.persistence.OneToMany;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.data.relational.core.mapping.Table;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@AllArgsConstructor
+@NoArgsConstructor
 @Getter
 @Setter
 @Entity
@@ -32,7 +36,6 @@ import java.util.List;
         attributeNodes = {
                 @NamedAttributeNode("commentBook")
         })
-
 @jakarta.persistence.Table(name = "Books")
 @Table(name = "books")
 public class Book {
