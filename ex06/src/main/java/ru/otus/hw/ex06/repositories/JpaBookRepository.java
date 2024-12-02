@@ -20,7 +20,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import static org.springframework.data.jpa.repository.EntityGraph.EntityGraphType.FETCH;
 
@@ -33,6 +32,8 @@ public class JpaBookRepository implements BookRepository {
 
     @PersistenceContext
     private final EntityManager em;
+
+    //private final BookRepository bookRepository;
 
 /*    private final JdbcOperations jdbc;
 
@@ -119,13 +120,23 @@ Id: 1, title: BookTitle_1, author: {Id: 1, FullName: Author_1}, genres: [{Id: 1,
     @Override
     public Book save(Book book) {
         if (book.getId() == 0) {
-            return insert(book);
+
+            System.out.println(" вставить");
+            em.persist(book);
+            System.out.println(" вставил");
+            return book;
         }
-        return update(book);
+
+        System.out.println(" обновить");
+        Book retBook = em.merge(book);
+        System.out.println(" обновил");
+        return retBook;
     }
 
     @Override
     public void deleteById(long id) {
+
+        em.remove(findById(id).get());
 /*
         namedParameterJdbcOperations.update(
                 "delete from books_genres where book_id = :book_id"
@@ -183,54 +194,6 @@ Id: 1, title: BookTitle_1, author: {Id: 1, FullName: Author_1}, genres: [{Id: 1,
             genreList.add(genre);
             booksWithoutGenres.setGenres(genreList);
         }
-    }
-
-    private Book insert(Book book) {
-/*
-        var keyHolder = new GeneratedKeyHolder();
-
-        namedParameterJdbcOperations.update(
-                "insert into books (title, author_id) values (:title, :author_id)"
-                , new MapSqlParameterSource(Map.of("title", book.getTitle(),
-                        "author_id", book.getAuthor().getId()
-                ))
-                , keyHolder
-                , new String[]{"id"}
-        );
-
-        book.setId(keyHolder.getKeyAs(Long.class));
-        batchInsertGenresRelationsFor(book);
-        return book;
-
- */
-        return null;
-    }
-
-    private Book update(Book book) {
-/*
-        try {
-            var keyHolder = new GeneratedKeyHolder();
-            namedParameterJdbcOperations.update(
-                    "update books " +
-                            " set title = :title, author_id = :author_id " +
-                            " where id = :id"
-
-                    , new MapSqlParameterSource(Map.of("id", book.getId(),
-                            "title", book.getTitle(),
-                            "author_id", book.getAuthor().getId()))
-                    , keyHolder
-                    , new String[]{"id"}
-            );
-            removeGenresRelationsFor(book);
-            batchInsertGenresRelationsFor(book);
-            return book;
-        } catch (DataAccessException e) {
-            System.out.println(e);
-            throw new EntityNotFoundException(e.getMessage());
-        }
-
- */
-        return null;
     }
 
     private void batchInsertGenresRelationsFor(Book book) {

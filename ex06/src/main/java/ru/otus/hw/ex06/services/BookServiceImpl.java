@@ -13,6 +13,8 @@ import ru.otus.hw.ex06.repositories.BookRepository;
 import ru.otus.hw.ex06.repositories.GenreRepository;
 import ru.otus.hw.ex06.repositories.JpaBookRepository;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -117,14 +119,12 @@ public class BookServiceImpl implements BookService {
             throw new EntityNotFoundException("One or all genres with ids %s not found".formatted(genresIds));
         }
 
-        //List<Comment> comments = new ArrayList<>();
-
         var book = new Book();
         book.setGenres(genres);
         book.setId(id);
-        //book.setCommentBooks();
         book.setAuthor(author);
         book.setTitle(title);
+        book.setCommentBook(new ArrayList<>());
 
         return bookConverter.toDto(bookRepository.save(book));
     }
