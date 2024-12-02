@@ -14,6 +14,7 @@ import jakarta.persistence.NamedAttributeNode;
 import jakarta.persistence.NamedEntityGraph;
 import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -90,4 +91,5 @@ public class Book {
 //        result = 31 * result + Objects.hashCode(commentBook);
         return result;
     }
+
 }
