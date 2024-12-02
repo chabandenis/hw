@@ -23,13 +23,10 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
-@jakarta.persistence.Table(name = "Books")
-@Table(name = "books")
 
 @NamedEntityGraph(name = "book-genre-entity-graph",
         attributeNodes = {
                 @NamedAttributeNode("genres")
-                //,@NamedAttributeNode("commentBook")
         })
 
 @NamedEntityGraph(name = "book-comment-entity-graph",
@@ -37,6 +34,8 @@ import java.util.List;
                 @NamedAttributeNode("commentBook")
         })
 
+@jakarta.persistence.Table(name = "Books")
+@Table(name = "books")
 public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
