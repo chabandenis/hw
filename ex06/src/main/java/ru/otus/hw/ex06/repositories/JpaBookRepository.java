@@ -32,8 +32,10 @@ Hibernate: select b1_0.id,b1_0.author_id,b1_0.title from books b1_0 where b1_0.i
 Выбрал
 Hibernate: select cb1_0.book_id,cb1_0.id,cb1_0.text from comments cb1_0 where cb1_0.book_id=?
 Hibernate: select a1_0.id,a1_0.full_name from authors a1_0 where a1_0.id=?
-Hibernate: select g1_0.book_id,g1_1.id,g1_1.name from books_genres g1_0 join genres g1_1 on g1_1.id=g1_0.genre_id where g1_0.book_id=?
-Id: 1, title: BookTitle_1, author: {Id: 1, FullName: Author_1}, genres: [{Id: 1, Name: Genre_1}, {Id: 2, Name: Genre_2}], comments: [Id: 1, BookId: 1, Text: comment 1, Id: 2, BookId: 1, Text: comment 2]
+Hibernate: select g1_0.book_id,g1_1.id,g1_1.name from books_genres g1_0 join genres g1_1
+    on g1_1.id=g1_0.genre_id where g1_0.book_id=?
+Id: 1, title: BookTitle_1, author: {Id: 1, FullName: Author_1}, genres: [{Id: 1, Name: Genre_1},
+{Id: 2, Name: Genre_2}], comments: [Id: 1, BookId: 1, Text: comment 1, Id: 2, BookId: 1, Text: comment 2]
 */
     public Optional<Book> findById(long id) {
         System.out.println("Выбрать");
@@ -47,8 +49,10 @@ Id: 1, title: BookTitle_1, author: {Id: 1, FullName: Author_1}, genres: [{Id: 1,
     }
 
     private List<Book> mergeBooks(List<Book> booksWithGenre, List<Book> booksWithComments) {
-        Map<Long, Book> bookWithGenreMap = booksWithGenre.stream().collect(Collectors.toMap(Book::getId, book -> book));
-        Map<Long, Book> bookWithCommentsMap = booksWithComments.stream().collect(Collectors.toMap(Book::getId, book -> book));
+        Map<Long, Book> bookWithGenreMap =
+                booksWithGenre.stream().collect(Collectors.toMap(Book::getId, book -> book));
+        Map<Long, Book> bookWithCommentsMap =
+                booksWithComments.stream().collect(Collectors.toMap(Book::getId, book -> book));
 
         List<Book> result = new ArrayList<>();
 
