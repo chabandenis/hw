@@ -112,6 +112,7 @@ class JpaBookRepositoryTest {
     @MethodSource("getDbBooks")
     void shouldReturnCorrectBookById(Book expectedBook) {
         var actualBook = jpaBookRepository.findById(expectedBook.getId());
+        System.out.println("actualBook " +actualBook.get().getAuthor().getFullName());
         assertThat(actualBook).isPresent()
                 .get()
                 .isEqualTo(expectedBook);

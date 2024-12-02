@@ -37,7 +37,11 @@ Id: 1, title: BookTitle_1, author: {Id: 1, FullName: Author_1}, genres: [{Id: 1,
 */
     public Optional<Book> findById(long id) {
         System.out.println("Выбрать");
-        Optional<Book> retVal = Optional.ofNullable(em.find(Book.class, id));
+
+        EntityGraph graph = em.getEntityGraph("book-author-entity-graph");
+        Map<String, Object> properties = Map.of("javax.persistence.fetchgraph", graph);
+        Optional<Book> retVal = Optional.ofNullable(em.find(Book.class, id, properties));
+
         System.out.println("Выбрал");
         return retVal;
     }

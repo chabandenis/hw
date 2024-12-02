@@ -21,6 +21,7 @@ import org.springframework.data.relational.core.mapping.Table;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -36,6 +37,12 @@ import java.util.List;
         attributeNodes = {
                 @NamedAttributeNode("commentBook")
         })
+
+@NamedEntityGraph(name = "book-author-entity-graph",
+        attributeNodes = {
+                @NamedAttributeNode("author")
+        })
+
 @jakarta.persistence.Table(name = "Books")
 @Table(name = "books")
 public class Book {
@@ -61,4 +68,26 @@ public class Book {
     @OneToMany(mappedBy = "book", orphanRemoval = true)
     private List<CommentBook> commentBook;
 
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Book book = (Book) o;
+        return id == book.id
+                && Objects.equals(title, book.title)
+                && Objects.equals(author.getId(), book.author.getId())
+                && Objects.equals(genres.size(), book.genres.size())
+                && Objects.equals(commentBook.size(), book.commentBook.size());
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = Long.hashCode(id);
+        result = 31 * result + Objects.hashCode(title);
+//        result = 31 * result + Objects.hashCode(author);
+//        result = 31 * result + Objects.hashCode(genres);
+//        result = 31 * result + Objects.hashCode(commentBook);
+        return result;
+    }
 }
