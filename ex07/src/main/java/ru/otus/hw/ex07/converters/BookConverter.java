@@ -20,12 +20,15 @@ public class BookConverter {
     public BookDto toDto(Book book) {
         BookDto bookDto = new BookDto();
 
+/*
         bookDto.setCommentBooks(
                 book.getCommentBook()
                         .stream()
                         .map(commentConverter::toDto)
                         .toList()
         );
+
+ */
         bookDto.setId(book.getId());
         bookDto.setAuthor(authorConverter.toDto(book.getAuthor()));
         bookDto.setTitle(book.getTitle());
@@ -44,15 +47,15 @@ public class BookConverter {
                 .map("{%s}"::formatted)
                 .collect(Collectors.joining(", "));
 
-        var commentsString = book.getCommentBooks().stream()
+/*        var commentsString = book.getCommentBooks().stream()
                 .map(commentConverter::commentDtoToString)
-                .collect(Collectors.joining(", "));
+                .collect(Collectors.joining(", "));*/
 
         return "Id: %d, title: %s, author: {%s}, genres: [%s], comments: [%s]".formatted(
                 book.getId(),
                 book.getTitle(),
                 authorConverter.authorDtoToString(book.getAuthor()),
-                genresString,
-                commentsString);
+                genresString/*,
+                commentsString*/);
     }
 }

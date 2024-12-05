@@ -16,7 +16,6 @@ import org.springframework.data.relational.core.mapping.Table;
 @Getter
 @Setter
 @Entity
-@jakarta.persistence.Table(name = "Genres")
 @Table(name = "genres")
 public class Genre {
     @Id

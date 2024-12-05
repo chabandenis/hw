@@ -12,7 +12,6 @@ import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.NamedAttributeNode;
 import jakarta.persistence.NamedEntityGraph;
-import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -41,9 +40,10 @@ import java.util.Objects;
 @NamedEntityGraph(name = "book-author-entity-graph",
         attributeNodes = {
                 @NamedAttributeNode("author")
+                , @NamedAttributeNode("commentBook")
+                , @NamedAttributeNode("genres")
         })
 
-@jakarta.persistence.Table(name = "Books")
 @Table(name = "books")
 public class Book {
     @Id
@@ -65,9 +65,6 @@ public class Book {
     private List<Genre> genres = new ArrayList<>();
 
 
-    @OneToMany(mappedBy = "book", orphanRemoval = true)
-    private List<CommentBook> commentBook;
-
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) {
@@ -78,8 +75,7 @@ public class Book {
         return id == book.id
                 && Objects.equals(title, book.title)
                 && Objects.equals(author.getId(), book.author.getId())
-                && Objects.equals(genres.size(), book.genres.size())
-                && Objects.equals(commentBook.size(), book.commentBook.size());
+                && Objects.equals(genres.size(), book.genres.size());
 
     }
 

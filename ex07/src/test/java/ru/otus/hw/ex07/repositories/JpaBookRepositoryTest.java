@@ -21,20 +21,20 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @DisplayName("Репозиторий на основе DataJpa для работы с книгами ")
 @DataJpaTest
-@Import({JpaBookRepository.class, JpaGenreRepository.class, JpaAuthorRepository.class, JpaCommentBookRepository.class})
+@Import({BookRepository.class, GenreRepository.class, AuthorRepository.class, CommentBookRepository.class})
 class JpaBookRepositoryTest {
 
     @Autowired
-    private JpaBookRepository jpaBookRepository;
+    private BookRepository jpaBookRepository;
 
     @Autowired
-    private JpaGenreRepository jpaGenreRepository;
+    private GenreRepository jpaGenreRepository;
 
     @Autowired
-    private JpaAuthorRepository jpaAuthorRepository;
+    private AuthorRepository jpaAuthorRepository;
 
     @Autowired
-    private JpaCommentBookRepository jpaCommentBookRepository;
+    private CommentBookRepository jpaCommentBookRepository;
 
     @Autowired
     private TestEntityManager em;
@@ -75,16 +75,19 @@ class JpaBookRepositoryTest {
                                 new Book(id,
                                         "BookTitle_" + id,
                                         dbAuthors.get(id - 1),
-                                        dbGenres.subList((id - 1) * 2, (id - 1) * 2 + 2),
-                                        dbComments.subList((id - 1) * 2, (id - 1) * 2 + 2)
+                                        dbGenres.subList((id - 1) * 2, (id - 1) * 2 + 2)
+                                        //dbComments.subList((id - 1) * 2, (id - 1) * 2 + 2)
                                 ))
                         .toList();
 
+/*
         for (Book book : retBooks) {
             for (CommentBook commentBook : book.getCommentBook()) {
                 commentBook.setBook(book);
             }
         }
+
+ */
 
         return retBooks;
     }
@@ -134,8 +137,8 @@ class JpaBookRepositoryTest {
                 0,
                 "BookTitle_10500",
                 dbAuthors.get(0),
-                List.of(dbGenres.get(0), dbGenres.get(2)),
-                List.of()
+                List.of(dbGenres.get(0), dbGenres.get(2))//,
+                //List.of()
         );
         var returnedBook = jpaBookRepository.save(expectedBook);
         assertThat(returnedBook).isNotNull()
@@ -155,8 +158,8 @@ class JpaBookRepositoryTest {
                 1L,
                 "BookTitle_10500",
                 dbAuthors.get(2),
-                List.of(dbGenres.get(4), dbGenres.get(5)),
-                List.of()
+                List.of(dbGenres.get(4), dbGenres.get(5))//,
+                //List.of()
         );
 
         assertThat(jpaBookRepository.findById(expectedBook.getId()))

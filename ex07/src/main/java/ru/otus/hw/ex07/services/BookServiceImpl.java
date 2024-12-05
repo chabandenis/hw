@@ -11,7 +11,6 @@ import ru.otus.hw.ex07.models.Book;
 import ru.otus.hw.ex07.repositories.AuthorRepository;
 import ru.otus.hw.ex07.repositories.BookRepository;
 import ru.otus.hw.ex07.repositories.GenreRepository;
-import ru.otus.hw.ex07.repositories.JpaBookRepository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,8 +28,6 @@ public class BookServiceImpl implements BookService {
 
     private final BookRepository bookRepository;
 
-    private final JpaBookRepository jpaBookRepository;
-
     private final BookConverter bookConverter;
 
     private final CommentService commentService;
@@ -45,7 +42,7 @@ public class BookServiceImpl implements BookService {
     }
 
     private BookDto addComment(BookDto book) {
-        book.setCommentBooks(commentService.findCommentsByBookId(book.getId()));
+//        book.setCommentBooks(commentService.findCommentsByBookId(book.getId()));
         return book;
     }
 
@@ -53,7 +50,7 @@ public class BookServiceImpl implements BookService {
     @Transactional(readOnly = true)
     public List<BookDto> findAll() {
         List<BookDto> books =
-                jpaBookRepository.findAll()
+                bookRepository.findAll()
                         .stream()
                         .map(bookConverter::toDto)
                         .toList();
@@ -95,7 +92,7 @@ public class BookServiceImpl implements BookService {
         book.setId(id);
         book.setAuthor(author);
         book.setTitle(title);
-        book.setCommentBook(new ArrayList<>());
+//        book.setCommentBook(new ArrayList<>());
 
         return bookConverter.toDto(bookRepository.save(book));
     }
