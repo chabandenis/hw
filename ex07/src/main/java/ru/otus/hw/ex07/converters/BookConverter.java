@@ -14,8 +14,6 @@ public class BookConverter {
 
     private final GenreConverter genreConverter;
 
-    private final CommentConverter commentConverter;
-
 
     public BookDto toDto(Book book) {
         BookDto bookDto = new BookDto();
@@ -51,7 +49,7 @@ public class BookConverter {
                 .map(commentConverter::commentDtoToString)
                 .collect(Collectors.joining(", "));*/
 
-        return "Id: %d, title: %s, author: {%s}, genres: [%s], comments: [%s]".formatted(
+        return "Id: %d, title: %s, author: {%s}, genres: [%s] ".formatted(
                 book.getId(),
                 book.getTitle(),
                 authorConverter.authorDtoToString(book.getAuthor()),
