@@ -18,6 +18,7 @@ import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -52,12 +53,14 @@ public class Book {
         }
 
         Book book = (Book) o;
-        return id == book.id;
+        return id == book.id
+                && Objects.equals(title, book.title);
     }
 
     @Override
     public int hashCode() {
         int result = Long.hashCode(id);
+        result = 31 * result + Objects.hashCode(title);
         return result;
     }
 
