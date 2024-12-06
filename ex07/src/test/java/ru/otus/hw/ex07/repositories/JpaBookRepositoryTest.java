@@ -7,8 +7,6 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
-import org.springframework.context.annotation.Import;
 import ru.otus.hw.ex07.models.Author;
 import ru.otus.hw.ex07.models.Book;
 import ru.otus.hw.ex07.models.Comment;
@@ -21,7 +19,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @DisplayName("Репозиторий на основе DataJpa для работы с книгами ")
 @DataJpaTest
-//@Import({BookRepository.class, GenreRepository.class, AuthorRepository.class, CommentBookRepository.class})
 class JpaBookRepositoryTest {
 
     @Autowired
