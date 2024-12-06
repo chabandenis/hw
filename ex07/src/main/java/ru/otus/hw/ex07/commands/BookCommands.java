@@ -5,6 +5,7 @@ import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
 import ru.otus.hw.ex07.converters.BookConverter;
 import ru.otus.hw.ex07.services.BookService;
+import ru.otus.hw.ex07.services.CommentService;
 
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -17,6 +18,8 @@ public class BookCommands {
     private final BookService bookService;
 
     private final BookConverter bookConverter;
+
+    private final CommentService commentService;
 
     @ShellMethod(value = "Find all books", key = "ab")
     public String findAllBooks() {
@@ -49,6 +52,7 @@ public class BookCommands {
     // bdel 3
     @ShellMethod(value = "Delete book by id", key = "bdel")
     public void deleteBook(long id) {
+        commentService.deleteByBookId(id);
         bookService.deleteById(id);
     }
 }
