@@ -12,7 +12,6 @@ import ru.otus.hw.ex07.repositories.AuthorRepository;
 import ru.otus.hw.ex07.repositories.BookRepository;
 import ru.otus.hw.ex07.repositories.GenreRepository;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
