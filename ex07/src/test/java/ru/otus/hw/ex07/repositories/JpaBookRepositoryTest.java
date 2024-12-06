@@ -11,7 +11,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.context.annotation.Import;
 import ru.otus.hw.ex07.models.Author;
 import ru.otus.hw.ex07.models.Book;
-import ru.otus.hw.ex07.models.CommentBook;
+import ru.otus.hw.ex07.models.Comment;
 import ru.otus.hw.ex07.models.Genre;
 
 import java.util.List;
@@ -45,7 +45,7 @@ class JpaBookRepositoryTest {
 
     private List<Book> dbBooks;
 
-    private List<CommentBook> dbComments;
+    private List<Comment> dbComments;
 
     private static List<Author> getDbAuthors() {
         return IntStream.range(1, 4).boxed()
@@ -59,16 +59,16 @@ class JpaBookRepositoryTest {
                 .toList();
     }
 
-    private static List<CommentBook> getDbComments() {
+    private static List<Comment> getDbComments() {
         return IntStream.range(1, 7).boxed()
-                .map(id -> new CommentBook(id, "comment " + id, new Book()))
+                .map(id -> new Comment(id, "comment " + id, new Book()))
                 .toList();
     }
 
 
     private static List<Book> getDbBooks(List<Author> dbAuthors,
                                          List<Genre> dbGenres,
-                                         List<CommentBook> dbComments) {
+                                         List<Comment> dbComments) {
         List<Book> retBooks =
                 IntStream.range(1, 4).boxed()
                         .map(id ->

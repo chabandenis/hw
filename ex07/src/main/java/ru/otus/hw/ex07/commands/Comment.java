@@ -5,7 +5,6 @@ import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
 import ru.otus.hw.ex07.converters.CommentConverter;
 import ru.otus.hw.ex07.models.Book;
-import ru.otus.hw.ex07.models.CommentBook;
 import ru.otus.hw.ex07.services.BookService;
 import ru.otus.hw.ex07.services.CommentService;
 
@@ -13,7 +12,7 @@ import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @ShellComponent
-public class CommentCommands {
+public class Comment {
 
     private final CommentService commentService;
 
@@ -54,15 +53,15 @@ public class CommentCommands {
     // cbbi 1
     @ShellMethod(value = "Find book by id", key = "cs")
     public String save(String text, long bookId) {
-        CommentBook commentBook = new CommentBook();
-        commentBook.setText(text);
+        ru.otus.hw.ex07.models.Comment comment = new ru.otus.hw.ex07.models.Comment();
+        comment.setText(text);
 
         Book book = new Book();
         book.setId(bookId);
 
-        commentBook.setBook(book);
+        comment.setBook(book);
 
-        commentService.save(commentBook);
-        return commentConverter.commentDtoToString(commentService.save(commentBook));
+        commentService.save(comment);
+        return commentConverter.commentDtoToString(commentService.save(comment));
     }
 }

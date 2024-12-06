@@ -1,17 +1,17 @@
 package ru.otus.hw.ex07.services;
 
-import ru.otus.hw.ex07.dto.CommentBookDto;
-import ru.otus.hw.ex07.models.CommentBook;
+import ru.otus.hw.ex07.dto.CommentDto;
+import ru.otus.hw.ex07.models.Comment;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface CommentService {
-    Optional<CommentBookDto> findById(long id);
+    Optional<CommentDto> findById(long id);
 
-    List<CommentBookDto> findCommentsByBookId(long bookId);
+    List<CommentDto> findCommentsByBookId(long bookId);
 
-    CommentBookDto save(CommentBook commentDto);
+    CommentDto save(Comment commentDto);
 
     void deleteById(long id);
 
