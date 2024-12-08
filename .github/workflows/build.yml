@@ -2,8 +2,6 @@ name: Build_002
 
 on:
   pull_request:
-    branches:
-      - hw01
 
 jobs:
   build-app:
