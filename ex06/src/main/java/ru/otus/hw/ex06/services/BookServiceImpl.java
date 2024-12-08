@@ -95,7 +95,7 @@ public class BookServiceImpl implements BookService {
         book.setId(id);
         book.setAuthor(author);
         book.setTitle(title);
-        book.setCommentBook(new ArrayList<>());
+//        book.setComment(new ArrayList<>());
 
         return bookConverter.toDto(bookRepository.save(book));
     }

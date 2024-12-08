@@ -2,11 +2,11 @@ package ru.otus.hw.ex06.converters;
 
 import org.springframework.stereotype.Component;
 import ru.otus.hw.ex06.dto.CommentBookDto;
-import ru.otus.hw.ex06.models.CommentBook;
+import ru.otus.hw.ex06.models.Comment;
 
 @Component
 public class CommentConverter {
-    public CommentBookDto toDto(CommentBook comment) {
+    public CommentBookDto toDto(Comment comment) {
         CommentBookDto commentDto = new CommentBookDto(
                 comment.getId(),
                 comment.getText(),

@@ -20,12 +20,14 @@ public class BookConverter {
     public BookDto toDto(Book book) {
         BookDto bookDto = new BookDto();
 
-        bookDto.setCommentBooks(
-                book.getCommentBook()
+/*        bookDto.setCommentBooks(
+                book.getComment()
                         .stream()
                         .map(commentConverter::toDto)
                         .toList()
         );
+
+ */
         bookDto.setId(book.getId());
         bookDto.setAuthor(authorConverter.toDto(book.getAuthor()));
         bookDto.setTitle(book.getTitle());

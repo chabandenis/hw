@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.otus.hw.ex06.converters.CommentConverter;
 import ru.otus.hw.ex06.dto.CommentBookDto;
-import ru.otus.hw.ex06.models.CommentBook;
+import ru.otus.hw.ex06.models.Comment;
 import ru.otus.hw.ex06.repositories.CommentBookRepository;
 
 import java.util.List;
@@ -35,8 +35,8 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     @Transactional
-    public CommentBookDto save(CommentBook commentBook) {
-        return commentConverter.toDto(commentBookRepository.save(commentBook));
+    public CommentBookDto save(Comment comment) {
+        return commentConverter.toDto(commentBookRepository.save(comment));
     }
 
     @Override

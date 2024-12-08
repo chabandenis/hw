@@ -1,7 +1,7 @@
 package ru.otus.hw.ex06.services;
 
 import ru.otus.hw.ex06.dto.CommentBookDto;
-import ru.otus.hw.ex06.models.CommentBook;
+import ru.otus.hw.ex06.models.Comment;
 
 import java.util.List;
 import java.util.Optional;
@@ -11,7 +11,7 @@ public interface CommentService {
 
     List<CommentBookDto> findCommentsByBookId(long bookId);
 
-    CommentBookDto save(CommentBook commentDto);
+    CommentBookDto save(Comment commentDto);
 
     void deleteById(long id);
 

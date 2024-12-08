@@ -11,7 +11,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.context.annotation.Import;
 import ru.otus.hw.ex06.models.Author;
 import ru.otus.hw.ex06.models.Book;
-import ru.otus.hw.ex06.models.CommentBook;
+import ru.otus.hw.ex06.models.Comment;
 import ru.otus.hw.ex06.models.Genre;
 
 import java.util.List;
@@ -45,7 +45,7 @@ class JpaBookRepositoryTest {
 
     private List<Book> dbBooks;
 
-    private List<CommentBook> dbComments;
+    private List<Comment> dbComments;
 
     private static List<Author> getDbAuthors() {
         return IntStream.range(1, 4).boxed()
@@ -59,32 +59,32 @@ class JpaBookRepositoryTest {
                 .toList();
     }
 
-    private static List<CommentBook> getDbComments() {
+    private static List<Comment> getDbComments() {
         return IntStream.range(1, 7).boxed()
-                .map(id -> new CommentBook(id, "comment " + id, new Book()))
+                .map(id -> new Comment(id, "comment " + id, new Book()))
                 .toList();
     }
 
 
     private static List<Book> getDbBooks(List<Author> dbAuthors,
                                          List<Genre> dbGenres,
-                                         List<CommentBook> dbComments) {
+                                         List<Comment> dbComments) {
         List<Book> retBooks =
                 IntStream.range(1, 4).boxed()
                         .map(id ->
                                 new Book(id,
                                         "BookTitle_" + id,
                                         dbAuthors.get(id - 1),
-                                        dbGenres.subList((id - 1) * 2, (id - 1) * 2 + 2),
-                                        dbComments.subList((id - 1) * 2, (id - 1) * 2 + 2)
+                                        dbGenres.subList((id - 1) * 2, (id - 1) * 2 + 2)/*,
+                                        dbComments.subList((id - 1) * 2, (id - 1) * 2 + 2)*/
                                 ))
                         .toList();
 
-        for (Book book : retBooks) {
-            for (CommentBook commentBook : book.getCommentBook()) {
-                commentBook.setBook(book);
+/*        for (Book book : retBooks) {
+            for (Comment comment : book.getComment()) {
+                comment.setBook(book);
             }
-        }
+        }*/
 
         return retBooks;
     }
@@ -134,8 +134,7 @@ class JpaBookRepositoryTest {
                 0,
                 "BookTitle_10500",
                 dbAuthors.get(0),
-                List.of(dbGenres.get(0), dbGenres.get(2)),
-                List.of()
+                List.of(dbGenres.get(0), dbGenres.get(2))
         );
         var returnedBook = jpaBookRepository.save(expectedBook);
         assertThat(returnedBook).isNotNull()
@@ -155,8 +154,7 @@ class JpaBookRepositoryTest {
                 1L,
                 "BookTitle_10500",
                 dbAuthors.get(2),
-                List.of(dbGenres.get(4), dbGenres.get(5)),
-                List.of()
+                List.of(dbGenres.get(4), dbGenres.get(5))
         );
 
         assertThat(jpaBookRepository.findById(expectedBook.getId()))

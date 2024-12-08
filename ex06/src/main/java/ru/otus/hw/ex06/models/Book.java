@@ -12,16 +12,14 @@ import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.NamedAttributeNode;
 import jakarta.persistence.NamedEntityGraph;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.data.relational.core.mapping.Table;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -43,7 +41,6 @@ import java.util.Objects;
                 @NamedAttributeNode("author")
         })
 
-@jakarta.persistence.Table(name = "Books")
 @Table(name = "books")
 public class Book {
     @Id
@@ -58,15 +55,11 @@ public class Book {
     @JoinColumn(name = "author_id")
     private Author author;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "Books_genres",
             joinColumns = @JoinColumn(name = "book_id"),
             inverseJoinColumns = @JoinColumn(name = "genre_id"))
     private List<Genre> genres = new ArrayList<>();
-
-
-    @OneToMany(mappedBy = "book", orphanRemoval = true)
-    private List<CommentBook> commentBook;
 
     @Override
     public boolean equals(Object o) {
@@ -75,21 +68,13 @@ public class Book {
         }
 
         Book book = (Book) o;
-        return id == book.id
-                && Objects.equals(title, book.title)
-                && Objects.equals(author.getId(), book.author.getId())
-                && Objects.equals(genres.size(), book.genres.size())
-                && Objects.equals(commentBook.size(), book.commentBook.size());
+        return id == book.id;
 
     }
 
     @Override
     public int hashCode() {
         int result = Long.hashCode(id);
-        result = 31 * result + Objects.hashCode(title);
-//        result = 31 * result + Objects.hashCode(author);
-//        result = 31 * result + Objects.hashCode(genres);
-//        result = 31 * result + Objects.hashCode(commentBook);
         return result;
     }
 
