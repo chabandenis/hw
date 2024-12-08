@@ -1,20 +1,20 @@
 package ru.otus.hw.ex06.services;
 
-import lombok.val;
+import jakarta.persistence.EntityManager;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.context.annotation.Import;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import ru.otus.hw.ex06.converters.CommentConverter;
 import ru.otus.hw.ex06.dto.CommentDto;
+import ru.otus.hw.ex06.models.Author;
+import ru.otus.hw.ex06.models.Book;
 import ru.otus.hw.ex06.models.Comment;
 import ru.otus.hw.ex06.repositories.JpaCommentBookRepository;
 
-import javax.swing.text.html.Option;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,24 +26,27 @@ import static org.assertj.core.api.Assertions.assertThat;
 @Transactional(propagation = Propagation.NEVER)
 class CommentServiceImplTest {
     private static final long COMMENT_ID = 1;
-
-    @Autowired
-    private TestEntityManager em;
+    private static final long COMMENT_ID_NOT_EXISTS = 33;
 
     @Autowired
     private CommentService commentService;
 
-//    @Autowired
-//    private CommentBookRepository commentBookRepository;
+    @Autowired
+    private CommentConverter commentConverter;
+
+    @Autowired
+    private EntityManager em;
 
     @Test
     void findById() {
+        CommentDto expectedComment = new CommentDto(1, "comment 1", 1);
+        assertThat(commentService.findById(COMMENT_ID).get()).usingRecursiveComparison().isEqualTo(expectedComment);
     }
 
     @Test
     @DisplayName("поиск комментариев по несуществующему идентификатору книги")
     void findCommentsByBookIdWhichNotExists() {
-        assertThat(commentService.findCommentsByBookId(33)).isEmpty();
+        assertThat(commentService.findCommentsByBookId(COMMENT_ID_NOT_EXISTS)).isEmpty();
     }
 
     @Test
@@ -58,6 +61,15 @@ class CommentServiceImplTest {
 
     @Test
     void save() {
+        Comment comment = new Comment(0, "comment 3",
+                new Book(1, "", new Author(1, ""), List.of()));
+        commentService.save(comment);
+
+        var commentFound = commentService.findById(comment.getId());
+
+        assertThat(commentFound).isPresent();
+
+        assertThat(commentFound.get()).usingRecursiveComparison().isEqualTo(commentConverter.toDto(comment));
     }
 
     @Test
@@ -74,5 +86,13 @@ class CommentServiceImplTest {
 
     @Test
     void deleteByBookId() {
+        List<CommentDto> expectedComment = commentService.findCommentsByBookId(COMMENT_ID);
+
+        commentService.deleteByBookId(COMMENT_ID);
+
+        for (CommentDto comment : expectedComment) {
+            var commentFind = commentService.findById(comment.getId());
+            assertThat(commentFind.isPresent()).isEqualTo(false);
+        }
     }
 }

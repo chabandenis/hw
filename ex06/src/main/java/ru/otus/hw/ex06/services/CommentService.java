@@ -11,7 +11,7 @@ public interface CommentService {
 
     List<CommentDto> findCommentsByBookId(long bookId);
 
-    CommentDto save(Comment commentDto);
+    CommentDto save(Comment comment);
 
     void deleteById(long id);
 

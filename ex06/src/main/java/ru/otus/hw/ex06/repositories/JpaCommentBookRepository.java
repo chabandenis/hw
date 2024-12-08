@@ -43,6 +43,7 @@ public class JpaCommentBookRepository implements CommentBookRepository {
     public Comment save(Comment comment) {
         if (comment.getId() == 0) {
             em.persist(comment);
+            //em.flush();
             return comment;
         }
         return em.merge(comment);
