@@ -39,8 +39,13 @@ public class BookServiceImpl implements BookService {
     @Override
     @Transactional(readOnly = true)
     public Optional<BookDto> findById(long id) {
-        BookDto bookDto = bookConverter.toDto(bookRepository.findById(id).get());
-        return Optional.ofNullable(bookDto);
+        var bookDto = bookRepository.findById(id);
+
+        if(bookDto.isEmpty()){
+            return Optional.empty();
+        }
+
+        return Optional.ofNullable(bookConverter.toDto(bookDto.get()));
     }
 
     @Override
