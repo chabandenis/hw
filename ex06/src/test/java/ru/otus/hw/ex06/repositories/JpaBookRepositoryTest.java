@@ -117,6 +117,7 @@ class JpaBookRepositoryTest {
         logger.debug("actualBook " + actualBook.get().getAuthor().getFullName());
         assertThat(actualBook).isPresent()
                 .get()
+                .usingRecursiveComparison()
                 .isEqualTo(expectedBook);
     }
 
@@ -148,6 +149,7 @@ class JpaBookRepositoryTest {
         assertThat(jpaBookRepository.findById(returnedBook.getId()))
                 .isPresent()
                 .get()
+                .usingRecursiveComparison()
                 .isEqualTo(returnedBook);
     }
 
@@ -174,6 +176,7 @@ class JpaBookRepositoryTest {
         assertThat(jpaBookRepository.findById(returnedBook.getId()))
                 .isPresent()
                 .get()
+                .usingRecursiveComparison()
                 .isEqualTo(returnedBook);
     }
 
