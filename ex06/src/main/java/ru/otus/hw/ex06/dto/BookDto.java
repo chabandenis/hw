@@ -19,6 +19,4 @@ public class BookDto {
     private AuthorDto author;
 
     private List<GenreDto> genres;
-
-    private List<CommentBookDto> commentBooks;
 }

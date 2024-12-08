@@ -44,11 +44,6 @@ public class BookServiceImpl implements BookService {
         return Optional.ofNullable(bookDto);
     }
 
-    private BookDto addComment(BookDto book) {
-        book.setCommentBooks(commentService.findCommentsByBookId(book.getId()));
-        return book;
-    }
-
     @Override
     @Transactional(readOnly = true)
     public List<BookDto> findAll() {
