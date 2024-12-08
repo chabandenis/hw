@@ -4,6 +4,8 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TypedQuery;
 import lombok.AllArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 import ru.otus.hw.ex06.models.Comment;
 
@@ -13,6 +15,8 @@ import java.util.Optional;
 @AllArgsConstructor
 @Repository
 public class JpaCommentBookRepository implements CommentBookRepository {
+
+    Logger logger = LoggerFactory.getLogger(JpaCommentBookRepository.class);
 
     @PersistenceContext
     private final EntityManager em;
@@ -52,9 +56,9 @@ public class JpaCommentBookRepository implements CommentBookRepository {
     public void deleteByBookId(long bookId) {
         List<Comment> comments = findCommentByBookId(bookId);
         for (Comment comment : comments) {
-            System.out.println("удаляю id: " + comment.getId());
+            logger.info("удаляю id: " + comment.getId());
             em.remove(comment);
-            System.out.println("удален");
+            logger.info("удален");
         }
     }
 }

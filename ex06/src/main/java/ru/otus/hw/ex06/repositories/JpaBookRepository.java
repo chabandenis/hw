@@ -29,13 +29,13 @@ public class JpaBookRepository implements BookRepository {
     @Override
     // поиск книги по идентификатору
     public Optional<Book> findById(long id) {
-        logger.debug("Выбрать");
+        logger.info("Выбрать");
 
         EntityGraph graph = em.getEntityGraph("book-author-entity-graph");
         Map<String, Object> properties = Map.of("javax.persistence.fetchgraph", graph);
         Optional<Book> retVal = Optional.ofNullable(em.find(Book.class, id, properties));
 
-        logger.debug("Выбрал");
+        logger.info("Выбрал");
         return retVal;
     }
 
@@ -55,15 +55,15 @@ public class JpaBookRepository implements BookRepository {
     public Book save(Book book) {
         if (book.getId() == 0) {
 
-            logger.debug(" вставить");
+            logger.info(" вставить");
             em.persist(book);
-            logger.debug(" вставил");
+            logger.info(" вставил");
             return book;
         }
 
-        logger.debug(" обновить");
+        logger.info(" обновить");
         Book retBook = em.merge(book);
-        logger.debug(" обновил");
+        logger.info(" обновил");
         return retBook;
     }
 
@@ -74,6 +74,3 @@ public class JpaBookRepository implements BookRepository {
 
 
 }
-
-
-

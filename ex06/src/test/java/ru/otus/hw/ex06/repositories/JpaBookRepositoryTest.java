@@ -5,6 +5,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
@@ -23,6 +25,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 @DataJpaTest
 @Import({JpaBookRepository.class, JpaGenreRepository.class, JpaAuthorRepository.class, JpaCommentBookRepository.class})
 class JpaBookRepositoryTest {
+
+    Logger logger = LoggerFactory.getLogger(JpaBookRepositoryTest.class);
 
     @Autowired
     private JpaBookRepository jpaBookRepository;
@@ -110,7 +114,7 @@ class JpaBookRepositoryTest {
     @MethodSource("getDbBooks")
     void shouldReturnCorrectBookById(Book expectedBook) {
         var actualBook = jpaBookRepository.findById(expectedBook.getId());
-        System.out.println("actualBook " + actualBook.get().getAuthor().getFullName());
+        logger.info("actualBook " + actualBook.get().getAuthor().getFullName());
         assertThat(actualBook).isPresent()
                 .get()
                 .isEqualTo(expectedBook);
