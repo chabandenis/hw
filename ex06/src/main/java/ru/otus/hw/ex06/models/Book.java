@@ -54,7 +54,9 @@ public class Book {
 
     @Override
     public boolean equals(Object o) {
-        if (o == null || getClass() != o.getClass()) return false;
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
 
         Book book = (Book) o;
         return id == book.id && Objects.equals(title, book.title);
