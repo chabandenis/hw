@@ -25,7 +25,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 @Import({CommentServiceImpl.class, JpaCommentBookRepository.class, CommentConverter.class})
 @Transactional(propagation = Propagation.NEVER)
 class CommentServiceImplTest {
+    private static final long BOOK_ID_FOR_DELETE = 3;
     private static final long COMMENT_ID = 1;
+    private static final long COMMENT_FOR_SAVE = 1;
+    private static final long COMMENT_FOR_DELETE = 1;
     private static final long COMMENT_ID_NOT_EXISTS = 33;
 
     @Autowired
@@ -39,8 +42,14 @@ class CommentServiceImplTest {
 
     @Test
     void findById() {
-        CommentDto expectedComment = new CommentDto(1, "comment 1", 1);
-        assertThat(commentService.findById(COMMENT_ID).get()).usingRecursiveComparison().isEqualTo(expectedComment);
+        CommentDto expectedComment = new CommentDto(COMMENT_ID, "comment 1", 1);
+
+        var foundComment = commentService.findById(COMMENT_ID);
+
+        assertThat(foundComment).isPresent();
+
+        assertThat(foundComment.get())
+                .usingRecursiveComparison().isEqualTo(expectedComment);
     }
 
     @Test
@@ -62,7 +71,7 @@ class CommentServiceImplTest {
     @Test
     void save() {
         Comment comment = new Comment(0, "comment 3",
-                new Book(1, "", new Author(1, ""), List.of()));
+                new Book(COMMENT_FOR_SAVE, "", new Author(1, ""), List.of()));
         commentService.save(comment);
 
         var commentFound = commentService.findById(comment.getId());
@@ -74,10 +83,10 @@ class CommentServiceImplTest {
 
     @Test
     void deleteById() {
-        Optional<CommentDto> comment = commentService.findById(COMMENT_ID);
+        Optional<CommentDto> comment = commentService.findById(COMMENT_FOR_DELETE);
         assertThat(comment.isPresent()).isEqualTo(true);
 
-        commentService.deleteById(COMMENT_ID);
+        commentService.deleteById(COMMENT_FOR_DELETE);
         Optional<CommentDto> commentAfterDelete = commentService.findById(COMMENT_ID);
 
         assertThat(commentAfterDelete.isPresent()).isEqualTo(false);
@@ -86,9 +95,9 @@ class CommentServiceImplTest {
 
     @Test
     void deleteByBookId() {
-        List<CommentDto> expectedComment = commentService.findCommentsByBookId(COMMENT_ID);
+        List<CommentDto> expectedComment = commentService.findCommentsByBookId(BOOK_ID_FOR_DELETE);
 
-        commentService.deleteByBookId(COMMENT_ID);
+        commentService.deleteByBookId(BOOK_ID_FOR_DELETE);
 
         for (CommentDto comment : expectedComment) {
             var commentFind = commentService.findById(comment.getId());
