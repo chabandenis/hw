@@ -16,7 +16,7 @@ import java.util.Optional;
 @Repository
 public class JpaCommentBookRepository implements CommentBookRepository {
 
-    Logger logger = LoggerFactory.getLogger(JpaCommentBookRepository.class);
+    private final Logger logger = LoggerFactory.getLogger(JpaCommentBookRepository.class);
 
     @PersistenceContext
     private final EntityManager em;
@@ -28,12 +28,14 @@ public class JpaCommentBookRepository implements CommentBookRepository {
 
     @Override
     public List<Comment> findCommentByBookId(long bookId) {
+        logger.debug("выбрать");
         TypedQuery<Comment> query = em.createQuery(
                 "select c " +
                         "from Comment c " +
                         "where c.book.id = :p1"
                 , Comment.class);
         query.setParameter("p1", bookId);
+        logger.debug("выбрали");
         return query.getResultList();
     }
 
@@ -56,9 +58,9 @@ public class JpaCommentBookRepository implements CommentBookRepository {
     public void deleteByBookId(long bookId) {
         List<Comment> comments = findCommentByBookId(bookId);
         for (Comment comment : comments) {
-            logger.info("удаляю id: " + comment.getId());
+            logger.debug("удаляю id: " + comment.getId());
             em.remove(comment);
-            logger.info("удален");
+            logger.debug("удален");
         }
     }
 }

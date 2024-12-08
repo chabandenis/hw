@@ -1,3 +1,7 @@
+logging:
+  level:
+    ru.otus.hw.ex06.*: DEBUG
+
 spring:
 
   datasource:

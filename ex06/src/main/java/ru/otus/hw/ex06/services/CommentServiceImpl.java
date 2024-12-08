@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.otus.hw.ex06.converters.CommentConverter;
-import ru.otus.hw.ex06.dto.CommentBookDto;
+import ru.otus.hw.ex06.dto.CommentDto;
 import ru.otus.hw.ex06.models.Comment;
 import ru.otus.hw.ex06.repositories.CommentBookRepository;
 
@@ -20,13 +20,18 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     @Transactional(readOnly = true)
-    public Optional<CommentBookDto> findById(long id) {
-        return Optional.ofNullable(commentConverter.toDto(commentBookRepository.findById(id).get()));
+    public Optional<CommentDto> findById(long id) {
+        Optional<Comment> comment = commentBookRepository.findById(id);
+        if (comment.isEmpty()) {
+            return Optional.empty();
+        }
+
+        return Optional.ofNullable(commentConverter.toDto(comment.get()));
     }
 
     @Override
     @Transactional(readOnly = true)
-    public List<CommentBookDto> findCommentsByBookId(long bookId) {
+    public List<CommentDto> findCommentsByBookId(long bookId) {
         return commentBookRepository.findCommentByBookId(bookId)
                 .stream()
                 .map(commentConverter::toDto)
@@ -35,7 +40,7 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     @Transactional
-    public CommentBookDto save(Comment comment) {
+    public CommentDto save(Comment comment) {
         return commentConverter.toDto(commentBookRepository.save(comment));
     }
 

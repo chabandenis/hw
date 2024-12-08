@@ -24,18 +24,18 @@ public class JpaBookRepository implements BookRepository {
     @PersistenceContext
     private final EntityManager em;
 
-    Logger logger = LoggerFactory.getLogger(JpaBookRepository.class);
+    private final Logger logger = LoggerFactory.getLogger(JpaBookRepository.class);
 
     @Override
     // поиск книги по идентификатору
     public Optional<Book> findById(long id) {
-        logger.info("Выбрать");
+        logger.debug("Выбрать");
 
         EntityGraph graph = em.getEntityGraph("book-author-entity-graph");
         Map<String, Object> properties = Map.of("javax.persistence.fetchgraph", graph);
         Optional<Book> retVal = Optional.ofNullable(em.find(Book.class, id, properties));
 
-        logger.info("Выбрал");
+        logger.debug("Выбрал");
         return retVal;
     }
 
@@ -55,15 +55,15 @@ public class JpaBookRepository implements BookRepository {
     public Book save(Book book) {
         if (book.getId() == 0) {
 
-            logger.info(" вставить");
+            logger.debug(" вставить");
             em.persist(book);
-            logger.info(" вставил");
+            logger.debug(" вставил");
             return book;
         }
 
-        logger.info(" обновить");
+        logger.debug(" обновить");
         Book retBook = em.merge(book);
-        logger.info(" обновил");
+        logger.debug(" обновил");
         return retBook;
     }
 

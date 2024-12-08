@@ -26,7 +26,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @Import({JpaBookRepository.class, JpaGenreRepository.class, JpaAuthorRepository.class, JpaCommentBookRepository.class})
 class JpaBookRepositoryTest {
 
-    Logger logger = LoggerFactory.getLogger(JpaBookRepositoryTest.class);
+    private final Logger logger = LoggerFactory.getLogger(JpaBookRepositoryTest.class);
 
     @Autowired
     private JpaBookRepository jpaBookRepository;
@@ -114,7 +114,7 @@ class JpaBookRepositoryTest {
     @MethodSource("getDbBooks")
     void shouldReturnCorrectBookById(Book expectedBook) {
         var actualBook = jpaBookRepository.findById(expectedBook.getId());
-        logger.info("actualBook " + actualBook.get().getAuthor().getFullName());
+        logger.debug("actualBook " + actualBook.get().getAuthor().getFullName());
         assertThat(actualBook).isPresent()
                 .get()
                 .isEqualTo(expectedBook);
