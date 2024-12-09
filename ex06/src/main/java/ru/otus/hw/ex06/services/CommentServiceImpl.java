@@ -6,7 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.otus.hw.ex06.converters.CommentConverter;
 import ru.otus.hw.ex06.dto.CommentDto;
 import ru.otus.hw.ex06.models.Comment;
-import ru.otus.hw.ex06.repositories.CommentBookRepository;
+import ru.otus.hw.ex06.repositories.CommentRepository;
 
 import java.util.List;
 import java.util.Optional;
@@ -14,14 +14,14 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @Service
 public class CommentServiceImpl implements CommentService {
-    private final CommentBookRepository commentBookRepository;
+    private final CommentRepository commentRepository;
 
     private final CommentConverter commentConverter;
 
     @Override
     @Transactional(readOnly = true)
     public Optional<CommentDto> findById(long id) {
-        Optional<Comment> comment = commentBookRepository.findById(id);
+        Optional<Comment> comment = commentRepository.findById(id);
         if (comment.isEmpty()) {
             return Optional.empty();
         }
@@ -32,7 +32,7 @@ public class CommentServiceImpl implements CommentService {
     @Override
     @Transactional(readOnly = true)
     public List<CommentDto> findCommentsByBookId(long bookId) {
-        return commentBookRepository.findCommentByBookId(bookId)
+        return commentRepository.findCommentByBookId(bookId)
                 .stream()
                 .map(commentConverter::toDto)
                 .toList();
@@ -41,18 +41,18 @@ public class CommentServiceImpl implements CommentService {
     @Override
     @Transactional
     public CommentDto save(Comment comment) {
-        return commentConverter.toDto(commentBookRepository.save(comment));
+        return commentConverter.toDto(commentRepository.save(comment));
     }
 
     @Override
     @Transactional
     public void deleteById(long id) {
-        commentBookRepository.deleteById(id);
+        commentRepository.deleteById(id);
     }
 
     @Override
     @Transactional
     public void deleteByBookId(long bookId) {
-        commentBookRepository.deleteByBookId(bookId);
+        commentRepository.deleteByBookId(bookId);
     }
 }

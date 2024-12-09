@@ -23,7 +23,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @DisplayName("Репозиторий на основе DataJpa для работы с книгами ")
 @DataJpaTest
-@Import({JpaBookRepository.class, JpaGenreRepository.class, JpaAuthorRepository.class, JpaCommentBookRepository.class})
+@Import({JpaBookRepository.class, JpaGenreRepository.class, JpaAuthorRepository.class, JpaCommentRepository.class})
 class JpaBookRepositoryTest {
 
     private final Logger logger = LoggerFactory.getLogger(JpaBookRepositoryTest.class);
@@ -38,7 +38,7 @@ class JpaBookRepositoryTest {
     private JpaAuthorRepository jpaAuthorRepository;
 
     @Autowired
-    private JpaCommentBookRepository jpaCommentBookRepository;
+    private JpaCommentRepository jpaCommentBookRepository;
 
     @Autowired
     private TestEntityManager em;

@@ -14,9 +14,9 @@ import java.util.Optional;
 
 @AllArgsConstructor
 @Repository
-public class JpaCommentBookRepository implements CommentBookRepository {
+public class JpaCommentRepository implements CommentRepository {
 
-    private final Logger logger = LoggerFactory.getLogger(JpaCommentBookRepository.class);
+    private final Logger logger = LoggerFactory.getLogger(JpaCommentRepository.class);
 
     @PersistenceContext
     private final EntityManager em;

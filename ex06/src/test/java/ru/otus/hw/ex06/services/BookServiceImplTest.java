@@ -19,7 +19,7 @@ import ru.otus.hw.ex06.models.Book;
 import ru.otus.hw.ex06.models.Genre;
 import ru.otus.hw.ex06.repositories.JpaAuthorRepository;
 import ru.otus.hw.ex06.repositories.JpaBookRepository;
-import ru.otus.hw.ex06.repositories.JpaCommentBookRepository;
+import ru.otus.hw.ex06.repositories.JpaCommentRepository;
 import ru.otus.hw.ex06.repositories.JpaGenreRepository;
 
 import java.util.List;
@@ -38,7 +38,7 @@ import static org.assertj.core.api.Assertions.assertThat;
         GenreConverter.class,
         CommentConverter.class,
         CommentServiceImpl.class,
-        JpaCommentBookRepository.class
+        JpaCommentRepository.class
 })
 @Transactional(propagation = Propagation.NEVER)
 class BookServiceImplTest {

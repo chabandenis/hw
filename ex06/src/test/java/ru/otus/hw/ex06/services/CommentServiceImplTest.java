@@ -13,7 +13,7 @@ import ru.otus.hw.ex06.dto.CommentDto;
 import ru.otus.hw.ex06.models.Author;
 import ru.otus.hw.ex06.models.Book;
 import ru.otus.hw.ex06.models.Comment;
-import ru.otus.hw.ex06.repositories.JpaCommentBookRepository;
+import ru.otus.hw.ex06.repositories.JpaCommentRepository;
 
 import java.util.List;
 import java.util.Optional;
@@ -22,7 +22,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 
 @DataJpaTest
-@Import({CommentServiceImpl.class, JpaCommentBookRepository.class, CommentConverter.class})
+@Import({CommentServiceImpl.class, JpaCommentRepository.class, CommentConverter.class})
 @Transactional(propagation = Propagation.NEVER)
 class CommentServiceImplTest {
     private static final long BOOK_ID_FOR_DELETE = 3;
