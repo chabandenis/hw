@@ -1,12 +1,16 @@
 package ru.otus.hw.ex06.dto;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.Setter;
 import lombok.Value;
 import ru.otus.hw.ex06.models.Comment;
 
 /**
  * DTO for {@link Comment}
  */
-@Value
+@Data
+@AllArgsConstructor
 public class CommentDto {
     private long id;
 
@@ -28,4 +32,6 @@ public class CommentDto {
         System.out.println("CommentDto hash");
         return Long.hashCode(id);
     }*/
+
+
 }

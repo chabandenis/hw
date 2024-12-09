@@ -68,6 +68,7 @@ class CommentServiceImplTest {
         assertThat(commentService.findCommentsByBookId(1)).usingRecursiveComparison().isEqualTo(expectedComment);
     }
 
+    /*
     @Test
     void save() {
         Comment comment = new Comment(0, "comment 3",
@@ -80,6 +81,8 @@ class CommentServiceImplTest {
 
         assertThat(commentFound.get()).usingRecursiveComparison().isEqualTo(commentConverter.toDto(comment));
     }
+
+     */
 
     @Test
     void deleteById() {
@@ -104,4 +107,45 @@ class CommentServiceImplTest {
             assertThat(commentFind.isPresent()).isEqualTo(false);
         }
     }
+
+    @Test
+    void create() {
+        Comment comment = new Comment(0, "comment 3", new Book(1, "", new Author(), List.of()));
+
+        CommentDto commentDto = commentService.create(comment.getBook().getId(), comment.getText());
+
+        var commentFound = commentService.findById(commentDto.getId());
+
+        assertThat(commentFound).isPresent();
+
+        assertThat(commentFound.get().getText()).isEqualTo(comment.getText());
+        assertThat(commentFound.get().getBookId()).isEqualTo(comment.getBook().getId());
+
+        // вернуть в исходное состояние
+        commentService.deleteById(commentDto.getId());
+    }
+
+    @Test
+    void update() {
+        var commentDto = commentService.findById(1);
+
+        assertThat(commentDto).isPresent();
+
+        String oldComment = commentDto.get().getText();
+
+        commentDto.get().setText("qwerty");
+
+        var commentFound = commentService.update(commentDto.get().getId(),
+                commentDto.get().getBookId(),
+                commentDto.get().getText());
+
+        assertThat(commentFound).usingRecursiveComparison().isEqualTo(commentDto.get());
+
+        // вернуть в исходное состояние
+        commentDto.get().setText(oldComment);
+        commentService.update(commentDto.get().getId(),
+                commentDto.get().getBookId(),
+                commentDto.get().getText());
+    }
+
 }

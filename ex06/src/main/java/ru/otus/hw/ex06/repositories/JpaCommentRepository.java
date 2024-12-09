@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
+import ru.otus.hw.ex06.models.Book;
 import ru.otus.hw.ex06.models.Comment;
 
 import java.util.List;
@@ -40,6 +41,45 @@ public class JpaCommentRepository implements CommentRepository {
     }
 
     @Override
+    public Comment create(long bookId, String comment) {
+        Book book = em.find(Book.class, bookId);
+
+        if (book == null) {
+            return null;
+        }
+
+        Comment commentObj = new Comment(0, comment, book);
+
+        em.persist(commentObj);
+
+        return commentObj;
+    }
+
+    @Override
+    public Comment update(long commentId, long bookId, String comment) {
+        Book book = em.find(Book.class, bookId);
+        if (book == null) {
+            return null;
+        }
+
+        Comment commentInDb = em.find(Comment.class, commentId);
+        if (commentInDb == null) {
+            return null;
+        }
+
+        if (commentInDb.getBook().getId() != bookId) {
+            commentInDb.setBook(book);
+        }
+
+        commentInDb.setText(comment);
+
+        em.merge(commentInDb);
+
+        return commentInDb;
+    }
+
+    /*
+    @Override
     public Comment save(Comment comment) {
         if (comment.getId() == 0) {
             em.persist(comment);
@@ -48,6 +88,8 @@ public class JpaCommentRepository implements CommentRepository {
         }
         return em.merge(comment);
     }
+
+     */
 
     @Override
     public void deleteById(long id) {

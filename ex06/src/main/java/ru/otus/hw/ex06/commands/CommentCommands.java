@@ -53,16 +53,15 @@ public class CommentCommands {
     // cs 1111 1
     // cbbi 1
     @ShellMethod(value = "Find book by id", key = "cs")
-    public String save(String text, long bookId) {
-        Comment comment = new Comment();
-        comment.setText(text);
-
-        Book book = new Book();
-        book.setId(bookId);
-
-        comment.setBook(book);
-
-        commentService.save(comment);
-        return commentConverter.commentDtoToString(commentService.save(comment));
+    public String create(String text, long bookId) {
+        return commentConverter.commentDtoToString(commentService.create(bookId, text));
     }
+
+    // cs 1111 1
+    // cbbi 1
+    @ShellMethod(value = "Find book by id", key = "cs")
+    public String update(long commentId, String text, long bookId) {
+        return commentConverter.commentDtoToString(commentService.update(commentId, bookId, text));
+    }
+
 }

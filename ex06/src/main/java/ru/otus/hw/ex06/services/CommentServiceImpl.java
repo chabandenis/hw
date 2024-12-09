@@ -40,9 +40,23 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     @Transactional
+    public CommentDto create(long bookId, String comment) {
+        return commentConverter.toDto(commentRepository.create(bookId, comment));
+    }
+
+    @Override
+    @Transactional
+    public CommentDto update(long commentId, long bookId, String comment) {
+        return commentConverter.toDto(commentRepository.update(commentId, bookId, comment));
+    }
+
+/*
+    @Override
+    @Transactional
     public CommentDto save(Comment comment) {
         return commentConverter.toDto(commentRepository.save(comment));
     }
+*/
 
     @Override
     @Transactional
