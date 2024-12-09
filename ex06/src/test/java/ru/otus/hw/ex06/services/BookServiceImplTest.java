@@ -108,6 +108,9 @@ class BookServiceImplTest {
         assertThat(bookService.findById(4).get())
                 .usingRecursiveComparison()
                 .isEqualTo(bookExpected);
+
+        // вернуть в исходное состояние
+        bookService.deleteById(4);
     }
 
     @Test
@@ -133,6 +136,16 @@ class BookServiceImplTest {
         assertThat(bookFound.get())
                 .usingRecursiveComparison()
                 .isEqualTo(bookExpected.get());
+
+        // вернуть в исходное состояние
+        bookExpected.get().setTitle("BookTitle_2");
+        bookService.update(bookExpected.get().getId(),
+                bookExpected.get().getTitle(),
+                bookExpected.get().getAuthor().getId(),
+                bookExpected.get().getGenres().stream()
+                        .map(x -> x.getId())
+                        .collect(Collectors.toSet())
+        );
     }
 
     @Test
