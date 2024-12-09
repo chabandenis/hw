@@ -48,8 +48,8 @@ class CommentServiceImplTest {
 
         assertThat(foundComment).isPresent();
 
-        assertThat(foundComment.get())
-                .usingRecursiveComparison().isEqualTo(expectedComment);
+        assertThat(foundComment.get()).
+                usingRecursiveComparison().isEqualTo(expectedComment);
     }
 
     @Test

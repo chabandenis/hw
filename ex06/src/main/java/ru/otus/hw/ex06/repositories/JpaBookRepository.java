@@ -21,6 +21,8 @@ public class JpaBookRepository implements BookRepository {
 
     private final GenreRepository genreRepository;
 
+    private final CommentBookRepository commentBookRepository;
+
     @PersistenceContext
     private final EntityManager em;
 
@@ -69,6 +71,7 @@ public class JpaBookRepository implements BookRepository {
 
     @Override
     public void deleteById(long id) {
+        commentBookRepository.deleteByBookId(id);
         em.remove(findById(id).get());
     }
 

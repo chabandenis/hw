@@ -14,8 +14,9 @@ public class CommentDto {
 
     private long bookId;
 
-    @Override
+/*    @Override
     public boolean equals(Object o) {
+        System.out.println("CommentDto");
         if (o == null || getClass() != o.getClass()) return false;
 
         CommentDto that = (CommentDto) o;
@@ -24,6 +25,7 @@ public class CommentDto {
 
     @Override
     public int hashCode() {
+        System.out.println("CommentDto hash");
         return Long.hashCode(id);
-    }
+    }*/
 }

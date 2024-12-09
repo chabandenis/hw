@@ -23,8 +23,9 @@ public class BookDto {
 
     private List<GenreDto> genres;
 
-    @Override
+/*    @Override
     public boolean equals(Object o) {
+        System.out.println("BookDto");
         if (o == null || getClass() != o.getClass()) return false;
 
         BookDto bookDto = (BookDto) o;
@@ -33,7 +34,8 @@ public class BookDto {
 
     @Override
     public int hashCode() {
+        System.out.println("BookDto hash");
         int result = Long.hashCode(id);
         return result;
-    }
+    }*/
 }
