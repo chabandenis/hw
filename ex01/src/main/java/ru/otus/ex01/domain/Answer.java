@@ -1,9 +1,11 @@
 package ru.otus.ex01.domain;
 
 public class Answer {
-    String text;
-    boolean isCorrect;
-    int position;
+    private String text;
+
+    private boolean isCorrect;
+
+    private int position;
 
     public Answer(String text, boolean isCorrect, int position) {
         this.text = text;
