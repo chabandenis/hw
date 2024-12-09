@@ -12,21 +12,4 @@ public class AuthorDto {
 
     private String fullName;
 
-/*
-    @Override
-    public boolean equals(Object o) {
-        System.out.println("AuthorDto");
-        if (o == null || getClass() != o.getClass()) return false;
-
-        AuthorDto authorDto = (AuthorDto) o;
-        return id == authorDto.id;
-    }
-
-    @Override
-    public int hashCode() {
-        System.out.println("AuthorDto hash");
-        return Long.hashCode(id);
-    }
-
- */
 }

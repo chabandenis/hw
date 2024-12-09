@@ -32,15 +32,6 @@ class JpaBookRepositoryTest {
     private JpaBookRepository jpaBookRepository;
 
     @Autowired
-    private JpaGenreRepository jpaGenreRepository;
-
-    @Autowired
-    private JpaAuthorRepository jpaAuthorRepository;
-
-    @Autowired
-    private JpaCommentRepository jpaCommentBookRepository;
-
-    @Autowired
     private TestEntityManager em;
 
     private List<Author> dbAuthors;
@@ -84,12 +75,6 @@ class JpaBookRepositoryTest {
                                 ))
                         .toList();
 
-/*        for (Book book : retBooks) {
-            for (Comment comment : book.getComment()) {
-                comment.setBook(book);
-            }
-        }*/
-
         return retBooks;
     }
 
@@ -124,7 +109,6 @@ class JpaBookRepositoryTest {
     @DisplayName("должен загружать список всех книг")
     @Test
     void shouldReturnCorrectBooksList() {
-
         var actualBooks = jpaBookRepository.findAll();
         var expectedBooks = dbBooks;
 

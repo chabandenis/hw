@@ -4,8 +4,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
 import ru.otus.hw.ex06.converters.CommentConverter;
-import ru.otus.hw.ex06.models.Book;
-import ru.otus.hw.ex06.models.Comment;
 import ru.otus.hw.ex06.services.BookService;
 import ru.otus.hw.ex06.services.CommentService;
 

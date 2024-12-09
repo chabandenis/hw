@@ -41,7 +41,7 @@ public class BookServiceImpl implements BookService {
     public Optional<BookDto> findById(long id) {
         var bookDto = bookRepository.findById(id);
 
-        if(bookDto.isEmpty()){
+        if (bookDto.isEmpty()) {
             return Optional.empty();
         }
 
@@ -68,6 +68,7 @@ public class BookServiceImpl implements BookService {
     @Override
     @Transactional
     public BookDto update(long id, String title, long authorId, Set<Long> genresIds) {
+
         return save(id, title, authorId, genresIds);
     }
 

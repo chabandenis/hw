@@ -11,18 +11,4 @@ public class GenreDto {
 
     private String name;
 
-/*    @Override
-    public boolean equals(Object o) {
-        System.out.println("Genre DTO");
-        if (o == null || getClass() != o.getClass()) return false;
-
-        GenreDto genreDto = (GenreDto) o;
-        return id == genreDto.id;
-    }
-
-    @Override
-    public int hashCode() {
-        System.out.println("Genre DTO hash");
-        return Long.hashCode(id);
-    }*/
 }

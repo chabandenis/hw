@@ -5,7 +5,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
-import java.util.Objects;
 
 /**
  * DTO for {@link ru.otus.hw.ex06.models.Book}
@@ -23,19 +22,4 @@ public class BookDto {
 
     private List<GenreDto> genres;
 
-/*    @Override
-    public boolean equals(Object o) {
-        System.out.println("BookDto");
-        if (o == null || getClass() != o.getClass()) return false;
-
-        BookDto bookDto = (BookDto) o;
-        return id == bookDto.id  ;
-    }
-
-    @Override
-    public int hashCode() {
-        System.out.println("BookDto hash");
-        int result = Long.hashCode(id);
-        return result;
-    }*/
 }

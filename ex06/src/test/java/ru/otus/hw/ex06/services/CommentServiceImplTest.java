@@ -27,7 +27,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 class CommentServiceImplTest {
     private static final long BOOK_ID_FOR_DELETE = 3;
     private static final long COMMENT_ID = 1;
-    private static final long COMMENT_FOR_SAVE = 1;
     private static final long COMMENT_FOR_DELETE = 1;
     private static final long COMMENT_ID_NOT_EXISTS = 33;
 
@@ -67,22 +66,6 @@ class CommentServiceImplTest {
                         new CommentDto(2, "comment 2", 1));
         assertThat(commentService.findCommentsByBookId(1)).usingRecursiveComparison().isEqualTo(expectedComment);
     }
-
-    /*
-    @Test
-    void save() {
-        Comment comment = new Comment(0, "comment 3",
-                new Book(COMMENT_FOR_SAVE, "", new Author(1, ""), List.of()));
-        commentService.save(comment);
-
-        var commentFound = commentService.findById(comment.getId());
-
-        assertThat(commentFound).isPresent();
-
-        assertThat(commentFound.get()).usingRecursiveComparison().isEqualTo(commentConverter.toDto(comment));
-    }
-
-     */
 
     @Test
     void deleteById() {

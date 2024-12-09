@@ -50,14 +50,6 @@ public class CommentServiceImpl implements CommentService {
         return commentConverter.toDto(commentRepository.update(commentId, bookId, comment));
     }
 
-/*
-    @Override
-    @Transactional
-    public CommentDto save(Comment comment) {
-        return commentConverter.toDto(commentRepository.save(comment));
-    }
-*/
-
     @Override
     @Transactional
     public void deleteById(long id) {
