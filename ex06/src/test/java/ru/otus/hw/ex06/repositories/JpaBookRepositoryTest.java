@@ -5,13 +5,15 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.context.annotation.Import;
 import ru.otus.hw.ex06.models.Author;
 import ru.otus.hw.ex06.models.Book;
-import ru.otus.hw.ex06.models.CommentBook;
+import ru.otus.hw.ex06.models.Comment;
 import ru.otus.hw.ex06.models.Genre;
 
 import java.util.List;
@@ -21,20 +23,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @DisplayName("Репозиторий на основе DataJpa для работы с книгами ")
 @DataJpaTest
-@Import({JpaBookRepository.class, JpaGenreRepository.class, JpaAuthorRepository.class, JpaCommentBookRepository.class})
+@Import({JpaBookRepository.class, JpaGenreRepository.class, JpaAuthorRepository.class, JpaCommentRepository.class})
 class JpaBookRepositoryTest {
+
+    private final Logger logger = LoggerFactory.getLogger(JpaBookRepositoryTest.class);
 
     @Autowired
     private JpaBookRepository jpaBookRepository;
-
-    @Autowired
-    private JpaGenreRepository jpaGenreRepository;
-
-    @Autowired
-    private JpaAuthorRepository jpaAuthorRepository;
-
-    @Autowired
-    private JpaCommentBookRepository jpaCommentBookRepository;
 
     @Autowired
     private TestEntityManager em;
@@ -45,7 +40,7 @@ class JpaBookRepositoryTest {
 
     private List<Book> dbBooks;
 
-    private List<CommentBook> dbComments;
+    private List<Comment> dbComments;
 
     private static List<Author> getDbAuthors() {
         return IntStream.range(1, 4).boxed()
@@ -59,32 +54,26 @@ class JpaBookRepositoryTest {
                 .toList();
     }
 
-    private static List<CommentBook> getDbComments() {
+    private static List<Comment> getDbComments() {
         return IntStream.range(1, 7).boxed()
-                .map(id -> new CommentBook(id, "comment " + id, new Book()))
+                .map(id -> new Comment(id, "comment " + id, new Book()))
                 .toList();
     }
 
 
     private static List<Book> getDbBooks(List<Author> dbAuthors,
                                          List<Genre> dbGenres,
-                                         List<CommentBook> dbComments) {
+                                         List<Comment> dbComments) {
         List<Book> retBooks =
                 IntStream.range(1, 4).boxed()
                         .map(id ->
                                 new Book(id,
                                         "BookTitle_" + id,
                                         dbAuthors.get(id - 1),
-                                        dbGenres.subList((id - 1) * 2, (id - 1) * 2 + 2),
-                                        dbComments.subList((id - 1) * 2, (id - 1) * 2 + 2)
+                                        dbGenres.subList((id - 1) * 2, (id - 1) * 2 + 2)/*,
+                                        dbComments.subList((id - 1) * 2, (id - 1) * 2 + 2)*/
                                 ))
                         .toList();
-
-        for (Book book : retBooks) {
-            for (CommentBook commentBook : book.getCommentBook()) {
-                commentBook.setBook(book);
-            }
-        }
 
         return retBooks;
     }
@@ -110,16 +99,16 @@ class JpaBookRepositoryTest {
     @MethodSource("getDbBooks")
     void shouldReturnCorrectBookById(Book expectedBook) {
         var actualBook = jpaBookRepository.findById(expectedBook.getId());
-        System.out.println("actualBook " + actualBook.get().getAuthor().getFullName());
+        logger.debug("actualBook " + actualBook.get().getAuthor().getFullName());
         assertThat(actualBook).isPresent()
                 .get()
+                .usingRecursiveComparison()
                 .isEqualTo(expectedBook);
     }
 
     @DisplayName("должен загружать список всех книг")
     @Test
     void shouldReturnCorrectBooksList() {
-
         var actualBooks = jpaBookRepository.findAll();
         var expectedBooks = dbBooks;
 
@@ -134,8 +123,7 @@ class JpaBookRepositoryTest {
                 0,
                 "BookTitle_10500",
                 dbAuthors.get(0),
-                List.of(dbGenres.get(0), dbGenres.get(2)),
-                List.of()
+                List.of(dbGenres.get(0), dbGenres.get(2))
         );
         var returnedBook = jpaBookRepository.save(expectedBook);
         assertThat(returnedBook).isNotNull()
@@ -145,6 +133,7 @@ class JpaBookRepositoryTest {
         assertThat(jpaBookRepository.findById(returnedBook.getId()))
                 .isPresent()
                 .get()
+                .usingRecursiveComparison()
                 .isEqualTo(returnedBook);
     }
 
@@ -155,8 +144,7 @@ class JpaBookRepositoryTest {
                 1L,
                 "BookTitle_10500",
                 dbAuthors.get(2),
-                List.of(dbGenres.get(4), dbGenres.get(5)),
-                List.of()
+                List.of(dbGenres.get(4), dbGenres.get(5))
         );
 
         assertThat(jpaBookRepository.findById(expectedBook.getId()))
@@ -172,6 +160,7 @@ class JpaBookRepositoryTest {
         assertThat(jpaBookRepository.findById(returnedBook.getId()))
                 .isPresent()
                 .get()
+                .usingRecursiveComparison()
                 .isEqualTo(returnedBook);
     }
 

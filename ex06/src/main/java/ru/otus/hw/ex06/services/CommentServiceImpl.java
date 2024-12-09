@@ -4,9 +4,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.otus.hw.ex06.converters.CommentConverter;
-import ru.otus.hw.ex06.dto.CommentBookDto;
-import ru.otus.hw.ex06.models.CommentBook;
-import ru.otus.hw.ex06.repositories.CommentBookRepository;
+import ru.otus.hw.ex06.dto.CommentDto;
+import ru.otus.hw.ex06.models.Comment;
+import ru.otus.hw.ex06.repositories.CommentRepository;
 
 import java.util.List;
 import java.util.Optional;
@@ -14,20 +14,25 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @Service
 public class CommentServiceImpl implements CommentService {
-    private final CommentBookRepository commentBookRepository;
+    private final CommentRepository commentRepository;
 
     private final CommentConverter commentConverter;
 
     @Override
     @Transactional(readOnly = true)
-    public Optional<CommentBookDto> findById(long id) {
-        return Optional.ofNullable(commentConverter.toDto(commentBookRepository.findById(id).get()));
+    public Optional<CommentDto> findById(long id) {
+        Optional<Comment> comment = commentRepository.findById(id);
+        if (comment.isEmpty()) {
+            return Optional.empty();
+        }
+
+        return Optional.ofNullable(commentConverter.toDto(comment.get()));
     }
 
     @Override
     @Transactional(readOnly = true)
-    public List<CommentBookDto> findCommentsByBookId(long bookId) {
-        return commentBookRepository.findCommentByBookId(bookId)
+    public List<CommentDto> findCommentsByBookId(long bookId) {
+        return commentRepository.findCommentByBookId(bookId)
                 .stream()
                 .map(commentConverter::toDto)
                 .toList();
@@ -35,19 +40,25 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     @Transactional
-    public CommentBookDto save(CommentBook commentBook) {
-        return commentConverter.toDto(commentBookRepository.save(commentBook));
+    public CommentDto create(long bookId, String comment) {
+        return commentConverter.toDto(commentRepository.create(bookId, comment));
+    }
+
+    @Override
+    @Transactional
+    public CommentDto update(long commentId, long bookId, String comment) {
+        return commentConverter.toDto(commentRepository.update(commentId, bookId, comment));
     }
 
     @Override
     @Transactional
     public void deleteById(long id) {
-        commentBookRepository.deleteById(id);
+        commentRepository.deleteById(id);
     }
 
     @Override
     @Transactional
     public void deleteByBookId(long bookId) {
-        commentBookRepository.deleteByBookId(bookId);
+        commentRepository.deleteByBookId(bookId);
     }
 }

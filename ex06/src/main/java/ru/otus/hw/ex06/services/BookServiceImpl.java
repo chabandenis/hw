@@ -13,7 +13,6 @@ import ru.otus.hw.ex06.repositories.BookRepository;
 import ru.otus.hw.ex06.repositories.GenreRepository;
 import ru.otus.hw.ex06.repositories.JpaBookRepository;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -40,13 +39,13 @@ public class BookServiceImpl implements BookService {
     @Override
     @Transactional(readOnly = true)
     public Optional<BookDto> findById(long id) {
-        BookDto bookDto = bookConverter.toDto(bookRepository.findById(id).get());
-        return Optional.ofNullable(bookDto);
-    }
+        var bookDto = bookRepository.findById(id);
 
-    private BookDto addComment(BookDto book) {
-        book.setCommentBooks(commentService.findCommentsByBookId(book.getId()));
-        return book;
+        if (bookDto.isEmpty()) {
+            return Optional.empty();
+        }
+
+        return Optional.ofNullable(bookConverter.toDto(bookDto.get()));
     }
 
     @Override
@@ -69,6 +68,7 @@ public class BookServiceImpl implements BookService {
     @Override
     @Transactional
     public BookDto update(long id, String title, long authorId, Set<Long> genresIds) {
+
         return save(id, title, authorId, genresIds);
     }
 
@@ -95,7 +95,7 @@ public class BookServiceImpl implements BookService {
         book.setId(id);
         book.setAuthor(author);
         book.setTitle(title);
-        book.setCommentBook(new ArrayList<>());
+//        book.setComment(new ArrayList<>());
 
         return bookConverter.toDto(bookRepository.save(book));
     }

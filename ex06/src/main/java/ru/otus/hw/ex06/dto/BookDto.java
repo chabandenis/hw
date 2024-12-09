@@ -1,5 +1,6 @@
 package ru.otus.hw.ex06.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -11,6 +12,7 @@ import java.util.List;
 //@Value
 @Data
 @NoArgsConstructor(force = true)
+@AllArgsConstructor
 public class BookDto {
     private long id;
 
@@ -20,5 +22,4 @@ public class BookDto {
 
     private List<GenreDto> genres;
 
-    private List<CommentBookDto> commentBooks;
 }
