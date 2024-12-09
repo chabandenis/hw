@@ -133,7 +133,6 @@ class BookServiceImplTest {
         assertThat(bookFound.get())
                 .usingRecursiveComparison()
                 .isEqualTo(bookExpected.get());
-
     }
 
     @Test
