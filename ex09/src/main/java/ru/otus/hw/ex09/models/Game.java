@@ -8,10 +8,17 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 
+
+/*
+идентификатор игры.
+У игры есть игроки(пользователи)
+и доска, на которой играют пользователи
+ */
 @Getter
 @Setter
 @Entity
@@ -30,5 +37,10 @@ public class Game {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_white_id")
     private User userWhite;
+
+
+    @OneToOne(fetch = FetchType.LAZY, orphanRemoval = true)
+    @JoinColumn(name = "chess_fair_id")
+    private ChessFair chessFair;
 
 }

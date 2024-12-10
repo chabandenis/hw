@@ -24,7 +24,7 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
-@Table(name = "chess_fair")
+@Table(name = "chess_fairs")
 public class ChessFair {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

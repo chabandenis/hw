@@ -9,6 +9,9 @@ import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 
+/*
+    фигура может быть черной или белой
+ */
 @Getter
 @Setter
 @Entity
