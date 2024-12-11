@@ -1,4 +1,4 @@
-DROP TABLE if EXISTS public.chess_fair CASCADE;
+DROP TABLE if EXISTS public.chess_fairs CASCADE;
 DROP TABLE if EXISTS public.figuras CASCADE;
 DROP TABLE if EXISTS public.games CASCADE;
 DROP TABLE if EXISTS public.position_in_chess_fair CASCADE;
