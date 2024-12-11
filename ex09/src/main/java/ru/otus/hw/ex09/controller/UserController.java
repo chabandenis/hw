@@ -1,7 +1,6 @@
 package ru.otus.hw.ex09.controller;
 
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Component;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,7 +14,7 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/")
-//@RequiredArgsConstructor
+@AllArgsConstructor
 public class UserController {
 
     private final UserRepository userRepository;
@@ -30,9 +29,5 @@ public class UserController {
                 .toList();
     }
 
-    public UserController(UserRepository userRepository, UserMapper userMapper) {
-        this.userRepository = userRepository;
-        this.userMapper = userMapper;
-    }
 }
 
