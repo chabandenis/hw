@@ -4,7 +4,6 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-//@ComponentScan(basePackages = "ru.otus.hw.ex09")
 public class Ex09Application {
 
     public static void main(String[] args) {
