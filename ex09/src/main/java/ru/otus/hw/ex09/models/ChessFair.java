@@ -10,8 +10,10 @@ import lombok.Getter;
 import lombok.Setter;
 
 /*
-Шахматная доска.
-Хранится идентификатор доски для определенной игры
+Шахматная доска. Доска одна на игру.
+Все фигуры, вся необходимая информация привязана к доске.
+Сколько игр было, столько досок будет храниться в БД.
+Хранится идентификатор доски для определенной игры.
 На доске находится набор фигур
 */
 @Getter
@@ -23,7 +25,4 @@ public class ChessFair {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
-
-
-
 }

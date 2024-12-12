@@ -9,6 +9,9 @@ import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 
+/*
+    Выбрать пользователя с которым будет игра
+ */
 @Getter
 @Setter
 @Entity

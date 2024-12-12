@@ -13,15 +13,15 @@ import ru.otus.hw.ex09.repositories.UserRepository;
 import java.util.List;
 
 @Controller
-@RequestMapping("/")
 @AllArgsConstructor
+//@RequestMapping("/")
 public class UserController {
 
     private final UserRepository userRepository;
 
     private final UserMapper userMapper;
 
-    @GetMapping
+    @GetMapping("/allUsers")
     public @ResponseBody List<UserDto> getAll() {
         List<User> users = userRepository.findAll();
         return users.stream()
