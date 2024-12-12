@@ -34,7 +34,7 @@ public class GameService {
     List<RowOnTheDeskDto> createEmptyDesk() {
         List<RowOnTheDeskDto> desk = new ArrayList<>();
 
-        for (int i = 1; i <= 8; i++) {
+        for (int i = 0; i <= 8; i++) {
             RowOnTheDeskDto row = new RowOnTheDeskDto();
             row.setA(" ");
             row.setB(" ");
@@ -44,6 +44,33 @@ public class GameService {
             row.setF(" ");
             row.setG(" ");
             row.setH(" ");
+
+            switch (i) {
+                case (0):
+                    row.setLeftClm("H");
+                    break;
+                case (1):
+                    row.setLeftClm("G");
+                    break;
+                case (2):
+                    row.setLeftClm("F");
+                    break;
+                case (3):
+                    row.setLeftClm("E");
+                    break;
+                case (4):
+                    row.setLeftClm("D");
+                    break;
+                case (5):
+                    row.setLeftClm("C");
+                    break;
+                case (6):
+                    row.setLeftClm("B");
+                    break;
+                case (7):
+                    row.setLeftClm("A");
+                    break;
+            }
 
             desk.add(row);
         }
@@ -58,14 +85,45 @@ public class GameService {
         var desk = createEmptyDesk();
 
         for (PositionInChessFair position : positions) {
+            String color = "";
             if (position.getFigura().getName().contains("Белый")) {
-                desk = "X";
+                color = "O"; // белая шашка
             } else if (position.getFigura().getName().contains("Черный")) {
-                desk = "O";
+                color = "X"; // черная шашка
             }
-        }
 
+            // супер гениальнй код, исхожу из примера использования шаблонизатора
+            switch (position.getPositionX()) {
+                case (1):
+                    desk.get(position.getPositionY()-1).setA(color);
+                    break;
+                case (2):
+                    desk.get(position.getPositionY()-1).setB(color);
+                    break;
+                case (3):
+                    desk.get(position.getPositionY()-1).setC(color);
+                    break;
+                case (4):
+                    desk.get(position.getPositionY()-1).setD(color);
+                    break;
+                case (5):
+                    desk.get(position.getPositionY()-1).setE(color);
+                    break;
+                case (6):
+                    desk.get(position.getPositionY()-1).setF(color);
+                    break;
+                case (7):
+                    desk.get(position.getPositionY()-1).setG(color);
+                    break;
+                case (8):
+                    desk.get(position.getPositionY()-1).setH(color);
+                    break;
+            }
+
+            position.getPositionX();
+        }
         return desk;
+
     }
 
     public GameDto getOne(Long id) {

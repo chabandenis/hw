@@ -8,26 +8,26 @@
             padding: 50px;
         }
 
-        .persons {
+        .row {
             border: 1px solid steelblue;
             width: 300px;
             border-collapse: collapse;
-        }
 
-        .persons tr td, th {
+        .row tr td, th {
             padding: 5px;
             border: 1px solid steelblue;
         }
 
-        .persons td:last-child, td:first-child {
+        .row td:last-child, td:first-child {
             width: 50px;
         }
+
     </style>
 </head>
 <body>
 <h3>Persons:</h3>
 
-<table class="persons">
+<table class="row">
     <thead>
     <tr>
         <th>0</th>
@@ -42,12 +42,22 @@
     </tr>
     </thead>
     <tbody>
-    <tr th:each="game : ${game.chessFair}" th:object = "${game.chessFair}">
-        <td th:text="*{id}">1</td>
-        <td th:text="*{name}">John Doe</td>
+    <tr th:each="row : ${game.chessFair.desk}">
+        <td th:text="${row.leftClm}">_</td>
+        <td th:text="${row.a}">_</td>
+        <td th:text="${row.b}">_</td>
+        <td th:text="${row.c}">_</td>
+        <td th:text="${row.d}">_</td>
+        <td th:text="${row.e}">_</td>
+        <td th:text="${row.g}">_</td>
+        <td th:text="${row.f}">_</td>
+        <td th:text="${row.h}">_</td>
+
+<!--
         <td>
             <a href="edit.html">Edit</a>
         </td>
+-->
     </tr>
     </tbody>
 </table>
