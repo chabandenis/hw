@@ -10,7 +10,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 /*
-    фигура может быть черной или белой
+    фигура может быть черной или белой.
  */
 @Getter
 @Setter

@@ -12,6 +12,12 @@ import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 
+/*
+    Один экземпляр класса соответствует одной фишке
+    у фишки есть позиция и доска на которой она стоит
+
+ */
+
 @Getter
 @Setter
 @Entity
@@ -22,19 +28,20 @@ public class PositionInChessFair {
     @Column(name = "id", nullable = false)
     private Long id;
 
+    // позиция по горизонтали
     @Column(name = "position_x")
     private Integer positionX;
 
-
+    // позиция по вертикали
     @Column(name = "position_y")
     private Integer positionY;
 
-
+    // доска на которой стоит фишка
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "chess_fair_id")
     private ChessFair chessFair;
 
-
+    // пока цвет черный/белый
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "figura_id")
     private Figura figura;

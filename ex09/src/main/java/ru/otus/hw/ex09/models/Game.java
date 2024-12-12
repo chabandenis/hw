@@ -12,35 +12,43 @@ import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
-
-
 /*
-идентификатор игры.
-У игры есть игроки(пользователи)
-и доска, на которой играют пользователи
+Идентификатор игры.
+
+У игры есть:
+    игроки(пользователи)
+    доска с расстановкой фигур
+    игрок который ходит
  */
 @Getter
 @Setter
 @Entity
 @Table(name = "games")
 public class Game {
+
+    // идентификатор игры
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
 
+    // пользователь играющий за черных
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_black_id")
     private User userBlack;
 
-
+    // пользователь играющий за белых
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_white_id")
     private User userWhite;
 
+    //  Пользователь за которым следующий ход
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_next_id")
+    private User userNext;
 
+    // шахматная доска с расстановкой фигур
     @OneToOne(fetch = FetchType.LAZY, orphanRemoval = true)
     @JoinColumn(name = "chess_fair_id")
     private ChessFair chessFair;
-
 }
