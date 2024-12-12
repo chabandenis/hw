@@ -6,6 +6,7 @@ import lombok.Data;
 @Data
 public class RowOnTheDeskDto {
     private String leftClm;
+    private String rightClm;
     private String a;
     private String b;
     private String c;

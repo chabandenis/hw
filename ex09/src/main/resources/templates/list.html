@@ -25,20 +25,21 @@
     </style>
 </head>
 <body>
-<h3>Persons:</h3>
+<h3>Это шахматная доска с шашками. O - белая шашка. X - черная шашка:</h3>
 
 <table class="row">
     <thead>
     <tr>
-        <th>0</th>
-        <th>1</th>
-        <th>2</th>
-        <th>3</th>
-        <th>4</th>
-        <th>5</th>
-        <th>6</th>
-        <th>7</th>
-        <th>8</th>
+        <th></th>
+        <th>A</th>
+        <th>B</th>
+        <th>C</th>
+        <th>D</th>
+        <th>E</th>
+        <th>F</th>
+        <th>G</th>
+        <th>H</th>
+        <th></th>
     </tr>
     </thead>
     <tbody>
@@ -52,7 +53,7 @@
         <td th:text="${row.g}">_</td>
         <td th:text="${row.f}">_</td>
         <td th:text="${row.h}">_</td>
-
+        <td th:text="${row.rightClm}">_</td>
 <!--
         <td>
             <a href="edit.html">Edit</a>

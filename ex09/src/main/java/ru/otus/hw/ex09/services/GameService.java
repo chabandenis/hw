@@ -47,31 +47,31 @@ public class GameService {
 
             switch (i) {
                 case (0):
-                    row.setLeftClm("H");
+                    row.setLeftClm("8");
                     break;
                 case (1):
-                    row.setLeftClm("G");
+                    row.setLeftClm("7");
                     break;
                 case (2):
-                    row.setLeftClm("F");
+                    row.setLeftClm("6");
                     break;
                 case (3):
-                    row.setLeftClm("E");
+                    row.setLeftClm("5");
                     break;
                 case (4):
-                    row.setLeftClm("D");
+                    row.setLeftClm("4");
                     break;
                 case (5):
-                    row.setLeftClm("C");
+                    row.setLeftClm("3");
                     break;
                 case (6):
-                    row.setLeftClm("B");
+                    row.setLeftClm("2");
                     break;
                 case (7):
-                    row.setLeftClm("A");
+                    row.setLeftClm("1");
                     break;
             }
-
+            row.setRightClm(row.getLeftClm());
             desk.add(row);
         }
 
@@ -95,28 +95,28 @@ public class GameService {
             // супер гениальнй код, исхожу из примера использования шаблонизатора
             switch (position.getPositionX()) {
                 case (1):
-                    desk.get(position.getPositionY()-1).setA(color);
+                    desk.get(8-position.getPositionY() ).setA(color);
                     break;
                 case (2):
-                    desk.get(position.getPositionY()-1).setB(color);
+                    desk.get(8-position.getPositionY() ).setB(color);
                     break;
                 case (3):
-                    desk.get(position.getPositionY()-1).setC(color);
+                    desk.get(8-position.getPositionY() ).setC(color);
                     break;
                 case (4):
-                    desk.get(position.getPositionY()-1).setD(color);
+                    desk.get(8-position.getPositionY() ).setD(color);
                     break;
                 case (5):
-                    desk.get(position.getPositionY()-1).setE(color);
+                    desk.get(8-position.getPositionY() ).setE(color);
                     break;
                 case (6):
-                    desk.get(position.getPositionY()-1).setF(color);
+                    desk.get(8-position.getPositionY() ).setF(color);
                     break;
                 case (7):
-                    desk.get(position.getPositionY()-1).setG(color);
+                    desk.get(8-position.getPositionY() ).setG(color);
                     break;
                 case (8):
-                    desk.get(position.getPositionY()-1).setH(color);
+                    desk.get(8-position.getPositionY() ).setH(color);
                     break;
             }
 
