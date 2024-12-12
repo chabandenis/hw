@@ -29,7 +29,7 @@
 </head>
 <body>
 <h3>Уголки</h3>
-<h4>O - белая шашка. X - черная шашка:</h4>
+<h4>O - белые. X - черные</h4>
 
 <table class="checkers">
     <thead>
@@ -49,13 +49,15 @@
     <tbody>
     <tr th:each="row : ${game.chessFair.desk}">
         <td th:text="${row.leftClm}">_</td>
-        <td th:text="${row.a}">_</td>
+        <td th:text="${row.a}">_
+            <button />
+        </td>
         <td th:text="${row.b}">_</td>
         <td th:text="${row.c}">_</td>
         <td th:text="${row.d}">_</td>
         <td th:text="${row.e}">_</td>
-        <td th:text="${row.g}">_</td>
         <td th:text="${row.f}">_</td>
+        <td th:text="${row.g}">_</td>
         <td th:text="${row.h}">_</td>
         <td th:text="${row.rightClm}">_</td>
 <!--
