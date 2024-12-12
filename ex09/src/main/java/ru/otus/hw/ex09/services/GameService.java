@@ -34,7 +34,7 @@ public class GameService {
     List<RowOnTheDeskDto> createEmptyDesk() {
         List<RowOnTheDeskDto> desk = new ArrayList<>();
 
-        for (int i = 0; i <= 8; i++) {
+        for (int i = 0; i < 8; i++) {
             RowOnTheDeskDto row = new RowOnTheDeskDto();
             row.setA(" ");
             row.setB(" ");
@@ -71,9 +71,23 @@ public class GameService {
                     row.setLeftClm("1");
                     break;
             }
+
             row.setRightClm(row.getLeftClm());
             desk.add(row);
         }
+
+        // нумерация снизу
+        RowOnTheDeskDto row = new RowOnTheDeskDto();
+        row.setA("A");
+        row.setB("B");
+        row.setC("C");
+        row.setD("D");
+        row.setE("E");
+        row.setF("F");
+        row.setG("G");
+        row.setH("H");
+
+        desk.add(row);
 
         return desk;
     }
@@ -122,6 +136,7 @@ public class GameService {
 
             position.getPositionX();
         }
+
         return desk;
 
     }
