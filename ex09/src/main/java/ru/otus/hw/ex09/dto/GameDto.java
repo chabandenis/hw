@@ -1,11 +1,12 @@
 package ru.otus.hw.ex09.dto;
 
+import lombok.Data;
 import lombok.Value;
 
 /**
  * DTO for {@link ru.otus.hw.ex09.models.Game}
  */
-@Value
+@Data
 public class GameDto {
     Long id;
     UserDto userBlack;

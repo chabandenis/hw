@@ -12,7 +12,7 @@ import java.util.List;
 
 @Controller
 @AllArgsConstructor
-@RequestMapping("/")
+//@RequestMapping("/")
 public class UserController {
 
     private final UserService userService;

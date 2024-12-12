@@ -21,7 +21,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name = "position_in_chess_fair")
+@Table(name = "position_in_chess_fairs")
 public class PositionInChessFair {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
