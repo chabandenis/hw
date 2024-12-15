@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.otus.hw.ex06.converters.BookConverter;
-import ru.otus.hw.ex06.converters.CommentConverter;
 import ru.otus.hw.ex06.dto.BookDto;
 import ru.otus.hw.ex06.exceptions.EntityNotFoundException;
 import ru.otus.hw.ex06.models.Book;
@@ -12,6 +11,7 @@ import ru.otus.hw.ex06.repositories.AuthorRepository;
 import ru.otus.hw.ex06.repositories.BookRepository;
 import ru.otus.hw.ex06.repositories.GenreRepository;
 import ru.otus.hw.ex06.repositories.JpaBookRepository;
+import ru.otus.hw.ex06.repositories.JpaCommentRepository;
 
 import java.util.List;
 import java.util.Optional;
@@ -30,11 +30,9 @@ public class BookServiceImpl implements BookService {
 
     private final JpaBookRepository jpaBookRepository;
 
+    private final JpaCommentRepository jpaCommentRepository;
+
     private final BookConverter bookConverter;
-
-    private final CommentService commentService;
-
-    private final CommentConverter commentConverter;
 
     @Override
     @Transactional(readOnly = true)
@@ -68,13 +66,14 @@ public class BookServiceImpl implements BookService {
     @Override
     @Transactional
     public BookDto update(long id, String title, long authorId, Set<Long> genresIds) {
-
-        return save(id, title, authorId, genresIds);
+        return bookConverter.toDto(bookRepository.update(id, title, authorId, genresIds));
+        //return save(id, title, authorId, genresIds);
     }
 
     @Override
     @Transactional
     public void deleteById(long id) {
+        jpaCommentRepository.deleteByBookId(id);
         bookRepository.deleteById(id);
     }
 

@@ -12,7 +12,7 @@ public interface CommentRepository {
 
     Comment create(long bookId, String comment);
 
-    Comment update(long commentId, long bookId, String comment);
+    Comment update(long commentId, String comment);
 
     void deleteById(long id);
 

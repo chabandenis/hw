@@ -119,7 +119,6 @@ class CommentServiceImplTest {
         commentDto.get().setText("qwerty");
 
         var commentFound = commentService.update(commentDto.get().getId(),
-                commentDto.get().getBookId(),
                 commentDto.get().getText());
 
         assertThat(commentFound).usingRecursiveComparison().isEqualTo(commentDto.get());
@@ -127,7 +126,6 @@ class CommentServiceImplTest {
         // вернуть в исходное состояние
         commentDto.get().setText(oldComment);
         commentService.update(commentDto.get().getId(),
-                commentDto.get().getBookId(),
                 commentDto.get().getText());
     }
 

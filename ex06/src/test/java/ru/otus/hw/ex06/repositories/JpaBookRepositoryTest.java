@@ -11,15 +11,22 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.context.annotation.Import;
+import ru.otus.hw.ex06.exceptions.EntityNotFoundException;
 import ru.otus.hw.ex06.models.Author;
 import ru.otus.hw.ex06.models.Book;
 import ru.otus.hw.ex06.models.Comment;
 import ru.otus.hw.ex06.models.Genre;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThatExceptionOfType;
 
 @DisplayName("Репозиторий на основе DataJpa для работы с книгами ")
 @DataJpaTest
@@ -30,6 +37,13 @@ class JpaBookRepositoryTest {
 
     @Autowired
     private JpaBookRepository jpaBookRepository;
+
+    @Autowired
+    private JpaAuthorRepository jpaAuthorRepository;
+
+    @Autowired
+    private JpaGenreRepository jpaGenreRepository;
+
 
     @Autowired
     private TestEntityManager em;
@@ -170,5 +184,123 @@ class JpaBookRepositoryTest {
         assertThat(jpaBookRepository.findById(1L)).isPresent();
         jpaBookRepository.deleteById(1L);
         assertThat(jpaBookRepository.findById(1L)).isEmpty();
+    }
+
+    // создать книгу
+    @Test
+    void create() {
+        String title = "AAA";
+        var genres = Set.of(1l, 2l);
+        long authorId = 1;
+
+        assertThatExceptionOfType(EntityNotFoundException.class)
+                .isThrownBy(
+                        () -> jpaBookRepository.create(title, 100, Set.of())
+                )
+                .withMessage("Отсутствует автор с ID=100");
+
+        assertThatExceptionOfType(EntityNotFoundException.class)
+                .isThrownBy(
+                        () -> jpaBookRepository.create(title, authorId, Set.of(100l))
+                )
+                .withMessage("Отсутствует жанр с id=100");
+
+        Book bookCreated = jpaBookRepository.create(title, authorId, genres);
+
+        Optional<Book> bookFromDb = jpaBookRepository.findById(bookCreated.getId());
+
+        assertThat(bookFromDb).isPresent();
+
+        assertThat(bookFromDb.get().getTitle()).isEqualTo(title);
+
+        var authorInDb = jpaAuthorRepository.findById(authorId);
+
+        assertThat(authorInDb).isPresent();
+
+        assertThat(bookFromDb.get().getAuthor()).isEqualTo(authorInDb.get());
+
+
+        List<Genre> genresSort = bookFromDb.get().getGenres();
+        Collections.sort(
+                genresSort,
+                new Comparator<Genre>() {
+                    @Override
+                    public int compare(Genre o1, Genre o2) {
+                        return Long.compare(o1.getId(), o2.getId());
+                    }
+                });
+
+        List<Genre> genreSortExpected = jpaGenreRepository.findAllByIds(genres);
+        Collections.sort(
+                genreSortExpected,
+                new Comparator<Genre>() {
+                    @Override
+                    public int compare(Genre o1, Genre o2) {
+                        return Long.compare(o1.getId(), o2.getId());
+                    }
+                });
+
+        assertThat(genresSort)
+                .usingRecursiveComparison()
+                .isEqualTo(genreSortExpected);
+
+        // в исходное состояние
+        jpaBookRepository.deleteById(bookCreated.getId());
+
+    }
+
+    // удалить книгу
+    @Test
+    void update() {
+        String title = "AAA";
+        var genres = Set.of(1l, 2l);
+        long authorId = 1;
+        long bookId = 1;
+
+        var bookInDbBefore = jpaBookRepository.findById(bookId);
+        assertThat(bookInDbBefore).isPresent();
+
+        var bookAfterUpdate = jpaBookRepository.update(bookId, title, authorId, genres);
+
+        var authorInDb = jpaAuthorRepository.findById(authorId);
+        assertThat(authorInDb).isPresent();
+
+        assertThat(bookAfterUpdate.getAuthor()).isEqualTo(authorInDb.get());
+        assertThat(bookAfterUpdate.getTitle()).isEqualTo(title);
+
+        List<Genre> genresSort = bookAfterUpdate.getGenres();
+        Collections.sort(
+                genresSort,
+                new Comparator<Genre>() {
+                    @Override
+                    public int compare(Genre o1, Genre o2) {
+                        return Long.compare(o1.getId(), o2.getId());
+                    }
+                });
+
+        List<Genre> genreSortExpected = jpaGenreRepository.findAllByIds(genres);
+        Collections.sort(
+                genreSortExpected,
+                new Comparator<Genre>() {
+                    @Override
+                    public int compare(Genre o1, Genre o2) {
+                        return Long.compare(o1.getId(), o2.getId());
+                    }
+                });
+
+        assertThat(genresSort)
+                .usingRecursiveComparison()
+                .isEqualTo(genreSortExpected);
+
+        // в исходное состояние
+        jpaBookRepository.update(
+                bookInDbBefore.get().getId(),
+                bookInDbBefore.get().getTitle(),
+                bookInDbBefore.get().getAuthor().getId(),
+                bookInDbBefore.get().getGenres()
+                        .stream()
+                        .map(x -> x.getId())
+                        .collect(Collectors.toSet())
+        );
     }
 }

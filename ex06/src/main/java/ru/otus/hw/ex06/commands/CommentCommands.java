@@ -55,11 +55,12 @@ public class CommentCommands {
         return commentConverter.commentDtoToString(commentService.create(bookId, text));
     }
 
-    // cs 1111 1
     // cbbi 1
-    @ShellMethod(value = "Find book by id", key = "cs")
-    public String update(long commentId, String text, long bookId) {
-        return commentConverter.commentDtoToString(commentService.update(commentId, bookId, text));
+    // updt 1 1111
+    // cbbi 1
+    @ShellMethod(value = "Find book by id", key = "updt")
+    public String update(long commentId, String text) {
+        return commentConverter.commentDtoToString(commentService.update(commentId, text));
     }
 
 }

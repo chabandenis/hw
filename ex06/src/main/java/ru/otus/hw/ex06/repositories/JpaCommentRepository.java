@@ -1,6 +1,7 @@
 package ru.otus.hw.ex06.repositories;
 
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TypedQuery;
 import lombok.AllArgsConstructor;
@@ -45,7 +46,7 @@ public class JpaCommentRepository implements CommentRepository {
         Book book = em.find(Book.class, bookId);
 
         if (book == null) {
-            return null;
+            throw new EntityNotFoundException("В БД отсутствует книга с id=" + bookId);
         }
 
         Comment commentObj = new Comment(0, comment, book);
@@ -56,19 +57,16 @@ public class JpaCommentRepository implements CommentRepository {
     }
 
     @Override
-    public Comment update(long commentId, long bookId, String comment) {
-        Book book = em.find(Book.class, bookId);
-        if (book == null) {
-            return null;
-        }
-
+    public Comment update(long commentId, String comment) {
         Comment commentInDb = em.find(Comment.class, commentId);
+
         if (commentInDb == null) {
-            return null;
+            throw new EntityNotFoundException("В БД отсутствует комментарий с id=" + commentId);
         }
 
-        if (commentInDb.getBook().getId() != bookId) {
-            commentInDb.setBook(book);
+        Book book = em.find(Book.class, commentInDb.getBook().getId());
+        if (book == null) {
+            throw new EntityNotFoundException("В БД отсутствует книга с id=" + commentInDb.getBook().getId());
         }
 
         commentInDb.setText(comment);
