@@ -1,3 +1,6 @@
+logging:
+  level:
+    ru.otus.hw.ex09.*: DEBUG
 spring:
   datasource:
     driver-class-name: org.postgresql.Driver

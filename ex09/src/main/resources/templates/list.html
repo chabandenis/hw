@@ -111,17 +111,17 @@
     <tbody>
     <tr th:each="row : ${game.chessFair.desk}">
         <td th:text="${row.leftClm}">_</td>
-        <td th:text="${row.a}">_
-            <button/>
-        </td>
-        <td th:text="${row.b}">_</td>
-        <td th:text="${row.c}">_</td>
-        <td th:text="${row.d}">_</td>
-        <td th:text="${row.e}">_</td>
-        <td th:text="${row.f}">_</td>
-        <td th:text="${row.g}">_</td>
-        <td th:text="${row.h}">_</td>
+
+        <td th:text="${row.arr[0].val}">_</td>
+        <td th:text="${row.arr[1].val}">_</td>
+        <td th:text="${row.arr[2].val}">_</td>
+        <td th:text="${row.arr[3].val}">_</td>
+        <td th:text="${row.arr[4].val}">_</td>
+        <td th:text="${row.arr[5].val}">_</td>
+        <td th:text="${row.arr[6].val}">_</td>
+        <td th:text="${row.arr[7].val}">_</td>
         <td th:text="${row.rightClm}">_</td>
+
         <!--
                 <td>
                     <a href="edit.html">Edit</a>

@@ -7,6 +7,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 import ru.otus.hw.ex09.dto.GameDto;
 import ru.otus.hw.ex09.dto.InputXYDTO;
+import ru.otus.hw.ex09.dto.PositionInChessFairDto;
+import ru.otus.hw.ex09.dto.desk.ClmDto;
 import ru.otus.hw.ex09.dto.desk.RowOnTheDeskDto;
 import ru.otus.hw.ex09.mapper.GameMapper;
 import ru.otus.hw.ex09.mapper.PositionInChessFairMapper;
@@ -16,9 +18,12 @@ import ru.otus.hw.ex09.repositories.GameRepository;
 import ru.otus.hw.ex09.repositories.PositionInChessFairRepository;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
+//@Log4j
 @RequiredArgsConstructor
 @Service
 public class GameService {
@@ -38,25 +43,31 @@ public class GameService {
     private int x2;
     private int y2;
 
-    private void convert(InputXYDTO inputXYDTO){
+    private void convert(InputXYDTO inputXYDTO) {
         y1 = Integer.parseInt(inputXYDTO.getYFirst());
-        x1 = inputXYDTO.getXFirst().toUpperCase().charAt(0);
+        x1 = inputXYDTO.getXFirst().toUpperCase().charAt(0) - 'A' + 1;
         y2 = Integer.parseInt(inputXYDTO.getYSecond());
-        x2 = inputXYDTO.getXSecond().toUpperCase().charAt(0);
+        x2 = inputXYDTO.getXSecond().toUpperCase().charAt(0) - 'A' + 1;
     }
 
     @Transactional
     public void doStep(
             GameDto gameDto,
-            InputXYDTO inputXYDTO)
-    {
+            InputXYDTO inputXYDTO) {
         // проверка значений
         inputXYService.verfif(inputXYDTO);
 
         // поиск значений
         convert(inputXYDTO);
 
+/*        Optional<PositionInChessFairDto> pos = gameDto.getChessFair().getPositionInChessFairDtos()
+                .stream()
+                .filter(x -> x.getPositionX() == x1 && x.getPositionY() == y1)
+                .findFirst();
 
+        System.out.println(pos);
+
+ */
     }
 
     // пустая доска
@@ -65,57 +76,24 @@ public class GameService {
 
         for (int i = 0; i < 8; i++) {
             RowOnTheDeskDto row = new RowOnTheDeskDto();
-            row.setA(" ");
-            row.setB(" ");
-            row.setC(" ");
-            row.setD(" ");
-            row.setE(" ");
-            row.setF(" ");
-            row.setG(" ");
-            row.setH(" ");
-
-            switch (i) {
-                case (0):
-                    row.setLeftClm("8");
-                    break;
-                case (1):
-                    row.setLeftClm("7");
-                    break;
-                case (2):
-                    row.setLeftClm("6");
-                    break;
-                case (3):
-                    row.setLeftClm("5");
-                    break;
-                case (4):
-                    row.setLeftClm("4");
-                    break;
-                case (5):
-                    row.setLeftClm("3");
-                    break;
-                case (6):
-                    row.setLeftClm("2");
-                    break;
-                case (7):
-                    row.setLeftClm("1");
-                    break;
+            Map<Integer, ClmDto> arr = new HashMap<>();
+            for (int j = 0; j < 8; j++) {
+                arr.put(j, new ClmDto("", new PositionInChessFairDto()));
             }
-
+            row.setLeftClm(String.valueOf(8 - i));
             row.setRightClm(row.getLeftClm());
+            row.setArr(arr);
             desk.add(row);
         }
 
         // нумерация снизу
         RowOnTheDeskDto row = new RowOnTheDeskDto();
-        row.setA("A");
-        row.setB("B");
-        row.setC("C");
-        row.setD("D");
-        row.setE("E");
-        row.setF("F");
-        row.setG("G");
-        row.setH("H");
-
+        Map<Integer, ClmDto> bottomLine = new HashMap<>();
+        for (int j = 0; j < 8; j++) {
+            bottomLine.put(j, new ClmDto(String.valueOf((char) ("A".charAt(0) + j))
+                    , new PositionInChessFairDto()));
+        }
+        row.setArr(bottomLine);
         desk.add(row);
 
         return desk;
@@ -135,34 +113,37 @@ public class GameService {
                 color = "X"; // черная шашка
             }
 
-            // супер гениальнй код, исхожу из примера использования шаблонизатора
+
+            desk.get(8 - position.getPositionY()).getArr().put(position.getPositionX()-1, new ClmDto(color, null));
+
+/*
             switch (position.getPositionX()) {
                 case (1):
-                    desk.get(8 - position.getPositionY()).setA(color);
+
                     break;
                 case (2):
-                    desk.get(8 - position.getPositionY()).setB(color);
+                    desk.get(8 - position.getPositionY()).getArr().put(0, color);
                     break;
                 case (3):
-                    desk.get(8 - position.getPositionY()).setC(color);
+                    desk.get(8 - position.getPositionY()).getArr().put(0, color);
                     break;
                 case (4):
-                    desk.get(8 - position.getPositionY()).setD(color);
+                    desk.get(8 - position.getPositionY()).getArr().put(0, color);
                     break;
                 case (5):
-                    desk.get(8 - position.getPositionY()).setE(color);
+                    desk.get(8 - position.getPositionY()).getArr().put(0, color);
                     break;
                 case (6):
-                    desk.get(8 - position.getPositionY()).setF(color);
+                    desk.get(8 - position.getPositionY()).getArr().put(0, color);
                     break;
                 case (7):
-                    desk.get(8 - position.getPositionY()).setG(color);
+                    desk.get(8 - position.getPositionY()).getArr().put(0, color);
                     break;
                 case (8):
                     desk.get(8 - position.getPositionY()).setH(color);
                     break;
             }
-
+*/
             position.getPositionX();
         }
 

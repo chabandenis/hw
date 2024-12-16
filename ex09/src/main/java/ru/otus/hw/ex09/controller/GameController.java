@@ -63,8 +63,8 @@ public class GameController {
         var game = gameService.getOne(gameId);
         log.info(game.toString());
 
-
-        gameService.doStep(gameDto, inputXYDTO);
+        // todo под вопросом причины пустого gameDto, хотя передается inputXYDTO
+        gameService.doStep(game, inputXYDTO);
 
 
         model.addAttribute("game", game);

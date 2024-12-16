@@ -2,17 +2,25 @@ package ru.otus.hw.ex09.dto.desk;
 
 import lombok.Data;
 
-// в примере в таблицу можно передавать по именованным колонкам, так их и оставил, на первый раз, но это не удобно
+import java.util.HashMap;
+import java.util.Map;
+
+//
 @Data
 public class RowOnTheDeskDto {
     private String leftClm;
     private String rightClm;
-    private String a;
-    private String b;
-    private String c;
-    private String d;
-    private String e;
-    private String f;
-    private String g;
-    private String h;
+
+    private Map<Integer, ClmDto> arr = new HashMap<>();
+    /*=
+            Map.of(
+                    0, new ClmDto("", null),
+                    1, new ClmDto("", null),
+                    2, new ClmDto("", null),
+                    3, new ClmDto("", null),
+                    4, new ClmDto("", null),
+                    5, new ClmDto("", null),
+                    6, new ClmDto("", null),
+                    7, new ClmDto("", null)
+            );*/
 }
