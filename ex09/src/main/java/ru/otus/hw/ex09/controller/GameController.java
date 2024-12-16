@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import ru.otus.hw.ex09.dto.GameDto;
 import ru.otus.hw.ex09.dto.InputXYDTO;
 import ru.otus.hw.ex09.services.GameService;
+import ru.otus.hw.ex09.services.InputXYService;
 
 @Slf4j
 @Controller
@@ -23,6 +24,8 @@ public class GameController {
     private final GameService gameService;
 
     private final InputXYDTO inputXYDTO;
+
+    private final InputXYService inputXYService;
 
     private Long gameId;
 
@@ -55,10 +58,14 @@ public class GameController {
     // выполнить ход
     @RequestMapping(value="/do-stuff2", method = RequestMethod.POST)
     public String doStuffMethod2(Model model,
-                                // @ModelAttribute("game") GameDto gameDto,
+                                 @ModelAttribute("game") GameDto gameDto,
                                  @ModelAttribute("xys") InputXYDTO inputXYDTO) {
         var game = gameService.getOne(gameId);
         log.info(game.toString());
+
+
+        gameService.doStep(gameDto, inputXYDTO);
+
 
         model.addAttribute("game", game);
         model.addAttribute("xys", inputXYDTO);

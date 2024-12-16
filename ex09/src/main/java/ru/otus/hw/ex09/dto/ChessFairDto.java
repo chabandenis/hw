@@ -15,6 +15,5 @@ public class ChessFairDto {
     // вид удобный для отображения в таблице в TL
     List<RowOnTheDeskDto> desk;
 
-    // скорее всего избыточная и не нужная информация, todo удалить
-    //List<PositionInChessFairDto> positionInChessFairDtos;
+    List<PositionInChessFairDto> positionInChessFairDtos;
 }

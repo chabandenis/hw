@@ -3,8 +3,10 @@ package ru.otus.hw.ex09.services;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 import ru.otus.hw.ex09.dto.GameDto;
+import ru.otus.hw.ex09.dto.InputXYDTO;
 import ru.otus.hw.ex09.dto.desk.RowOnTheDeskDto;
 import ru.otus.hw.ex09.mapper.GameMapper;
 import ru.otus.hw.ex09.mapper.PositionInChessFairMapper;
@@ -29,6 +31,33 @@ public class GameService {
 
     private final PositionInChessFairRepository positionInChessFairRepository;
 
+    private final InputXYService inputXYService;
+
+    private int x1;
+    private int y1;
+    private int x2;
+    private int y2;
+
+    private void convert(InputXYDTO inputXYDTO){
+        y1 = Integer.parseInt(inputXYDTO.getYFirst());
+        x1 = inputXYDTO.getXFirst().toUpperCase().charAt(0);
+        y2 = Integer.parseInt(inputXYDTO.getYSecond());
+        x2 = inputXYDTO.getXSecond().toUpperCase().charAt(0);
+    }
+
+    @Transactional
+    public void doStep(
+            GameDto gameDto,
+            InputXYDTO inputXYDTO)
+    {
+        // проверка значений
+        inputXYService.verfif(inputXYDTO);
+
+        // поиск значений
+        convert(inputXYDTO);
+
+
+    }
 
     // пустая доска
     List<RowOnTheDeskDto> createEmptyDesk() {
@@ -109,28 +138,28 @@ public class GameService {
             // супер гениальнй код, исхожу из примера использования шаблонизатора
             switch (position.getPositionX()) {
                 case (1):
-                    desk.get(8-position.getPositionY() ).setA(color);
+                    desk.get(8 - position.getPositionY()).setA(color);
                     break;
                 case (2):
-                    desk.get(8-position.getPositionY() ).setB(color);
+                    desk.get(8 - position.getPositionY()).setB(color);
                     break;
                 case (3):
-                    desk.get(8-position.getPositionY() ).setC(color);
+                    desk.get(8 - position.getPositionY()).setC(color);
                     break;
                 case (4):
-                    desk.get(8-position.getPositionY() ).setD(color);
+                    desk.get(8 - position.getPositionY()).setD(color);
                     break;
                 case (5):
-                    desk.get(8-position.getPositionY() ).setE(color);
+                    desk.get(8 - position.getPositionY()).setE(color);
                     break;
                 case (6):
-                    desk.get(8-position.getPositionY() ).setF(color);
+                    desk.get(8 - position.getPositionY()).setF(color);
                     break;
                 case (7):
-                    desk.get(8-position.getPositionY() ).setG(color);
+                    desk.get(8 - position.getPositionY()).setG(color);
                     break;
                 case (8):
-                    desk.get(8-position.getPositionY() ).setH(color);
+                    desk.get(8 - position.getPositionY()).setH(color);
                     break;
             }
 
