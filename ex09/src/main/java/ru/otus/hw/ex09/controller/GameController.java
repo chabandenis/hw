@@ -5,10 +5,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import ru.otus.hw.ex09.dto.GameDto;
+import ru.otus.hw.ex09.dto.InputXYDTO;
 import ru.otus.hw.ex09.services.GameService;
 
 @Slf4j
@@ -19,14 +22,51 @@ public class GameController {
 
     private final GameService gameService;
 
+    private final InputXYDTO inputXYDTO;
+
+    private Long gameId;
+
     // игра прописана в БД
     //http://localhost:8080/game/1
     @GetMapping("/game/{id}")
     public /*@ResponseBody */String getOne(@PathVariable Long id, Model model) {
+        gameId = id;
         var game = gameService.getOne(id);
         log.info(game.toString());
+
         model.addAttribute("game", game);
+        model.addAttribute("xys", inputXYDTO);
         return "list";
     }
+
+    // выполнить ход
+    @RequestMapping(value="/do-stuff/{str}")
+    public String doStuffMethod(@PathVariable String str, Model model) {
+        var game = gameService.getOne(gameId);
+        log.info(game.toString());
+
+        model.addAttribute("game", game);
+        model.addAttribute("xys", inputXYDTO);
+
+        System.out.println("Success + " + str);
+        return "list";
+    }
+
+    // выполнить ход
+    @RequestMapping(value="/do-stuff2", method = RequestMethod.POST)
+    public String doStuffMethod2(Model model,
+                                // @ModelAttribute("game") GameDto gameDto,
+                                 @ModelAttribute("xys") InputXYDTO inputXYDTO) {
+        var game = gameService.getOne(gameId);
+        log.info(game.toString());
+
+        model.addAttribute("game", game);
+        model.addAttribute("xys", inputXYDTO);
+
+//        System.out.println("gameDto + " + gameDto);
+        System.out.println("inputXYDTO + " + inputXYDTO);
+        return "list";
+    }
+
 }
 
