@@ -43,19 +43,6 @@ public class GameController {
     }
 
     // выполнить ход
-    @RequestMapping(value="/do-stuff/{str}")
-    public String doStuffMethod(@PathVariable String str, Model model) {
-        var game = gameService.getOne(gameId);
-        log.info(game.toString());
-
-        model.addAttribute("game", game);
-        model.addAttribute("xys", inputXYDTO);
-
-        System.out.println("Success + " + str);
-        return "list";
-    }
-
-    // выполнить ход
     @RequestMapping(value="/do-stuff2", method = RequestMethod.POST)
     public String doStuffMethod2(Model model,
                                  @ModelAttribute("game") GameDto gameDto,
@@ -66,6 +53,8 @@ public class GameController {
         // todo под вопросом причины пустого gameDto, хотя передается inputXYDTO
         gameService.doStep(game, inputXYDTO);
 
+        game = gameService.getOne(gameId);
+        log.info(game.toString());
 
         model.addAttribute("game", game);
         model.addAttribute("xys", inputXYDTO);

@@ -3,10 +3,17 @@ logging:
     ru.otus.hw.ex09.*: DEBUG
 spring:
   datasource:
-    driver-class-name: org.postgresql.Driver
-    password: 1
-    username: postgres
-    url: jdbc:postgresql://localhost/mydb
+    driver-class-name: org.h2.Driver
+    password: ''
+    username: sa
+    url: jdbc:h2:mem:hw
+
+#  datasource:
+#    driver-class-name: org.postgresql.Driver
+#    password: 1
+#    username: postgres
+#    url: jdbc:postgresql://localhost/mydb
+
   jpa:
     show-sql: true
     properties:

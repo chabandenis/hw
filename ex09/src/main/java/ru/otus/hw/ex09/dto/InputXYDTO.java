@@ -21,4 +21,5 @@ public class InputXYDTO {
     private String xSecond = "";
     private String ySecond;
 
+
 }

@@ -1,7 +1,7 @@
-INSERT INTO public.users ("name")
+INSERT INTO users (name)
 VALUES('user 1'), ('user 2'), ('user 3');
 
-INSERT INTO public.figuras ("name")
+INSERT INTO figuras (name)
 VALUES('Белый'), ('Черный');
 
 INSERT INTO public.chess_fairs

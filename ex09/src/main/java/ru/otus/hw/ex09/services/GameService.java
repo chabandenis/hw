@@ -11,6 +11,7 @@ import ru.otus.hw.ex09.dto.PositionInChessFairDto;
 import ru.otus.hw.ex09.dto.desk.ClmDto;
 import ru.otus.hw.ex09.dto.desk.RowOnTheDeskDto;
 import ru.otus.hw.ex09.mapper.GameMapper;
+import ru.otus.hw.ex09.mapper.ImputXYMapper;
 import ru.otus.hw.ex09.mapper.PositionInChessFairMapper;
 import ru.otus.hw.ex09.models.Game;
 import ru.otus.hw.ex09.models.PositionInChessFair;
@@ -38,16 +39,20 @@ public class GameService {
 
     private final InputXYService inputXYService;
 
+    private final ImputXYMapper imputXYMapper;
+
     private int x1;
     private int y1;
     private int x2;
     private int y2;
 
     private void convert(InputXYDTO inputXYDTO) {
-        y1 = Integer.parseInt(inputXYDTO.getYFirst());
-        x1 = inputXYDTO.getXFirst().toUpperCase().charAt(0) - 'A' + 1;
+        // координты в DTO
+        y1 = 8 - Integer.parseInt(inputXYDTO.getYFirst());
+        x1 = inputXYDTO.getXFirst().toUpperCase().charAt(0) - 'A';
+        // координаты в БД
         y2 = Integer.parseInt(inputXYDTO.getYSecond());
-        x2 = inputXYDTO.getXSecond().toUpperCase().charAt(0) - 'A' + 1;
+        x2 = inputXYDTO.getXSecond().toUpperCase().charAt(0) - 'A'+1;
     }
 
     @Transactional
@@ -60,14 +65,22 @@ public class GameService {
         // поиск значений
         convert(inputXYDTO);
 
-/*        Optional<PositionInChessFairDto> pos = gameDto.getChessFair().getPositionInChessFairDtos()
-                .stream()
-                .filter(x -> x.getPositionX() == x1 && x.getPositionY() == y1)
-                .findFirst();
+        var posId = gameDto.getChessFair().getDesk().get(y1)
+                .getArr().get(x1).getPosition().getId();
 
-        System.out.println(pos);
+        PositionInChessFair position =
+                positionInChessFairRepository.findById(posId).get();
 
- */
+        position.setPositionX(x2);
+        position.setPositionY(y2);
+
+        positionInChessFairRepository.save(position);
+
+        inputXYDTO.setXFirst("");
+        inputXYDTO.setYFirst("");
+        inputXYDTO.setXSecond("");
+        inputXYDTO.setYSecond("");
+
     }
 
     // пустая доска
@@ -113,37 +126,11 @@ public class GameService {
                 color = "X"; // черная шашка
             }
 
+            desk.get(8 - position.getPositionY())
+                    .getArr()
+                    .put(position.getPositionX() - 1,
+                            new ClmDto(color, positionInChessFairMapper.toPositionInChessFairDto(position)));
 
-            desk.get(8 - position.getPositionY()).getArr().put(position.getPositionX()-1, new ClmDto(color, null));
-
-/*
-            switch (position.getPositionX()) {
-                case (1):
-
-                    break;
-                case (2):
-                    desk.get(8 - position.getPositionY()).getArr().put(0, color);
-                    break;
-                case (3):
-                    desk.get(8 - position.getPositionY()).getArr().put(0, color);
-                    break;
-                case (4):
-                    desk.get(8 - position.getPositionY()).getArr().put(0, color);
-                    break;
-                case (5):
-                    desk.get(8 - position.getPositionY()).getArr().put(0, color);
-                    break;
-                case (6):
-                    desk.get(8 - position.getPositionY()).getArr().put(0, color);
-                    break;
-                case (7):
-                    desk.get(8 - position.getPositionY()).getArr().put(0, color);
-                    break;
-                case (8):
-                    desk.get(8 - position.getPositionY()).setH(color);
-                    break;
-            }
-*/
             position.getPositionX();
         }
 
