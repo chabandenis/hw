@@ -8,6 +8,8 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.NamedAttributeNode;
+import jakarta.persistence.NamedEntityGraph;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.Getter;
@@ -25,6 +27,13 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(name = "games")
+@NamedEntityGraph(name = "game-graph",
+        attributeNodes = {
+                @NamedAttributeNode("userBlack"),
+                @NamedAttributeNode("userWhite"),
+                @NamedAttributeNode("userNext"),
+                @NamedAttributeNode("chessFair"),
+        })
 public class Game {
 
     // идентификатор игры
