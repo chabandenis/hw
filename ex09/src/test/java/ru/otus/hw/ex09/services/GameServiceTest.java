@@ -87,7 +87,6 @@ class GameServiceTest {
 
     }
 
-
     @Test
     void getOne() {
         long idExpected = 1l;
