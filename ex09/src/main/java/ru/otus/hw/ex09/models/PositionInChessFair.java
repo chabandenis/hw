@@ -8,9 +8,13 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.NamedAttributeNode;
+import jakarta.persistence.NamedEntityGraph;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 /*
     Один экземпляр класса соответствует одной фишке
@@ -22,6 +26,11 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(name = "position_in_chess_fairs")
+@NamedEntityGraph(name = "position-in-chess-fair-graph",
+        attributeNodes = {
+                @NamedAttributeNode("chessFair"),
+                @NamedAttributeNode("figura")
+        })
 public class PositionInChessFair {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
