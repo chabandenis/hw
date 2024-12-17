@@ -1,5 +1,7 @@
 package ru.otus.hw.ex09;
 
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -25,7 +27,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
 
 @WebMvcTest({GameController.class,
@@ -40,42 +41,10 @@ class Ex09ApplicationTests {
     @MockBean
     private GameService gameService;
 
-    @Test
-    public void doStuffMethod2() throws Exception {
-        mockMvc.perform(post("/do-stuff2")
-                        .param("id", "0")
-                        .param("userBlack", """
-                                {
-                                    "id": 0,
-                                    "name": ""
-                                }""")
-                        .param("userWhite", """
-                                {
-                                    "id": 0,
-                                    "name": ""
-                                }""")
-                        .param("userNext", """
-                                {
-                                    "id": 0,
-                                    "name": ""
-                                }""")
-                        .param("chessFair", """
-                                {
-                                    "id": 0,
-                                    "desk": [],
-                                    "positionInChessFairDtos": []
-                                }""")
-                        .param("xFirst", "")
-                        .param("yFirst", "")
-                        .param("xSecond", "")
-                        .param("ySecond", ""))
-                .andExpect(status().isOk())
-                .andDo(print());
-    }
+    private GameDto gameDto = new GameDto();
 
-    @Test
-    public void getOne() throws Exception {
-        GameDto gameDto = new GameDto();
+    @BeforeEach
+    void setUp() {
         gameDto.setId(1l);
 
         ChessFairDto chessFairDto = new ChessFairDto();
@@ -101,6 +70,53 @@ class Ex09ApplicationTests {
         gameDto.setUserBlack(new UserDto(1l, "user 1"));
         gameDto.setUserNext(new UserDto(1l, "user 1"));
         gameDto.setUserWhite(new UserDto(2l, "user 2"));
+    }
+
+    @Test
+    public void doStuffMethod2() throws Exception {
+        when(gameService.getOne(1L))
+                .thenReturn(
+                        gameDto
+                );
+
+        mockMvc.perform(post("/do-stuff2")
+                                .param("id", "1")
+/*                        .param("userBlack", """
+                                {
+                                    "id": 0,
+                                    "name": ""
+                                }""")
+                        .param("userWhite", """
+                                {
+                                    "id": 0,
+                                    "name": ""
+                                }""")
+                        .param("userNext", """
+                                {
+                                    "id": 0,
+                                    "name": ""
+                                }""")
+                        .param("chessFair", """
+                                {
+                                    "id": 0,
+                                    "desk": [],
+                                    "positionInChessFairDtos": []
+                                }""")
+                        .param("xFirst", "")
+                        .param("yFirst", "")
+                        .param("xSecond", "")
+                        .param("ySecond", ""))
+
+ */
+                )
+                .andExpect(status().isOk())
+                .andDo(print());
+    }
+
+    @Test
+    public void getOne() throws Exception {
+
+
 
 
         when(gameService.getOne(1L))
