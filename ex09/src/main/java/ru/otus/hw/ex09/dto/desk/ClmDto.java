@@ -2,7 +2,6 @@ package ru.otus.hw.ex09.dto.desk;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import ru.otus.hw.ex09.dto.PositionInChessFairDto;
 
 @Data
 @AllArgsConstructor

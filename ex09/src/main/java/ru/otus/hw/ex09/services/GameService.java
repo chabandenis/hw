@@ -7,7 +7,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 import ru.otus.hw.ex09.dto.GameDto;
 import ru.otus.hw.ex09.dto.InputXYDTO;
-import ru.otus.hw.ex09.dto.PositionInChessFairDto;
 import ru.otus.hw.ex09.dto.desk.ClmDto;
 import ru.otus.hw.ex09.dto.desk.RowOnTheDeskDto;
 import ru.otus.hw.ex09.mapper.GameMapper;
