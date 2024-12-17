@@ -79,6 +79,12 @@ class Ex09ApplicationTests {
                         gameDto
                 );
 
+        when(gameService.getOne(null))
+                .thenReturn(
+                        gameDto
+                );
+
+
         mockMvc.perform(post("/do-stuff2")
                                 .param("id", "1")
 /*                        .param("userBlack", """
