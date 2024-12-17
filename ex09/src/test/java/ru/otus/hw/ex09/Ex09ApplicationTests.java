@@ -1,6 +1,5 @@
 package ru.otus.hw.ex09;
 
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,6 +56,13 @@ class Ex09ApplicationTests {
         ClmDto clmDto = new ClmDto("X", 1l);
 
         arr.put(0, clmDto);
+        arr.put(1, clmDto);
+        arr.put(2, clmDto);
+        arr.put(3, clmDto);
+        arr.put(4, clmDto);
+        arr.put(5, clmDto);
+        arr.put(6, clmDto);
+        arr.put(7, clmDto);
 
         rowOnTheDeskDto.setArr(arr);
         rowOnTheDeskDto.setRightClm(" ");
@@ -86,8 +92,8 @@ class Ex09ApplicationTests {
 
 
         mockMvc.perform(post("/do-stuff2")
-                                .param("id", "1")
-/*                        .param("userBlack", """
+                        .param("id", "1")
+                        .param("userBlack", """
                                 {
                                     "id": 0,
                                     "name": ""
@@ -112,17 +118,12 @@ class Ex09ApplicationTests {
                         .param("yFirst", "")
                         .param("xSecond", "")
                         .param("ySecond", ""))
-
- */
-                )
                 .andExpect(status().isOk())
                 .andDo(print());
     }
 
     @Test
     public void getOne() throws Exception {
-
-
 
 
         when(gameService.getOne(1L))
