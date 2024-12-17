@@ -42,8 +42,11 @@ public class GameService {
     private final ImputXYMapper imputXYMapper;
 
     private int x1;
+
     private int y1;
+
     private int x2;
+
     private int y2;
 
     private void convert(InputXYDTO inputXYDTO) {
@@ -52,7 +55,7 @@ public class GameService {
         x1 = inputXYDTO.getXFirst().toUpperCase().charAt(0) - 'A';
         // координаты в БД
         y2 = Integer.parseInt(inputXYDTO.getYSecond());
-        x2 = inputXYDTO.getXSecond().toUpperCase().charAt(0) - 'A'+1;
+        x2 = inputXYDTO.getXSecond().toUpperCase().charAt(0) - 'A' + 1;
     }
 
     @Transactional
@@ -66,7 +69,7 @@ public class GameService {
         convert(inputXYDTO);
 
         var posId = gameDto.getChessFair().getDesk().get(y1)
-                .getArr().get(x1).getPosition().getId();
+                .getArr().get(x1).getPositionId();
 
         PositionInChessFair position =
                 positionInChessFairRepository.findById(posId).get();
@@ -86,29 +89,26 @@ public class GameService {
     // пустая доска
     List<RowOnTheDeskDto> createEmptyDesk() {
         List<RowOnTheDeskDto> desk = new ArrayList<>();
-
         for (int i = 0; i < 8; i++) {
             RowOnTheDeskDto row = new RowOnTheDeskDto();
             Map<Integer, ClmDto> arr = new HashMap<>();
             for (int j = 0; j < 8; j++) {
-                arr.put(j, new ClmDto("", new PositionInChessFairDto()));
+                arr.put(j, new ClmDto("", null));
             }
             row.setLeftClm(String.valueOf(8 - i));
             row.setRightClm(row.getLeftClm());
             row.setArr(arr);
             desk.add(row);
         }
-
         // нумерация снизу
         RowOnTheDeskDto row = new RowOnTheDeskDto();
         Map<Integer, ClmDto> bottomLine = new HashMap<>();
         for (int j = 0; j < 8; j++) {
             bottomLine.put(j, new ClmDto(String.valueOf((char) ("A".charAt(0) + j))
-                    , new PositionInChessFairDto()));
+                    , null));
         }
         row.setArr(bottomLine);
         desk.add(row);
-
         return desk;
     }
 
@@ -129,7 +129,7 @@ public class GameService {
             desk.get(8 - position.getPositionY())
                     .getArr()
                     .put(position.getPositionX() - 1,
-                            new ClmDto(color, positionInChessFairMapper.toPositionInChessFairDto(position)));
+                            new ClmDto(color, position.getId()));
 
             position.getPositionX();
         }
@@ -145,16 +145,7 @@ public class GameService {
         var gameDto = gameMapper.toGameDto(gameOptional.orElseThrow(() ->
                 new ResponseStatusException(HttpStatus.NOT_FOUND, "Entity with id `%s` not found".formatted(id))));
 
-        var chessFair = positionInChessFairRepository.findByChessFair_Id(gameDto.getChessFair().getId());
-
-
-        /* возможно потребуется сохранение
-        gameDto.getChessFair().setPositionInChessFairDtos(
-                chessFair
-                        .stream()
-                        .map(positionInChessFairMapper::toPositionInChessFairDto)
-                        .toList()
-        );*/
+        var chessFair = positionInChessFairRepository.findByChessFairId(gameDto.getChessFair().getId());
 
         // расставить фигуры в виде удобном для отображения в TL
         gameDto.getChessFair().setDesk(fillFigureOnTheDesk(chessFair));

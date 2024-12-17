@@ -8,7 +8,9 @@ import java.util.Map;
 //
 @Data
 public class RowOnTheDeskDto {
+
     private String leftClm;
+
     private String rightClm;
 
     private Map<Integer, ClmDto> arr = new HashMap<>();

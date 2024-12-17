@@ -10,10 +10,11 @@ import java.util.List;
  */
 @Data
 public class ChessFairDto {
-    Long id;
+
+    private Long id;
 
     // вид удобный для отображения в таблице в TL
-    List<RowOnTheDeskDto> desk;
+    private List<RowOnTheDeskDto> desk;
 
-    List<PositionInChessFairDto> positionInChessFairDtos;
+    private List<PositionInChessFairDto> positionInChessFairDtos;
 }

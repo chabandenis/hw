@@ -7,7 +7,8 @@ import ru.otus.hw.ex09.dto.PositionInChessFairDto;
 @Data
 @AllArgsConstructor
 public class ClmDto {
-    private String val = "";
 
-    private PositionInChessFairDto position;
+    private String val;
+
+    private Long positionId;
 }

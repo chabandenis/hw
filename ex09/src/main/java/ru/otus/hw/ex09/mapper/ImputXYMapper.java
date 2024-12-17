@@ -6,20 +6,20 @@ import org.springframework.stereotype.Component;
 @Component
 @Data
 public class ImputXYMapper {
-    Integer xToDto(Integer x){
-        return x-1;
+    Integer xToDto(Integer x) {
+        return x - 1;
     }
 
-    Integer yToDto(Integer y){
-        return 8-y;
+    Integer yToDto(Integer y) {
+        return 8 - y;
     }
 
-    Integer xDtoToX(Integer x){
-        return x+1;
+    Integer xDtoToX(Integer x) {
+        return x + 1;
     }
 
-    Integer yDtoToY(Integer y){
-        return y-8;
+    Integer yDtoToY(Integer y) {
+        return y - 8;
     }
 
 }

@@ -6,7 +6,8 @@ import org.mapstruct.ReportingPolicy;
 import ru.otus.hw.ex09.dto.PositionInChessFairDto;
 import ru.otus.hw.ex09.models.PositionInChessFair;
 
-@Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE, componentModel = MappingConstants.ComponentModel.SPRING, uses = {FiguraMapper.class})
+@Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE,
+        componentModel = MappingConstants.ComponentModel.SPRING, uses = {FiguraMapper.class})
 public interface PositionInChessFairMapper {
     PositionInChessFair toEntity(PositionInChessFairDto positionInChessFairDto);
 

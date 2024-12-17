@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 import ru.otus.hw.ex09.dto.GameDto;
 import ru.otus.hw.ex09.dto.InputXYDTO;
 import ru.otus.hw.ex09.services.GameService;
@@ -43,7 +42,7 @@ public class GameController {
     }
 
     // выполнить ход
-    @RequestMapping(value="/do-stuff2", method = RequestMethod.POST)
+    @RequestMapping(value = "/do-stuff2", method = RequestMethod.POST)
     public String doStuffMethod2(Model model,
                                  @ModelAttribute("game") GameDto gameDto,
                                  @ModelAttribute("xys") InputXYDTO inputXYDTO) {

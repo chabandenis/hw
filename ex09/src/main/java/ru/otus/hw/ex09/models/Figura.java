@@ -22,6 +22,6 @@ public class Figura {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    String name;
+    private String name;
 
 }

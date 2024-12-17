@@ -9,8 +9,11 @@ import ru.otus.hw.ex09.dto.InputXYDTO;
 public class InputXYService {
 
     private String x1 = "Incorrect";
+
     private String y1 = "Incorrect";
+
     private String x2 = "Incorrect";
+
     private String y2 = "Incorrect";
 
     private boolean verifString(String val) {
