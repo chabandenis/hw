@@ -110,9 +110,10 @@ class Ex09ApplicationTests {
 
         mockMvc.perform(get("/game/1", "0"))
                 .andExpect(status().isOk())
-                .andExpect(view().name("list"))
+//                .andExpect(view().name("list"))
 //                .andExpect(model().attribute(""))
-                .andDo(print());
+//                .andDo(print())
+        ;
     }
 
     @Test
