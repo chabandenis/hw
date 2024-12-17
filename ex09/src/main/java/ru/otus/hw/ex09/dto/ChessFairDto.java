@@ -16,5 +16,4 @@ public class ChessFairDto {
     // вид удобный для отображения в таблице в TL
     private List<RowOnTheDeskDto> desk;
 
-    private List<PositionInChessFairDto> positionInChessFairDtos;
 }

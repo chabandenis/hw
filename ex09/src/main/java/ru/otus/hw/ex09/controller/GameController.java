@@ -16,7 +16,6 @@ import ru.otus.hw.ex09.services.InputXYService;
 
 @Slf4j
 @Controller
-//@RequestMapping("/")
 @RequiredArgsConstructor
 public class GameController {
 
@@ -46,6 +45,9 @@ public class GameController {
     public String doStuffMethod2(Model model,
                                  @ModelAttribute("game") GameDto gameDto,
                                  @ModelAttribute("xys") InputXYDTO inputXYDTO) {
+
+        log.info("Зашли с gameDto: " + gameDto.toString());
+
         var game = gameService.getOne(gameId);
         log.info(game.toString());
 
