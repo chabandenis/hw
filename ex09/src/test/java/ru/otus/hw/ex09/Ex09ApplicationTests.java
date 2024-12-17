@@ -26,6 +26,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
 
 @WebMvcTest({GameController.class,
@@ -90,7 +91,6 @@ class Ex09ApplicationTests {
                         gameDto
                 );
 
-
         mockMvc.perform(post("/do-stuff2")
                         .param("id", "1")
                         .param("userBlack", """
@@ -119,6 +119,7 @@ class Ex09ApplicationTests {
                         .param("xSecond", "")
                         .param("ySecond", ""))
                 .andExpect(status().isOk())
+                .andExpect(view().name("do-stuff2"))
                 .andDo(print());
     }
 
@@ -130,12 +131,16 @@ class Ex09ApplicationTests {
                 .thenReturn(
                         gameDto
                 );
+        when(gameService.getOne(null))
+                .thenReturn(
+                        gameDto
+                );
 
         mockMvc.perform(get("/game/1", "0"))
                 .andExpect(status().isOk())
-//                .andExpect(view().name("list"))
-//                .andExpect(model().attribute(""))
-//                .andDo(print())
+                .andExpect(view().name("list"))
+                //.andExpect(model().attribute(""))
+                .andDo(print())
         ;
     }
 

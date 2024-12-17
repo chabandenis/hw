@@ -1,15 +1,30 @@
 package ru.otus.hw.ex09.mapper;
 
-import org.mapstruct.Mapper;
-import org.mapstruct.MappingConstants;
-import org.mapstruct.ReportingPolicy;
+import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Component;
 import ru.otus.hw.ex09.dto.PositionInChessFairDto;
 import ru.otus.hw.ex09.models.PositionInChessFair;
 
-@Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE,
-        componentModel = MappingConstants.ComponentModel.SPRING, uses = {FiguraMapper.class})
-public interface PositionInChessFairMapper {
-    PositionInChessFair toEntity(PositionInChessFairDto positionInChessFairDto);
+@Component
+@AllArgsConstructor
+public class PositionInChessFairMapper {
 
-    PositionInChessFairDto toPositionInChessFairDto(PositionInChessFair positionInChessFair);
+    private final ChessFairMapper chessFairMapper;
+
+    private final FiguraMapper figuraMapper;
+
+//    PositionInChessFair toEntity(PositionInChessFairDto positionInChessFairDto);
+
+    public PositionInChessFairDto toPositionInChessFairDto(PositionInChessFair positionInChessFair) {
+        PositionInChessFairDto positionInChessFairDto = new PositionInChessFairDto();
+        positionInChessFairDto.setChessFair(
+                chessFairMapper.toChessFairDto(positionInChessFair.getChessFair()));
+        positionInChessFairDto.setPositionX(positionInChessFair.getPositionX());
+        positionInChessFairDto.setPositionY(positionInChessFair.getPositionY());
+        positionInChessFairDto.setId(positionInChessFair.getId());
+        positionInChessFairDto.setFigura(figuraMapper.toFiguraDto(positionInChessFair.getFigura()));
+        return positionInChessFairDto;
+    }
+
+    ;
 }

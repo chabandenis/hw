@@ -1,14 +1,18 @@
 package ru.otus.hw.ex09.mapper;
 
-import org.mapstruct.Mapper;
-import org.mapstruct.MappingConstants;
-import org.mapstruct.ReportingPolicy;
+import org.springframework.stereotype.Component;
 import ru.otus.hw.ex09.dto.ChessFairDto;
 import ru.otus.hw.ex09.models.ChessFair;
 
-@Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE, componentModel = MappingConstants.ComponentModel.SPRING)
-public interface ChessFairMapper {
-    ChessFair toEntity(ChessFairDto chessFairDto);
+@Component
+public class ChessFairMapper {
+//    ChessFair toEntity(ChessFairDto chessFairDto);
 
-    ChessFairDto toChessFairDto(ChessFair chessFair);
+    public ChessFairDto toChessFairDto(ChessFair chessFair) {
+        ChessFairDto chessFairDto = new ChessFairDto();
+        chessFairDto.setId(chessFair.getId());
+        return chessFairDto;
+    }
+
+    ;
 }
