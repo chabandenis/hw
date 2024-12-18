@@ -31,7 +31,7 @@ public class GenreServiceImpl implements GenreService {
     @Transactional(readOnly = true)
     public List<GenreDto> findAllByIds(Set<Long> ids) {
 
-        return genreRepository.findAllByIds(ids)
+        return genreRepository.findByIdIn(ids)
                 .stream()
                 .map(genreConverter::toDto)
                 .toList();

@@ -8,10 +8,13 @@ import ru.otus.hw.ex07.converters.CommentConverter;
 import ru.otus.hw.ex07.dto.BookDto;
 import ru.otus.hw.ex07.exceptions.EntityNotFoundException;
 import ru.otus.hw.ex07.models.Book;
+import ru.otus.hw.ex07.models.Genre;
 import ru.otus.hw.ex07.repositories.AuthorRepository;
 import ru.otus.hw.ex07.repositories.BookRepository;
+import ru.otus.hw.ex07.repositories.CommentRepository;
 import ru.otus.hw.ex07.repositories.GenreRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -29,6 +32,8 @@ public class BookServiceImpl implements BookService {
 
     private final BookConverter bookConverter;
 
+    private final CommentRepository commentRepository;
+
     private final CommentService commentService;
 
     private final CommentConverter commentConverter;
@@ -36,13 +41,13 @@ public class BookServiceImpl implements BookService {
     @Override
     @Transactional(readOnly = true)
     public Optional<BookDto> findById(long id) {
-        BookDto bookDto = bookConverter.toDto(bookRepository.findById(id).get());
-        return Optional.ofNullable(bookDto);
-    }
+        var bookDto = bookRepository.findById(id);
 
-    private BookDto addComment(BookDto book) {
-//        book.setCommentBooks(commentService.findCommentsByBookId(book.getId()));
-        return book;
+        if (bookDto.isEmpty()) {
+            return Optional.empty();
+        }
+
+        return Optional.ofNullable(bookConverter.toDto(bookDto.get()));
     }
 
     @Override
@@ -65,12 +70,46 @@ public class BookServiceImpl implements BookService {
     @Override
     @Transactional
     public BookDto update(long id, String title, long authorId, Set<Long> genresIds) {
-        return save(id, title, authorId, genresIds);
+        var book = bookRepository.findById(id);
+
+        if (book.isEmpty()) {
+            throw new EntityNotFoundException("Отсутствует книга с идентификатором id=" + id);
+        }
+
+        var author = authorRepository.findById(authorId);
+
+        if (author.isEmpty()) {
+            throw new EntityNotFoundException("Отсутствует книга с идентификатором id=" + id);
+        }
+
+        List<Genre> genres = new ArrayList<>();
+        for (Long genreId : genresIds) {
+            var genre = genreRepository.findById(genreId);
+
+            if (genre.isEmpty()) {
+                throw new EntityNotFoundException("Отсутствует жанр с id=" + genreId);
+            }
+            genres.add(genre.get());
+        }
+
+        if (!book.get().getTitle().contentEquals(title)) {
+            book.get().setTitle(title);
+        }
+        if (book.get().getAuthor().getId() != authorId) {
+            book.get().setAuthor(author.get());
+        }
+
+        book.get().setGenres(genres);
+
+        var savedBook = bookRepository.save(book.get());
+
+        return bookConverter.toDto(savedBook);
     }
 
     @Override
     @Transactional
     public void deleteById(long id) {
+        commentRepository.deleteByBookId(id);
         bookRepository.deleteById(id);
     }
 
@@ -81,7 +120,7 @@ public class BookServiceImpl implements BookService {
 
         var author = authorRepository.findById(authorId)
                 .orElseThrow(() -> new EntityNotFoundException("Author with id %d not found".formatted(authorId)));
-        var genres = genreRepository.findAllByIds(genresIds);
+        var genres = genreRepository.findByIdIn(genresIds);
         if (isEmpty(genres) || genresIds.size() != genres.size()) {
             throw new EntityNotFoundException("One or all genres with ids %s not found".formatted(genresIds));
         }
@@ -91,7 +130,6 @@ public class BookServiceImpl implements BookService {
         book.setId(id);
         book.setAuthor(author);
         book.setTitle(title);
-//        book.setCommentBook(new ArrayList<>());
 
         return bookConverter.toDto(bookRepository.save(book));
     }

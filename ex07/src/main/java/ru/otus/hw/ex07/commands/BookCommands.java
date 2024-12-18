@@ -42,7 +42,8 @@ public class BookCommands {
         return bookConverter.bookToString(savedBook);
     }
 
-    // bupd 3 editedBook 3 2,5
+    // bupd 3 editedBook 2 2,5
+    // ab
     @ShellMethod(value = "Update book", key = "bupd")
     public String updateBook(long id, String title, long authorId, Set<Long> genresIds) {
         var savedBook = bookService.update(id, title, authorId, genresIds);

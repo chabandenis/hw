@@ -1,12 +1,14 @@
 package ru.otus.hw.ex07.dto;
 
-import lombok.Value;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 import ru.otus.hw.ex07.models.Genre;
 
 /**
  * DTO for {@link Genre}
  */
-@Value
+@Data
+@AllArgsConstructor
 public class GenreDto {
     private long id;
 

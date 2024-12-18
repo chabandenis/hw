@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
 import ru.otus.hw.ex07.converters.CommentConverter;
-import ru.otus.hw.ex07.models.Book;
+import ru.otus.hw.ex07.dto.CommentDto;
 import ru.otus.hw.ex07.services.BookService;
 import ru.otus.hw.ex07.services.CommentService;
 
@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @ShellComponent
-public class Comment {
+public class CommentCommands {
 
     private final CommentService commentService;
 
@@ -51,17 +51,17 @@ public class Comment {
 
     // cs 1111 1
     // cbbi 1
-    @ShellMethod(value = "Find book by id", key = "cs")
+    @ShellMethod(value = "save comment", key = "cs")
     public String save(String text, long bookId) {
-        ru.otus.hw.ex07.models.Comment comment = new ru.otus.hw.ex07.models.Comment();
-        comment.setText(text);
+        CommentDto savedComment;
+        var comment = commentService.findById(bookId);
+        if (comment.isEmpty()) {
+            savedComment = commentService.create(bookId, text);
+        } else {
+            savedComment = commentService.update(bookId, text);
+        }
+        ;
 
-        Book book = new Book();
-        book.setId(bookId);
-
-        comment.setBook(book);
-
-        commentService.save(comment);
-        return commentConverter.commentDtoToString(commentService.save(comment));
+        return savedComment.getText();
     }
 }

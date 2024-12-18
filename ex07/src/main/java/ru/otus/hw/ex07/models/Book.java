@@ -28,6 +28,11 @@ import java.util.Objects;
         attributeNodes = {
                 @NamedAttributeNode("author")
         })
+@NamedEntityGraph(name = "book-author-genre-entity-graph",
+        attributeNodes = {
+                @NamedAttributeNode("author"),
+                @NamedAttributeNode("genres")
+        })
 
 @AllArgsConstructor
 @NoArgsConstructor

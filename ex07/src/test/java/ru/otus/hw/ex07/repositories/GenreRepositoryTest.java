@@ -19,7 +19,7 @@ class GenreRepositoryTest {
 
     @Test
     void findAllByIds() {
-        var foundGenres = genreRepository.findAllByIds(Set.of(1l, 2l));
+        var foundGenres = genreRepository.findByIdIn(Set.of(1l, 2l));
 
         List<Genre> expectedGenres = List.of(new Genre(1, "Genre_1"),
                 new Genre(2, "Genre_2"));

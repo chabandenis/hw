@@ -6,7 +6,7 @@ import ru.otus.hw.ex07.models.Comment;
 import java.util.List;
 import java.util.Optional;
 
-public interface CommentBookRepository extends JpaRepository<Comment, Long> {
+public interface CommentRepository extends JpaRepository<Comment, Long> {
     Optional<Comment> findById(long id);
 
     List<Comment> findCommentByBookId(long bookId);
