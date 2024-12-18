@@ -67,30 +67,32 @@ public class BookServiceImpl implements BookService {
         return save(0, title, authorId, genresIds);
     }
 
-    @Override
-    @Transactional
-    public BookDto update(long id, String title, long authorId, Set<Long> genresIds) {
-        var book = bookRepository.findById(id);
-
-        if (book.isEmpty()) {
-            throw new EntityNotFoundException("Отсутствует книга с идентификатором id=" + id);
-        }
-
-        var author = authorRepository.findById(authorId);
-
-        if (author.isEmpty()) {
-            throw new EntityNotFoundException("Отсутствует книга с идентификатором id=" + id);
-        }
-
+    private List<Genre> findGenres(Set<Long> genresIds) {
         List<Genre> genres = new ArrayList<>();
         for (Long genreId : genresIds) {
             var genre = genreRepository.findById(genreId);
-
             if (genre.isEmpty()) {
                 throw new EntityNotFoundException("Отсутствует жанр с id=" + genreId);
             }
             genres.add(genre.get());
         }
+
+        return genres;
+    }
+
+    @Override
+    @Transactional
+    public BookDto update(long id, String title, long authorId, Set<Long> genresIds) {
+        var book = bookRepository.findById(id);
+        if (book.isEmpty()) {
+            throw new EntityNotFoundException("Отсутствует книга с идентификатором id=" + id);
+        }
+        var author = authorRepository.findById(authorId);
+        if (author.isEmpty()) {
+            throw new EntityNotFoundException("Отсутствует книга с идентификатором id=" + id);
+        }
+
+        List<Genre> genres = findGenres(genresIds);
 
         if (!book.get().getTitle().contentEquals(title)) {
             book.get().setTitle(title);
@@ -98,12 +100,8 @@ public class BookServiceImpl implements BookService {
         if (book.get().getAuthor().getId() != authorId) {
             book.get().setAuthor(author.get());
         }
-
         book.get().setGenres(genres);
-
-        var savedBook = bookRepository.save(book.get());
-
-        return bookConverter.toDto(savedBook);
+        return bookConverter.toDto(bookRepository.save(book.get()));
     }
 
     @Override

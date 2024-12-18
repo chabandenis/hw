@@ -114,9 +114,7 @@ class BookServiceImplTest {
     @Test
     void update() {
         var bookExpected = bookService.findById(2);
-
         assertThat(bookExpected).isPresent();
-
         bookExpected.get().setTitle("BookTitle_222");
 
         bookService.update(bookExpected.get().getId(),
@@ -126,15 +124,11 @@ class BookServiceImplTest {
                         .map(x -> x.getId())
                         .collect(Collectors.toSet())
         );
-
         var bookFound = bookService.findById(bookExpected.get().getId());
-
         assertThat(bookFound).isPresent();
-
         assertThat(bookFound.get())
                 .usingRecursiveComparison()
                 .isEqualTo(bookExpected.get());
-
         // вернуть в исходное состояние
         bookExpected.get().setTitle("BookTitle_2");
         bookService.update(bookExpected.get().getId(),
