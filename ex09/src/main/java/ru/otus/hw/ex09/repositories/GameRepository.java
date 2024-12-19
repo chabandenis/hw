@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface GameRepository extends JpaRepository<Game, Long> {
+
     @EntityGraph(value = "game-graph")
     List<Game> findByUserBlackId(Long id);
 
