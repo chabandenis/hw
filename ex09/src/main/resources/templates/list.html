@@ -30,6 +30,12 @@
 <body>
 <h3>Уголки</h3>
 
+<form action="#" th:action="@{/del(id=${game.id})}" method="post">
+    <td>
+        <input type="submit" value="Удалить"/>
+    </td>
+</form>
+
 <!--
 <h5>Исходные координаты</h5>
 <select class="x_from" id="x_from_id">

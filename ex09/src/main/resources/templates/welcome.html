@@ -36,7 +36,7 @@
         <th>За черных</th>
         <th>За белых</th>
         <th>Действие</th>
-        <th>Действие</th>
+        <!--        <th>Действие</th>-->
     </tr>
     </thead>
     <tbody>
@@ -47,9 +47,13 @@
         <td>
             <a th:href="@{/game(id=${game.id})}" href="game.html" th:text="Продолжить">Edit</a>
         </td>
-        <td>
-            <a th:href="@{/del(id=${game.id})}" th:method="DELETE" th:text="Удалить">Удалить</a>
-        </td>
+
+        <!--
+                <td>
+                    <a th:href="@{/del(id=${game.id})}" th:method="post" th:text="Удалить">Удалить</a>
+                </td>
+        -->
+
 
     </tr>
     </tbody>

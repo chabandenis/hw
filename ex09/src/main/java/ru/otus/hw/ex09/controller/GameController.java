@@ -32,7 +32,7 @@ public class GameController {
 
     private Long gameId;
 
-    @GetMapping("/del")
+    @RequestMapping(value = "/del", method = RequestMethod.POST)
     public String gameDelete(@RequestParam("id") Long id, Model model) {
         if (id == null) {
             throw new NotFoundException("В запросе на удаление отсутствует id игры");
