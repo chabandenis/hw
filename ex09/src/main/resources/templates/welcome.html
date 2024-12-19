@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<body>
+<h3>Welcome</h3>
+<p th:text="${welcome.name}">Иванов Иван</p>
+
+
+<form id="welcome-form" action="welcome.html" th:object="${welcome}">
+
+
+<!--
+    <div class="row">
+        <label for="loginDto-input">Login:</label>
+        <input id="loginDto-input" name="name" type="text" value="Your loginDto" th:value="*{loginDto}"/>
+    </div>
+
+    <div class="row">
+        <button type="submit">Save</button>
+        <a href="list.html">
+            <button type="button">Cancel</button>
+        </a>
+    </div>
+-->
+</form>
+
+</body>
+</html>

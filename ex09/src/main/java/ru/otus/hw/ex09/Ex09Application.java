@@ -8,7 +8,7 @@ public class Ex09Application {
 
     public static void main(String[] args) {
         SpringApplication.run(Ex09Application.class, args);
-        System.out.println("Запуск игры http://localhost:8080/game/1");
+        System.out.println("Запуск игры http://localhost:8080");
     }
 
 

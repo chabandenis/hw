@@ -9,21 +9,21 @@ import ru.otus.hw.ex09.models.Game;
 @AllArgsConstructor
 public class GameMapper {
 
-    private final UserMapper userMapper;
+//    private final UserMapper userMapper;
 
-    private ChessFairMapper chessFairMapper;
+//    private ChessFairMapper chessFairMapper;
 
 //    Game toEntity(GameDto gameDto){
 //        return null;
 //    }
 
-    public GameDto toGameDto(Game game) {
+    public static GameDto toGameDto(Game game) {
         GameDto gameDto = new GameDto();
-        gameDto.setUserWhite(userMapper.toUserDto(game.getUserWhite()));
+        gameDto.setUserWhite(UserMapper.toUserDto(game.getUserWhite()));
         gameDto.setId(game.getId());
-        gameDto.setUserNext(userMapper.toUserDto(game.getUserNext()));
-        gameDto.setChessFair(chessFairMapper.toChessFairDto(game.getChessFair()));
-        gameDto.setUserBlack(userMapper.toUserDto(game.getUserBlack()));
+        gameDto.setUserNext(UserMapper.toUserDto(game.getUserNext()));
+        gameDto.setChessFair(ChessFairMapper.toChessFairDto(game.getChessFair()));
+        gameDto.setUserBlack(UserMapper.toUserDto(game.getUserBlack()));
 
         return gameDto;
     }

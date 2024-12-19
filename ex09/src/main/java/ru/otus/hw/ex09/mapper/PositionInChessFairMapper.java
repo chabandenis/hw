@@ -9,20 +9,20 @@ import ru.otus.hw.ex09.models.PositionInChessFair;
 @AllArgsConstructor
 public class PositionInChessFairMapper {
 
-    private final ChessFairMapper chessFairMapper;
+//    private final ChessFairMapper chessFairMapper;
 
-    private final FiguraMapper figuraMapper;
+//    private final FiguraMapper figuraMapper;
 
 //    PositionInChessFair toEntity(PositionInChessFairDto positionInChessFairDto);
 
-    public PositionInChessFairDto toPositionInChessFairDto(PositionInChessFair positionInChessFair) {
+    public static PositionInChessFairDto toPositionInChessFairDto(PositionInChessFair positionInChessFair) {
         PositionInChessFairDto positionInChessFairDto = new PositionInChessFairDto();
         positionInChessFairDto.setChessFair(
-                chessFairMapper.toChessFairDto(positionInChessFair.getChessFair()));
+                ChessFairMapper.toChessFairDto(positionInChessFair.getChessFair()));
         positionInChessFairDto.setPositionX(positionInChessFair.getPositionX());
         positionInChessFairDto.setPositionY(positionInChessFair.getPositionY());
         positionInChessFairDto.setId(positionInChessFair.getId());
-        positionInChessFairDto.setFigura(figuraMapper.toFiguraDto(positionInChessFair.getFigura()));
+        positionInChessFairDto.setFigura(FiguraMapper.toFiguraDto(positionInChessFair.getFigura()));
         return positionInChessFairDto;
     }
 

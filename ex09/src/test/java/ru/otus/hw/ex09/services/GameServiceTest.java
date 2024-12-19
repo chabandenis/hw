@@ -1,5 +1,6 @@
 package ru.otus.hw.ex09.services;
 
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -16,6 +17,7 @@ import ru.otus.hw.ex09.mapper.UserMapper;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+@Slf4j
 @DataJpaTest
 @Transactional(propagation = Propagation.NOT_SUPPORTED)
 @Import({
@@ -47,41 +49,41 @@ class GameServiceTest {
         inputXYDTO.setXSecond("A");
         inputXYDTO.setYSecond("4");
 
-        System.out.println(game.getChessFair().getDesk().get(0));
-        System.out.println(game.getChessFair().getDesk().get(1));
-        System.out.println(game.getChessFair().getDesk().get(2));
-        System.out.println(game.getChessFair().getDesk().get(3));
-        System.out.println(game.getChessFair().getDesk().get(4));
-        System.out.println(game.getChessFair().getDesk().get(5));
-        System.out.println(game.getChessFair().getDesk().get(6));
-        System.out.println(game.getChessFair().getDesk().get(7));
+        log.debug(game.getChessFair().getDesk().get(0).toString());
+        log.debug(game.getChessFair().getDesk().get(1).toString());
+        log.debug(game.getChessFair().getDesk().get(2).toString());
+        log.debug(game.getChessFair().getDesk().get(3).toString());
+        log.debug(game.getChessFair().getDesk().get(4).toString());
+        log.debug(game.getChessFair().getDesk().get(5).toString());
+        log.debug(game.getChessFair().getDesk().get(6).toString());
+        log.debug(game.getChessFair().getDesk().get(7).toString());
 
         gameService.doStep(game, inputXYDTO);
 
         var gameAfterStep = gameService.getOne(1L);
 
-        System.out.println("исходная точка было " +
+        log.debug("исходная точка было " +
                 game.getChessFair().getDesk().get(5).getArr().get(0).getVal());
         assertThat(game.getChessFair().getDesk().get(5).getArr().get(0).getVal()).isEqualTo("O");
 
-        System.out.println("исходная точка стало " +
+        log.debug("исходная точка стало " +
                 gameAfterStep.getChessFair().getDesk().get(5).getArr().get(0).getVal());
         assertThat(gameAfterStep.getChessFair().getDesk().get(5).getArr().get(0).getVal()).isEqualTo("");
 
-        System.out.println(gameAfterStep.getChessFair().getDesk().get(0));
-        System.out.println(gameAfterStep.getChessFair().getDesk().get(1));
-        System.out.println(gameAfterStep.getChessFair().getDesk().get(2));
-        System.out.println(gameAfterStep.getChessFair().getDesk().get(3));
-        System.out.println(gameAfterStep.getChessFair().getDesk().get(4));
-        System.out.println(gameAfterStep.getChessFair().getDesk().get(5));
-        System.out.println(gameAfterStep.getChessFair().getDesk().get(6));
-        System.out.println(gameAfterStep.getChessFair().getDesk().get(7));
+        log.debug(gameAfterStep.getChessFair().getDesk().get(0).toString());
+        log.debug(gameAfterStep.getChessFair().getDesk().get(1).toString());
+        log.debug(gameAfterStep.getChessFair().getDesk().get(2).toString());
+        log.debug(gameAfterStep.getChessFair().getDesk().get(3).toString());
+        log.debug(gameAfterStep.getChessFair().getDesk().get(4).toString());
+        log.debug(gameAfterStep.getChessFair().getDesk().get(5).toString());
+        log.debug(gameAfterStep.getChessFair().getDesk().get(6).toString());
+        log.debug(gameAfterStep.getChessFair().getDesk().get(7).toString());
 
-        System.out.println("Конечная точка было " +
+        log.debug("Конечная точка было " +
                 game.getChessFair().getDesk().get(4).getArr().get(0).getVal());
         assertThat(game.getChessFair().getDesk().get(4).getArr().get(0).getVal()).isEqualTo("");
 
-        System.out.println("Конечная точка стало " +
+        log.debug("Конечная точка стало " +
                 gameAfterStep.getChessFair().getDesk().get(4).getArr().get(0).getVal());
         assertThat(gameAfterStep.getChessFair().getDesk().get(4).getArr().get(0).getVal()).isEqualTo("O");
 

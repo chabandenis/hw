@@ -1,5 +1,5 @@
-INSERT INTO users (name)
-VALUES('user 1'), ('user 2'), ('user 3');
+INSERT INTO users (name, login)
+VALUES('user 1', 'user1'), ('user 2', 'user2'), ('user 3', 'user3');
 
 INSERT INTO figuras (name)
 VALUES('Белый'), ('Черный');

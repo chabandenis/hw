@@ -8,7 +8,7 @@ import ru.otus.hw.ex09.models.ChessFair;
 public class ChessFairMapper {
 //    ChessFair toEntity(ChessFairDto chessFairDto);
 
-    public ChessFairDto toChessFairDto(ChessFair chessFair) {
+    public static ChessFairDto toChessFairDto(ChessFair chessFair) {
         ChessFairDto chessFairDto = new ChessFairDto();
         chessFairDto.setId(chessFair.getId());
         return chessFairDto;

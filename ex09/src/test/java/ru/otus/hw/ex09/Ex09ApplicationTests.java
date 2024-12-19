@@ -74,9 +74,9 @@ class Ex09ApplicationTests {
         chessFairDto.setDesk(desk);
 
         gameDto.setChessFair(chessFairDto);
-        gameDto.setUserBlack(new UserDto(1l, "user 1"));
-        gameDto.setUserNext(new UserDto(1l, "user 1"));
-        gameDto.setUserWhite(new UserDto(2l, "user 2"));
+        gameDto.setUserBlack(new UserDto(1l, "user 1", "user1"));
+        gameDto.setUserNext(new UserDto(1l, "user 1", "user1"));
+        gameDto.setUserWhite(new UserDto(2l, "user 2", "user2"));
     }
 
     @Test

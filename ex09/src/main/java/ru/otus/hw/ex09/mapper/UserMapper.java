@@ -8,14 +8,12 @@ import ru.otus.hw.ex09.models.User;
 public class UserMapper {
 //    User toEntity(UserDto userDto);
 
-    public UserDto toUserDto(User user) {
+    public static UserDto toUserDto(User user) {
         UserDto userDto = new UserDto(
                 user.getId(),
-                user.getName()
+                user.getName(),
+                user.getLogin()
         );
         return userDto;
     }
-
-    ;
-
 }

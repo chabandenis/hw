@@ -8,7 +8,7 @@ import ru.otus.hw.ex09.models.Figura;
 public class FiguraMapper {
     //Figura toEntity(FiguraDto figuraDto);
 
-    public FiguraDto toFiguraDto(Figura figura) {
+    public static FiguraDto toFiguraDto(Figura figura) {
         FiguraDto figuraDto = new FiguraDto();
         figuraDto.setId(figura.getId());
         figuraDto.setName(figura.getName());
