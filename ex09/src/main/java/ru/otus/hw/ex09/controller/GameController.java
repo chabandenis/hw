@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import ru.otus.hw.ex09.dto.GameDto;
 import ru.otus.hw.ex09.dto.InputXYDTO;
 import ru.otus.hw.ex09.services.GameService;
@@ -29,8 +30,8 @@ public class GameController {
 
     // игра прописана в БД
     //http://localhost:8080/game/1
-    @GetMapping("/game/{id}")
-    public /*@ResponseBody */String getOne(@PathVariable Long id, Model model) {
+    @GetMapping("/game")
+    public String getOne(@RequestParam("id") Long id, Model model) {
         gameId = id;
         var game = gameService.getOne(id);
         log.info(game.toString());

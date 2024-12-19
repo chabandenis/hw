@@ -11,12 +11,9 @@ import org.springframework.web.servlet.ModelAndView;
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
-    private final MessageSource messageSource;
-
     @ExceptionHandler(NotFoundException.class)
     public ModelAndView handeNotFoundException(NotFoundException ex) {
         String errorText = ex.getMessage();
         return new ModelAndView("customError", "errorText", errorText);
     }
-
 }

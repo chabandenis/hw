@@ -21,6 +21,7 @@ public class UserController {
     @GetMapping("/")
     public String login(Model model) {
         LoginDto loginDto = new LoginDto();
+        loginDto.setLogin("user1");
         model.addAttribute("login", loginDto);
         return "login";
     }

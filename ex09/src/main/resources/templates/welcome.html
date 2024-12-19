@@ -1,11 +1,59 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>List of all persons</title>
+    <style type="text/css">
+        body {
+            padding: 50px;
+        }
+
+        .persons {
+            border: 1px solid steelblue;
+            width: 300px;
+            border-collapse: collapse;
+        }
+
+        .persons tr td, th {
+            padding: 5px;
+            border: 1px solid steelblue;
+        }
+
+        .persons td:last-child, td:first-child {
+            width: 50px;
+        }
+    </style>
+
+</head>
 <body>
-<h3>Welcome</h3>
-<p th:text="${welcome.name}">Иванов Иван</p>
+<h3>Добро пожаловать, <span th:text="${welcome.name}">${welcome.name}</span></h3>
+
+<table class="games">
+    <caption>Сыгранные игры:</caption>
+    <thead>
+    <tr>
+        <th>id</th>
+        <th>За черных</th>
+        <th>За белых</th>
+        <th>Действие</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="game : ${welcome.games}">
+        <td th:text="${game.id}">1</td>
+        <td th:text="${game.userBlack.name}">User1</td>
+        <td th:text="${game.userWhite.name}">user2</td>
+        <td>
+            <a th:href="@{/game(id=${game.id})}" href="game.html" th:text="Продолжить">Edit</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
 
 
 <form id="welcome-form" action="welcome.html" th:object="${welcome}">
+
+
 
 
 <!--
