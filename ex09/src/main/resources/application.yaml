@@ -8,11 +8,11 @@ spring:
     username: postgres
     url: jdbc:postgresql://localhost/mydb
 
-#  datasource:
-#    driver-class-name: org.h2.Driver
-#    password: ''
-#    username: sa
-#    url: jdbc:h2:mem:hw
+  #  datasource:
+  #    driver-class-name: org.h2.Driver
+  #    password: ''
+  #    username: sa
+  #    url: jdbc:h2:mem:hw
 
 
   jpa:

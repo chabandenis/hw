@@ -36,6 +36,7 @@
         <th>За черных</th>
         <th>За белых</th>
         <th>Действие</th>
+        <th>Действие</th>
     </tr>
     </thead>
     <tbody>
@@ -46,6 +47,10 @@
         <td>
             <a th:href="@{/game(id=${game.id})}" href="game.html" th:text="Продолжить">Edit</a>
         </td>
+        <td>
+            <a th:href="@{/game(id=${game.id})}" href="game.html" th:text="Продолжить">Edit</a>
+        </td>
+
     </tr>
     </tbody>
 </table>
@@ -54,21 +59,19 @@
 <form id="welcome-form" action="welcome.html" th:object="${welcome}">
 
 
+    <!--
+        <div class="row">
+            <label for="loginDto-input">Login:</label>
+            <input id="loginDto-input" name="name" type="text" value="Your loginDto" th:value="*{loginDto}"/>
+        </div>
 
-
-<!--
-    <div class="row">
-        <label for="loginDto-input">Login:</label>
-        <input id="loginDto-input" name="name" type="text" value="Your loginDto" th:value="*{loginDto}"/>
-    </div>
-
-    <div class="row">
-        <button type="submit">Save</button>
-        <a href="list.html">
-            <button type="button">Cancel</button>
-        </a>
-    </div>
--->
+        <div class="row">
+            <button type="submit">Save</button>
+            <a href="list.html">
+                <button type="button">Cancel</button>
+            </a>
+        </div>
+    -->
 </form>
 
 </body>

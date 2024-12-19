@@ -3,7 +3,6 @@ package ru.otus.hw.ex09.services;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.otus.hw.ex09.controller.NotFoundException;
-import ru.otus.hw.ex09.dto.GameDto;
 import ru.otus.hw.ex09.dto.UserDto;
 import ru.otus.hw.ex09.mapper.GameMapper;
 import ru.otus.hw.ex09.mapper.UserMapper;
@@ -19,6 +18,7 @@ import java.util.List;
 public class UserService {
 
     private final UserRepository userRepository;
+
     private final GameRepository gameRepository;
 
 
@@ -26,9 +26,9 @@ public class UserService {
         WelcomeDto welcomeDto = new WelcomeDto();
 
         String errorText = "Зарегистрируйтесь. Отсутствует пользователь с логином \"" + login + "\"";
-        UserDto user =  userRepository.findByLogin(login)
+        UserDto user = userRepository.findByLogin(login)
                 .map(UserMapper::toUserDto)
-                .orElseThrow(()->
+                .orElseThrow(() ->
                         new NotFoundException(errorText));
 
 

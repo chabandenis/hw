@@ -10,5 +10,5 @@ public class WelcomeDto {
 
     private String name;
 
-    List<GameDto> games;
+    private List<GameDto> games;
 }
