@@ -11,8 +11,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import ru.otus.hw.ex09.dto.GameDto;
 import ru.otus.hw.ex09.dto.InputXYDTO;
+import ru.otus.hw.ex09.logic.Cache;
 import ru.otus.hw.ex09.services.GameService;
-import ru.otus.hw.ex09.services.InputXYService;
+import ru.otus.hw.ex09.services.UserService;
+import ru.otus.hw.ex09.web.WelcomeDto;
 
 @Slf4j
 @Controller
@@ -23,12 +25,37 @@ public class GameController {
 
     private final InputXYDTO inputXYDTO;
 
-    private final InputXYService inputXYService;
+    private final Cache cache;
+
+    private final UserService userService;
+
 
     private Long gameId;
 
-    // игра прописана в БД
-    //http://localhost:8080/game/1
+    @GetMapping("/del")
+    public String gameDelete(@RequestParam("id") Long id, Model model) {
+        if (id == null) {
+            throw new NotFoundException("В запросе на удаление отсутствует id игры");
+        }
+
+        if (cache.getLogin() == null) {
+            throw new NotFoundException("Отсутствует сохраненный логин пользователя");
+        }
+
+        try {
+            gameService.delete(id);
+        } catch (Exception e) {
+            throw new NotFoundException("Возникла ошибка при удалении игры с id=" + id);
+        }
+
+        WelcomeDto welcomeDto = userService.getWelcome(cache.getLogin());
+
+        model.addAttribute("welcome", welcomeDto);
+
+        return "redirect:/welcome?login=" + cache.getLogin();
+
+    }
+
     @GetMapping("/game")
     public String getOne(@RequestParam("id") Long id, Model model) {
         gameId = id;
@@ -64,6 +91,7 @@ public class GameController {
         System.out.println("inputXYDTO + " + inputXYDTO);
         return "list";
     }
+
 
 }
 

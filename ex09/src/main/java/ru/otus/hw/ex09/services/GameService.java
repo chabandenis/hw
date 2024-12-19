@@ -113,6 +113,7 @@ public class GameService {
 
     // Расставить фигуры на шахматной доске. Размер фиксирован.
     // При отображении в таблице показываются значения из массива
+    @Transactional
     List<RowOnTheDeskDto> fillFigureOnTheDesk(List<PositionInChessFair> positions) {
 
         var desk = createEmptyDesk();
@@ -150,5 +151,17 @@ public class GameService {
         gameDto.getChessFair().setDesk(fillFigureOnTheDesk(chessFair));
 
         return gameDto;
+    }
+
+    @Transactional
+    public Game delete(Long id) {
+        Game game = gameRepository.findById(id).orElse(null);
+
+        positionInChessFairRepository.deleteByChessFair(game.getChessFair());
+
+        if (game != null) {
+            gameRepository.delete(game);
+        }
+        return game;
     }
 }

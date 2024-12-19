@@ -22,7 +22,7 @@ public class UserService {
     private final GameRepository gameRepository;
 
 
-    public WelcomeDto getWelcome(String login) throws Exception {
+    public WelcomeDto getWelcome(String login) {
         WelcomeDto welcomeDto = new WelcomeDto();
 
         String errorText = "Зарегистрируйтесь. Отсутствует пользователь с логином \"" + login + "\"";
