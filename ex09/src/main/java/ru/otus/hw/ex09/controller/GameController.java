@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import ru.otus.hw.ex09.dto.GameDto;
 import ru.otus.hw.ex09.dto.InputXYDTO;
 import ru.otus.hw.ex09.logic.Cache;
+import ru.otus.hw.ex09.models.Game;
 import ru.otus.hw.ex09.services.GameService;
 import ru.otus.hw.ex09.services.UserService;
 import ru.otus.hw.ex09.web.WelcomeDto;
@@ -31,6 +32,32 @@ public class GameController {
 
 
     private Long gameId;
+
+    @RequestMapping(value = "/new", method = RequestMethod.POST)
+    public String gameNew(@RequestParam("userId") Long userId, Model model) {
+
+//        if (id == null) {
+//            throw new NotFoundException("В запросе на удаление отсутствует id игры");
+//        }
+//
+//        if (cache.getLogin() == null) {
+//            throw new NotFoundException("Отсутствует сохраненный логин пользователя");
+//        }
+//
+
+
+        try {
+            Game game = gameService.newGame();
+        } catch (Exception e) {
+            throw new NotFoundException("Возникла ошибка при создании игры " + e.getMessage());
+        }
+
+        WelcomeDto welcomeDto = userService.getWelcome(cache.getLogin());
+
+        model.addAttribute("welcome", welcomeDto);
+
+        return "redirect:/welcome?login=" + cache.getLogin();
+    }
 
     @RequestMapping(value = "/del", method = RequestMethod.POST)
     public String gameDelete(@RequestParam("id") Long id, Model model) {
@@ -91,7 +118,6 @@ public class GameController {
         System.out.println("inputXYDTO + " + inputXYDTO);
         return "list";
     }
-
 
 }
 

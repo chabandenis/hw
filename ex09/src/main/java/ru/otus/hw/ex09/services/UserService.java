@@ -2,6 +2,7 @@ package ru.otus.hw.ex09.services;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.otus.hw.ex09.controller.NotFoundException;
 import ru.otus.hw.ex09.dto.UserDto;
 import ru.otus.hw.ex09.mapper.GameMapper;
@@ -21,7 +22,7 @@ public class UserService {
 
     private final GameRepository gameRepository;
 
-
+    @Transactional(readOnly = true)
     public WelcomeDto getWelcome(String login) {
         WelcomeDto welcomeDto = new WelcomeDto();
 

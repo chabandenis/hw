@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
+import ru.otus.hw.ex09.controller.NotFoundException;
 import ru.otus.hw.ex09.dto.GameDto;
 import ru.otus.hw.ex09.dto.InputXYDTO;
 import ru.otus.hw.ex09.dto.desk.ClmDto;
@@ -12,10 +13,13 @@ import ru.otus.hw.ex09.dto.desk.RowOnTheDeskDto;
 import ru.otus.hw.ex09.mapper.GameMapper;
 import ru.otus.hw.ex09.mapper.ImputXYMapper;
 import ru.otus.hw.ex09.mapper.PositionInChessFairMapper;
+import ru.otus.hw.ex09.models.ChessFair;
 import ru.otus.hw.ex09.models.Game;
 import ru.otus.hw.ex09.models.PositionInChessFair;
+import ru.otus.hw.ex09.repositories.ChessFairRepository;
 import ru.otus.hw.ex09.repositories.GameRepository;
 import ru.otus.hw.ex09.repositories.PositionInChessFairRepository;
+import ru.otus.hw.ex09.repositories.UserRepository;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -34,9 +38,13 @@ public class GameService {
 
     private final GameRepository gameRepository;
 
+    private final UserRepository userRepository;
+
     private final PositionInChessFairRepository positionInChessFairRepository;
 
     private final InputXYService inputXYService;
+
+    private final ChessFairRepository chessFairRepository;
 
     private final ImputXYMapper imputXYMapper;
 
@@ -55,6 +63,28 @@ public class GameService {
         // координаты в БД
         y2 = Integer.parseInt(inputXYDTO.getYSecond());
         x2 = inputXYDTO.getXSecond().toUpperCase().charAt(0) - 'A' + 1;
+    }
+
+    //@Transactional
+    public Game newGame() {
+        Game game = new Game();
+        game.setId(0l);
+        ChessFair chessFair = new ChessFair();
+        game.setChessFair(chessFair);
+        game.setUserWhite(
+                userRepository.findById(1l)
+                        .orElseThrow(() -> new NotFoundException("Отсутствует пользователь с Id = 1")));
+        game.setUserBlack(
+                userRepository.findById(2l)
+                        .orElseThrow(() -> new NotFoundException("Отсутствует пользователь с Id = 2")));
+        game.setUserNext(
+                userRepository.findById(1l)
+                        .orElseThrow(() -> new NotFoundException("Отсутствует пользователь с Id = 1")));
+
+        chessFairRepository.save(chessFair);
+        gameRepository.save(game);
+
+        return game;
     }
 
     @Transactional
@@ -138,6 +168,7 @@ public class GameService {
 
     }
 
+    @Transactional(readOnly = true)
     public GameDto getOne(Long id) {
         Optional<Game> gameOptional = gameRepository.findById(id);
 
@@ -164,4 +195,5 @@ public class GameService {
         }
         return game;
     }
+
 }

@@ -28,6 +28,12 @@
 <body>
 <h3>Добро пожаловать, <span th:text="${welcome.name}">${welcome.name}</span></h3>
 
+<form action="#" th:action="@{/new(userId='1')}" method="post"> <!--${game.id}-->
+    <td>
+        <input type="submit" value="Новая игра"/>
+    </td>
+</form>
+
 <table class="games">
     <caption>Сыгранные игры:</caption>
     <thead>

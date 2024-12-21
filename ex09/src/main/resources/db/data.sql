@@ -4,29 +4,23 @@ VALUES('Первый пользователь', 'user1'), ('Второй Пол�
 INSERT INTO figuras (name)
 VALUES('Белый'), ('Черный');
 
-INSERT INTO public.chess_fairs
-(id)
-VALUES(1);
+INSERT INTO public.chess_fairs DEFAULT VALUES;
 
-INSERT INTO public.chess_fairs
-(id)
-VALUES(2);
+INSERT INTO public.chess_fairs DEFAULT VALUES;
 
-INSERT INTO public.chess_fairs
-(id)
-VALUES(3);
+INSERT INTO public.chess_fairs DEFAULT VALUES;
 
 INSERT INTO public.games
-(id, user_black_id, user_white_id, user_next_id, chess_fair_id)
-VALUES(1, 1, 2, 2, 1);
+(user_black_id, user_white_id, user_next_id, chess_fair_id)
+VALUES(1, 2, 2, 1);
 
 INSERT INTO public.games
-(id, user_black_id, user_white_id, user_next_id, chess_fair_id)
-VALUES(2, 2, 1, 2, 2);
+(user_black_id, user_white_id, user_next_id, chess_fair_id)
+VALUES(2, 1, 2, 2);
 
 INSERT INTO public.games
-(id, user_black_id, user_white_id, user_next_id, chess_fair_id)
-VALUES(3, 1, 3, 2, 3);
+(user_black_id, user_white_id, user_next_id, chess_fair_id)
+VALUES(1, 3, 2, 3);
 
 
 INSERT INTO public.position_in_chess_fairs
