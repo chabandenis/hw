@@ -62,7 +62,7 @@ public class CommentServiceImpl implements CommentService {
     @Transactional
     public CommentDto update(long commentId, String comment) {
         var commentInDb = commentRepository.findById(commentId)
-                .orElseThrow(()-> new EntityNotFoundException("Отсутствует комментарий с id=" + commentId));
+                .orElseThrow(() -> new EntityNotFoundException("Отсутствует комментарий с id=" + commentId));
 
         commentInDb.setText(comment);
 
