@@ -4,13 +4,11 @@ import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
-import org.springframework.stereotype.Repository;
 import ru.otus.hw.ex09.models.Game;
 
 import java.util.List;
 import java.util.Optional;
 
-@Repository
 public interface GameRepository extends JpaRepository<Game, Long> {
 
     // без запроса он хотел два параметра, показалось, что с одним лучше, но сумел сделать только с запросом

@@ -25,7 +25,6 @@
         }
 
     </style>
-
 </head>
 <body>
 <h3>Уголки</h3>
@@ -35,26 +34,6 @@
         <input type="submit" value="Удалить"/>
     </td>
 </form>
-
-<!--
-<h5>Исходные координаты</h5>
-<select class="x_from" id="x_from_id">
-    <option th:each="x_from : ${xys.xFrom}" th:value="${x_from}" th:text="${x_from}"></option>
-</select>
-
-<select class="y_from" id="y_from_id">
-    <option th:each="y_from : ${xys.yFrom}" th:value="${y_from}" th:text="${y_from}"></option>
-</select>
-
-<h5>Конечные координаты</h5>
-
-<select class="x_to" id="x_to_id">
-    <option th:each="x_to : ${xys.xTo}" th:value="${x_to}" th:text="${x_to}"></option>
-</select>
-
-<select class="y_to" id="y_to_id" name="YYY">
-<option th:each="y_to : ${xys.yTo}" th:value="${y_to}" th:text="${y_to}" th:selected="*{y.contains('1')}"></option>
--->
 
 <form action="#" th:action="@{/edit}" th:object="${xys}" method="post">
     <div class="row">
@@ -79,24 +58,7 @@
     </td>
 </form>
 
-
-<!--<div class="step">-->
-<!--    &lt;!&ndash;<button type="submit" th:text="Ход">Ход</button>&ndash;&gt;-->
-
-
-<!--    <button type="button" th:onclick="|window.location.href='/do-stuff/1'|">Ход</button>-->
-
-<!--    <br>-->
-<!--    <label for="relativeLink"> Relative link </label>-->
-<!--    <a id = "relativeLink" th:href="@{/do-stuff/(str=${YYY})}">relative link</a>-->
-
-<!--    &lt;!&ndash;    <a href="list.html" th:href="@{/}"><button type="button" th:text="#{cancel-button-caption}">Cancel</button></a>&ndash;&gt;-->
-
-<!--</div>-->
-
-
 <h5></h5>
-
 
 <table class="checkers">
     <thead>
@@ -126,12 +88,6 @@
         <td th:text="${row.arr[6].val}">_</td>
         <td th:text="${row.arr[7].val}">_</td>
         <td th:text="${row.rightClm}">_</td>
-
-        <!--
-                <td>
-                    <a href="edit.html">Edit</a>
-                </td>
-        -->
     </tr>
     </tbody>
 </table>

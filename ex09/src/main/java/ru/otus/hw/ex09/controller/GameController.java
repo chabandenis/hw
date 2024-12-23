@@ -35,15 +35,9 @@ public class GameController {
 
     @RequestMapping(value = "/new", method = RequestMethod.POST)
     public String gameNew(@RequestParam("userId") Long userId, Model model) {
-
-//        if (id == null) {
-//            throw new NotFoundException("В запросе на удаление отсутствует id игры");
-//        }
-//
-//        if (cache.getLogin() == null) {
-//            throw new NotFoundException("Отсутствует сохраненный логин пользователя");
-//        }
-//
+        if (userId == null) {
+            throw new NotFoundException("В запросе на создание игры отсутствует id пользователя");
+        }
 
         Game game;
 
