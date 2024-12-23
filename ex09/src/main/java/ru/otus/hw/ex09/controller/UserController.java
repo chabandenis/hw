@@ -20,9 +20,7 @@ public class UserController {
 
     private final Cache cache;
 
-//    private final Login login = new Login();
-//    private final Welcome welcome = new Welcome();
-
+    // страница с логином
     @GetMapping("/")
     public String login(Model model) {
         LoginDto loginDto = new LoginDto();

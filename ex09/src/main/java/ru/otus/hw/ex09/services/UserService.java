@@ -33,8 +33,11 @@ public class UserService {
                         new NotFoundException(errorText));
 
 
-        List<Game> games = gameRepository.findByUserWhiteId(user.getId());
-        games.addAll(gameRepository.findByUserBlackId(user.getId()));
+//        List<Game> games = gameRepository.findByUserWhiteId(user.getId());
+//        games.addAll(gameRepository.findByUserBlackId(user.getId()));
+
+        // отсортированный список с выборкой по двум сущностям
+        List<Game> games = gameRepository.findByUserBlackIdOrUserWhiteIdOrderByIdDesc(user.getId());
 
         welcomeDto.setGames(games.stream().map(GameMapper::toGameDto).toList());
 

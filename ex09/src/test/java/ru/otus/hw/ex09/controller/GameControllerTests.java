@@ -1,4 +1,4 @@
-package ru.otus.hw.ex09;
+package ru.otus.hw.ex09.controller;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -6,21 +6,23 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
-import ru.otus.hw.ex09.controller.GameController;
 import ru.otus.hw.ex09.dto.ChessFairDto;
 import ru.otus.hw.ex09.dto.GameDto;
 import ru.otus.hw.ex09.dto.InputXYDTO;
 import ru.otus.hw.ex09.dto.UserDto;
 import ru.otus.hw.ex09.dto.desk.ClmDto;
 import ru.otus.hw.ex09.dto.desk.RowOnTheDeskDto;
+import ru.otus.hw.ex09.logic.Cache;
 import ru.otus.hw.ex09.services.GameService;
-import ru.otus.hw.ex09.services.InputXYService;
+import ru.otus.hw.ex09.services.UserService;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -29,17 +31,21 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
 
-@WebMvcTest({GameController.class,
-        InputXYDTO.class,
-        InputXYService.class
+@WebMvcTest({
+        GameController.class,
+        UserController.class,
+        InputXYDTO.class, Cache.class
 })
-class Ex09ApplicationTests {
+class GameControllerTests {
 
     @Autowired
     private MockMvc mockMvc;
 
     @MockBean
     private GameService gameService;
+
+    @MockBean
+    UserService userService;
 
     private GameDto gameDto = new GameDto();
 
@@ -80,7 +86,7 @@ class Ex09ApplicationTests {
     }
 
     @Test
-    public void doStuffMethod2() throws Exception {
+    public void edit() throws Exception {
         when(gameService.getOne(1L))
                 .thenReturn(
                         gameDto
@@ -91,21 +97,24 @@ class Ex09ApplicationTests {
                         gameDto
                 );
 
-        mockMvc.perform(post("/do-stuff2")
+        doNothing().when(gameService).doStep(any(), any());
+
+        mockMvc.perform(post("/edit")
                         .param("id", "1")
+/*
                         .param("userBlack", """
                                 {
-                                    "id": 0,
+                                    "id": 1,
                                     "name": ""
                                 }""")
                         .param("userWhite", """
                                 {
-                                    "id": 0,
+                                    "id": 2,
                                     "name": ""
                                 }""")
                         .param("userNext", """
                                 {
-                                    "id": 0,
+                                    "id": 1,
                                     "name": ""
                                 }""")
                         .param("chessFair", """
@@ -114,14 +123,17 @@ class Ex09ApplicationTests {
                                     "desk": [],
                                     "positionInChessFairDtos": []
                                 }""")
-                        .param("xFirst", "")
-                        .param("yFirst", "")
-                        .param("xSecond", "")
-                        .param("ySecond", ""))
+*/
+                        .param("xFirst", "a")
+                        .param("yFirst", "1")
+                        .param("xSecond", "a")
+                        .param("ySecond", "5"))
+
                 .andExpect(status().isOk())
-                .andExpect(view().name("do-stuff2"))
+                .andExpect(view().name("list"))
                 .andDo(print());
     }
+
 
     @Test
     public void getOne() throws Exception {
@@ -136,7 +148,7 @@ class Ex09ApplicationTests {
                         gameDto
                 );
 
-        mockMvc.perform(get("/game/1", "0"))
+        mockMvc.perform(get("/game").param("id", "1"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("list"))
                 //.andExpect(model().attribute(""))

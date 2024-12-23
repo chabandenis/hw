@@ -56,7 +56,7 @@
 <option th:each="y_to : ${xys.yTo}" th:value="${y_to}" th:text="${y_to}" th:selected="*{y.contains('1')}"></option>
 -->
 
-<form action="#" th:action="@{/do-stuff2}" th:object="${xys}" method="post">
+<form action="#" th:action="@{/edit}" th:object="${xys}" method="post">
     <div class="row">
         <label for="id-input" th:text="'X1:'">X1:</label>
         <input id="id-input" type="text" name="xFirst" th:value="${xys.xFirst}" value="1"/>

@@ -35,9 +35,6 @@ class GameServiceTest {
     @Autowired
     private GameService gameService;
 
-    @Autowired
-    private GameMapper gameMapper;
-
     @Test
     void doStep() {
 

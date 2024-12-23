@@ -1,22 +1,21 @@
 package ru.otus.hw.ex09.services;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
+import lombok.extern.log4j.Log4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.server.ResponseStatusException;
 import ru.otus.hw.ex09.controller.NotFoundException;
 import ru.otus.hw.ex09.dto.GameDto;
 import ru.otus.hw.ex09.dto.InputXYDTO;
 import ru.otus.hw.ex09.dto.desk.ClmDto;
 import ru.otus.hw.ex09.dto.desk.RowOnTheDeskDto;
 import ru.otus.hw.ex09.mapper.GameMapper;
-import ru.otus.hw.ex09.mapper.ImputXYMapper;
-import ru.otus.hw.ex09.mapper.PositionInChessFairMapper;
 import ru.otus.hw.ex09.models.ChessFair;
+import ru.otus.hw.ex09.models.Figura;
 import ru.otus.hw.ex09.models.Game;
 import ru.otus.hw.ex09.models.PositionInChessFair;
 import ru.otus.hw.ex09.repositories.ChessFairRepository;
+import ru.otus.hw.ex09.repositories.FiguraRepository;
 import ru.otus.hw.ex09.repositories.GameRepository;
 import ru.otus.hw.ex09.repositories.PositionInChessFairRepository;
 import ru.otus.hw.ex09.repositories.UserRepository;
@@ -27,14 +26,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-//@Log4j
 @RequiredArgsConstructor
 @Service
 public class GameService {
 
     private final GameMapper gameMapper;
-
-    private final PositionInChessFairMapper positionInChessFairMapper;
 
     private final GameRepository gameRepository;
 
@@ -46,7 +42,7 @@ public class GameService {
 
     private final ChessFairRepository chessFairRepository;
 
-    private final ImputXYMapper imputXYMapper;
+    private final FiguraRepository figuraRepository;
 
     private int x1;
 
@@ -65,7 +61,40 @@ public class GameService {
         x2 = inputXYDTO.getXSecond().toUpperCase().charAt(0) - 'A' + 1;
     }
 
-    //@Transactional
+    void createChecker(int x, int y, ChessFair chessFair, Figura figura) {
+        PositionInChessFair position = new PositionInChessFair();
+        position.setFigura(figura);
+        position.setPositionX(x);
+        position.setPositionY(y);
+        position.setChessFair(chessFair);
+
+        positionInChessFairRepository.save(position);
+    }
+
+    void fillCheckers(ChessFair chessFair) {
+        var colorWhite = figuraRepository
+                .findById(1l)
+                .orElseThrow(() -> new NotFoundException("Отсутствует фигура с id=1"));
+        var colorBlack = figuraRepository
+                .findById(2l)
+                .orElseThrow(() -> new NotFoundException("Отсутствует фигура с id=2"));
+
+        //todo перевернуты XY переделать
+        for (int i = 1; i <= 4; i++) {
+            for (int j = 1; j <= 3; j++) {
+                createChecker(i, j, chessFair, colorWhite);
+            }
+        }
+
+        for (int i = 5; i <= 8; i++) {
+            for (int j = 6; j <= 8; j++) {
+                createChecker(i, j, chessFair, colorBlack);
+            }
+        }
+
+    }
+
+    @Transactional
     public Game newGame() {
         Game game = new Game();
         game.setId(0l);
@@ -81,8 +110,11 @@ public class GameService {
                 userRepository.findById(1l)
                         .orElseThrow(() -> new NotFoundException("Отсутствует пользователь с Id = 1")));
 
-        chessFairRepository.save(chessFair);
-        gameRepository.save(game);
+        chessFair = chessFairRepository.save(chessFair);
+
+        fillCheckers(chessFair);
+
+        game = gameRepository.save(game);
 
         return game;
     }
@@ -116,6 +148,7 @@ public class GameService {
     }
 
     // пустая доска
+    @Transactional
     List<RowOnTheDeskDto> createEmptyDesk() {
         List<RowOnTheDeskDto> desk = new ArrayList<>();
         for (int i = 0; i < 8; i++) {
@@ -165,7 +198,6 @@ public class GameService {
         }
 
         return desk;
-
     }
 
     @Transactional(readOnly = true)
@@ -173,8 +205,9 @@ public class GameService {
         Optional<Game> gameOptional = gameRepository.findById(id);
 
         // отдельно обработать фигуры на доске
-        var gameDto = gameMapper.toGameDto(gameOptional.orElseThrow(() ->
-                new ResponseStatusException(HttpStatus.NOT_FOUND, "Entity with id `%s` not found".formatted(id))));
+        var gameDto = gameMapper.toGameDto(
+                gameOptional.orElseThrow(
+                        () -> new NotFoundException("Entity Game with id=`%s` not found".formatted(id))));
 
         var chessFair = positionInChessFairRepository.findByChessFairId(gameDto.getChessFair().getId());
 

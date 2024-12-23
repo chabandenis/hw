@@ -45,9 +45,10 @@ public class GameController {
 //        }
 //
 
+        Game game;
 
         try {
-            Game game = gameService.newGame();
+            game = gameService.newGame();
         } catch (Exception e) {
             throw new NotFoundException("Возникла ошибка при создании игры " + e.getMessage());
         }
@@ -56,7 +57,7 @@ public class GameController {
 
         model.addAttribute("welcome", welcomeDto);
 
-        return "redirect:/welcome?login=" + cache.getLogin();
+        return "redirect:/game?id=" + game.getId();
     }
 
     @RequestMapping(value = "/del", method = RequestMethod.POST)
@@ -95,7 +96,7 @@ public class GameController {
     }
 
     // выполнить ход
-    @RequestMapping(value = "/do-stuff2", method = RequestMethod.POST)
+    @RequestMapping(value = "/edit", method = RequestMethod.POST)
     public String doStuffMethod2(Model model,
                                  @ModelAttribute("game") GameDto gameDto,
                                  @ModelAttribute("xys") InputXYDTO inputXYDTO) {
