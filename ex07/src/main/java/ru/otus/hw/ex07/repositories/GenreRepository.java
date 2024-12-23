@@ -10,6 +10,6 @@ public interface GenreRepository extends JpaRepository<Genre, Long> {
 
     List<Genre> findByIdIn(Collection<Long> ids);
 
-    List<Genre> findAll();
+ //   List<Genre> findAll();
 
 }

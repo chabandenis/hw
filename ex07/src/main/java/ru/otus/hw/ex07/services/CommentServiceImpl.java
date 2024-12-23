@@ -61,15 +61,12 @@ public class CommentServiceImpl implements CommentService {
     @Override
     @Transactional
     public CommentDto update(long commentId, String comment) {
-        var commentInDb = commentRepository.findById(commentId);
+        var commentInDb = commentRepository.findById(commentId)
+                .orElseThrow(()-> new EntityNotFoundException("Отсутствует комментарий с id=" + commentId));
 
-        if (commentInDb.isEmpty()) {
-            throw new EntityNotFoundException("Отсутствует комментарий с id=" + commentId);
-        }
+        commentInDb.setText(comment);
 
-        commentInDb.get().setText(comment);
-
-        return commentConverter.toDto(commentRepository.save(commentInDb.get()));
+        return commentConverter.toDto(commentRepository.save(commentInDb));
     }
 
     @Override
