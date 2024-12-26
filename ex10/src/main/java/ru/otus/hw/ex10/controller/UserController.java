@@ -2,16 +2,16 @@ package ru.otus.hw.ex10.controller;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+import ru.otus.hw.ex10.dto.UserDto;
 import ru.otus.hw.ex10.logic.Cache;
 import ru.otus.hw.ex10.services.UserService;
-import ru.otus.hw.ex10.web.LoginDto;
 import ru.otus.hw.ex10.web.WelcomeDto;
 
-@Controller
+@RestController
 @AllArgsConstructor
 @Getter
 public class UserController {
@@ -20,25 +20,17 @@ public class UserController {
 
     private final Cache cache;
 
-    // страница с логином
-    @GetMapping("/")
-    public String login(Model model) {
-        LoginDto loginDto = new LoginDto();
-        loginDto.setLogin("user1");
-        model.addAttribute("login", loginDto);
-        return "login";
-    }
-
-    @GetMapping("/welcome")
-    public String welcome(@RequestParam("login") String login, Model model) throws Exception {
+    // http://localhost:8080/rest/users/actions?login="user1"&password="1"
+    @GetMapping("/rest/users/actions")
+    public UserDto actions(
+            @RequestParam("login") String login,
+            @RequestParam("password") String password
+    ) throws Exception {
         cache.setLogin(login);
-        WelcomeDto welcomeDto = userService.getWelcome(login);
 
-        model.addAttribute("welcome", welcomeDto);
+        var user = userService.findUserByLogin(login, password);
 
-        return "welcome";
+        return user;
     }
-
-
 }
 

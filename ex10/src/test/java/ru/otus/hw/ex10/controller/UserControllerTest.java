@@ -45,10 +45,10 @@ public class UserControllerTest {
         WelcomeDto welcomeExpected = new WelcomeDto();
         welcomeExpected.setName("Иванов Иван Иванович");
 
-        when(userService.getWelcome("user1"))
-                .thenReturn(
-                        welcomeExpected
-                );
+//        when(userService.getWelcome("user1"))
+//                .thenReturn(
+//                        welcomeExpected
+//                );
 
         mockMvc.perform(get("/welcome")
                         .param("login", "user1"))

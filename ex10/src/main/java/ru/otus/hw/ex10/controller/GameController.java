@@ -47,9 +47,9 @@ public class GameController {
             throw new NotFoundException("Возникла ошибка при создании игры " + e.getMessage());
         }
 
-        WelcomeDto welcomeDto = userService.getWelcome(cache.getLogin());
+//        WelcomeDto welcomeDto = userService.getWelcome(cache.getLogin());
 
-        model.addAttribute("welcome", welcomeDto);
+//        model.addAttribute("welcome", welcomeDto);
 
         return "redirect:/game?id=" + game.getId();
     }
@@ -70,9 +70,9 @@ public class GameController {
             throw new NotFoundException("Возникла ошибка при удалении игры с id=" + id);
         }
 
-        WelcomeDto welcomeDto = userService.getWelcome(cache.getLogin());
+//        WelcomeDto welcomeDto = userService.getWelcome(cache.getLogin());
 
-        model.addAttribute("welcome", welcomeDto);
+ //       model.addAttribute("welcome", welcomeDto);
 
         return "redirect:/welcome?login=" + cache.getLogin();
 

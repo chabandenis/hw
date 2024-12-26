@@ -83,9 +83,9 @@ class GameControllerTests {
         chessFairDto.setDesk(desk);
 
         gameDto.setChessFair(chessFairDto);
-        gameDto.setUserBlack(new UserDto(1l, "user 1", "user1"));
-        gameDto.setUserNext(new UserDto(1l, "user 1", "user1"));
-        gameDto.setUserWhite(new UserDto(2l, "user 2", "user2"));
+//        gameDto.setUserBlack(new UserDto(1l, "user 1", "user1"));
+//        gameDto.setUserNext(new UserDto(1l, "user 1", "user1"));
+//        gameDto.setUserWhite(new UserDto(2l, "user 2", "user2"));
     }
 
     @Test
@@ -157,10 +157,10 @@ class GameControllerTests {
         WelcomeDto welcomeDto = new WelcomeDto();
         welcomeDto.setName("Иванов Иван");
 
-        when(userService.getWelcome(any()))
-                .thenReturn(
-                        welcomeDto
-                );
+//        when(userService.getWelcome(any()))
+//                .thenReturn(
+//                        welcomeDto
+//                );
 
         mockMvc.perform(post("/new")
                         .param("userId", "1"))
