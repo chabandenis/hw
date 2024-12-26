@@ -2,17 +2,26 @@ import { useState } from "react";
 import reactLogo from "./assets/react.svg";
 import viteLogo from "/vite.svg";
 import "./App.css";
-import Header from "./components/Header";"./components/Header"
+import Header from "./components/Header";
+("./components/Header");
+import MyComponent from "./components/MyComponent";
+import MyComponent2 from "./components/MyComponent2";
+import MyComponent3 from "./components/MyComponent3";
 
+import MySendComponent1 from "./components/MySendComponent1";
 
-function App() {
+export default function App() {
   const [count, setCount] = useState(0);
 
   return (
     <div>
       <Header />
+
       <main>
-        <h1>Hellow world!</h1>
+        {true && <h1>Hellow world!</h1>}
+        <MyComponent3 />
+        //
+        <MySendComponent1 />
       </main>
     </div>
 
@@ -41,5 +50,3 @@ function App() {
         */
   );
 }
-
-export default App;
