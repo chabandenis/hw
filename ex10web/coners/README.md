@@ -1,4 +1,7 @@
 
+npm install vite @vitejs/plugin-react react react-dom
+
+
 -- установить зависимости
 npm i
 

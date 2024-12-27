@@ -15,7 +15,6 @@ import ru.otus.hw.ex10.logic.Cache;
 import ru.otus.hw.ex10.models.Game;
 import ru.otus.hw.ex10.services.GameService;
 import ru.otus.hw.ex10.services.UserService;
-import ru.otus.hw.ex10.web.WelcomeDto;
 
 @Slf4j
 @Controller

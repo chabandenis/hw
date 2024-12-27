@@ -1,4 +1,4 @@
-INSERT INTO users (name, login)
+INSERT INTO users (name, login, password)
 VALUES('Первый пользователь', 'user1', '1'),
 ('Второй Пользователь', 'user2', '1'),
  ('Третий пользователь', 'user3', '1');

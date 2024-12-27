@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.otus.hw.ex10.controller.NotFoundException;
 import ru.otus.hw.ex10.dto.UserDto;
+import ru.otus.hw.ex10.dto.web.ActionDto;
 import ru.otus.hw.ex10.mapper.UserMapper;
 import ru.otus.hw.ex10.repositories.GameRepository;
 import ru.otus.hw.ex10.repositories.UserRepository;
@@ -18,11 +19,13 @@ public class UserService {
     private final GameRepository gameRepository;
 
     @Transactional(readOnly = true)
-    public UserDto findUserByLogin(String login, String password) {
-        UserDto user = userRepository.findByLogin(login)
+    public UserDto findUserByLogin(ActionDto actionDto) {
+        UserDto user = userRepository.findByLoginAndPassword(
+                actionDto.getLogin(),
+                        actionDto.getPassword())
                 .map(UserMapper::toUserDto)
                 .orElseThrow(() ->
-                        new NotFoundException("Ошибка авторизации для пользователя " + login));
+                        new NotFoundException("Ошибка авторизации для пользователя " + actionDto.getLogin()));
         return user;
     }
 

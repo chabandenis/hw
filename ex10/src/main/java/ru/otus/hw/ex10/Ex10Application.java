@@ -8,7 +8,7 @@ public class Ex10Application {
 
     public static void main(String[] args) {
         SpringApplication.run(Ex10Application.class, args);
-        System.out.println("Запуск игры http://localhost:8080");
+        System.out.println("Только ресты");
     }
 
 

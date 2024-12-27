@@ -7,9 +7,8 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 import ru.otus.hw.ex10.logic.Cache;
 import ru.otus.hw.ex10.services.UserService;
-import ru.otus.hw.ex10.web.WelcomeDto;
+import ru.otus.hw.ex10.dto.web.WelcomeDto;
 
-import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;

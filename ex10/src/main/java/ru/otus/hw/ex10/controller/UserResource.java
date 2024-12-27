@@ -26,7 +26,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/rest/admin-ui/users")
+@RequestMapping("/api/rest/admin-ui/users")
 @RequiredArgsConstructor
 public class UserResource {
 
