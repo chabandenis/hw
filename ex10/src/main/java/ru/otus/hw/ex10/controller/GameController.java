@@ -2,22 +2,29 @@ package ru.otus.hw.ex10.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import ru.otus.hw.ex10.dto.GameDto;
 import ru.otus.hw.ex10.dto.InputXYDTO;
+import ru.otus.hw.ex10.dto.web.GameActionDto;
 import ru.otus.hw.ex10.logic.Cache;
+import ru.otus.hw.ex10.mapper.GameMapper;
 import ru.otus.hw.ex10.models.Game;
 import ru.otus.hw.ex10.services.GameService;
 import ru.otus.hw.ex10.services.UserService;
 
 @Slf4j
-@Controller
+@RestController
 @RequiredArgsConstructor
 public class GameController {
 
@@ -32,25 +39,11 @@ public class GameController {
 
     private Long gameId;
 
-    @RequestMapping(value = "/new", method = RequestMethod.POST)
-    public String gameNew(@RequestParam("userId") Long userId, Model model) {
-        if (userId == null) {
-            throw new NotFoundException("В запросе на создание игры отсутствует id пользователя");
-        }
-
-        Game game;
-
-        try {
-            game = gameService.newGame();
-        } catch (Exception e) {
-            throw new NotFoundException("Возникла ошибка при создании игры " + e.getMessage());
-        }
-
-//        WelcomeDto welcomeDto = userService.getWelcome(cache.getLogin());
-
-//        model.addAttribute("welcome", welcomeDto);
-
-        return "redirect:/game?id=" + game.getId();
+    // создать игру
+    @PostMapping(value = "/api/games/actions", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public GameDto gameNew( @RequestBody GameActionDto gameActionDto) {
+        var game = GameMapper.toGameDto(gameService.newGame());
+        return game;
     }
 
     @RequestMapping(value = "/del", method = RequestMethod.POST)
@@ -77,15 +70,12 @@ public class GameController {
 
     }
 
-    @GetMapping("/game")
-    public String getOne(@RequestParam("id") Long id, Model model) {
-        gameId = id;
+    // игра для заданного идентификатора
+    @GetMapping("/api/games/{id}")
+    public GameDto getOne(@PathVariable Long id) {
         var game = gameService.getOne(id);
         log.info(game.toString());
-
-        model.addAttribute("game", game);
-        model.addAttribute("xys", inputXYDTO);
-        return "list";
+        return game;
     }
 
     // выполнить ход

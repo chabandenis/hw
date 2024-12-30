@@ -3,6 +3,7 @@ import "./App.css";
 import Header from "./components/Header";
 ("./components/Header");
 import MyComponent3 from "./components/MyComponent3";
+import Desk from "./components/desk/Desk";
 
 import MySendComponent1 from "./components/MySendComponent1";
 
@@ -18,9 +19,8 @@ export default function App() {
         <MyComponent3 />
         //
         <MySendComponent1 />
+        <Desk />
       </main>
     </div>
-
-
   );
 }

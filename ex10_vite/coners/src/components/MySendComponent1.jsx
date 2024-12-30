@@ -1,10 +1,8 @@
 import React, { useState } from "react";
-//import SendDataToServer from "./Send";
 
 export default function MySendComponent1() {
   const [login, setLogin] = useState("");
   const [password, setPassword] = useState("");
-  //  const [message, setMessage] = useState("");
   const [serverError, setServerError] = useState("");
   const [loginUser, setLoginUser] = useState([]);
 
@@ -20,7 +18,7 @@ export default function MySendComponent1() {
 
     console.log("JSON.stringify(data) ", JSON.stringify(data));
 
-    let a = fetch("/api/rest/users/action", {
+    let a = fetch("/api/users/actions", {
       method: "POST", // Метод отправки
       headers: {
         "Content-Type": "application/json",
@@ -86,8 +84,8 @@ export default function MySendComponent1() {
         {serverError && <p>{serverError}</p>}
       </form>
 
-      <p>Имя = {responseData.name}</p>
-      <p>логин = {responseData.login}</p>
+      {responseData == null && <p>Имя</p>}
+      {responseData != null && <p>Имя = {responseData.name}</p>}
     </>
   );
 
