@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 
 export default function Desk() {
-  const [users, setUsers] = useState([]);
+  const [desk, setDesk] = useState([]);
 
   const styles = {
     personsTable: {
@@ -23,16 +23,16 @@ export default function Desk() {
   const getApiData = async () => {
     const response = await fetch("/api/games/1")
       .then((response) => response.json())
-      .then((users) => setUsers(users));
+      .then((desk) => setDesk(desk));
   };
 
-  console.log("desk", users);
+  console.log("desk", desk);
 
   if (
-    users != null &&
-    users.chessFair != null &&
-    users.chessFair.desk &&
-    users.chessFair.desk.length > 0
+    desk != null &&
+    desk.chessFair != null &&
+    desk.chessFair.desk &&
+    desk.chessFair.desk.length > 0
   ) {
     return (
       <div>
@@ -53,7 +53,7 @@ export default function Desk() {
             </tr>
           </thead>
           <tbody>
-            {users.chessFair.desk.map((user, i) => (
+            {desk.chessFair.desk.map((user, i) => (
               <tr style={styles.personsTableItem} key={i}>
                 <td style={styles.personsTableItem}>{user.leftClm}</td>
                 <td style={styles.personsTableItem}>{user.arr[0].val}</td>
@@ -73,7 +73,7 @@ export default function Desk() {
     );
   } else {
     // Можно добавить альтернативный контент или сообщение, если users.chessFair.desk пуст
-    return <div>Ошибка при подгрузки</div>;
+    return <div>Ошибка при подгрузке шахматной доски</div>;
   }
 }
 
