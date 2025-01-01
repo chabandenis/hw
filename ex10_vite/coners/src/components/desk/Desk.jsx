@@ -37,7 +37,7 @@ export default function Desk() {
     return (
       <div>
         <p>___________</p>
-        <p>Пользователи</p>
+        <p>Шахматная доска</p>
 
         <table style={styles.personsTable}>
           <thead>

@@ -1,7 +1,6 @@
 import { useState } from "react";
 import "./App.css";
 import Header from "./components/Header";
-("./components/Header");
 import ListUsers from "./components/listUsers/ListUsers";
 import Desk from "./components/desk/Desk";
 
@@ -15,57 +14,33 @@ export default function App() {
   // авторизованный основной пользователь
   const [mainUser, setMainUser] = UseUserState();
 
-  const getCurrentMainUser = () => {
-    return mainUser;
-  };
-
-  const updateMainUser = (newMainUser) => {
-    setMainUser(newMainUser);
-  };
-
-  //  setIdAutorisedUser(1);
-
-  // <p>sss {getCurrentUserId == null}</p>
-  //<p>ees {getCurrentUserId}</p>
-
-  //{(getCurrentUserId()) != null && <ListUsers />}
-  /*
-  {getCurrentUserId != null && <ListUsers />}
-  {getCurrentUserId != null && <Desk />}
-
-  */
+  // авторизованный основной пользователь
+  const [seconUser, setSecondUser] = UseUserState();
 
   return (
     <div>
-      <Header userId={mainUser} getCurrentUserId={getCurrentMainUser} />
       <main>
-        <Authorized
-          mainUser={mainUser}
-          updateMainUser={updateMainUser}
-        />
+        {/* заголовок. отображаются пользователи игры и чей ход */}
+        {mainUser.id != "" && (
+          <Header mainUser={mainUser} seconUser={seconUser} />
+        )}
+        {/* пользователь отсутствует */}
+        {/* логинимся */}
+        {mainUser.id == "" && (
+          <Authorized mainUser={mainUser} updateMainUser={setMainUser} />
+        )}
+        {/* пользователь отсутствует */}
+        {/* создаем пользователя */}
+        {mainUser.id == "" && (
+          <CreateUser mainUser={mainUser} updateMainUser={setMainUser} />
+        )}
 
         {mainUser.id != "" && <ListUsers />}
-        {mainUser.id != "" && <Desk />}
-        {mainUser.id != "" && <CreateUser />}
-
+        {seconUser.id != "" && <Desk />}
         {mainUser.id != "" && (
-          <UpdateUser
-            mainUser={mainUser}
-            updateMainUser={updateMainUser}
-          />
+          <UpdateUser mainUser={mainUser} updateMainUser={setMainUser} />
         )}
       </main>
     </div>
   );
 }
-
-/*
-        
-        
-        
-
-        
-
-
-
-*/

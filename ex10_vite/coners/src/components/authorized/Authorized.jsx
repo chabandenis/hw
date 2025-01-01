@@ -10,7 +10,7 @@ export default function Authorized({ mainUser, updateMainUser }) {
   // первоначальные значения
   if (login == "") {
     setLogin("user1");
-  }
+  } 
 
   if (password == "") {
     setPassword("1");
