@@ -35,7 +35,11 @@ export default function App() {
           <CreateUser mainUser={mainUser} updateMainUser={setMainUser} />
         )}
 
-        {mainUser.id != "" && <ListUsers />}
+        {/* выбрать второго пользователя */}
+        {mainUser.id != "" && seconUser.id == "" && (
+          <ListUsers seconUser={seconUser} updateSecondUser={setSecondUser} />
+        )}
+
         {seconUser.id != "" && <Desk />}
         {mainUser.id != "" && (
           <UpdateUser mainUser={mainUser} updateMainUser={setMainUser} />

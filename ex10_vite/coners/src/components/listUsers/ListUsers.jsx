@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-export default function ListUsers() {
+export default function ListUsers({ seconUser, updateSecondUser }) {
   const [users, setUsers] = useState([]);
   const [searchInput, setSearchInput] = useState("");
   const [selectedUser, setSelectedUser] = useState(null);
@@ -31,7 +31,7 @@ export default function ListUsers() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    getApiData();
+    updateSecondUser(selectedUser);
   };
 
   const handleSearch = (e) => {
@@ -83,15 +83,15 @@ export default function ListUsers() {
           ))}
         </tbody>
       </table>
-      <form onSubmit={handleSubmit}>
-        <button type="submit">Обновить</button>
-      </form>
       <div>
         <p>
           Выбранный пользователь:{" "}
           {selectedUser ? selectedUser.name : "Нет выбранного пользователя"}
         </p>
       </div>
+      <form onSubmit={handleSubmit}>
+        <button type="submit">Выбрать второго пользователя</button>
+      </form>
     </div>
   );
 }
