@@ -52,7 +52,6 @@ export default function App() {
         {mainUser.id != "" && (
           <UpdateUser
             mainUser={mainUser}
-            getCurrentMainUser={getCurrentMainUser}
             updateMainUser={updateMainUser}
           />
         )}

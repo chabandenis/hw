@@ -1,31 +1,9 @@
 import React, { useState } from "react";
-import UseUserState from "../state/UseUserState";
 
-export default function UpdateUser({
-  mainUser,
-  getCurrentMainUser,
-  updateMainUser,
-}) {
-  const [name, setName] = useState("");
-  const [login, setLogin] = useState("");
-  const [password, setPassword] = useState("");
+export default function UpdateUser({ mainUser, updateMainUser }) {
   const [serverError, setServerError] = useState("");
 
-  // первоначальные значения
-  if (name == "") {
-    setName(mainUser.name);
-  }
-
-  if (login == "") {
-    setLogin(mainUser.login);
-  }
-
-  if (password == "") {
-    setPassword(mainUser.password);
-  }
-
   const [responseData, setResponseData] = useState(null);
-  const [error, setError] = useState(null);
 
   function SendDataToServer(id, name, login, password) {
     const data = {
@@ -67,7 +45,12 @@ export default function UpdateUser({
   const handleSubmit = (e) => {
     e.preventDefault();
     // Отправка данных на сервер
-    SendDataToServer(mainUser.id, name, login, password)
+    SendDataToServer(
+      mainUser.id,
+      mainUser.name,
+      mainUser.login,
+      mainUser.password
+    )
       .then(() => {
         // Успешная отправка
         console.log("Данные успешно отправлены");
@@ -86,26 +69,30 @@ export default function UpdateUser({
         <input
           type="text"
           placeholder="Имя"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
+          value={mainUser.name}
+          onChange={(e) =>
+            updateMainUser({ ...mainUser, name: e.target.value })
+          }
         />
         <input
           type="text"
           placeholder="Логин"
-          value={login}
-          onChange={(e) => setLogin(e.target.value)}
+          value={mainUser.login}
+          onChange={(e) =>
+            updateMainUser({ ...mainUser, login: e.target.value })
+          }
         />
         <input
           type="text"
           placeholder="Пароль"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          value={mainUser.password}
+          onChange={(e) =>
+            updateMainUser({ ...mainUser, password: e.target.value })
+          }
         />
         <button type="submit">Отправить</button>
         {serverError && <p>{serverError}</p>}
       </form>
-      {responseData == null && <p>Имя</p>}
-      {responseData != null && <p>Имя = {responseData.name}</p>}
     </>
   );
 }
