@@ -61,6 +61,7 @@ export default function CreateUser() {
 
   return (
     <>
+      <p>___________</p>
       <p>Создать пользователя</p>
 
       <form onSubmit={handleSubmit}>

@@ -2,32 +2,72 @@ import { useState } from "react";
 import "./App.css";
 import Header from "./components/Header";
 ("./components/Header");
-import MyComponent3 from "./components/listUsers/ListUsers";
+import ListUsers from "./components/listUsers/ListUsers";
 import Desk from "./components/desk/Desk";
 
 import Authorized from "./components/authorized/Authorized";
 import CreateUser from "./components/createUser/CreateUser";
 import UpdateUser from "./components/updateUser/UpdateUser";
 
+import UseUserState from "./components/state/UseUserState";
+
 export default function App() {
+  // авторизованный основной пользователь
+  const [mainUser, setMainUser] = UseUserState();
 
+  const getCurrentMainUser = () => {
+    return mainUser;
+  };
 
-  // авторизованный пользователь
-  const idAutorisedUser = "";
+  const updateMainUser = (newMainUser) => {
+    setMainUser(newMainUser);
+  };
+
+  //  setIdAutorisedUser(1);
+
+  // <p>sss {getCurrentUserId == null}</p>
+  //<p>ees {getCurrentUserId}</p>
+
+  //{(getCurrentUserId()) != null && <ListUsers />}
+  /*
+  {getCurrentUserId != null && <ListUsers />}
+  {getCurrentUserId != null && <Desk />}
+
+  */
 
   return (
     <div>
-      <Header />
-
+      <Header userId={mainUser} getCurrentUserId={getCurrentMainUser} />
       <main>
-        {true && <h1>Hellow world!</h1>}
-        <MyComponent3 />
-        //
-        <Authorized />
-        <Desk />
-        <CreateUser />
-        <UpdateUser userId={idAutorisedUser} />
+        <Authorized
+          mainUser={mainUser}
+          getCurrentMainUser={getCurrentMainUser}
+          updateMainUser={updateMainUser}
+        />
+
+        {mainUser.id != "" && <ListUsers />}
+        {mainUser.id != "" && <Desk />}
+        {mainUser.id != "" && <CreateUser />}
+
+        {mainUser.id != "" && (
+          <UpdateUser
+            mainUser={mainUser}
+            getCurrentMainUser={getCurrentMainUser}
+            updateMainUser={updateMainUser}
+          />
+        )}
       </main>
     </div>
   );
 }
+
+/*
+        
+        
+        
+
+        
+
+
+
+*/

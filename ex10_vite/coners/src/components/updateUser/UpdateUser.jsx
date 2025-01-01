@@ -1,16 +1,35 @@
 import React, { useState } from "react";
+import UseUserState from "../state/UseUserState";
 
-export default function UpdateUser({ userId }) {
+export default function UpdateUser({
+  mainUser,
+  getCurrentMainUser,
+  updateMainUser,
+}) {
   const [name, setName] = useState("");
   const [login, setLogin] = useState("");
   const [password, setPassword] = useState("");
   const [serverError, setServerError] = useState("");
 
+  // первоначальные значения
+  if (name == "") {
+    setName(mainUser.name);
+  }
+
+  if (login == "") {
+    setLogin(mainUser.login);
+  }
+
+  if (password == "") {
+    setPassword(mainUser.password);
+  }
+
   const [responseData, setResponseData] = useState(null);
   const [error, setError] = useState(null);
 
-  function SendDataToServer(name, login, password) {
+  function SendDataToServer(id, name, login, password) {
     const data = {
+      id,
       name,
       login,
       password,
@@ -18,7 +37,7 @@ export default function UpdateUser({ userId }) {
 
     console.log("JSON.stringify(data) ", JSON.stringify(data));
 
-    let a = fetch("/api/users/new", {
+    let a = fetch("/api/users/update", {
       method: "POST", // Метод отправки
       headers: {
         "Content-Type": "application/json",
@@ -33,6 +52,7 @@ export default function UpdateUser({ userId }) {
       })
       .then((data) => {
         setResponseData(data);
+        updateMainUser(data);
       })
       .catch((error) => {
         setError(error);
@@ -47,7 +67,7 @@ export default function UpdateUser({ userId }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     // Отправка данных на сервер
-    SendDataToServer(name, login, password)
+    SendDataToServer(mainUser.id, name, login, password)
       .then(() => {
         // Успешная отправка
         console.log("Данные успешно отправлены");
@@ -60,8 +80,8 @@ export default function UpdateUser({ userId }) {
 
   return (
     <>
+      <p>___________</p>
       <p>изменить пользователя</p>
-      <div>Авторизованный пользователь: {userId}</div>
       <form onSubmit={handleSubmit}>
         <input
           type="text"

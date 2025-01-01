@@ -1,22 +1,30 @@
 import React, { useState } from "react";
+import UseUserState from "../state/UseUserState";
 
-export default function Authorized() {
+export default function Authorized({
+  mainUser,
+  getCurrentMainUser,
+  updateMainUser,
+}) {
   const [login, setLogin] = useState("");
   const [password, setPassword] = useState("");
   const [serverError, setServerError] = useState("");
-  const [loginUser, setLoginUser] = useState([]);
-
-  const [responseData, setResponseData] = useState(null);
   const [error, setError] = useState(null);
+
+  // первоначальные значения
+  if (login == "") {
+    setLogin("user1");
+  }
+
+  if (password == "") {
+    setPassword("1");
+  }
 
   function SendDataToServer(login, password) {
     const data = {
-      //      action,
       login,
       password,
     };
-
-    console.log("JSON.stringify(data) ", JSON.stringify(data));
 
     let a = fetch("/api/users/login", {
       method: "POST", // Метод отправки
@@ -31,23 +39,26 @@ export default function Authorized() {
         }
         return response.json();
       })
-      .then((data) => {
-        setResponseData(data);
+      .then((mainUser) => {
+        updateMainUser(mainUser);
       })
       .catch((error) => {
         setError(error);
       });
 
-    //.when((loginUser) => setLoginUser(loginUser));
-
-    console.log("responseData ", responseData);
-    console.log("a  ", a);
-
     return a;
   }
 
   const handleSubmit = (e) => {
+    updateMainUser({
+      id: "",
+      name: "",
+      login: "",
+      password: "",
+    });
+
     e.preventDefault();
+
     // Отправка данных на сервер
     SendDataToServer(login, password)
       .then(() => {
@@ -57,15 +68,14 @@ export default function Authorized() {
       .catch((error) => {
         // Обработка ошибки
         setServerError(error.message);
-      })
-      .then((loginUser) => setLoginUser(loginUser));
-
-    console.log("loginUser", loginUser);
+      });
+    //      .then((mainUser) => updateMainUser(mainUser))
   };
 
   return (
     <>
-      <p>авторизация пользователя {loginUser}</p>
+      <p>___________</p>
+      <p>авторизация пользователя </p>
 
       <form onSubmit={handleSubmit}>
         <input
@@ -83,11 +93,6 @@ export default function Authorized() {
         <button type="submit">Отправить</button>
         {serverError && <p>{serverError}</p>}
       </form>
-
-      {responseData == null && <p>Имя</p>}
-      {responseData != null && <p>Имя = {responseData.name}</p>}
     </>
   );
-
-  //<p>{loginUser.name}</p>
 }
