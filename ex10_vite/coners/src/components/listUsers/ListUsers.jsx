@@ -34,14 +34,6 @@ export default function ListUsers({ seconUser, updateSecondUser }) {
     updateSecondUser(selectedUser);
   };
 
-  const handleSearch = (e) => {
-    setSearchInput(e.target.value);
-  };
-
-  const handleSelectUser = (user) => {
-    setSelectedUser(user);
-  };
-
   const filteredUsers = users.filter((user) => {
     return Object.values(user)
       .join("")
@@ -74,7 +66,7 @@ export default function ListUsers({ seconUser, updateSecondUser }) {
             <tr
               style={styles.personsTableItem}
               key={i}
-              onClick={() => handleSelectUser(user)}
+              onClick={() => setSelectedUser(user)}
             >
               <td style={styles.personsTableItem}>{user.id}</td>
               <td style={styles.personsTableItem}>{user.name}</td>
