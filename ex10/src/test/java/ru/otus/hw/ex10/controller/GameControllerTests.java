@@ -15,7 +15,7 @@ import ru.otus.hw.ex10.logic.Cache;
 import ru.otus.hw.ex10.models.Game;
 import ru.otus.hw.ex10.services.GameService;
 import ru.otus.hw.ex10.services.UserService;
-import ru.otus.hw.ex10.dto.web.WelcomeDto;
+import ru.otus.hw.ex10.dto.fromWeb.WelcomeDto;
 
 import java.util.ArrayList;
 import java.util.HashMap;

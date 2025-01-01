@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-function MyComponent3() {
+export default function ListUsers() {
   const [users, setUsers] = useState([]);
 
   const styles = {
@@ -26,6 +26,11 @@ function MyComponent3() {
       .then((users) => setUsers(users));
   };
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    getApiData();
+  };
+
   return (
     <div>
       <p>Пользователи</p>
@@ -48,8 +53,10 @@ function MyComponent3() {
           ))}
         </tbody>
       </table>
+
+      <form onSubmit={handleSubmit}>
+        <button type="submit">Обновить</button>
+      </form>
     </div>
   );
 }
-
-export default MyComponent3;

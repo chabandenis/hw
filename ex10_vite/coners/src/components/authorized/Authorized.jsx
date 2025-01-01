@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-export default function MySendComponent1() {
+export default function Authorized() {
   const [login, setLogin] = useState("");
   const [password, setPassword] = useState("");
   const [serverError, setServerError] = useState("");
@@ -9,16 +9,16 @@ export default function MySendComponent1() {
   const [responseData, setResponseData] = useState(null);
   const [error, setError] = useState(null);
 
-  function SendDataToServer(action, login, password) {
+  function SendDataToServer(login, password) {
     const data = {
-      action,
+      //      action,
       login,
       password,
     };
 
     console.log("JSON.stringify(data) ", JSON.stringify(data));
 
-    let a = fetch("/api/users/actions", {
+    let a = fetch("/api/users/login", {
       method: "POST", // Метод отправки
       headers: {
         "Content-Type": "application/json",
@@ -49,7 +49,7 @@ export default function MySendComponent1() {
   const handleSubmit = (e) => {
     e.preventDefault();
     // Отправка данных на сервер
-    SendDataToServer("login", login, password)
+    SendDataToServer(login, password)
       .then(() => {
         // Успешная отправка
         console.log("Данные успешно отправлены");

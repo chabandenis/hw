@@ -2,13 +2,18 @@ import { useState } from "react";
 import "./App.css";
 import Header from "./components/Header";
 ("./components/Header");
-import MyComponent3 from "./components/MyComponent3";
+import MyComponent3 from "./components/listUsers/ListUsers";
 import Desk from "./components/desk/Desk";
 
-import MySendComponent1 from "./components/MySendComponent1";
+import Authorized from "./components/authorized/Authorized";
+import CreateUser from "./components/createUser/CreateUser";
+import UpdateUser from "./components/updateUser/UpdateUser";
 
 export default function App() {
-  const [count, setCount] = useState(0);
+
+
+  // авторизованный пользователь
+  const idAutorisedUser = "";
 
   return (
     <div>
@@ -18,8 +23,10 @@ export default function App() {
         {true && <h1>Hellow world!</h1>}
         <MyComponent3 />
         //
-        <MySendComponent1 />
+        <Authorized />
         <Desk />
+        <CreateUser />
+        <UpdateUser userId={idAutorisedUser} />
       </main>
     </div>
   );
