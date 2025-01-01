@@ -41,7 +41,6 @@ export default function App() {
       <main>
         <Authorized
           mainUser={mainUser}
-          getCurrentMainUser={getCurrentMainUser}
           updateMainUser={updateMainUser}
         />
 

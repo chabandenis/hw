@@ -7,10 +7,8 @@ export default function Header({ userId, getCurrentUserId }) {
   return (
     <header>
       <h3>Уголки</h3>
-      <span>
-        игрок 1 = "{userId.name}" Игрок 2 = "{userId.id}"
-        {/*await axios.get('http://localhost:8080/api/rest/admin-ui/users/1')*/}
-      </span>
+      <p>игрок 1 = "{userId.name}"</p>
+      <p>игрок 2 = "{userId.id}"</p>
     </header>
   );
 }

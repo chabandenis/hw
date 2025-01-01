@@ -1,11 +1,7 @@
 import React, { useState } from "react";
 import UseUserState from "../state/UseUserState";
 
-export default function Authorized({
-  mainUser,
-  getCurrentMainUser,
-  updateMainUser,
-}) {
+export default function Authorized({ mainUser, updateMainUser }) {
   const [login, setLogin] = useState("");
   const [password, setPassword] = useState("");
   const [serverError, setServerError] = useState("");
