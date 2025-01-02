@@ -43,7 +43,7 @@ export default function ListUsers({ seconUser, updateSecondUser }) {
 
   return (
     <div>
-      <p>___________</p>
+      <p>==========================================================</p>
       <p>Выберите второго пользователя</p>
 
       <input

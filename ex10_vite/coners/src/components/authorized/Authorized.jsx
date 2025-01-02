@@ -70,7 +70,7 @@ export default function Authorized({ mainUser, updateMainUser }) {
 
   return (
     <>
-      <p>___________</p>
+      <p>==========================================================</p>
       <p>авторизация пользователя </p>
 
       <form onSubmit={handleSubmit}>

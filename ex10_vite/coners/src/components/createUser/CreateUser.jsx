@@ -52,7 +52,7 @@ export default function CreateUser({ mainUser, updateMainUser }) {
 
   return (
     <>
-      <p>___________</p>
+      <p>==========================================================</p>
       <p>Создать пользователя</p>
 
       <form onSubmit={handleSubmit}>

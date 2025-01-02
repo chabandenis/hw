@@ -1,5 +1,23 @@
 import React, { useState, useEffect } from "react";
 
+// массив со стилями
+let cssDeskArray;
+
+// должно быть выбрано две точки
+let pointSelected;
+
+// исходная координата
+let firstPoint = {
+  row: null,
+  col: null,
+};
+
+// конечная координата
+let secondPoint = {
+  row: null,
+  col: null,
+};
+
 export default function Desk() {
   const [desk, setDesk] = useState([]);
   const [clickedRow, setClickedRow] = useState(-1);
@@ -20,6 +38,21 @@ export default function Desk() {
     },
   };
 
+  // заполняется один раз при запуске
+  if (cssDeskArray == null) {
+    cssDeskArray = Array.from({ length: 9 }, () => new Array(9).fill(""));
+    pointSelected = 0;
+  }
+
+  // создать пустой массив для хранения выбранных ячеек
+  // будет нужен для хранения разных стилей для подсвечивания фигур на доске
+  const clearArray = () => {
+    for (let i = 0; i < 9; i++) {
+      cssDeskArray[i].fill("");
+    }
+    pointSelected = 0;
+  };
+
   useEffect(() => {
     getApiData();
   }, []);
@@ -31,9 +64,24 @@ export default function Desk() {
   };
 
   const handleCellClick = (row, col) => {
+    if (pointSelected >= 2) {
+      clearArray();
+    }
+
+    pointSelected++;
+
+    cssDeskArray[row][col] = "1";
+
+    if (pointSelected == 1) {
+      firstPoint = { row: row, col: col };
+    } else if (pointSelected == 2) {
+      secondPoint = { row: row, col: col };
+    }
+
+    console.log("координаты ", firstPoint, secondPoint, cssDeskArray);
+
     setClickedRow(row);
     setClickedCol(col);
-    setActiveCell({ row, col });
   };
 
   //console.log("desk", desk);
@@ -46,13 +94,13 @@ export default function Desk() {
   ) {
     return (
       <div>
-        <p>___________</p>
+        <p>==========================================================</p>
         <p>Шахматная доска</p>
 
         <table style={styles.personsTable}>
           <thead>
             <tr style={styles.personsTable}>
-              <th style={styles.personsTable}>ID</th>
+              <th style={styles.personsTable}></th>
               <th style={styles.personsTable}>A</th>
               <th style={styles.personsTable}>B</th>
               <th style={styles.personsTable}>C</th>
@@ -71,7 +119,7 @@ export default function Desk() {
                 <td
                   onClick={() => handleCellClick(i, 1)}
                   style={{
-                    ...(activeCell.row === i && activeCell.col === 1
+                    ...(cssDeskArray[i][1] == "1"
                       ? styles.personsTable.active
                       : styles.personsTable),
                   }}
@@ -82,7 +130,7 @@ export default function Desk() {
                 <td
                   onClick={() => handleCellClick(i, 2)}
                   style={{
-                    ...(activeCell.row === i && activeCell.col === 2
+                    ...(cssDeskArray[i][2] == "1"
                       ? styles.personsTable.active
                       : styles.personsTable),
                   }}
@@ -93,7 +141,7 @@ export default function Desk() {
                 <td
                   onClick={() => handleCellClick(i, 3)}
                   style={{
-                    ...(activeCell.row === i && activeCell.col === 3
+                    ...(cssDeskArray[i][3] == "1"
                       ? styles.personsTable.active
                       : styles.personsTable),
                   }}
@@ -103,7 +151,7 @@ export default function Desk() {
                 <td
                   onClick={() => handleCellClick(i, 4)}
                   style={{
-                    ...(activeCell.row === i && activeCell.col === 4
+                    ...(cssDeskArray[i][4] == "1"
                       ? styles.personsTable.active
                       : styles.personsTable),
                   }}
@@ -113,7 +161,7 @@ export default function Desk() {
                 <td
                   onClick={() => handleCellClick(i, 5)}
                   style={{
-                    ...(activeCell.row === i && activeCell.col === 5
+                    ...(cssDeskArray[i][5] == "1"
                       ? styles.personsTable.active
                       : styles.personsTable),
                   }}
@@ -123,7 +171,7 @@ export default function Desk() {
                 <td
                   onClick={() => handleCellClick(i, 6)}
                   style={{
-                    ...(activeCell.row === i && activeCell.col === 6
+                    ...(cssDeskArray[i][6] == "1"
                       ? styles.personsTable.active
                       : styles.personsTable),
                   }}
@@ -133,7 +181,7 @@ export default function Desk() {
                 <td
                   onClick={() => handleCellClick(i, 7)}
                   style={{
-                    ...(activeCell.row === i && activeCell.col === 7
+                    ...(cssDeskArray[i][7] == "1"
                       ? styles.personsTable.active
                       : styles.personsTable),
                   }}
@@ -143,7 +191,7 @@ export default function Desk() {
                 <td
                   onClick={() => handleCellClick(i, 8)}
                   style={{
-                    ...(activeCell.row === i && activeCell.col === 8
+                    ...(cssDeskArray[i][8] == "1"
                       ? styles.personsTable.active
                       : styles.personsTable),
                   }}
@@ -157,12 +205,8 @@ export default function Desk() {
         </table>
 
         <div>
-          <p>
-            Координаты: {clickedCol} {clickedRow}
-          </p>
-          <p>
-            Выделено: {activeCell.col} {activeCell.row}
-          </p>
+          <p>Начальная точка: {firstPoint.row}</p>
+          <p>Конечная точка: {secondPoint.row}</p>
         </div>
       </div>
     );
@@ -171,8 +215,3 @@ export default function Desk() {
     return <div>Ошибка при подгрузке шахматной доски</div>;
   }
 }
-
-/*
-
-
-*/

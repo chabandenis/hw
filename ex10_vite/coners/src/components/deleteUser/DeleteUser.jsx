@@ -49,7 +49,7 @@ export default function DeleteUser({ mainUser, updateMainUser }) {
 
   return (
     <>
-      <p>___________</p>
+      <p>==========================================================</p>
       <p>удалить учетную запись </p>
       <form onSubmit={handleSubmit}>
         <button type="submit">Удалить</button>

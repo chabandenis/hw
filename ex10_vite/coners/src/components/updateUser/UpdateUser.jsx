@@ -63,7 +63,7 @@ export default function UpdateUser({ mainUser, updateMainUser }) {
 
   return (
     <>
-      <p>___________</p>
+      <p>==========================================================</p>
       <p>Редактировать данные первого пользователя</p>
       <form onSubmit={handleSubmit}>
         <input
