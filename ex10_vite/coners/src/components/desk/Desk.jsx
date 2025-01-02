@@ -53,11 +53,24 @@ export default function Desk() {
     pointSelected = 0;
   };
 
+  /*
   useEffect(() => {
-    getApiData();
+    console.log("111");
+    setInterval(getApiData(), 1000);
+    }, 1000);
   }, []);
+*/
+
+  useEffect(() => {
+    const intervalId = setInterval(getApiData, 3000); // Вызов каждые 1000 мс (1 секунда)
+
+    return () => {
+      clearInterval(intervalId); // Очистка интервала при размонтировании компонента
+    };
+  });
 
   const getApiData = async () => {
+    console.log("getApiData");
     const response = await fetch("/api/games/1")
       .then((response) => response.json())
       .then((desk) => setDesk(desk));
