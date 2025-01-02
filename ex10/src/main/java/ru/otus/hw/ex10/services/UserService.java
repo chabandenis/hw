@@ -20,7 +20,7 @@ public class UserService {
 
     private final UserRepository userRepository;
 
-    private final GameRepository gameRepository;
+    private final GameService gameService;
 
     @Transactional(readOnly = true)
     public UserDto findByLogin(UserLoginActionDto userLoginActionDto) {
@@ -52,6 +52,16 @@ public class UserService {
         userUpdated.setPassword(user.getPassword());
 
         return UserMapper.toUserDto(userRepository.save(userUpdated));
+    }
+
+    @Transactional
+    public User delete(Long id) {
+        User user = userRepository.findById(id).orElse(null);
+        if (user != null) {
+            gameService.deleteByUser(id);
+            userRepository.delete(user);
+        }
+        return user;
     }
 
 /*    public WelcomeDto getWelcome(String login) {

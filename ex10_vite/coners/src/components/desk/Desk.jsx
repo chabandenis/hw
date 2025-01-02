@@ -8,7 +8,7 @@ export default function Desk() {
 
   const styles = {
     personsTable: {
-      padding: "3px",
+      padding: "5px",
       border: "1px solid steelblue",
       width: "120px",
       borderCollapse: "collapse",

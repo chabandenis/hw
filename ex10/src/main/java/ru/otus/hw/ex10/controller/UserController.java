@@ -3,6 +3,8 @@ package ru.otus.hw.ex10.controller;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -10,6 +12,7 @@ import ru.otus.hw.ex10.dto.UserDto;
 import ru.otus.hw.ex10.dto.fromWeb.UserLoginActionDto;
 import ru.otus.hw.ex10.logic.Cache;
 import ru.otus.hw.ex10.models.User;
+import ru.otus.hw.ex10.services.GameService;
 import ru.otus.hw.ex10.services.UserService;
 
 @RestController
@@ -19,16 +22,10 @@ public class UserController {
 
     private final UserService userService;
 
+    private final GameService gameService;
+
     private final Cache cache;
 
-    /*
-    http://localhost:8080/api/rest/users/action
-    {
-        "action": "login",
-        "login": "user1",
-        "password": "1"
-    }
-    */
     @PostMapping(value = "/api/users/login", consumes = MediaType.APPLICATION_JSON_VALUE)
     public UserDto login(@RequestBody UserLoginActionDto userLoginActionDto) throws Exception {
         return userService.findByLogin(userLoginActionDto);
@@ -44,5 +41,9 @@ public class UserController {
         return userService.update(user);
     }
 
+    @PostMapping("/api/users/delete/{id}")
+    public User delete(@PathVariable Long id) {
+        return userService.delete(id);
+    }
 }
 

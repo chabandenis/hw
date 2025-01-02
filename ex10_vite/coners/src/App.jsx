@@ -9,6 +9,7 @@ import CreateUser from "./components/createUser/CreateUser";
 import UpdateUser from "./components/updateUser/UpdateUser";
 
 import UseUserState from "./components/state/UseUserState";
+import DeleteUser from "./components/deleteUser/DeleteUser";
 
 export default function App() {
   // авторизованный основной пользователь
@@ -40,9 +41,17 @@ export default function App() {
           <ListUsers seconUser={seconUser} updateSecondUser={setSecondUser} />
         )}
 
+        {/* шахматная доска */}
         {seconUser.id != "" && <Desk />}
-        {mainUser.id != "" && (
+
+        {/* обновить основного пользователя */}
+        {mainUser.id != "" && seconUser.id == "" && (
           <UpdateUser mainUser={mainUser} updateMainUser={setMainUser} />
+        )}
+
+        {/* удалить основного пользователя */}
+        {mainUser.id != "" && seconUser.id == "" && (
+          <DeleteUser mainUser={mainUser} updateMainUser={setMainUser} />
         )}
       </main>
     </div>

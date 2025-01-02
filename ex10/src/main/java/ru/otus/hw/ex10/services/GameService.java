@@ -228,4 +228,12 @@ public class GameService {
         return game;
     }
 
+    @Transactional
+    public void deleteByUser(Long id) {
+        var games = gameRepository.findByUserBlackIdOrUserWhiteIdOrderByIdDesc(id);
+        games.forEach(game -> delete(game.getId()));
+        return;
+    }
+
+
 }

@@ -53,6 +53,13 @@ export default function ListUsers({ seconUser, updateSecondUser }) {
         onChange={(e) => setSearchInput(e.target.value)}
       />
 
+      {/*     <div>
+        <p>
+          Выбранный пользователь:{" "}
+          {selectedUser ? selectedUser.name : "Нет выбранного пользователя"}
+        </p>
+      </div> */}
+
       <table style={styles.personsTable}>
         <thead>
           <tr style={styles.personsTableItem}>
@@ -66,7 +73,10 @@ export default function ListUsers({ seconUser, updateSecondUser }) {
             <tr
               style={styles.personsTableItem}
               key={i}
-              onClick={() => setSelectedUser(user)}
+              onClick={() => {
+                setSelectedUser(user);
+                setSearchInput(user.name);
+              }}
             >
               <td style={styles.personsTableItem}>{user.id}</td>
               <td style={styles.personsTableItem}>{user.name}</td>
@@ -75,12 +85,6 @@ export default function ListUsers({ seconUser, updateSecondUser }) {
           ))}
         </tbody>
       </table>
-      <div>
-        <p>
-          Выбранный пользователь:{" "}
-          {selectedUser ? selectedUser.name : "Нет выбранного пользователя"}
-        </p>
-      </div>
       <form onSubmit={handleSubmit}>
         <button type="submit">Выбрать второго пользователя</button>
       </form>
