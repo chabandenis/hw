@@ -28,7 +28,7 @@ public class GameController {
 
     private final GameService gameService;
 
-    private final InputXYDTO inputXYDTO;
+//    private final InputXYDTO inputXYDTO;
 
     private final Cache cache;
 
@@ -36,6 +36,36 @@ public class GameController {
 
 
     private Long gameId;
+
+    // выполнить ход
+    @RequestMapping(value = "/api/games/step", method = RequestMethod.POST)
+    public GameDto doStep(@RequestBody InputXYDTO inputXYDTO) {
+        System.out.println("inputXYDTO " + inputXYDTO);
+
+        //return new GameDto();
+/*
+        log.info("Зашли с gameDto: " + gameDto.toString());
+
+        var game = gameService.getOne(gameId);
+        log.info(game.toString());
+
+        // todo под вопросом причины пустого gameDto, хотя передается inputXYDTO
+        gameService.doStep(game, inputXYDTO);
+
+        game = gameService.getOne(gameId);
+        log.info(game.toString());
+
+        model.addAttribute("game", game);
+        model.addAttribute("xys", inputXYDTO);
+
+//        System.out.println("gameDto + " + gameDto);
+        System.out.println("inputXYDTO + " + inputXYDTO);
+        return "list";
+
+ */
+        return gameService.doStep2(inputXYDTO);
+    }
+
 
     // создать игру
     @PostMapping(value = "/api/games/actions", consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -75,6 +105,10 @@ public class GameController {
         log.info(game.toString());
         return game;
     }
+
+
+
+
 
     // выполнить ход
     @RequestMapping(value = "/edit", method = RequestMethod.POST)

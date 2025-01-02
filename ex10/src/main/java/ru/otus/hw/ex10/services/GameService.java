@@ -53,11 +53,11 @@ public class GameService {
 
     private void convert(InputXYDTO inputXYDTO) {
         // координты в DTO
-        y1 = 8 - Integer.parseInt(inputXYDTO.getYFirst());
-        x1 = inputXYDTO.getXFirst().toUpperCase().charAt(0) - 'A';
+        y1 = 8 - Integer.parseInt(inputXYDTO.getY1());
+        x1 = inputXYDTO.getX1().toUpperCase().charAt(0) - 'A';
         // координаты в БД
-        y2 = Integer.parseInt(inputXYDTO.getYSecond());
-        x2 = inputXYDTO.getXSecond().toUpperCase().charAt(0) - 'A' + 1;
+        y2 = Integer.parseInt(inputXYDTO.getY2());
+        x2 = inputXYDTO.getX2().toUpperCase().charAt(0) - 'A' + 1;
     }
 
     void createChecker(int x, int y, ChessFair chessFair, Figura figura) {
@@ -119,6 +119,33 @@ public class GameService {
     }
 
     @Transactional
+    public GameDto doStep2(
+            InputXYDTO inputXYDTO) {
+        // проверка значений
+        inputXYService.verfif(inputXYDTO);
+
+        GameDto gameDto = getOne(inputXYDTO.getGameId());
+
+        // поиск значений
+        convert(inputXYDTO);
+
+        var posId = gameDto.getChessFair().getDesk().get(y1)
+                .getArr().get(x1).getPositionId();
+
+        PositionInChessFair position =
+                positionInChessFairRepository.findById(posId).get();
+
+        position.setPositionX(x2);
+        position.setPositionY(y2);
+
+        positionInChessFairRepository.save(position);
+
+        gameDto = getOne(inputXYDTO.getGameId());
+
+        return gameDto;
+    }
+
+    @Transactional
     public void doStep(
             GameDto gameDto,
             InputXYDTO inputXYDTO) {
@@ -139,11 +166,11 @@ public class GameService {
 
         positionInChessFairRepository.save(position);
 
-        inputXYDTO.setXFirst("");
+ /*       inputXYDTO.setXFirst("");
         inputXYDTO.setYFirst("");
         inputXYDTO.setXSecond("");
         inputXYDTO.setYSecond("");
-
+*/
     }
 
     // пустая доска

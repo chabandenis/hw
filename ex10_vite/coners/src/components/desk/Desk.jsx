@@ -73,9 +73,9 @@ export default function Desk() {
     cssDeskArray[row][col] = "1";
 
     if (pointSelected == 1) {
-      firstPoint = { row: row, col: col };
+      firstPoint = { row: 8 - row, col: String.fromCharCode(col + 64) };
     } else if (pointSelected == 2) {
-      secondPoint = { row: row, col: col };
+      secondPoint = { row: 8 - row, col: String.fromCharCode(col + 64) };
     }
 
     console.log("координаты ", firstPoint, secondPoint, cssDeskArray);
@@ -84,6 +84,69 @@ export default function Desk() {
     setClickedCol(col);
   };
 
+  function SendDataToServer() {
+    const data = {
+      gameId: 1,
+      x1: firstPoint.col,
+      y1: firstPoint.row,
+      x2: secondPoint.col,
+      y2: secondPoint.row,
+    };
+
+    console.log("JSON.stringify(data) ", JSON.stringify(data));
+
+    let a = fetch("/api/games/step", {
+      method: "POST", // Метод отправки
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok " + response.statusText);
+        }
+        return response.json();
+      })
+      .then((desk) => {
+        setDesk(desk);
+      })
+      .catch((error) => {
+        setError(error);
+      });
+
+    return a;
+  }
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    // Отправка данных на сервер
+    SendDataToServer()
+      .then(() => {
+        // Успешная отправка
+        console.log("Данные успешно отправлены");
+      })
+      .catch((error) => {
+        // Обработка ошибки
+        setServerError(error.message);
+      });
+
+    //почистить стили, шаг сделан
+    clearArray();
+
+    //почистить шаг
+    firstPoint = {
+      row: null,
+      col: null,
+    };
+
+    //почистить шаг
+    secondPoint = {
+      row: null,
+      col: null,
+    };
+  };
   //console.log("desk", desk);
 
   if (
@@ -205,9 +268,19 @@ export default function Desk() {
         </table>
 
         <div>
-          <p>Начальная точка: {firstPoint.row}</p>
-          <p>Конечная точка: {secondPoint.row}</p>
+          <p>
+            Начальная точка: {firstPoint.col}
+            {firstPoint.row}
+          </p>
+          <p>
+            Конечная точка: {secondPoint.col}
+            {secondPoint.row}
+          </p>
         </div>
+
+        <form onSubmit={handleSubmit}>
+          <button type="submit">Шаг</button>
+        </form>
       </div>
     );
   } else {

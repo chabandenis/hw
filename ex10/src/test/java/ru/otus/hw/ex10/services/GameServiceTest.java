@@ -41,10 +41,10 @@ class GameServiceTest {
         var game = gameService.getOne(1L);
 
         InputXYDTO inputXYDTO = new InputXYDTO();
-        inputXYDTO.setXFirst("A");
-        inputXYDTO.setYFirst("3");
-        inputXYDTO.setXSecond("A");
-        inputXYDTO.setYSecond("4");
+        inputXYDTO.setX1("A");
+        inputXYDTO.setY1("3");
+        inputXYDTO.setX2("A");
+        inputXYDTO.setY2("4");
 
         log.debug(game.getChessFair().getDesk().get(0).toString());
         log.debug(game.getChessFair().getDesk().get(1).toString());

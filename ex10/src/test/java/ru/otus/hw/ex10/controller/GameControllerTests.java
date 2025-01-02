@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import ru.otus.hw.ex10.dto.ChessFairDto;
 import ru.otus.hw.ex10.dto.GameDto;
@@ -102,10 +103,10 @@ class GameControllerTests {
         doNothing().when(gameService).doStep(any(), any());
 
         InputXYDTO inputXYDTO = new InputXYDTO();
-        inputXYDTO.setXFirst("a");
-        inputXYDTO.setYFirst("1");
-        inputXYDTO.setXSecond("a");
-        inputXYDTO.setYSecond("5");
+        inputXYDTO.setX1("a");
+        inputXYDTO.setY1("1");
+        inputXYDTO.setX2("a");
+        inputXYDTO.setY2("5");
 
         mockMvc.perform(post("/edit")
                         .param("id", "1")
@@ -174,6 +175,20 @@ class GameControllerTests {
     public void gameDelete() throws Exception {
         mockMvc.perform(post("/del")
                         .param("id", "1"))
+                .andExpect(status().isOk())
+                .andDo(print());
+    }
+
+    @Test
+    public void doStep() throws Exception {
+        String inputXYDTO = """
+                {
+                
+                }""";
+
+        mockMvc.perform(post("/api/games/step")
+                        .content(inputXYDTO)
+                        .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andDo(print());
     }

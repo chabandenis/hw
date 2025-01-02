@@ -49,20 +49,20 @@ public class InputXYService {
 
     public void verfif(InputXYDTO inputXYDTO) {
 
-        if (verifString(inputXYDTO.getXFirst()) != true) {
-            inputXYDTO.setXFirst(x1);
+        if (verifString(inputXYDTO.getX1()) != true) {
+            inputXYDTO.setX1(x1);
         }
 
-        if (verifNumber(inputXYDTO.getYFirst()) != true) {
-            inputXYDTO.setYFirst(y1);
+        if (verifNumber(inputXYDTO.getY1()) != true) {
+            inputXYDTO.setY1(y1);
         }
 
-        if (verifString(inputXYDTO.getXSecond()) != true) {
-            inputXYDTO.setXSecond(x2);
+        if (verifString(inputXYDTO.getX2()) != true) {
+            inputXYDTO.setX2(x2);
         }
 
-        if (verifNumber(inputXYDTO.getYSecond()) != true) {
-            inputXYDTO.setYSecond(y2);
+        if (verifNumber(inputXYDTO.getY2()) != true) {
+            inputXYDTO.setY2(y2);
         }
     }
 }
