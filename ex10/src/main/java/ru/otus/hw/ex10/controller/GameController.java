@@ -56,36 +56,14 @@ public class GameController {
     @RequestMapping(value = "/api/games/step", method = RequestMethod.POST)
     public GameDto doStep(@RequestBody InputXYDTO inputXYDTO) {
         System.out.println("inputXYDTO " + inputXYDTO);
-
-        //return new GameDto();
-/*
-        log.info("Зашли с gameDto: " + gameDto.toString());
-
-        var game = gameService.getOne(gameId);
-        log.info(game.toString());
-
-        // todo под вопросом причины пустого gameDto, хотя передается inputXYDTO
-        gameService.doStep(game, inputXYDTO);
-
-        game = gameService.getOne(gameId);
-        log.info(game.toString());
-
-        model.addAttribute("game", game);
-        model.addAttribute("xys", inputXYDTO);
-
-//        System.out.println("gameDto + " + gameDto);
-        System.out.println("inputXYDTO + " + inputXYDTO);
-        return "list";
-
- */
         return gameService.doStep2(inputXYDTO);
     }
 
-
     // создать игру
-    @PostMapping(value = "/api/games/actions", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public GameDto gameNew(@RequestBody GameActionDto gameActionDto) {
-        var game = GameMapper.toGameDto(gameService.newGame());
+    @RequestMapping(value = "/api/games/new/{mainUser}/{secondUser}", method = RequestMethod.POST)
+    public GameDto newGame(@PathVariable Long mainUser,
+                           @PathVariable Long secondUser) {
+        var game = GameMapper.toGameDto(gameService.newGame(mainUser, secondUser));
         return game;
     }
 

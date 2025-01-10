@@ -92,6 +92,12 @@ export default function SelectGame({ mainUser, seconUser, desk, setDesk }) {
       </table>
       <form onSubmit={handleSubmit}>
         <button type="submit">Выбрать игру</button>
+
+        <button type="button" onClick={() => {
+          // Обновление данных
+          getApiData();
+          setSearchInput("");
+        }}>Обновить данные</button>
       </form>
     </div>
   );

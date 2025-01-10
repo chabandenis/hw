@@ -19,6 +19,7 @@ import ru.otus.hw.ex10.repositories.GameRepository;
 import ru.otus.hw.ex10.repositories.PositionInChessFairRepository;
 import ru.otus.hw.ex10.repositories.UserRepository;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -94,20 +95,22 @@ public class GameService {
     }
 
     @Transactional
-    public Game newGame() {
+    public Game newGame(Long mainUserId, Long secondUserId) {
         Game game = new Game();
         game.setId(0l);
         ChessFair chessFair = new ChessFair();
         game.setChessFair(chessFair);
         game.setUserWhite(
-                userRepository.findById(1l)
-                        .orElseThrow(() -> new NotFoundException("Отсутствует пользователь с Id = 1")));
+                userRepository.findById(mainUserId)
+                        .orElseThrow(() -> new NotFoundException("Отсутствует пользователь с Id = " + mainUserId)));
         game.setUserBlack(
-                userRepository.findById(2l)
-                        .orElseThrow(() -> new NotFoundException("Отсутствует пользователь с Id = 2")));
+                userRepository.findById(secondUserId)
+                        .orElseThrow(() -> new NotFoundException("Отсутствует пользователь с Id = " + secondUserId)));
         game.setUserNext(
-                userRepository.findById(1l)
-                        .orElseThrow(() -> new NotFoundException("Отсутствует пользователь с Id = 1")));
+                userRepository.findById(mainUserId)
+                        .orElseThrow(() -> new NotFoundException("Отсутствует пользователь с Id = " + mainUserId)));
+
+        game.setDateGame(LocalDateTime.now());
 
         chessFair = chessFairRepository.save(chessFair);
 

@@ -11,13 +11,14 @@ import UpdateUser from "./components/updateUser/UpdateUser";
 import UseUserState from "./components/state/UseUserState";
 import DeleteUser from "./components/deleteUser/DeleteUser";
 import SelectGame from "./components/selectGame/SelectGame";
+import NewGame from "./components/newGame/NewGame";
 
 export default function App() {
   // авторизованный основной пользователь
   const [mainUser, setMainUser] = UseUserState();
 
   // второй пользователь, с которым играем
-  const [seconUser, setSecondUser] = UseUserState();
+  const [secondUser, setSecondUser] = UseUserState();
 
   // идентификтор игры
   const [gameId, setGameId] = useState("");
@@ -30,7 +31,7 @@ export default function App() {
       <main>
         {/* заголовок. отображаются пользователи игры и чей ход */}
         {mainUser.id != "" && (
-          <Header mainUser={mainUser} seconUser={seconUser} desk={desk} />
+          <Header mainUser={mainUser} seconUser={secondUser} desk={desk} />
         )}
         {/* пользователь отсутствует */}
         {/* логинимся */}
@@ -42,32 +43,36 @@ export default function App() {
         {mainUser.id == "" && (
           <CreateUser mainUser={mainUser} updateMainUser={setMainUser} />
         )}
-
         {/* выбрать второго пользователя */}
-        {mainUser.id != "" && seconUser.id == "" && (
-          <ListUsers seconUser={seconUser} updateSecondUser={setSecondUser} />
+        {mainUser.id != "" && secondUser.id == "" && (
+          <ListUsers seconUser={secondUser} updateSecondUser={setSecondUser} />
         )}
-
-        {/*выбрать игру*/}
-        {seconUser.id != "" && (
-          <SelectGame
+        {/* создать игру */}
+        {secondUser.id != "" && (
+          <NewGame
             mainUser={mainUser}
-            seconUser={seconUser}
+            secondUser={secondUser}
             desk={desk}
             setDesk={setDesk}
           />
         )}
-
+        {/*выбрать игру*/}
+        {secondUser.id != "" && (
+          <SelectGame
+            mainUser={mainUser}
+            seconUser={secondUser}
+            desk={desk}
+            setDesk={setDesk}
+          />
+        )}
         {/* шахматная доска */}
-        {seconUser.id != "" && <Desk desk={desk} setDesk={setDesk} />}
-
+        {secondUser.id != "" && <Desk desk={desk} setDesk={setDesk} />}
         {/* обновить основного пользователя */}
-        {mainUser.id != "" && seconUser.id == "" && (
+        {mainUser.id != "" && secondUser.id == "" && (
           <UpdateUser mainUser={mainUser} updateMainUser={setMainUser} />
         )}
-
         {/* удалить основного пользователя */}
-        {mainUser.id != "" && seconUser.id == "" && (
+        {mainUser.id != "" && secondUser.id == "" && (
           <DeleteUser mainUser={mainUser} updateMainUser={setMainUser} />
         )}
       </main>
