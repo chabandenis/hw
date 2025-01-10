@@ -1,14 +1,15 @@
 import React, { useState } from "react";
 import UseUserState from "./state/UseUserState";
 
-export default function Header({ mainUser, seconUser }) {
+export default function Header({ mainUser, seconUser, desk }) {
   //  const [mainUser, setMainUser] = UseUserState();
 
   return (
     <header>
       <h3>Уголки</h3>
-      <p>Игрок 1 = "{mainUser.name}"</p>
-      <p>Игрок 2 = "{seconUser.name}"</p>
+      <p>Вы = "{mainUser.name}"</p>
+      <p>Напарник = "{seconUser.name}"</p>
+      <p>Id игры = "{desk.id}"</p>
     </header>
   );
 }

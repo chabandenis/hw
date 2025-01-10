@@ -44,7 +44,7 @@ export default function ListUsers({ seconUser, updateSecondUser }) {
   return (
     <div>
       <p>==========================================================</p>
-      <p>Выберите второго пользователя</p>
+      <p>Выберите напарника</p>
 
       <input
         type="text"

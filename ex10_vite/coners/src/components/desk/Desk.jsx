@@ -18,8 +18,8 @@ let secondPoint = {
   col: null,
 };
 
-export default function Desk({ gameId }) {
-  const [desk, setDesk] = useState([]);
+export default function Desk({ desk, setDesk }) {
+  //  const [desk, setDesk] = useState([]);
   const [clickedRow, setClickedRow] = useState(-1);
   const [clickedCol, setClickedCol] = useState(-1);
   const [activeCell, setActiveCell] = useState({ row: -1, col: -1 });
@@ -62,7 +62,7 @@ export default function Desk({ gameId }) {
 */
 
   useEffect(() => {
-    const intervalId = setInterval(getApiData, 3000); // Вызов каждые 1000 мс (1 секунда)
+    const intervalId = setInterval(getApiData, 1000); // для отладки удобно длительное время отсутствие обновления
 
     return () => {
       clearInterval(intervalId); // Очистка интервала при размонтировании компонента
@@ -70,10 +70,13 @@ export default function Desk({ gameId }) {
   });
 
   const getApiData = async () => {
-    console.log("getApiData");
-    const response = await fetch("/api/games/" + gameId)
-      .then((response) => response.json())
-      .then((desk) => setDesk(desk));
+    // запрос отправляется, если заполнен идентификатор
+    if (desk && desk.id) {
+      console.log("getApiData", desk, desk.id);
+      const response = await fetch("/api/games/" + desk.id)
+        .then((response) => response.json())
+        .then((desk) => setDesk(desk));
+    }
   };
 
   const handleCellClick = (row, col) => {
@@ -99,7 +102,7 @@ export default function Desk({ gameId }) {
 
   function SendDataToServer() {
     const data = {
-      gameId: 1,
+      gameId: desk.id,
       x1: firstPoint.col,
       y1: firstPoint.row,
       x2: secondPoint.col,
@@ -298,6 +301,12 @@ export default function Desk({ gameId }) {
     );
   } else {
     // Можно добавить альтернативный контент или сообщение, если users.chessFair.desk пуст
-    return <div>Ошибка при подгрузке шахматной доски</div>;
+    return (
+      <div>
+        <p>==========================================================</p>
+        <p>Шахматная доска</p>
+        <div>Отсутствуют данные при подгрузке шахматной доски или ошибка</div>
+      </div>
+    );
   }
 }

@@ -1,15 +1,9 @@
 import React, { useState, useEffect } from "react";
 
-export default function SelectGame({
-  mainUser,
-  seconUser,
-  desk,
-  setDesk,
-  updateSecondUser,
-}) {
+export default function SelectGame({ mainUser, seconUser, desk, setDesk }) {
   const [games, setGames] = useState([]);
   const [searchInput, setSearchInput] = useState("");
-  const [selectedUser, setSelectedUser] = useState(null);
+  const [selectedGame, setSelectedGame] = useState(null);
 
   const styles = {
     personsTable: {
@@ -32,16 +26,17 @@ export default function SelectGame({
   const getApiData = async () => {
     const response = await fetch(
       "/api/games/" + mainUser.id + "/" + seconUser.id
-    ).then((response) => response.json());
-    //.then((games) => setGames(games));
+    )
+      .then((response) => response.json())
+      .then((games) => setGames(games));
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    updateSecondUser(selectedUser);
+    setDesk(selectedGame);
   };
 
-  const filteredUsers = games.filter((game) => {
+  const filteredGames = games.filter((game) => {
     return Object.values(game)
       .join("")
       .toLowerCase()
@@ -55,7 +50,7 @@ export default function SelectGame({
 
       <input
         type="text"
-        placeholder="Поиск по дате ..."
+        placeholder="Поиск ..."
         value={searchInput}
         onChange={(e) => setSearchInput(e.target.value)}
       />
@@ -70,20 +65,21 @@ export default function SelectGame({
       <table style={styles.personsTable}>
         <thead>
           <tr style={styles.personsTableItem}>
-            <th style={styles.personsTableItem}>ID</th>
-            <th style={styles.personsTableItem}>date</th>
-            <th style={styles.personsTableItem}>white</th>
-            <th style={styles.personsTableItem}>black</th>
+            <th style={styles.personsTableItem}>id</th>
+            <th style={styles.personsTableItem}>Дата</th>
+            <th style={styles.personsTableItem}>За белых</th>
+            <th style={styles.personsTableItem}>За черных</th>
           </tr>
         </thead>
         <tbody>
-          {filteredUsers.map((game, i) => (
+          {filteredGames.map((game, i) => (
             <tr
               style={styles.personsTableItem}
               key={i}
               onClick={() => {
-                setSelectedUser(game);
-                setSearchInput(game.name);
+                //setDesk(game);
+                setSelectedGame(game);
+                setSearchInput(game.dateGame);
               }}
             >
               <td style={styles.personsTableItem}>{game.id}</td>

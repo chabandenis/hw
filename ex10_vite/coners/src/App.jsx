@@ -30,7 +30,7 @@ export default function App() {
       <main>
         {/* заголовок. отображаются пользователи игры и чей ход */}
         {mainUser.id != "" && (
-          <Header mainUser={mainUser} seconUser={seconUser} />
+          <Header mainUser={mainUser} seconUser={seconUser} desk={desk} />
         )}
         {/* пользователь отсутствует */}
         {/* логинимся */}
