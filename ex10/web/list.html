@@ -3,11 +3,11 @@
 
 <head>
 
-    <head>  
+    <head>
         <title>List of games</title>
     </head>
 
-    <meta charset="UTF-8" />
+    <meta charset="UTF-8"/>
     <title>List of all persons</title>
     <style type="text/css">
         body {
@@ -35,52 +35,52 @@
 </head>
 
 <body>
-    <h3>Добро пожаловать, <span>Первый пользователь</span></h3>
+<h3>Добро пожаловать, <span>Первый пользователь</span></h3>
 
-    <form action="/new?userId=1" method="post"> <!--${game.id}-->
+<form action="/new?userId=1" method="post"> <!--${game.id}-->
+    <td>
+        <input type="submit" value="Новая игра"/>
+    </td>
+</form>
+
+<table class="games">
+    <caption>Сыгранные игры:</caption>
+    <thead>
+    <tr>
+        <th>id</th>
+        <th>За черных</th>
+        <th>За белых</th>
+        <th>Действие</th>
+        <!--        <th>Действие</th>-->
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td>3</td>
+        <td>Первый пользователь</td>
+        <td>Третий пользователь</td>
         <td>
-            <input type="submit" value="Новая игра" />
+            <a href="/game?id=3">Продолжить</a>
         </td>
-    </form>
-
-    <table class="games">
-        <caption>Сыгранные игры:</caption>
-        <thead>
-            <tr>
-                <th>id</th>
-                <th>За черных</th>
-                <th>За белых</th>
-                <th>Действие</th>
-                <!--        <th>Действие</th>-->
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>3</td>
-                <td>Первый пользователь</td>
-                <td>Третий пользователь</td>
-                <td>
-                    <a href="/game?id=3">Продолжить</a>
-                </td>
-            </tr>
-            <tr>
-                <td>2</td>
-                <td>Второй Пользователь</td>
-                <td>Первый пользователь</td>
-                <td>
-                    <a href="/game?id=2">Продолжить</a>
-                </td>
-            </tr>
-            <tr>
-                <td>1</td>
-                <td>Первый пользователь</td>
-                <td>Второй Пользователь</td>
-                <td>
-                    <a href="/game?id=1">Продолжить</a>
-                </td>
-            </tr>
-        </tbody>
-    </table>
+    </tr>
+    <tr>
+        <td>2</td>
+        <td>Второй Пользователь</td>
+        <td>Первый пользователь</td>
+        <td>
+            <a href="/game?id=2">Продолжить</a>
+        </td>
+    </tr>
+    <tr>
+        <td>1</td>
+        <td>Первый пользователь</td>
+        <td>Второй Пользователь</td>
+        <td>
+            <a href="/game?id=1">Продолжить</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
 
 </body>
 

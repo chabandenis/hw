@@ -10,13 +10,20 @@ import UpdateUser from "./components/updateUser/UpdateUser";
 
 import UseUserState from "./components/state/UseUserState";
 import DeleteUser from "./components/deleteUser/DeleteUser";
+import SelectGame from "./components/selectGame/SelectGame";
 
 export default function App() {
   // авторизованный основной пользователь
   const [mainUser, setMainUser] = UseUserState();
 
-  // авторизованный основной пользователь
+  // второй пользователь, с которым играем
   const [seconUser, setSecondUser] = UseUserState();
+
+  // идентификтор игры
+  const [gameId, setGameId] = useState("");
+
+  // шахматная доска
+  const [desk, setDesk] = useState([]);
 
   return (
     <div>
@@ -41,8 +48,18 @@ export default function App() {
           <ListUsers seconUser={seconUser} updateSecondUser={setSecondUser} />
         )}
 
+        {/*выбрать игру*/}
+        {seconUser.id != "" && (
+          <SelectGame
+            mainUser={mainUser}
+            seconUser={seconUser}
+            desk={desk}
+            setDesk={setDesk}
+          />
+        )}
+
         {/* шахматная доска */}
-        {seconUser.id != "" && <Desk />}
+        {seconUser.id != "" && <Desk desk={desk} setDesk={setDesk} />}
 
         {/* обновить основного пользователя */}
         {mainUser.id != "" && seconUser.id == "" && (

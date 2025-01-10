@@ -9,7 +9,6 @@ import ru.otus.hw.ex10.dto.UserDto;
 import ru.otus.hw.ex10.dto.fromWeb.UserLoginActionDto;
 import ru.otus.hw.ex10.mapper.UserMapper;
 import ru.otus.hw.ex10.models.User;
-import ru.otus.hw.ex10.repositories.GameRepository;
 import ru.otus.hw.ex10.repositories.UserRepository;
 
 import java.util.List;
@@ -62,6 +61,10 @@ public class UserService {
             userRepository.delete(user);
         }
         return user;
+    }
+
+    public List<User> getAll() {
+        return userRepository.findAll();
     }
 
 /*    public WelcomeDto getWelcome(String login) {

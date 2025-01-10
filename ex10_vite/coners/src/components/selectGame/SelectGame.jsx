@@ -1,7 +1,13 @@
 import React, { useState, useEffect } from "react";
 
-export default function ListUsers({ seconUser, updateSecondUser }) {
-  const [users, setUsers] = useState([]);
+export default function SelectGame({
+  mainUser,
+  seconUser,
+  desk,
+  setDesk,
+  updateSecondUser,
+}) {
+  const [games, setGames] = useState([]);
   const [searchInput, setSearchInput] = useState("");
   const [selectedUser, setSelectedUser] = useState(null);
 
@@ -24,9 +30,10 @@ export default function ListUsers({ seconUser, updateSecondUser }) {
   }, []);
 
   const getApiData = async () => {
-    const response = await fetch("/api/users")
-      .then((response) => response.json())
-      .then((users) => setUsers(users));
+    const response = await fetch(
+      "/api/games/" + mainUser.id + "/" + seconUser.id
+    ).then((response) => response.json());
+    //.then((games) => setGames(games));
   };
 
   const handleSubmit = (e) => {
@@ -34,8 +41,8 @@ export default function ListUsers({ seconUser, updateSecondUser }) {
     updateSecondUser(selectedUser);
   };
 
-  const filteredUsers = users.filter((user) => {
-    return Object.values(user)
+  const filteredUsers = games.filter((game) => {
+    return Object.values(game)
       .join("")
       .toLowerCase()
       .includes(searchInput.toLowerCase());
@@ -44,11 +51,11 @@ export default function ListUsers({ seconUser, updateSecondUser }) {
   return (
     <div>
       <p>==========================================================</p>
-      <p>Выберите второго пользователя</p>
+      <p>Выберите игру</p>
 
       <input
         type="text"
-        placeholder="Поиск по имени ..."
+        placeholder="Поиск по дате ..."
         value={searchInput}
         onChange={(e) => setSearchInput(e.target.value)}
       />
@@ -64,29 +71,31 @@ export default function ListUsers({ seconUser, updateSecondUser }) {
         <thead>
           <tr style={styles.personsTableItem}>
             <th style={styles.personsTableItem}>ID</th>
-            <th style={styles.personsTableItem}>Name</th>
-            <th style={styles.personsTableItem}>login</th>
+            <th style={styles.personsTableItem}>date</th>
+            <th style={styles.personsTableItem}>white</th>
+            <th style={styles.personsTableItem}>black</th>
           </tr>
         </thead>
         <tbody>
-          {filteredUsers.map((user, i) => (
+          {filteredUsers.map((game, i) => (
             <tr
               style={styles.personsTableItem}
               key={i}
               onClick={() => {
-                setSelectedUser(user);
-                setSearchInput(user.name);
+                setSelectedUser(game);
+                setSearchInput(game.name);
               }}
             >
-              <td style={styles.personsTableItem}>{user.id}</td>
-              <td style={styles.personsTableItem}>{user.name}</td>
-              <td style={styles.personsTableItem}>{user.login}</td>
+              <td style={styles.personsTableItem}>{game.id}</td>
+              <td style={styles.personsTableItem}>{game.dateGame}</td>
+              <td style={styles.personsTableItem}>{game.userWhite.name}</td>
+              <td style={styles.personsTableItem}>{game.userBlack.name}</td>
             </tr>
           ))}
         </tbody>
       </table>
       <form onSubmit={handleSubmit}>
-        <button type="submit">Выбрать второго пользователя</button>
+        <button type="submit">Выбрать игру</button>
       </form>
     </div>
   );

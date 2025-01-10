@@ -1,7 +1,7 @@
 INSERT INTO users (name, login, password)
-VALUES('Первый пользователь', 'user1', '1'),
-('Второй Пользователь', 'user2', '1'),
- ('Третий пользователь', 'user3', '1');
+VALUES('Первый Иван Иваныч', 'user1', '1'),
+('Второй Петр Петрович', 'user2', '1'),
+ ('Третий Великий Петр', 'user3', '1');
 
 INSERT INTO figuras (name)
 VALUES('Белый'), ('Черный');
@@ -13,16 +13,16 @@ INSERT INTO public.chess_fairs DEFAULT VALUES;
 INSERT INTO public.chess_fairs DEFAULT VALUES;
 
 INSERT INTO public.games
-(user_black_id, user_white_id, user_next_id, chess_fair_id)
-VALUES(1, 2, 2, 1);
+(user_black_id, user_white_id, user_next_id, chess_fair_id, date_game)
+VALUES(1, 2, 2, 1, '2022-10-10 00:00:00.000');
 
 INSERT INTO public.games
-(user_black_id, user_white_id, user_next_id, chess_fair_id)
-VALUES(2, 1, 2, 2);
+(user_black_id, user_white_id, user_next_id, chess_fair_id, date_game)
+VALUES(2, 1, 2, 2, '2023-09-09 00:00:00.000');
 
 INSERT INTO public.games
-(user_black_id, user_white_id, user_next_id, chess_fair_id)
-VALUES(1, 3, 2, 3);
+(user_black_id, user_white_id, user_next_id, chess_fair_id, date_game)
+VALUES(1, 3, 2, 3, '2024-08-08 00:00:00.000');
 
 
 INSERT INTO public.position_in_chess_fairs

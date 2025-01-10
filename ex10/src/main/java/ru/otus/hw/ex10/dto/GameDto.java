@@ -3,6 +3,8 @@ package ru.otus.hw.ex10.dto;
 import lombok.Data;
 import ru.otus.hw.ex10.models.Game;
 
+import java.time.LocalDateTime;
+
 /**
  * DTO for {@link Game}
  */
@@ -17,4 +19,5 @@ public class GameDto {
     private UserDto userNext;
 
     private ChessFairDto chessFair;
+    private LocalDateTime dateGame;
 }

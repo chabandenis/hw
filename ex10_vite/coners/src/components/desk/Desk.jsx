@@ -18,7 +18,7 @@ let secondPoint = {
   col: null,
 };
 
-export default function Desk() {
+export default function Desk({ gameId }) {
   const [desk, setDesk] = useState([]);
   const [clickedRow, setClickedRow] = useState(-1);
   const [clickedCol, setClickedCol] = useState(-1);
@@ -71,7 +71,7 @@ export default function Desk() {
 
   const getApiData = async () => {
     console.log("getApiData");
-    const response = await fetch("/api/games/1")
+    const response = await fetch("/api/games/" + gameId)
       .then((response) => response.json())
       .then((desk) => setDesk(desk));
   };

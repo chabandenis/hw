@@ -21,6 +21,7 @@ CREATE TABLE games (
    user_white_id BIGINT,
    user_next_id BIGINT,
    chess_fair_id BIGINT,
+   date_game TIMESTAMP WITHOUT TIME ZONE,
    CONSTRAINT pk_games PRIMARY KEY (id)
 );
 

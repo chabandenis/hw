@@ -21,6 +21,9 @@ import ru.otus.hw.ex10.mapper.GameMapper;
 import ru.otus.hw.ex10.services.GameService;
 import ru.otus.hw.ex10.services.UserService;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Slf4j
 @RestController
 @RequiredArgsConstructor
@@ -36,6 +39,18 @@ public class GameController {
 
 
     private Long gameId;
+
+
+    @GetMapping("/api/games/{mainUser}/{secondUser}")
+    public List<GameDto> getAll(@PathVariable Long mainUser,
+                                @PathVariable Long secondUser
+    ) {
+        return gameService.getAllByUsers(mainUser, secondUser)
+                .stream()
+                .map(
+                        x -> GameMapper.toGameDto(x))
+                .collect(Collectors.toList());
+    }
 
     // выполнить ход
     @RequestMapping(value = "/api/games/step", method = RequestMethod.POST)
@@ -69,7 +84,7 @@ public class GameController {
 
     // создать игру
     @PostMapping(value = "/api/games/actions", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public GameDto gameNew( @RequestBody GameActionDto gameActionDto) {
+    public GameDto gameNew(@RequestBody GameActionDto gameActionDto) {
         var game = GameMapper.toGameDto(gameService.newGame());
         return game;
     }
@@ -92,7 +107,7 @@ public class GameController {
 
 //        WelcomeDto welcomeDto = userService.getWelcome(cache.getLogin());
 
- //       model.addAttribute("welcome", welcomeDto);
+        //       model.addAttribute("welcome", welcomeDto);
 
         return "redirect:/welcome?login=" + cache.getLogin();
 
@@ -105,9 +120,6 @@ public class GameController {
         log.info(game.toString());
         return game;
     }
-
-
-
 
 
     // выполнить ход

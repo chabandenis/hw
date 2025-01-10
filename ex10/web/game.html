@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8" />
+    <meta charset="UTF-8"/>
     <title>Game</title>
 
     <style type="text/css">
@@ -30,174 +30,174 @@
 </head>
 
 <body>
-    <h3>Уголки</h3>
+<h3>Уголки</h3>
 
-    <form action="/del?id=3" method="post">
-        <td>
-            <input type="submit" value="Удалить" />
-        </td>
-    </form>
+<form action="/del?id=3" method="post">
+    <td>
+        <input type="submit" value="Удалить"/>
+    </td>
+</form>
 
-    <form action="/edit" method="post">
-        <div class="row">
-            <label for="id-input">X1:</label>
-            <input id="id-input" type="text" name="xFirst" value="" />
-        </div>
-        <div class="row">
-            <label for="id-input2">Y1:</label>
-            <input id="id-input2" type="text" name="yFirst" value="" />
-        </div>
-        <div class="row">
-            <label for="id-input3">X2:</label>
-            <input id="id-input3" type="text" name="xSecond" value="" />
-        </div>
-        <div class="row">
-            <label for="id-input4">Y2:</label>
-            <input id="id-input4" type="text" name="ySecond" value="" />
-        </div>
+<form action="/edit" method="post">
+    <div class="row">
+        <label for="id-input">X1:</label>
+        <input id="id-input" type="text" name="xFirst" value=""/>
+    </div>
+    <div class="row">
+        <label for="id-input2">Y1:</label>
+        <input id="id-input2" type="text" name="yFirst" value=""/>
+    </div>
+    <div class="row">
+        <label for="id-input3">X2:</label>
+        <input id="id-input3" type="text" name="xSecond" value=""/>
+    </div>
+    <div class="row">
+        <label for="id-input4">Y2:</label>
+        <input id="id-input4" type="text" name="ySecond" value=""/>
+    </div>
 
-        <td>
-            <input type="submit" value="Ход" />
-        </td>
-    </form>
+    <td>
+        <input type="submit" value="Ход"/>
+    </td>
+</form>
 
-    <h5></h5>
+<h5></h5>
 
-    <table class="checkers">
-        <thead>
-            <tr>
-                <th></th>
-                <th>A</th>
-                <th>B</th>
-                <th>C</th>
-                <th>D</th>
-                <th>E</th>
-                <th>F</th>
-                <th>G</th>
-                <th>H</th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>8</td>
+<table class="checkers">
+    <thead>
+    <tr>
+        <th></th>
+        <th>A</th>
+        <th>B</th>
+        <th>C</th>
+        <th>D</th>
+        <th>E</th>
+        <th>F</th>
+        <th>G</th>
+        <th>H</th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td>8</td>
 
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td>X</td>
-                <td>X</td>
-                <td>X</td>
-                <td>X</td>
-                <td>8</td>
-            </tr>
-            <tr>
-                <td>7</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td>X</td>
+        <td>X</td>
+        <td>X</td>
+        <td>X</td>
+        <td>8</td>
+    </tr>
+    <tr>
+        <td>7</td>
 
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td>X</td>
-                <td>X</td>
-                <td>X</td>
-                <td>X</td>
-                <td>7</td>
-            </tr>
-            <tr>
-                <td>6</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td>X</td>
+        <td>X</td>
+        <td>X</td>
+        <td>X</td>
+        <td>7</td>
+    </tr>
+    <tr>
+        <td>6</td>
 
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td>X</td>
-                <td>X</td>
-                <td>X</td>
-                <td>X</td>
-                <td>6</td>
-            </tr>
-            <tr>
-                <td>5</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td>X</td>
+        <td>X</td>
+        <td>X</td>
+        <td>X</td>
+        <td>6</td>
+    </tr>
+    <tr>
+        <td>5</td>
 
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td>5</td>
-            </tr>
-            <tr>
-                <td>4</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td>5</td>
+    </tr>
+    <tr>
+        <td>4</td>
 
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td>4</td>
-            </tr>
-            <tr>
-                <td>3</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td>4</td>
+    </tr>
+    <tr>
+        <td>3</td>
 
-                <td>O</td>
-                <td>O</td>
-                <td>O</td>
-                <td>O</td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td>3</td>
-            </tr>
-            <tr>
-                <td>2</td>
+        <td>O</td>
+        <td>O</td>
+        <td>O</td>
+        <td>O</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td>3</td>
+    </tr>
+    <tr>
+        <td>2</td>
 
-                <td>O</td>
-                <td>O</td>
-                <td>O</td>
-                <td>O</td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td>2</td>
-            </tr>
-            <tr>
-                <td>1</td>
+        <td>O</td>
+        <td>O</td>
+        <td>O</td>
+        <td>O</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td>2</td>
+    </tr>
+    <tr>
+        <td>1</td>
 
-                <td>O</td>
-                <td>O</td>
-                <td>O</td>
-                <td>O</td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td>1</td>
-            </tr>
-            <tr>
-                <td></td>
+        <td>O</td>
+        <td>O</td>
+        <td>O</td>
+        <td>O</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td>1</td>
+    </tr>
+    <tr>
+        <td></td>
 
-                <td>A</td>
-                <td>B</td>
-                <td>C</td>
-                <td>D</td>
-                <td>E</td>
-                <td>F</td>
-                <td>G</td>
-                <td>H</td>
-                <td></td>
-            </tr>
-        </tbody>
-    </table>
+        <td>A</td>
+        <td>B</td>
+        <td>C</td>
+        <td>D</td>
+        <td>E</td>
+        <td>F</td>
+        <td>G</td>
+        <td>H</td>
+        <td></td>
+    </tr>
+    </tbody>
+</table>
 </body>
 
 </html>

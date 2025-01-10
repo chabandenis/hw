@@ -15,6 +15,8 @@ import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
+
 /*
 Идентификатор игры.
 
@@ -61,4 +63,8 @@ public class Game {
     @OneToOne(fetch = FetchType.LAZY, orphanRemoval = true)
     @JoinColumn(name = "chess_fair_id")
     private ChessFair chessFair;
+
+    @Column(name = "date_game")
+    private LocalDateTime dateGame;
+
 }

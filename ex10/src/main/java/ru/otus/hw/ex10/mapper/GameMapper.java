@@ -24,6 +24,7 @@ public class GameMapper {
         gameDto.setUserNext(UserMapper.toUserDto(game.getUserNext()));
         gameDto.setChessFair(ChessFairMapper.toChessFairDto(game.getChessFair()));
         gameDto.setUserBlack(UserMapper.toUserDto(game.getUserBlack()));
+        gameDto.setDateGame(game.getDateGame());
 
         return gameDto;
     }

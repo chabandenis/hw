@@ -262,5 +262,7 @@ public class GameService {
         return;
     }
 
-
+    public List<Game> getAllByUsers(Long mainUserId, Long secondUserId) {
+        return gameRepository.findByUserId1AndUserId2OrderByDateGameDesc(mainUserId, secondUserId);
+    }
 }
