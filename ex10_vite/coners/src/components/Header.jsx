@@ -1,8 +1,6 @@
 import React, { useState } from "react";
-import UseUserState from "./state/UseUserState";
 
 export default function Header({ mainUser, seconUser, desk }) {
-  //  const [mainUser, setMainUser] = UseUserState();
 
   return (
     <header>

@@ -25,6 +25,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -95,7 +96,7 @@ public class GameService {
     }
 
     @Transactional
-    public Game newGame(Long mainUserId, Long secondUserId) {
+    public GameDto newGame(Long mainUserId, Long secondUserId) {
         Game game = new Game();
         game.setId(0l);
         ChessFair chessFair = new ChessFair();
@@ -118,7 +119,7 @@ public class GameService {
 
         game = gameRepository.save(game);
 
-        return game;
+        return GameMapper.toGameDto(game);
     }
 
     @Transactional
@@ -247,25 +248,37 @@ public class GameService {
     }
 
     @Transactional
-    public Game delete(Long id) {
-        Game game = gameRepository.findById(id).orElse(null);
+    public GameDto delete(Long id) {
+        if (id == null) {
+            throw new NotFoundException("В запросе на удаление отсутствует id игры");
+        }
+
+        Game game = gameRepository.findById(id).orElseThrow(
+                () -> new NotFoundException("Отсутствует игра с идентификатором " + id));
 
         positionInChessFairRepository.deleteByChessFair(game.getChessFair());
 
         if (game != null) {
-            gameRepository.delete(game);
+            try {
+                gameRepository.delete(game);
+            } catch (Exception e) {
+                throw new NotFoundException("Возникла ошибка при удалении игры с id=" + id);
+            }
         }
-        return game;
+        return GameMapper.toGameDto(game);
     }
 
     @Transactional
     public void deleteByUser(Long id) {
         var games = gameRepository.findByUserBlackIdOrUserWhiteIdOrderByIdDesc(id);
         games.forEach(game -> delete(game.getId()));
-        return;
     }
 
-    public List<Game> getAllByUsers(Long mainUserId, Long secondUserId) {
-        return gameRepository.findByUserId1AndUserId2OrderByDateGameDesc(mainUserId, secondUserId);
+    public List<GameDto> getAllByUsers(Long mainUserId, Long secondUserId) {
+        return gameRepository.findByUserId1AndUserId2OrderByDateGameDesc(mainUserId, secondUserId)
+                .stream()
+                .map(
+                        x -> GameMapper.toGameDto(x))
+                .collect(Collectors.toList());
     }
 }

@@ -22,7 +22,6 @@ export default function Desk({ desk, setDesk }) {
   //  const [desk, setDesk] = useState([]);
   const [clickedRow, setClickedRow] = useState(-1);
   const [clickedCol, setClickedCol] = useState(-1);
-  const [activeCell, setActiveCell] = useState({ row: -1, col: -1 });
 
   const styles = {
     personsTable: {

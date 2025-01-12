@@ -24,10 +24,6 @@ public interface GameRepository extends JpaRepository<Game, Long> {
     List<Game> findByUserBlackIdOrUserWhiteIdOrderByIdDesc(@Param("id") Long id);
 
 
-
-
-
-
     @EntityGraph(value = "game-graph")
     List<Game> findByUserBlackId(Long id);
 

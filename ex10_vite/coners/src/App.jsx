@@ -12,6 +12,7 @@ import UseUserState from "./components/state/UseUserState";
 import DeleteUser from "./components/deleteUser/DeleteUser";
 import SelectGame from "./components/selectGame/SelectGame";
 import NewGame from "./components/newGame/NewGame";
+import DeleteGame from "./components/deleteGame/DeleteGame";
 
 export default function App() {
   // авторизованный основной пользователь
@@ -55,6 +56,10 @@ export default function App() {
             desk={desk}
             setDesk={setDesk}
           />
+        )}
+        {/* удалить игру */}
+        {desk.id != "" && (
+          <DeleteGame mainUser={mainUser} updateMainUser={setMainUser} />
         )}
         {/*выбрать игру*/}
         {secondUser.id != "" && (

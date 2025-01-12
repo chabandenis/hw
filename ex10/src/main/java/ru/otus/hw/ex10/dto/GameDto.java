@@ -19,5 +19,6 @@ public class GameDto {
     private UserDto userNext;
 
     private ChessFairDto chessFair;
+
     private LocalDateTime dateGame;
 }

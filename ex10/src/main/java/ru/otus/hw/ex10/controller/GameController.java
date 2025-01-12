@@ -2,27 +2,17 @@ package ru.otus.hw.ex10.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.MediaType;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import ru.otus.hw.ex10.dto.GameDto;
 import ru.otus.hw.ex10.dto.InputXYDTO;
-import ru.otus.hw.ex10.dto.fromWeb.GameActionDto;
-import ru.otus.hw.ex10.logic.Cache;
-import ru.otus.hw.ex10.mapper.GameMapper;
 import ru.otus.hw.ex10.services.GameService;
-import ru.otus.hw.ex10.services.UserService;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Slf4j
 @RestController
@@ -31,31 +21,17 @@ public class GameController {
 
     private final GameService gameService;
 
-//    private final InputXYDTO inputXYDTO;
-
-    private final Cache cache;
-
-    private final UserService userService;
-
-
-    private Long gameId;
-
-
+    // выбрать игры в которые играли два игрока
     @GetMapping("/api/games/{mainUser}/{secondUser}")
     public List<GameDto> getAll(@PathVariable Long mainUser,
                                 @PathVariable Long secondUser
     ) {
-        return gameService.getAllByUsers(mainUser, secondUser)
-                .stream()
-                .map(
-                        x -> GameMapper.toGameDto(x))
-                .collect(Collectors.toList());
+        return gameService.getAllByUsers(mainUser, secondUser);
     }
 
     // выполнить ход
     @RequestMapping(value = "/api/games/step", method = RequestMethod.POST)
     public GameDto doStep(@RequestBody InputXYDTO inputXYDTO) {
-        System.out.println("inputXYDTO " + inputXYDTO);
         return gameService.doStep2(inputXYDTO);
     }
 
@@ -63,67 +39,18 @@ public class GameController {
     @RequestMapping(value = "/api/games/new/{mainUser}/{secondUser}", method = RequestMethod.POST)
     public GameDto newGame(@PathVariable Long mainUser,
                            @PathVariable Long secondUser) {
-        var game = GameMapper.toGameDto(gameService.newGame(mainUser, secondUser));
-        return game;
+        return gameService.newGame(mainUser, secondUser);
     }
 
-    @RequestMapping(value = "/del", method = RequestMethod.POST)
-    public String gameDelete(@RequestParam("id") Long id, Model model) {
-        if (id == null) {
-            throw new NotFoundException("В запросе на удаление отсутствует id игры");
-        }
-
-        if (cache.getLogin() == null) {
-            throw new NotFoundException("Отсутствует сохраненный логин пользователя");
-        }
-
-        try {
-            gameService.delete(id);
-        } catch (Exception e) {
-            throw new NotFoundException("Возникла ошибка при удалении игры с id=" + id);
-        }
-
-//        WelcomeDto welcomeDto = userService.getWelcome(cache.getLogin());
-
-        //       model.addAttribute("welcome", welcomeDto);
-
-        return "redirect:/welcome?login=" + cache.getLogin();
-
+    // удалить игру
+    @RequestMapping(value = "/games/{id}", method = RequestMethod.POST)
+    public GameDto delete(@PathVariable Long id) {
+        return gameService.delete(id);
     }
 
-    // игра для заданного идентификатора
+    // информация об игре по заданному идентификатору
     @GetMapping("/api/games/{id}")
     public GameDto getOne(@PathVariable Long id) {
-        var game = gameService.getOne(id);
-        log.info(game.toString());
-        return game;
+        return gameService.getOne(id);
     }
-
-
-    // выполнить ход
-    @RequestMapping(value = "/edit", method = RequestMethod.POST)
-    public String doStuffMethod2(Model model,
-                                 @ModelAttribute("game") GameDto gameDto,
-                                 @ModelAttribute("xys") InputXYDTO inputXYDTO) {
-
-        log.info("Зашли с gameDto: " + gameDto.toString());
-
-        var game = gameService.getOne(gameId);
-        log.info(game.toString());
-
-        // todo под вопросом причины пустого gameDto, хотя передается inputXYDTO
-        gameService.doStep(game, inputXYDTO);
-
-        game = gameService.getOne(gameId);
-        log.info(game.toString());
-
-        model.addAttribute("game", game);
-        model.addAttribute("xys", inputXYDTO);
-
-//        System.out.println("gameDto + " + gameDto);
-        System.out.println("inputXYDTO + " + inputXYDTO);
-        return "list";
-    }
-
 }
-
