@@ -38,7 +38,7 @@ export default function NewGame({ mainUser, secondUser, desk, setDesk }) {
     SendDataToServer()
       .then(() => {
         // Успешная отправка
-        console.log("Данные успешно отправлены");
+        //console.log("Данные успешно отправлены");
       })
       .catch((error) => {
         // Обработка ошибки

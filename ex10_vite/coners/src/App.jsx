@@ -55,7 +55,7 @@ export default function App() {
           />
         )}
         {/* удалить игру */}
-        {desk.id != "" && <DeleteGame desk={desk} setDesk={setDesk} />}
+        {desk.id >= 0 && <DeleteGame desk={desk} setDesk={setDesk} />}
         {/*выбрать игру*/}
         {secondUser.id != "" && (
           <SelectGame

@@ -59,7 +59,7 @@ export default function Authorized({ mainUser, updateMainUser }) {
     SendDataToServer(login, password)
       .then(() => {
         // Успешная отправка
-        console.log("Данные успешно отправлены");
+        //console.log("Данные успешно отправлены");
       })
       .catch((error) => {
         // Обработка ошибки

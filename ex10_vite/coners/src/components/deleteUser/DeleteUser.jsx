@@ -26,8 +26,8 @@ export default function DeleteUser({ mainUser, updateMainUser }) {
         setError(error);
       });
 
-    console.log("responseData ", responseData);
-    console.log("a  ", a);
+    //console.log("responseData ", responseData);
+    //console.log("a  ", a);
 
     return a;
   }
@@ -38,7 +38,7 @@ export default function DeleteUser({ mainUser, updateMainUser }) {
     SendDataToServer()
       .then(() => {
         // Успешная отправка
-        console.log("Данные успешно отправлены");
+        //console.log("Данные успешно отправлены");
         updateMainUser("");
       })
       .catch((error) => {

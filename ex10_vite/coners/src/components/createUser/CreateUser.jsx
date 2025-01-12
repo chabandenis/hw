@@ -11,7 +11,7 @@ export default function CreateUser({ mainUser, updateMainUser }) {
       password,
     };
 
-    console.log("JSON.stringify(data) ", JSON.stringify(data));
+    //console.log("JSON.stringify(data) ", JSON.stringify(data));
 
     let a = fetch("/api/users/insert", {
       method: "POST", // Метод отправки
@@ -42,7 +42,7 @@ export default function CreateUser({ mainUser, updateMainUser }) {
     SendDataToServer(mainUser.name, mainUser.login, mainUser.password)
       .then(() => {
         // Успешная отправка
-        console.log("Данные успешно отправлены");
+        //console.log("Данные успешно отправлены");
       })
       .catch((error) => {
         // Обработка ошибки

@@ -1,21 +1,26 @@
 import React, { useState } from "react";
 
-export default function DeleteGame({ mainUser, updateMainUser }) {
+export default function DeleteGame({ desk, setDesk }) {
   const [serverError, setServerError] = useState("");
 
   const [responseData, setResponseData] = useState(null);
 
   function SendDataToServer() {
-    let a = fetch(`/api/games/delete/${desk.id}`, {
+    let a = fetch("/api/games/delete/" + desk.id, {
       method: "POST", // Метод отправки
       headers: {
         "Content-Type": "application/json",
       },
+      body: " sdf sdf sdf",
     })
       .then((response) => {
         if (!response.ok) {
           throw new Error("Network response was not ok " + response.statusText);
         }
+
+        // обнулены данные о выбранной игре
+        setDesk([]);
+
         return response.json();
       })
       /*.then((data) => {

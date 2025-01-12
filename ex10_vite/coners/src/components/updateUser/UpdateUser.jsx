@@ -13,7 +13,7 @@ export default function UpdateUser({ mainUser, updateMainUser }) {
       password,
     };
 
-    console.log("JSON.stringify(data) ", JSON.stringify(data));
+//    console.log("JSON.stringify(data) ", JSON.stringify(data));
 
     let a = fetch("/api/users/update", {
       method: "POST", // Метод отправки
@@ -36,8 +36,8 @@ export default function UpdateUser({ mainUser, updateMainUser }) {
         setError(error);
       });
 
-    console.log("responseData ", responseData);
-    console.log("a  ", a);
+//    console.log("responseData ", responseData);
+//    console.log("a  ", a);
 
     return a;
   }
@@ -53,7 +53,7 @@ export default function UpdateUser({ mainUser, updateMainUser }) {
     )
       .then(() => {
         // Успешная отправка
-        console.log("Данные успешно отправлены");
+//        console.log("Данные успешно отправлены");
       })
       .catch((error) => {
         // Обработка ошибки
