@@ -21,9 +21,6 @@ export default function App() {
   // второй пользователь, с которым играем
   const [secondUser, setSecondUser] = UseUserState();
 
-  // идентификтор игры
-  const [gameId, setGameId] = useState("");
-
   // шахматная доска
   const [desk, setDesk] = useState([]);
 
@@ -58,9 +55,7 @@ export default function App() {
           />
         )}
         {/* удалить игру */}
-        {desk.id != "" && (
-          <DeleteGame mainUser={mainUser} updateMainUser={setMainUser} />
-        )}
+        {desk.id != "" && <DeleteGame desk={desk} setDesk={setDesk} />}
         {/*выбрать игру*/}
         {secondUser.id != "" && (
           <SelectGame

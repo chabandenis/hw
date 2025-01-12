@@ -6,7 +6,7 @@ export default function DeleteGame({ mainUser, updateMainUser }) {
   const [responseData, setResponseData] = useState(null);
 
   function SendDataToServer() {
-    let a = fetch(`/api/users/delete/${mainUser.id}`, {
+    let a = fetch(`/api/games/delete/${desk.id}`, {
       method: "POST", // Метод отправки
       headers: {
         "Content-Type": "application/json",
