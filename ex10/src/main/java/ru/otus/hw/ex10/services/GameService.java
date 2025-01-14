@@ -123,7 +123,7 @@ public class GameService {
     }
 
     @Transactional
-    public GameDto doStep2(
+    public GameDto doStep(
             InputXYDTO inputXYDTO) {
         // проверка значений
         inputXYService.verfif(inputXYDTO);
@@ -147,34 +147,6 @@ public class GameService {
         gameDto = getOne(inputXYDTO.getGameId());
 
         return gameDto;
-    }
-
-    @Transactional
-    public void doStep(
-            GameDto gameDto,
-            InputXYDTO inputXYDTO) {
-        // проверка значений
-        inputXYService.verfif(inputXYDTO);
-
-        // поиск значений
-        convert(inputXYDTO);
-
-        var posId = gameDto.getChessFair().getDesk().get(y1)
-                .getArr().get(x1).getPositionId();
-
-        PositionInChessFair position =
-                positionInChessFairRepository.findById(posId).get();
-
-        position.setPositionX(x2);
-        position.setPositionY(y2);
-
-        positionInChessFairRepository.save(position);
-
- /*       inputXYDTO.setXFirst("");
-        inputXYDTO.setYFirst("");
-        inputXYDTO.setXSecond("");
-        inputXYDTO.setYSecond("");
-*/
     }
 
     // пустая доска

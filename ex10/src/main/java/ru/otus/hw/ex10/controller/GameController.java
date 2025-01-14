@@ -33,7 +33,7 @@ public class GameController {
     // выполнить ход
     @RequestMapping(value = "/api/games/step", method = RequestMethod.POST)
     public GameDto doStep(@RequestBody InputXYDTO inputXYDTO) {
-        return gameService.doStep2(inputXYDTO);
+        return gameService.doStep(inputXYDTO);
     }
 
     // создать игру

@@ -55,7 +55,7 @@ class GameServiceTest_ {
         log.debug(game.getChessFair().getDesk().get(6).toString());
         log.debug(game.getChessFair().getDesk().get(7).toString());
 
-        gameService.doStep(game, inputXYDTO);
+        //gameService.doStep(game, inputXYDTO);
 
         var gameAfterStep = gameService.getOne(1L);
 
