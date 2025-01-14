@@ -25,7 +25,7 @@ public class UserController {
 
     // пользователи
     @GetMapping("/api/users")
-    public List<User> getAll() {
+    public List<UserDto> getAll() {
         return userService.getAll();
     }
 
@@ -49,7 +49,7 @@ public class UserController {
 
     // удалить пользователя
     @PostMapping("/api/users/delete/{id}")
-    public User delete(@PathVariable Long id) {
+    public UserDto delete(@PathVariable Long id) {
         return userService.delete(id);
     }
 }

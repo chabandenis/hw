@@ -30,7 +30,7 @@ import static org.assertj.core.api.Assertions.assertThat;
         InputXYService.class,
         ImputXYMapper.class
 })
-class GameServiceTest {
+class GameServiceTest_ {
 
     @Autowired
     private GameService gameService;

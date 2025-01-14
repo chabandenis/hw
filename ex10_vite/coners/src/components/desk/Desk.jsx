@@ -61,7 +61,7 @@ export default function Desk({ desk, setDesk }) {
 */
 
   useEffect(() => {
-    const intervalId = setInterval(getApiData, 15000); // для отладки удобно длительное время отсутствие обновления
+    const intervalId = setInterval(getApiData, 1000); // для отладки удобно длительное время отсутствие обновления
 
     return () => {
       clearInterval(intervalId); // Очистка интервала при размонтировании компонента
@@ -71,7 +71,7 @@ export default function Desk({ desk, setDesk }) {
   const getApiData = async () => {
     // запрос отправляется, если заполнен идентификатор
     if (desk && desk.id) {
-//      console.log("getApiData", desk, desk.id);
+      //      console.log("getApiData", desk, desk.id);
       const response = await fetch("/api/games/" + desk.id)
         .then((response) => response.json())
         .then((desk) => setDesk(desk));
@@ -93,7 +93,7 @@ export default function Desk({ desk, setDesk }) {
       secondPoint = { row: 8 - row, col: String.fromCharCode(col + 64) };
     }
 
-//    console.log("координаты ", firstPoint, secondPoint, cssDeskArray);
+    //    console.log("координаты ", firstPoint, secondPoint, cssDeskArray);
 
     setClickedRow(row);
     setClickedCol(col);
@@ -108,7 +108,7 @@ export default function Desk({ desk, setDesk }) {
       y2: secondPoint.row,
     };
 
-//    console.log("JSON.stringify(data) ", JSON.stringify(data));
+    //    console.log("JSON.stringify(data) ", JSON.stringify(data));
 
     let a = fetch("/api/games/step", {
       method: "POST", // Метод отправки
@@ -140,7 +140,7 @@ export default function Desk({ desk, setDesk }) {
     SendDataToServer()
       .then(() => {
         // Успешная отправка
-//        console.log("Данные успешно отправлены");
+        //        console.log("Данные успешно отправлены");
       })
       .catch((error) => {
         // Обработка ошибки

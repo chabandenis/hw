@@ -37,7 +37,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
         UserController.class,
         InputXYDTO.class, Cache.class
 })
-class GameControllerTests {
+class GameControllerTests_ {
 
     @Autowired
     private MockMvc mockMvc;

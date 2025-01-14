@@ -12,6 +12,7 @@ import ru.otus.hw.ex10.models.User;
 import ru.otus.hw.ex10.repositories.UserRepository;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -54,41 +55,20 @@ public class UserService {
     }
 
     @Transactional
-    public User delete(Long id) {
+    public UserDto delete(Long id) {
         User user = userRepository.findById(id).orElse(null);
         if (user != null) {
             gameService.deleteByUser(id);
             userRepository.delete(user);
         }
-        return user;
+        return UserMapper.toUserDto(user);
     }
 
-    public List<User> getAll() {
-        return userRepository.findAll();
+    public List<UserDto> getAll() {
+        return userRepository.findAll()
+                .stream()
+                .map(x->UserMapper.toUserDto(x))
+                .collect(Collectors.toList());
     }
 
-/*    public WelcomeDto getWelcome(String login) {
-        WelcomeDto welcomeDto = new WelcomeDto();
-
-        String errorText = "Зарегистрируйтесь. Отсутствует пользователь с логином \"" + login + "\"";
-        UserDto user = userRepository.findByLogin(login)
-                .map(UserMapper::toUserDto)
-                .orElseThrow(() ->
-                        new NotFoundException(errorText));
-
-
-//        List<Game> games = gameRepository.findByUserWhiteId(user.getId());
-//        games.addAll(gameRepository.findByUserBlackId(user.getId()));
-
-        // отсортированный список с выборкой по двум сущностям
-        List<Game> games = gameRepository.findByUserBlackIdOrUserWhiteIdOrderByIdDesc(user.getId());
-
-        welcomeDto.setGames(games.stream().map(GameMapper::toGameDto).toList());
-
-        welcomeDto.setName(user.getName());
-
-        return welcomeDto;
-    }
-
- */
 }
