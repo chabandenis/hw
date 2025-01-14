@@ -19,7 +19,6 @@ import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -100,13 +99,13 @@ public class UserControllerTest {
         UserDto user = UserMapper.toUserDto(userParametr);
 
         String userIn = """
-            {
-                "id": 1,
-                "name": "userX",
-                "login": "userX",
-                "password": "2"
-            }
-        """;
+                    {
+                        "id": 1,
+                        "name": "userX",
+                        "login": "userX",
+                        "password": "2"
+                    }
+                """;
 
         Mockito.when(userService.insert(any())).thenReturn(user);
 

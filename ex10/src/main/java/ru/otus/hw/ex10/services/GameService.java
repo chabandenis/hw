@@ -31,7 +31,7 @@ import java.util.stream.Collectors;
 @Service
 public class GameService {
 
-    private final GameMapper gameMapper;
+    //private final GameMapper gameMapper;
 
     private final GameRepository gameRepository;
 
@@ -207,7 +207,7 @@ public class GameService {
         Optional<Game> gameOptional = gameRepository.findById(id);
 
         // отдельно обработать фигуры на доске
-        var gameDto = gameMapper.toGameDto(
+        var gameDto = GameMapper.toGameDto(
                 gameOptional.orElseThrow(
                         () -> new NotFoundException("Entity Game with id=`%s` not found".formatted(id))));
 

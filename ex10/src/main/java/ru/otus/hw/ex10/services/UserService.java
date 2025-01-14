@@ -67,7 +67,7 @@ public class UserService {
     public List<UserDto> getAll() {
         return userRepository.findAll()
                 .stream()
-                .map(x->UserMapper.toUserDto(x))
+                .map(x -> UserMapper.toUserDto(x))
                 .collect(Collectors.toList());
     }
 
