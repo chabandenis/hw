@@ -2,11 +2,11 @@ package ru.otus.hw.ex11.services;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import ru.otus.hw.ex11.dto.InputXYDTO;
 
 @RequiredArgsConstructor
 @Service
 public class InputXYService {
+/*
 
     private String x1 = "Incorrect";
 
@@ -65,4 +65,5 @@ public class InputXYService {
             inputXYDTO.setY2(y2);
         }
     }
+*/
 }

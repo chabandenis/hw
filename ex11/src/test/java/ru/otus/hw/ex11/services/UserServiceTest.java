@@ -1,18 +1,10 @@
 package ru.otus.hw.ex11.services;
 
 import lombok.extern.slf4j.Slf4j;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import ru.otus.hw.ex11.dto.UserDto;
-import ru.otus.hw.ex11.dto.fromWeb.UserLoginActionDto;
-import ru.otus.hw.ex11.models.User;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 
 @Slf4j
@@ -24,6 +16,7 @@ import static org.assertj.core.api.Assertions.assertThat;
         InputXYService.class
 })
 class UserServiceTest {
+/*
 
     @Autowired
     private UserService userService;
@@ -117,4 +110,5 @@ class UserServiceTest {
     @Test
     void setup() {
     }
+*/
 }

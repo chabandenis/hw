@@ -1,22 +1,12 @@
 package ru.otus.hw.ex11.services;
 
-import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import ru.otus.hw.ex11.controller.NotFoundException;
-import ru.otus.hw.ex11.dto.UserDto;
-import ru.otus.hw.ex11.dto.fromWeb.UserLoginActionDto;
-import ru.otus.hw.ex11.mapper.UserMapper;
-import ru.otus.hw.ex11.models.User;
-import ru.otus.hw.ex11.repositories.UserRepository;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
 public class UserService {
+/*
 
     private final UserRepository userRepository;
 
@@ -71,4 +61,5 @@ public class UserService {
                 .collect(Collectors.toList());
     }
 
+*/
 }

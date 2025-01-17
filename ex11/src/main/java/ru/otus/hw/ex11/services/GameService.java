@@ -2,34 +2,11 @@ package ru.otus.hw.ex11.services;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import ru.otus.hw.ex11.controller.NotFoundException;
-import ru.otus.hw.ex11.dto.GameDto;
-import ru.otus.hw.ex11.dto.InputXYDTO;
-import ru.otus.hw.ex11.dto.desk.ClmDto;
-import ru.otus.hw.ex11.dto.desk.RowOnTheDeskDto;
-import ru.otus.hw.ex11.mapper.GameMapper;
-import ru.otus.hw.ex11.models.ChessFair;
-import ru.otus.hw.ex11.models.Figura;
-import ru.otus.hw.ex11.models.Game;
-import ru.otus.hw.ex11.models.PositionInChessFair;
-import ru.otus.hw.ex11.repositories.ChessFairRepository;
-import ru.otus.hw.ex11.repositories.FiguraRepository;
-import ru.otus.hw.ex11.repositories.GameRepository;
-import ru.otus.hw.ex11.repositories.PositionInChessFairRepository;
-import ru.otus.hw.ex11.repositories.UserRepository;
-
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
 public class GameService {
+/*
 
     //private final GameMapper gameMapper;
 
@@ -253,4 +230,5 @@ public class GameService {
                         x -> GameMapper.toGameDto(x))
                 .collect(Collectors.toList());
     }
+*/
 }

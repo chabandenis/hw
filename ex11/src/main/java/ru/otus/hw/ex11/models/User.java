@@ -6,7 +6,9 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.Objects;
@@ -19,6 +21,8 @@ import java.util.Objects;
 @Setter
 @Entity
 @Table(name = "users")
+@AllArgsConstructor
+@NoArgsConstructor(force = true)
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

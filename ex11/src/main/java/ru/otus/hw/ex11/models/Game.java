@@ -12,7 +12,9 @@ import jakarta.persistence.NamedAttributeNode;
 import jakarta.persistence.NamedEntityGraph;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
@@ -36,6 +38,8 @@ import java.time.LocalDateTime;
                 @NamedAttributeNode("userNext"),
                 @NamedAttributeNode("chessFair"),
         })
+@AllArgsConstructor
+@NoArgsConstructor(force = true)
 public class Game {
 
     // идентификатор игры

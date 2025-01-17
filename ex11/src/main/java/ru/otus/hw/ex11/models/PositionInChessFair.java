@@ -11,7 +11,9 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.NamedAttributeNode;
 import jakarta.persistence.NamedEntityGraph;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /*
@@ -29,6 +31,8 @@ import lombok.Setter;
                 @NamedAttributeNode("chessFair"),
                 @NamedAttributeNode("figura")
         })
+@AllArgsConstructor
+@NoArgsConstructor(force = true)
 public class PositionInChessFair {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

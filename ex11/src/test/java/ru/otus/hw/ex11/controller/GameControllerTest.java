@@ -1,32 +1,13 @@
 package ru.otus.hw.ex11.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.MediaType;
-import org.springframework.test.web.servlet.MockMvc;
-import ru.otus.hw.ex11.dto.GameDto;
-import ru.otus.hw.ex11.services.GameService;
-
-import java.time.LocalDateTime;
-import java.util.List;
-
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.BDDMockito.given;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
  * Test class for the {@link GameController}
  */
 @WebMvcTest({GameController.class})
 public class GameControllerTest {
+/*
 
     @Autowired
     private MockMvc mockMvc;
@@ -117,4 +98,5 @@ public class GameControllerTest {
     public void test() throws Exception {
 
     }
+*/
 }
