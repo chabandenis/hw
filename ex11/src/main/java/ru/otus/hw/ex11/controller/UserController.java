@@ -8,12 +8,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import reactor.core.publisher.Flux;
 import ru.otus.hw.ex11.dto.UserDto;
 import ru.otus.hw.ex11.dto.fromWeb.UserLoginActionDto;
 import ru.otus.hw.ex11.models.User;
 import ru.otus.hw.ex11.services.UserService;
-
-import java.util.List;
 
 @Slf4j
 @RestController
@@ -22,6 +21,7 @@ public class UserController {
 
     private final UserService userService;
 
+/*
     // пользователи
     @GetMapping("/api/users")
     public Flux<UserDto> getAll() {
@@ -50,5 +50,5 @@ public class UserController {
     @PostMapping("/api/users/delete/{id}")
     public Mono<UserDto> delete(@PathVariable Long id) {
         return userService.delete(id);
-    }
+    }*/
 }

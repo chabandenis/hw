@@ -80,7 +80,7 @@ class UserServiceTest {
         user.setId(userInDb.getId());
         user.setPassword(userInDb.getPassword());
         user.setLogin(userInDb.getLogin());
-        user.setName(userInDb.getName()+" 555");
+        user.setName(userInDb.getName() + " 555");
 
         var updatedUser = userService.update(user);
 
@@ -106,7 +106,7 @@ class UserServiceTest {
         userService.delete(userCreated.getId());
         var countAfterdelete = userService.getAll().size();
 
-        assertThat(countAfterInsert).isEqualTo(countAfterdelete+1);
+        assertThat(countAfterInsert).isEqualTo(countAfterdelete + 1);
     }
 
     @Test

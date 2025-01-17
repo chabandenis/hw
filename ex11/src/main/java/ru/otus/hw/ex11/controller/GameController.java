@@ -2,18 +2,8 @@ package ru.otus.hw.ex11.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-import ru.otus.hw.ex11.dto.GameDto;
-import ru.otus.hw.ex11.dto.InputXYDTO;
 import ru.otus.hw.ex11.services.GameService;
-
-import java.util.List;
 
 @Slf4j
 @RestController
@@ -22,6 +12,7 @@ public class GameController {
 
     private final GameService gameService;
 
+/*
     // выбрать игры в которые играли два игрока
     @GetMapping("/api/games/{mainUser}/{secondUser}")
     public Flux<GameDto> getAll(@PathVariable Long mainUser,
@@ -54,4 +45,6 @@ public class GameController {
     public Mono<GameDto> getOne(@PathVariable Long id) {
         return gameService.getOne(id);
     }
+
+ */
 }
