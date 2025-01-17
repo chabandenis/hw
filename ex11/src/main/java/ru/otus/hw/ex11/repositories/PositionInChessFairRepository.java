@@ -10,11 +10,11 @@ import java.util.List;
 
 public interface PositionInChessFairRepository extends ReactiveCrudRepository<PositionInChessFair, Long> {
 
-    long deleteByChessFair(ChessFair chessFair);
+//    long deleteByChessFair(ChessFair chessFair);
 
     // получить все фигуры на шахматной доске
 //    @EntityGraph(value = "position-in-chess-fair-graph")
-    List<PositionInChessFair> findByChessFairId(Long id);
+//    List<PositionInChessFair> findByChessFairId(Long id);
 
 
 }

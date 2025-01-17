@@ -1,15 +1,12 @@
 package ru.otus.hw.ex11.models;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.relational.core.mapping.Table;
 
 /*
 Шахматная доска. Доска одна на игру.
@@ -20,15 +17,14 @@ import lombok.Setter;
 */
 @Getter
 @Setter
-@Entity
 @Table(name = "chess_fairs")
 @AllArgsConstructor
 @NoArgsConstructor(force = true)
 public class ChessFair {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    @Column(name = "id", nullable = false)
     private Long id;
 
 //    @OneToMany(mappedBy = "chessFair", orphanRemoval = true)

@@ -1,15 +1,13 @@
 package ru.otus.hw.ex11.models;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.relational.core.mapping.Column;
+import org.springframework.data.relational.core.mapping.Table;
 
 import java.util.Objects;
 
@@ -19,24 +17,23 @@ import java.util.Objects;
  */
 @Getter
 @Setter
-@Entity
 @Table(name = "users")
 @AllArgsConstructor
 @NoArgsConstructor(force = true)
 public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    @Column(name = "id", nullable = false)
     private Long id;
 
-    @Column(name = "name")
+    @Column("name")
     private String name;
 
-    @Column(name = "login")
+    @Column("login")
     private String login;
 
 
-    @Column(name = "password")
+    @Column("password")
     private String password;
 
     @Override

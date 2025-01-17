@@ -1,20 +1,13 @@
 package ru.otus.hw.ex11.models;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.NamedAttributeNode;
-import jakarta.persistence.NamedEntityGraph;
-import jakarta.persistence.Table;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.relational.core.mapping.Column;
+import org.springframework.data.relational.core.mapping.Table;
 
 /*
     Один экземпляр класса соответствует одной фишке
@@ -24,37 +17,37 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@Entity
+//@Entity
 @Table(name = "position_in_chess_fairs")
-@NamedEntityGraph(name = "position-in-chess-fair-graph",
-        attributeNodes = {
-                @NamedAttributeNode("chessFair"),
-                @NamedAttributeNode("figura")
-        })
+//@NamedEntityGraph(name = "position-in-chess-fair-graph",
+//        attributeNodes = {
+//                @NamedAttributeNode("chessFair"),
+//                @NamedAttributeNode("figura")
+//        })
 @AllArgsConstructor
 @NoArgsConstructor(force = true)
 public class PositionInChessFair {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column("id")
     private Long id;
 
     // позиция по горизонтали
-    @Column(name = "position_x")
+    @Column("position_x")
     private Integer positionX;
 
     // позиция по вертикали
-    @Column(name = "position_y")
+    @Column("position_y")
     private Integer positionY;
 
     // доска на которой стоит фишка
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "chess_fair_id")
+    //@ManyToOne(fetch = FetchType.LAZY)
+    //@JoinColumn(name = "chess_fair_id")
     private ChessFair chessFair;
 
     // пока цвет черный/белый
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "figura_id")
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "figura_id")
     private Figura figura;
 
 }

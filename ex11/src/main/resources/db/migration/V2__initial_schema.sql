@@ -1,6 +1,3 @@
---INSERT INTO users (id, name, login, password)
---VALUES(1, 'Первый Иван Иваныч', 'user1', '1');
-
 INSERT INTO users (name, login, password)
 VALUES('Первый Иван Иваныч', 'user1', '1'),
 ('Второй Петр Петрович', 'user2', '1'),
