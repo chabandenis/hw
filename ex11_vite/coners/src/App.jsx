@@ -13,6 +13,8 @@ import DeleteUser from "./components/deleteUser/DeleteUser";
 import SelectGame from "./components/selectGame/SelectGame";
 import NewGame from "./components/newGame/NewGame";
 import DeleteGame from "./components/deleteGame/DeleteGame";
+import ReactListUsers from "./components/reactListUsers/ReactListUsers";
+import FromRX2 from "./components/fromRX2/FromRX2";
 
 export default function App() {
   // авторизованный основной пользователь
@@ -27,6 +29,9 @@ export default function App() {
   return (
     <div>
       <main>
+        {<ReactListUsers />}
+        {/*<FromRX2 />*/}
+
         {/* заголовок. отображаются пользователи игры и чей ход */}
         {mainUser.id != "" && (
           <Header mainUser={mainUser} seconUser={secondUser} desk={desk} />

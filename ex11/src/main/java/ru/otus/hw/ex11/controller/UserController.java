@@ -2,22 +2,41 @@ package ru.otus.hw.ex11.controller;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
+import reactor.core.publisher.Flux;
+import ru.otus.hw.ex11.dto.UserDto;
+import ru.otus.hw.ex11.mapper.UserMapper;
+import ru.otus.hw.ex11.repositories.UserRepository;
 import ru.otus.hw.ex11.services.UserService;
+
+import java.time.Duration;
 
 @Slf4j
 @RestController
 @AllArgsConstructor
 public class UserController {
 
-    private final UserService userService;
+    private final UserRepository userRepository;
 
-/*
     // пользователи
     @GetMapping("/api/users")
-    public Flux<UserDto> getAll() {
-        return userService.getAll();
+    public Flux<String> getAll() {
+        //!!!return userService.getAll();
+        //return UserMapper.toUserDto(userRepository.findAll());
+        return Flux.generate(() -> 0, (state, emitter) -> {
+                    emitter.next(state);
+                    return state + 1;
+                })
+                .delayElements(Duration.ofSeconds(1L))
+                .map(Object::toString)
+                .map(val -> String.format("valStr:%s", val))
+                .doOnNext(val-> log.debug(val));
+
     }
+
+
+/*
 
     // авторизация пользователя
     @PostMapping(value = "/api/users/login", consumes = MediaType.APPLICATION_JSON_VALUE)
