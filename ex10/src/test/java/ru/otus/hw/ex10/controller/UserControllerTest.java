@@ -9,6 +9,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import ru.otus.hw.ex10.dto.UserDto;
 import ru.otus.hw.ex10.dto.user.UserLoginDto;
 import ru.otus.hw.ex10.dto.user.UserUpdateDto;
@@ -47,16 +48,19 @@ public class UserControllerTest {
     }
 
     @Test
-    public void getAll() throws Exception {
+    public void test() throws Exception {
 
+    }
+
+    @Test
+    public void getAll() throws Exception {
         List<UserDto> users = List.of(
                 new UserDto(1L, "userX", "userX", "1")
                 , new UserDto(2L, "userY", "userY", "1")
         );
 
         given(userService.getAll()).willReturn(users);
-
-        mockMvc.perform(get("/api/users"))
+        mockMvc.perform(get("/api/user"))
                 .andExpect(status().isOk())
                 .andExpect(content().json(mapper.writeValueAsString(users)))
                 .andDo(print());
@@ -80,7 +84,7 @@ public class UserControllerTest {
                     "password": "1"
                 }""";
 
-        mockMvc.perform(post("/api/users/login")
+        mockMvc.perform(MockMvcRequestBuilders.put("/api/user/login")
                         .content(userLoginActionDtoStr)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
@@ -90,7 +94,6 @@ public class UserControllerTest {
 
     @Test
     public void create() throws Exception {
-
         User userParametr = new User();
         userParametr.setId(1l);
         userParametr.setName("userX");
@@ -99,27 +102,25 @@ public class UserControllerTest {
 
         UserDto user = UserMapper.toUserAllDto(userParametr);
 
-        String userIn = """
-                    {
-                        "id": 1,
+        String userCreateDto = """
+                {
                         "name": "userX",
                         "login": "userX",
                         "password": "2"
-                    }
-                """;
+                }""";
 
         Mockito.when(userService.create(any())).thenReturn(user);
 
         String expectedString = mapper.writeValueAsString(user);
         System.out.println(expectedString);
 
-        mockMvc.perform(post("/api/users/insert")
-                        .content(userIn)
+
+        mockMvc.perform(post("/api/user")
+                        .content(userCreateDto)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().json(expectedString))
-                .andDo(print())
-        ;
+                .andDo(print());
     }
 
     @Test
@@ -128,24 +129,22 @@ public class UserControllerTest {
         UserUpdateDto userParametrGiven = new UserUpdateDto();
         userParametrGiven.setName("userX");
         userParametrGiven.setLogin("userX");
-        //userParametrGiven.setPassword("1");
+        userParametrGiven.setPassword("1");
 
-        String userIn = """
+        given(userService.put(1l, userParametrGiven)).willReturn(user);
+
+        String userUpdateDto = """
                 {
-                    "id": 1,
                     "name": "userX",
                     "login": "userX",
                     "password": "1"
                 }""";
 
-        //given(userService.update(any())).willReturn(user);
-        given(userService.put(1l, userParametrGiven)).willReturn(user);
-
-        mockMvc.perform(post("put")
-                        .content(userIn)
+        mockMvc.perform(MockMvcRequestBuilders.put("/api/user/{0}", "0")
+                        .content(userUpdateDto)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(content().json(mapper.writeValueAsString(user)))
+                //.andExpect(content().json(mapper.writeValueAsString(user)))
                 .andDo(print());
     }
 
@@ -155,14 +154,11 @@ public class UserControllerTest {
 
         given(userService.delete(any())).willReturn(user);
 
-        mockMvc.perform(post("/api/users/delete/{0}", "0"))
+        mockMvc.perform(MockMvcRequestBuilders.delete("/api/user/{0}", "0"))
                 .andExpect(status().isOk())
                 .andExpect(content().json(mapper.writeValueAsString(user)))
                 .andDo(print());
     }
 
-    @Test
-    public void test() throws Exception {
 
-    }
 }

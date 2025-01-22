@@ -8,6 +8,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import ru.otus.hw.ex10.dto.GameDto;
 import ru.otus.hw.ex10.dto.game.GamesCreateDto;
 import ru.otus.hw.ex10.services.GameService;
@@ -17,9 +18,12 @@ import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -52,20 +56,15 @@ public class GameControllerTest {
     }
 
     @Test
+    public void test() throws Exception {
+
+    }
+
+    @Test
     public void getGamesForUsers() throws Exception {
-        String requestUsersInGameDto = """
-                {
-                    "mainUser": 1,
-                    "secondUser": 2
-                }""";
-
         List<GameDto> games = List.of(game);
-
         given(gameService.getGamesForUsers(1l, 2l)).willReturn(games);
-
-        mockMvc.perform(post("/api/games")
-                        .content(requestUsersInGameDto)
-                        .contentType(MediaType.APPLICATION_JSON))
+        mockMvc.perform(get("/api/game/{0}/{1}", "1", "2"))
                 .andExpect(status().isOk())
                 .andExpect(content().json(mapper.writeValueAsString(games)))
                 .andDo(print());
@@ -73,9 +72,8 @@ public class GameControllerTest {
 
     @Test
     public void step() throws Exception {
-        String inputXYDTO = """
+        String coordinatesDto = """
                 {
-                    "gameId": 0,
                     "x1": "",
                     "y1": "",
                     "x2": "",
@@ -84,8 +82,8 @@ public class GameControllerTest {
 
         given(gameService.step(any(), any())).willReturn(game);
 
-        mockMvc.perform(post("/api/games/step")
-                        .content(inputXYDTO)
+        mockMvc.perform(put("/api/game/{0}", "0")
+                        .content(coordinatesDto)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().json(mapper.writeValueAsString(game)))
@@ -94,7 +92,7 @@ public class GameControllerTest {
 
     @Test
     public void create() throws Exception {
-        String gameCreateDto = """
+        String gamesCreateDtoStr = """
                 {
                     "mainUser": 1,
                     "secondUser": 2
@@ -104,8 +102,8 @@ public class GameControllerTest {
 
         given(gameService.create(gamesCreateDto)).willReturn(game);
 
-        mockMvc.perform(post("/api/games/create")
-                        .content(gameCreateDto)
+        mockMvc.perform(post("/api/game")
+                        .content(gamesCreateDtoStr)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().json(mapper.writeValueAsString(game)))
@@ -116,7 +114,7 @@ public class GameControllerTest {
     public void delete() throws Exception {
         given(gameService.delete(any())).willReturn(game);
 
-        mockMvc.perform(post("/api/games/delete/{0}", "0"))
+        mockMvc.perform(MockMvcRequestBuilders.delete("/api/game/{0}", "0"))
                 .andExpect(status().isOk())
                 .andExpect(content().json(mapper.writeValueAsString(game)))
                 .andDo(print());
@@ -126,15 +124,9 @@ public class GameControllerTest {
     public void getOne() throws Exception {
         given(gameService.getOne(any())).willReturn(game);
 
-        mockMvc.perform(get("/api/games/{0}", "0"))
+        mockMvc.perform(get("/api/game/{0}", "0"))
                 .andExpect(status().isOk())
                 .andExpect(content().json(mapper.writeValueAsString(game)))
                 .andDo(print());
     }
-
-    @Test
-    public void test() throws Exception {
-
-    }
-
 }
