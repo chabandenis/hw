@@ -8,7 +8,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import ru.otus.hw.ex10.dto.UserDto;
+import ru.otus.hw.ex10.dto.user.UserResultDto;
 import ru.otus.hw.ex10.dto.user.UserCreateDto;
 import ru.otus.hw.ex10.dto.user.UserLoginDto;
 import ru.otus.hw.ex10.dto.user.UserUpdateDto;
@@ -29,11 +29,11 @@ class UserServiceTest {
     @Autowired
     private UserService userService;
 
-    private UserDto userDtoExpected;
+    private UserResultDto userResultDtoExpected;
 
     @BeforeEach
     void setUp() {
-        userDtoExpected = new UserDto(1l, "Первый Иван Иваныч", "user1"/*, "1"*/);
+        userResultDtoExpected = new UserResultDto(1l, "Первый Иван Иваныч", "user1"/*, "1"*/);
     }
 
     @Test
@@ -46,7 +46,7 @@ class UserServiceTest {
         assertThat(user)
                 .isNotNull()
                 .usingRecursiveComparison()
-                .isEqualTo(userDtoExpected);
+                .isEqualTo(userResultDtoExpected);
     }
 
     @Test

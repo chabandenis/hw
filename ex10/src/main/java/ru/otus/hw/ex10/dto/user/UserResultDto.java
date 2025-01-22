@@ -1,4 +1,4 @@
-package ru.otus.hw.ex10.dto;
+package ru.otus.hw.ex10.dto.user;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -9,7 +9,7 @@ import ru.otus.hw.ex10.models.User;
  */
 @AllArgsConstructor
 @Data
-public class UserDto {
+public class UserResultDto {
 
     private Long id;
 
@@ -17,5 +17,4 @@ public class UserDto {
 
     private String login;
 
-    private String password;
 }
