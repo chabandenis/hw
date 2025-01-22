@@ -6,7 +6,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.otus.hw.ex10.controller.NotFoundException;
 import ru.otus.hw.ex10.dto.UserDto;
-import ru.otus.hw.ex10.dto.fromWeb.UserLoginActionDto;
+import ru.otus.hw.ex10.dto.user.UserCreateDto;
+import ru.otus.hw.ex10.dto.user.UserLoginDto;
+import ru.otus.hw.ex10.dto.user.UserUpdateDto;
 import ru.otus.hw.ex10.mapper.UserMapper;
 import ru.otus.hw.ex10.models.User;
 import ru.otus.hw.ex10.repositories.UserRepository;
@@ -23,33 +25,40 @@ public class UserService {
     private final GameService gameService;
 
     @Transactional(readOnly = true)
-    public UserDto findByLogin(UserLoginActionDto userLoginActionDto) {
+    public UserDto findByLogin(UserLoginDto userLoginDto) {
         UserDto user = userRepository.findByLoginAndPassword(
-                        userLoginActionDto.getLogin(),
-                        userLoginActionDto.getPassword())
+                        userLoginDto.getLogin(),
+                        userLoginDto.getPassword())
                 .map(UserMapper::toUserDto)
                 .orElseThrow(() ->
-                        new NotFoundException("Ошибка авторизации для пользователя " + userLoginActionDto.getLogin()));
+                        new NotFoundException("Ошибка авторизации для пользователя " + userLoginDto.getLogin()));
         return user;
     }
 
     @Transactional
-    public UserDto insert(User user) {
-        return UserMapper.toUserDto(userRepository.save(user));
+    public UserDto create(UserCreateDto userCreateDto) {
+        var userInDb = userRepository.findByLogin(userCreateDto.getLogin());
+
+        if (userInDb.isPresent()) {
+            throw new EntityNotFoundException("Пользователь с логином " + userCreateDto.getLogin()
+                    + " был зарегистрирован в системе ранее");
+        }
+
+        return UserMapper.toUserDto(userRepository.save(UserMapper.toUser(userCreateDto)));
     }
 
     @Transactional
-    public UserDto update(User user) {
-        var userUpdated = userRepository.findById(user.getId())
+    public UserDto put(Long userId, UserUpdateDto userUpdateDto) {
+        var userUpdated = userRepository.findById(userId)
                 .orElseThrow(() ->
                         new EntityNotFoundException("Отсутствует пользователь с идентификатором id="
-                                + user.getId()
+                                + userId
                         )
                 );
 
-        userUpdated.setName(user.getName());
-        userUpdated.setLogin(user.getLogin());
-        userUpdated.setPassword(user.getPassword());
+        userUpdated.setName(userUpdateDto.getName());
+        userUpdated.setLogin(userUpdateDto.getLogin());
+        userUpdated.setPassword(userUpdateDto.getPassword());
 
         return UserMapper.toUserDto(userRepository.save(userUpdated));
     }

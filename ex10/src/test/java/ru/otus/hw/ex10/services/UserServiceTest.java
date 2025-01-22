@@ -9,8 +9,9 @@ import org.springframework.context.annotation.Import;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import ru.otus.hw.ex10.dto.UserDto;
-import ru.otus.hw.ex10.dto.fromWeb.UserLoginActionDto;
-import ru.otus.hw.ex10.models.User;
+import ru.otus.hw.ex10.dto.user.UserCreateDto;
+import ru.otus.hw.ex10.dto.user.UserLoginDto;
+import ru.otus.hw.ex10.dto.user.UserUpdateDto;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -37,7 +38,7 @@ class UserServiceTest {
 
     @Test
     void findByLogin() {
-        UserLoginActionDto loginActionDtoExpected = new UserLoginActionDto();
+        UserLoginDto loginActionDtoExpected = new UserLoginDto();
         loginActionDtoExpected.setLogin("user1");
         loginActionDtoExpected.setPassword("1");
 
@@ -49,64 +50,63 @@ class UserServiceTest {
     }
 
     @Test
-    void insert() {
-        User userNew = new User();
+    void create() {
+
+        UserCreateDto userNew = new UserCreateDto();
         userNew.setName("YYY");
-        userNew.setId(null);
         userNew.setLogin("XXX");
         userNew.setPassword("1");
 
-        var userCreated = userService.insert(userNew);
+        var userCreated = userService.create(userNew);
 
-        userNew.setId(userCreated.getId());
+        var userNewtId = userCreated.getId();
 
         assertThat(userCreated)
                 .usingRecursiveComparison()
                 .isEqualTo(userNew);
 
         // вернуть
-        userService.delete(userCreated.getId());
+        userService.delete(userNewtId);
     }
 
     @Test
-    void update() {
-        UserLoginActionDto loginActionDtoExpected = new UserLoginActionDto();
+    void put() {
+        UserLoginDto loginActionDtoExpected = new UserLoginDto();
         loginActionDtoExpected.setLogin("user1");
         loginActionDtoExpected.setPassword("1");
 
         var userInDb = userService.findByLogin(loginActionDtoExpected);
 
-        User user = new User();
-        user.setId(userInDb.getId());
+        UserUpdateDto user = new UserUpdateDto();
+        //user.setId(userInDb.getId());
         user.setPassword(userInDb.getPassword());
         user.setLogin(userInDb.getLogin());
-        user.setName(userInDb.getName()+" 555");
+        user.setName(userInDb.getName() + " 555");
 
-        var updatedUser = userService.update(user);
+        var updatedUser = userService.put(userInDb.getId(), user);
 
         assertThat(updatedUser).usingRecursiveComparison().isEqualTo(user);
 
         //вернуть
         user.setName(userInDb.getName());
-        userService.update(user);
+        userService.put(userInDb.getId(), user);
     }
 
     @Test
     void delete() {
-        User userNew = new User();
+        UserCreateDto userNew = new UserCreateDto();
         userNew.setName("YYY");
-        userNew.setId(null);
         userNew.setLogin("XXX");
         userNew.setPassword("1");
 
-        var userCreated = userService.insert(userNew);
-        userNew.setId(userCreated.getId());
+        var userCreated = userService.create(userNew);
+        var userNewtId = userCreated.getId();
 
         var countAfterInsert = userService.getAll().size();
         userService.delete(userCreated.getId());
         var countAfterdelete = userService.getAll().size();
 
-        assertThat(countAfterInsert).isEqualTo(countAfterdelete+1);
+        assertThat(countAfterInsert).isEqualTo(countAfterdelete + 1);
     }
 
     @Test

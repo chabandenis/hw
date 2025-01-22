@@ -5,9 +5,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.otus.hw.ex10.controller.NotFoundException;
 import ru.otus.hw.ex10.dto.GameDto;
-import ru.otus.hw.ex10.dto.InputXYDTO;
 import ru.otus.hw.ex10.dto.desk.ClmDto;
 import ru.otus.hw.ex10.dto.desk.RowOnTheDeskDto;
+import ru.otus.hw.ex10.dto.game.GamesCreateDto;
+import ru.otus.hw.ex10.dto.game.CoordinatesDto;
 import ru.otus.hw.ex10.mapper.GameMapper;
 import ru.otus.hw.ex10.models.ChessFair;
 import ru.otus.hw.ex10.models.Figura;
@@ -53,13 +54,13 @@ public class GameService {
 
     private int y2;
 
-    private void convert(InputXYDTO inputXYDTO) {
+    private void convert(CoordinatesDto coordinatesDto) {
         // координты в DTO
-        y1 = 8 - Integer.parseInt(inputXYDTO.getY1());
-        x1 = inputXYDTO.getX1().toUpperCase().charAt(0) - 'A';
+        y1 = 8 - Integer.parseInt(coordinatesDto.getY1());
+        x1 = coordinatesDto.getX1().toUpperCase().charAt(0) - 'A';
         // координаты в БД
-        y2 = Integer.parseInt(inputXYDTO.getY2());
-        x2 = inputXYDTO.getX2().toUpperCase().charAt(0) - 'A' + 1;
+        y2 = Integer.parseInt(coordinatesDto.getY2());
+        x2 = coordinatesDto.getX2().toUpperCase().charAt(0) - 'A' + 1;
     }
 
     void createChecker(int x, int y, ChessFair chessFair, Figura figura) {
@@ -96,42 +97,41 @@ public class GameService {
     }
 
     @Transactional
-    public GameDto newGame(Long mainUserId, Long secondUserId) {
+    public GameDto create(GamesCreateDto gamesCreateDto) {
         Game game = new Game();
         game.setId(0l);
         ChessFair chessFair = new ChessFair();
         game.setChessFair(chessFair);
         game.setUserWhite(
-                userRepository.findById(mainUserId)
-                        .orElseThrow(() -> new NotFoundException("Отсутствует пользователь с Id = " + mainUserId)));
+                userRepository.findById(gamesCreateDto.getMainUser())
+                        .orElseThrow(() -> new NotFoundException(
+                                "Отсутствует пользователь с Id = " + gamesCreateDto.getMainUser())));
         game.setUserBlack(
-                userRepository.findById(secondUserId)
-                        .orElseThrow(() -> new NotFoundException("Отсутствует пользователь с Id = " + secondUserId)));
+                userRepository.findById(gamesCreateDto.getSecondUser())
+                        .orElseThrow(() -> new NotFoundException(
+                                "Отсутствует пользователь с Id = " + gamesCreateDto.getSecondUser())));
         game.setUserNext(
-                userRepository.findById(mainUserId)
-                        .orElseThrow(() -> new NotFoundException("Отсутствует пользователь с Id = " + mainUserId)));
-
+                userRepository.findById(gamesCreateDto.getMainUser())
+                        .orElseThrow(() -> new NotFoundException(
+                                "Отсутствует пользователь с Id = " + gamesCreateDto.getMainUser())));
         game.setDateGame(LocalDateTime.now());
-
         chessFair = chessFairRepository.save(chessFair);
-
         fillCheckers(chessFair);
-
         game = gameRepository.save(game);
-
         return GameMapper.toGameDto(game);
     }
 
     @Transactional
-    public GameDto doStep(
-            InputXYDTO inputXYDTO) {
+    public GameDto step(
+            Long id,
+            CoordinatesDto coordinatesDto) {
         // проверка значений
-        inputXYService.verfif(inputXYDTO);
+        inputXYService.verfif(coordinatesDto);
 
-        GameDto gameDto = getOne(inputXYDTO.getGameId());
+        GameDto gameDto = getOne(id);
 
         // поиск значений
-        convert(inputXYDTO);
+        convert(coordinatesDto);
 
         var posId = gameDto.getChessFair().getDesk().get(y1)
                 .getArr().get(x1).getPositionId();
@@ -144,7 +144,7 @@ public class GameService {
 
         positionInChessFairRepository.save(position);
 
-        gameDto = getOne(inputXYDTO.getGameId());
+        gameDto = getOne(id);
 
         return gameDto;
     }
@@ -246,7 +246,7 @@ public class GameService {
         games.forEach(game -> delete(game.getId()));
     }
 
-    public List<GameDto> getAllByUsers(Long mainUserId, Long secondUserId) {
+    public List<GameDto> getGamesForUsers(Long mainUserId, Long secondUserId) {
         return gameRepository.findByUserId1AndUserId2OrderByDateGameDesc(mainUserId, secondUserId)
                 .stream()
                 .map(

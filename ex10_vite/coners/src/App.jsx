@@ -1,18 +1,18 @@
 import { useState } from "react";
 import "./App.css";
 import Header from "./components/Header";
-import ListUsers from "./components/listUsers/ListUsers";
-import Desk from "./components/desk/Desk";
+import Desk from "./components/game/desk/Desk";
 
-import Authorized from "./components/authorized/Authorized";
-import CreateUser from "./components/createUser/CreateUser";
-import UpdateUser from "./components/updateUser/UpdateUser";
+import ListUsers from "./components/user/listUsers/ListUsers";
+import Authorized from "./components/user/authorized/Authorized";
+import CreateUser from "./components/user/createUser/CreateUser";
+import UpdateUser from "./components/user/updateUser/UpdateUser";
+import UseUserState from "./components/user/state/UseUserState";
+import DeleteUser from "./components/user/deleteUser/DeleteUser";
 
-import UseUserState from "./components/state/UseUserState";
-import DeleteUser from "./components/deleteUser/DeleteUser";
-import SelectGame from "./components/selectGame/SelectGame";
-import NewGame from "./components/newGame/NewGame";
-import DeleteGame from "./components/deleteGame/DeleteGame";
+import SelectGame from "./components/game/selectGame/SelectGame";
+import NewGame from "./components/game/newGame/NewGame";
+import DeleteGame from "./components/game/deleteGame/DeleteGame";
 
 export default function App() {
   // авторизованный основной пользователь

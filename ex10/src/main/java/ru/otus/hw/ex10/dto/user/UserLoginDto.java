@@ -1,9 +1,9 @@
-package ru.otus.hw.ex10.dto.fromWeb;
+package ru.otus.hw.ex10.dto.user;
 
 import lombok.Data;
 
 @Data
-public class UserLoginActionDto {
+public class UserLoginDto {
 
     private String login;
 

@@ -1,12 +1,10 @@
-package ru.otus.hw.ex10.dto;
+package ru.otus.hw.ex10.dto.game;
 
 import lombok.Data;
 
 //@Component
 @Data
-public class InputXYDTO {
-    // идентификатор игры
-    private Long gameId;
+public class CoordinatesDto {
 
     private String x1;
 

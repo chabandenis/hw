@@ -9,6 +9,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import ru.otus.hw.ex10.dto.GameDto;
+import ru.otus.hw.ex10.dto.game.GamesCreateDto;
 import ru.otus.hw.ex10.services.GameService;
 
 import java.time.LocalDateTime;
@@ -51,19 +52,27 @@ public class GameControllerTest {
     }
 
     @Test
-    public void getAll() throws Exception {
+    public void getGamesForUsers() throws Exception {
+        String requestUsersInGameDto = """
+                {
+                    "mainUser": 1,
+                    "secondUser": 2
+                }""";
+
         List<GameDto> games = List.of(game);
 
-        given(gameService.getAllByUsers(1l, 2l)).willReturn(games);
+        given(gameService.getGamesForUsers(1l, 2l)).willReturn(games);
 
-        mockMvc.perform(get("/api/games/{0}/{1}", "1", "2"))
+        mockMvc.perform(post("/api/games")
+                        .content(requestUsersInGameDto)
+                        .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().json(mapper.writeValueAsString(games)))
                 .andDo(print());
     }
 
     @Test
-    public void doStep() throws Exception {
+    public void step() throws Exception {
         String inputXYDTO = """
                 {
                     "gameId": 0,
@@ -73,7 +82,7 @@ public class GameControllerTest {
                     "y2": ""
                 }""";
 
-        given(gameService.doStep(any())).willReturn(game);
+        given(gameService.step(any(), any())).willReturn(game);
 
         mockMvc.perform(post("/api/games/step")
                         .content(inputXYDTO)
@@ -84,10 +93,20 @@ public class GameControllerTest {
     }
 
     @Test
-    public void newGame() throws Exception {
-        given(gameService.newGame(0l, 0l)).willReturn(game);
+    public void create() throws Exception {
+        String gameCreateDto = """
+                {
+                    "mainUser": 1,
+                    "secondUser": 2
+                }""";
 
-        mockMvc.perform(post("/api/games/new/{0}/{1}", "0", "0"))
+        GamesCreateDto gamesCreateDto = new GamesCreateDto(1l, 2l);
+
+        given(gameService.create(gamesCreateDto)).willReturn(game);
+
+        mockMvc.perform(post("/api/games/create")
+                        .content(gameCreateDto)
+                        .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().json(mapper.writeValueAsString(game)))
                 .andDo(print());
@@ -117,4 +136,5 @@ public class GameControllerTest {
     public void test() throws Exception {
 
     }
+
 }

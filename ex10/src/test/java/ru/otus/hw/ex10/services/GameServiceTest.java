@@ -26,7 +26,7 @@ class GameServiceTest {
     }
 
     @Test
-    void newGame() {
+    void create() {
     }
 
     @Test
@@ -42,6 +42,6 @@ class GameServiceTest {
     }
 
     @Test
-    void getAllByUsers() {
+    void getGamesForUsers() {
     }
 }

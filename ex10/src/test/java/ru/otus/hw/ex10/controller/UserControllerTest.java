@@ -10,7 +10,9 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import ru.otus.hw.ex10.dto.UserDto;
-import ru.otus.hw.ex10.dto.fromWeb.UserLoginActionDto;
+import ru.otus.hw.ex10.dto.user.UserCreateDto;
+import ru.otus.hw.ex10.dto.user.UserLoginDto;
+import ru.otus.hw.ex10.dto.user.UserUpdateDto;
 import ru.otus.hw.ex10.mapper.UserMapper;
 import ru.otus.hw.ex10.models.User;
 import ru.otus.hw.ex10.services.UserService;
@@ -66,12 +68,12 @@ public class UserControllerTest {
         UserDto user = new UserDto(1L, "userX", "userX", "1");
         UserDto userIncorrenct = new UserDto(2L, "userXX", "userXX", "11");
 
-        UserLoginActionDto userLoginActionDto = new UserLoginActionDto();
-        userLoginActionDto.setLogin("user1");
-        userLoginActionDto.setPassword("1");
+        UserLoginDto userLoginDto = new UserLoginDto();
+        userLoginDto.setLogin("user1");
+        userLoginDto.setPassword("1");
 
         given(userService.findByLogin(any())).willReturn(userIncorrenct);
-        given(userService.findByLogin(userLoginActionDto)).willReturn(user);
+        given(userService.findByLogin(userLoginDto)).willReturn(user);
 
         String userLoginActionDtoStr = """
                 {
@@ -88,7 +90,7 @@ public class UserControllerTest {
     }
 
     @Test
-    public void insert() throws Exception {
+    public void create() throws Exception {
 
         User userParametr = new User();
         userParametr.setId(1l);
@@ -107,7 +109,7 @@ public class UserControllerTest {
                     }
                 """;
 
-        Mockito.when(userService.insert(any())).thenReturn(user);
+        Mockito.when(userService.create(any())).thenReturn(user);
 
         String expectedString = mapper.writeValueAsString(user);
         System.out.println(expectedString);
@@ -122,11 +124,10 @@ public class UserControllerTest {
     }
 
     @Test
-    public void update() throws Exception {
+    public void put() throws Exception {
         UserDto user = new UserDto(1L, "userX", "userX", "1");
-        User userParametrGiven = new User();
+        UserUpdateDto userParametrGiven = new UserUpdateDto();
         userParametrGiven.setName("userX");
-        userParametrGiven.setId(1l);
         userParametrGiven.setLogin("userX");
         userParametrGiven.setPassword("1");
 
@@ -139,9 +140,9 @@ public class UserControllerTest {
                 }""";
 
         //given(userService.update(any())).willReturn(user);
-        given(userService.update(userParametrGiven)).willReturn(user);
+        given(userService.put(1l, userParametrGiven)).willReturn(user);
 
-        mockMvc.perform(post("/api/users/update")
+        mockMvc.perform(post("put")
                         .content(userIn)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())

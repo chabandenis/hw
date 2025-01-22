@@ -2,7 +2,7 @@ package ru.otus.hw.ex10.services;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import ru.otus.hw.ex10.dto.InputXYDTO;
+import ru.otus.hw.ex10.dto.game.CoordinatesDto;
 
 @RequiredArgsConstructor
 @Service
@@ -47,22 +47,22 @@ public class InputXYService {
         return true;
     }
 
-    public void verfif(InputXYDTO inputXYDTO) {
+    public void verfif(CoordinatesDto coordinatesDTO) {
 
-        if (verifString(inputXYDTO.getX1()) != true) {
-            inputXYDTO.setX1(x1);
+        if (verifString(coordinatesDTO.getX1()) != true) {
+            coordinatesDTO.setX1(x1);
         }
 
-        if (verifNumber(inputXYDTO.getY1()) != true) {
-            inputXYDTO.setY1(y1);
+        if (verifNumber(coordinatesDTO.getY1()) != true) {
+            coordinatesDTO.setY1(y1);
         }
 
-        if (verifString(inputXYDTO.getX2()) != true) {
-            inputXYDTO.setX2(x2);
+        if (verifString(coordinatesDTO.getX2()) != true) {
+            coordinatesDTO.setX2(x2);
         }
 
-        if (verifNumber(inputXYDTO.getY2()) != true) {
-            inputXYDTO.setY2(y2);
+        if (verifNumber(coordinatesDTO.getY2()) != true) {
+            coordinatesDTO.setY2(y2);
         }
     }
 }
