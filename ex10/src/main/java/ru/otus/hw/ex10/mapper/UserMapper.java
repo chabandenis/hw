@@ -13,8 +13,8 @@ public class UserMapper {
         UserDto userDto = new UserDto(
                 user.getId(),
                 user.getName(),
-                user.getLogin(),
-                user.getPassword()
+                user.getLogin()/*,
+                user.getPassword()*/
         );
         return userDto;
     }

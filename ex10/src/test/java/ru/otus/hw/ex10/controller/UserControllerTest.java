@@ -51,8 +51,8 @@ public class UserControllerTest {
     public void getAll() throws Exception {
 
         List<UserDto> users = List.of(
-                new UserDto(1L, "userX", "userX", "1")
-                , new UserDto(2L, "userY", "userY", "1")
+                new UserDto(1L, "userX", "userX")
+                , new UserDto(2L, "userY", "userY")
         );
 
         given(userService.getAll()).willReturn(users);
@@ -65,8 +65,8 @@ public class UserControllerTest {
 
     @Test
     public void login() throws Exception {
-        UserDto user = new UserDto(1L, "userX", "userX", "1");
-        UserDto userIncorrenct = new UserDto(2L, "userXX", "userXX", "11");
+        UserDto user = new UserDto(1L, "userX", "userX");
+        UserDto userIncorrenct = new UserDto(2L, "userXX", "userXX");
 
         UserLoginDto userLoginDto = new UserLoginDto();
         userLoginDto.setLogin("user1");
@@ -125,11 +125,11 @@ public class UserControllerTest {
 
     @Test
     public void put() throws Exception {
-        UserDto user = new UserDto(1L, "userX", "userX", "1");
+        UserDto user = new UserDto(1L, "userX", "userX");
         UserUpdateDto userParametrGiven = new UserUpdateDto();
         userParametrGiven.setName("userX");
         userParametrGiven.setLogin("userX");
-        userParametrGiven.setPassword("1");
+        //userParametrGiven.setPassword("1");
 
         String userIn = """
                 {
@@ -152,7 +152,7 @@ public class UserControllerTest {
 
     @Test
     public void delete() throws Exception {
-        UserDto user = new UserDto(1L, "userX", "userX", "1");
+        UserDto user = new UserDto(1L, "userX", "userX");
 
         given(userService.delete(any())).willReturn(user);
 

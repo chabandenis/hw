@@ -33,7 +33,7 @@ class UserServiceTest {
 
     @BeforeEach
     void setUp() {
-        userDtoExpected = new UserDto(1l, "Первый Иван Иваныч", "user1", "1");
+        userDtoExpected = new UserDto(1l, "Первый Иван Иваныч", "user1"/*, "1"*/);
     }
 
     @Test
@@ -79,7 +79,7 @@ class UserServiceTest {
 
         UserUpdateDto user = new UserUpdateDto();
         //user.setId(userInDb.getId());
-        user.setPassword(userInDb.getPassword());
+        //user.setPassword(userInDb.getPassword());
         user.setLogin(userInDb.getLogin());
         user.setName(userInDb.getName() + " 555");
 
