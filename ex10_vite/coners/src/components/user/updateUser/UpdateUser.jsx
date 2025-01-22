@@ -18,7 +18,7 @@ export default function UpdateUser({ mainUser, updateMainUser }) {
 
     //    console.log("JSON.stringify(data) ", JSON.stringify(data));
     let a = fetch(`/api/user/${id}`, {
-      method: "POST", // Метод отправки
+      method: "PUT", // Метод отправки
       headers: {
         "Content-Type": "application/json",
       },

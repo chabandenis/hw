@@ -27,17 +27,8 @@ export default function SelectGame({ mainUser, seconUser, desk, setDesk }) {
   }, []);
 
   const getApiData = async () => {
-    const data = {
-      mainUser: mainUser.id,
-      secondUser: seconUser.id,
-    };
-
-    const response = fetch("/api/game", {
+    const response = fetch(`/api/game/${mainUser.id}/${seconUser.id}`, {
       method: "GET", // Метод отправки
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
     })
       .then((response) => response.json())
       .then((games) => setGames(games));

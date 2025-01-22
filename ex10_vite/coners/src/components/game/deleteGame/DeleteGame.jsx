@@ -6,8 +6,8 @@ export default function DeleteGame({ desk, setDesk }) {
   const [responseData, setResponseData] = useState(null);
 
   function SendDataToServer() {
-    let a = fetch("/api/games/delete/" + desk.id, {
-      method: "POST", // Метод отправки
+    let a = fetch(`/api/game/${desk.id}`, {
+      method: "DELETE", // Метод отправки
       headers: {
         "Content-Type": "application/json",
       },

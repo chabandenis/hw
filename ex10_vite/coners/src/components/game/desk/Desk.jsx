@@ -61,7 +61,7 @@ export default function Desk({ desk, setDesk }) {
 */
 
   useEffect(() => {
-    const intervalId = setInterval(getApiData, 1000); // для отладки удобно длительное время отсутствие обновления
+    const intervalId = setInterval(getApiData, 5000); // для отладки удобно длительное время отсутствие обновления
 
     return () => {
       clearInterval(intervalId); // Очистка интервала при размонтировании компонента
@@ -72,7 +72,7 @@ export default function Desk({ desk, setDesk }) {
     // запрос отправляется, если заполнен идентификатор
     if (desk && desk.id) {
       //      console.log("getApiData", desk, desk.id);
-      const response = await fetch("/api/games/" + desk.id)
+      const response = await fetch(`/api/game/${desk.id}`)
         .then((response) => response.json())
         .then((desk) => setDesk(desk));
     }
@@ -101,7 +101,6 @@ export default function Desk({ desk, setDesk }) {
 
   function SendDataToServer() {
     const data = {
-      gameId: desk.id,
       x1: firstPoint.col,
       y1: firstPoint.row,
       x2: secondPoint.col,
@@ -110,8 +109,8 @@ export default function Desk({ desk, setDesk }) {
 
     //    console.log("JSON.stringify(data) ", JSON.stringify(data));
 
-    let a = fetch("/api/games/step", {
-      method: "POST", // Метод отправки
+    let a = fetch(`/api/game/${desk.id}`, {
+      method: "PUT", // Метод отправки
       headers: {
         "Content-Type": "application/json",
       },

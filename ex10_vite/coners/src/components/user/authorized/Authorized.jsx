@@ -27,7 +27,7 @@ export default function Authorized({ mainUser, updateMainUser }) {
     };
 
     let a = fetch("/api/user/login", {
-      method: "POST", // Метод отправки
+      method: "PUT", // Метод отправки
       headers: {
         "Content-Type": "application/json",
       },
