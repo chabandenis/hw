@@ -1,5 +1,6 @@
 package ru.otus.hw.ex10.controller;
 
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -37,7 +38,7 @@ public class UserController {
     // http://localhost:8080/api/user/login
     // {"login": "user1", "password": "1"}
     @PutMapping(value = "/login")
-    public UserDto login(@RequestBody UserLoginDto userLoginDto) throws Exception {
+    public UserDto login(@RequestBody @Valid UserLoginDto userLoginDto) throws Exception {
         return userService.findByLogin(userLoginDto);
     }
 
