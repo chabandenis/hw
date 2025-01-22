@@ -1,5 +1,6 @@
 package ru.otus.hw.ex10.dto.game;
 
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -10,8 +11,10 @@ import lombok.Data;
  */
 public class GamesCreateDto {
 
+    @NotNull
     private Long mainUser;
 
+    @NotNull
     private Long secondUser;
 
 }

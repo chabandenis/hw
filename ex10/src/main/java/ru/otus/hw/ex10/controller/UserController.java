@@ -46,7 +46,7 @@ public class UserController {
     // http://localhost:8080/api/user
     // {"name":"user5", "login":"login", "password":"1" }
     @PostMapping(value = "")
-    public UserDto create(@RequestBody UserCreateDto userCreateDto) {
+    public UserDto create(@RequestBody @Valid UserCreateDto userCreateDto) {
 
         return userService.create(userCreateDto);
     }
@@ -56,7 +56,7 @@ public class UserController {
     // {"name":"Первый Иван Иваныч Иванов", "login":"login", "password":"1"}
     @PutMapping(value = "/{userId}")
     public UserDto put(@PathVariable Long userId,
-                       @RequestBody UserUpdateDto userUpdateDto) {
+                       @RequestBody @Valid UserUpdateDto userUpdateDto) {
         return userService.put(userId, userUpdateDto);
 
     }

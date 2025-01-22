@@ -1,5 +1,6 @@
 package ru.otus.hw.ex10.controller;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -41,7 +42,7 @@ public class GameController {
     // {"x1":"D","y1":1,"x2":"F","y2":1}
     @PutMapping(value = "/{gameId}")
     public GameDto step(@PathVariable Long gameId,
-                        @RequestBody CoordinatesDto coordinatesDto) {
+                        @RequestBody @Valid CoordinatesDto coordinatesDto) {
         return gameService.step(gameId, coordinatesDto);
     }
 
@@ -49,7 +50,7 @@ public class GameController {
     // http://localhost:8080/api/game
     // {"mainUser": 1,"secondUser": 2}
     @PostMapping(value = "")
-    public GameDto create(@RequestBody GamesCreateDto gamesCreateDto) {
+    public GameDto create(@RequestBody @Valid GamesCreateDto gamesCreateDto) {
         return gameService.create(gamesCreateDto);
     }
 

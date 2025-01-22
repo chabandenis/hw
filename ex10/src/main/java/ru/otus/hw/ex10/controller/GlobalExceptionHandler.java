@@ -24,8 +24,9 @@ public class GlobalExceptionHandler {
                 .status(HttpStatus.NOT_FOUND)
                 .body(new CustomErrorDto(
                         "Ошибка 404: Ресурс не найден: " + System.lineSeparator() +
-                                ex.getMessage() + System.lineSeparator() +
-                                getStackTrace(ex)));
+                                ex.getMessage() + System.lineSeparator()
+                        // + getStackTrace(ex) // очень много текста
+                ));
     }
 
     @ExceptionHandler(Exception.class)
@@ -37,8 +38,9 @@ public class GlobalExceptionHandler {
         return ResponseEntity
                 .status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .body(
-                        errorMessage + ex.getMessage() + System.lineSeparator() +
-                                getStackTrace(ex));
+                        errorMessage + ex.getMessage() + System.lineSeparator()
+                        // + getStackTrace(ex)
+                );
     }
 
     @Getter
