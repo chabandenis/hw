@@ -31,8 +31,8 @@ public class UserService {
                         userLoginDto.getPassword())
                 .map(UserMapper::toUserDto)
                 .orElseThrow(() ->
-                        new NotFoundException("Ошибка авторизации для пользователя <"
-                                + userLoginDto.getLogin() +">"));
+                        new NotFoundException("Ошибка авторизации для пользователя <" +
+                                userLoginDto.getLogin() + ">"));
         return user;
     }
 
