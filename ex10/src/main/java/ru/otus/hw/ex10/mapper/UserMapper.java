@@ -10,13 +10,13 @@ import ru.otus.hw.ex10.models.User;
 public class UserMapper {
 
     public static UserDto toUserAllDto(User user) {
-        UserDto UserDto = new UserDto(
+        UserDto userDto = new UserDto(
                 user.getId(),
                 user.getName(),
                 user.getLogin(),
                 user.getPassword()
         );
-        return UserDto;
+        return userDto;
     }
 
     public static User toUser(UserCreateDto userCreateDto) {
@@ -27,9 +27,9 @@ public class UserMapper {
         return user;
     }
 
-    public static UserDto toUserDto(Long UserId, UserUpdateDto user) {
+    public static UserDto toUserDto(Long userId, UserUpdateDto user) {
         UserDto userAllDto = new UserDto(
-                UserId,
+                userId,
                 user.getName(),
                 user.getLogin(),
                 user.getPassword()
