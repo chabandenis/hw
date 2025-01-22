@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import ru.otus.hw.ex10.dto.user.UserResultDto;
+import ru.otus.hw.ex10.dto.UserDto;
 import ru.otus.hw.ex10.dto.user.UserCreateDto;
 import ru.otus.hw.ex10.dto.user.UserLoginDto;
 import ru.otus.hw.ex10.dto.user.UserUpdateDto;
@@ -30,7 +30,7 @@ public class UserController {
     // пользователи
     // http://localhost:8080/api/user
     @GetMapping("")
-    public List<UserResultDto> getAll() {
+    public List<UserDto> getAll() {
         return userService.getAll();
     }
 
@@ -38,7 +38,7 @@ public class UserController {
     // http://localhost:8080/api/user/login
     // {"login": "user1", "password": "1"}
     @PutMapping(value = "/login")
-    public UserResultDto login(@RequestBody @Valid UserLoginDto userLoginDto) throws Exception {
+    public UserDto login(@RequestBody @Valid UserLoginDto userLoginDto) throws Exception {
         return userService.findByLogin(userLoginDto);
     }
 
@@ -46,8 +46,7 @@ public class UserController {
     // http://localhost:8080/api/user
     // {"name":"user5", "login":"login", "password":"1" }
     @PostMapping(value = "")
-    public UserResultDto create(@RequestBody @Valid UserCreateDto userCreateDto) {
-
+    public UserDto create(@RequestBody @Valid UserCreateDto userCreateDto) {
         return userService.create(userCreateDto);
     }
 
@@ -55,8 +54,8 @@ public class UserController {
     // http://localhost:8080/api/user/1
     // {"name":"Первый Иван Иваныч Иванов", "login":"login", "password":"1"}
     @PutMapping(value = "/{userId}")
-    public UserResultDto put(@PathVariable Long userId,
-                             @RequestBody @Valid UserUpdateDto userUpdateDto) {
+    public UserDto put(@PathVariable Long userId,
+                       @RequestBody @Valid UserUpdateDto userUpdateDto) {
         return userService.put(userId, userUpdateDto);
 
     }
@@ -64,7 +63,7 @@ public class UserController {
     // удалить пользователя
     // http://localhost:8080/api/user/4
     @DeleteMapping("/{id}")
-    public UserResultDto delete(@PathVariable Long id) {
+    public UserDto delete(@PathVariable Long id) {
         return userService.delete(id);
     }
 }

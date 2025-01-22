@@ -8,10 +8,11 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import ru.otus.hw.ex10.dto.user.UserResultDto;
+import ru.otus.hw.ex10.dto.UserDto;
 import ru.otus.hw.ex10.dto.user.UserCreateDto;
 import ru.otus.hw.ex10.dto.user.UserLoginDto;
 import ru.otus.hw.ex10.dto.user.UserUpdateDto;
+import ru.otus.hw.ex10.mapper.UserMapper;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -29,11 +30,11 @@ class UserServiceTest {
     @Autowired
     private UserService userService;
 
-    private UserResultDto userResultDtoExpected;
+    private UserDto UserDtoExpected;
 
     @BeforeEach
     void setUp() {
-        userResultDtoExpected = new UserResultDto(1l, "Первый Иван Иваныч", "user1"/*, "1"*/);
+        UserDtoExpected = new UserDto(1l, "Первый Иван Иваныч", "user1", "1");
     }
 
     @Test
@@ -46,7 +47,7 @@ class UserServiceTest {
         assertThat(user)
                 .isNotNull()
                 .usingRecursiveComparison()
-                .isEqualTo(userResultDtoExpected);
+                .isEqualTo(UserDtoExpected);
     }
 
     @Test
@@ -63,7 +64,7 @@ class UserServiceTest {
 
         assertThat(userCreated)
                 .usingRecursiveComparison()
-                .isEqualTo(userNew);
+                .isEqualTo(UserMapper.toUserCreatedDto(userCreated.getId(), userNew));
 
         // вернуть
         userService.delete(userNewtId);
@@ -79,13 +80,13 @@ class UserServiceTest {
 
         UserUpdateDto user = new UserUpdateDto();
         //user.setId(userInDb.getId());
-        //user.setPassword(userInDb.getPassword());
+        user.setPassword(userInDb.getPassword());
         user.setLogin(userInDb.getLogin());
         user.setName(userInDb.getName() + " 555");
 
         var updatedUser = userService.put(userInDb.getId(), user);
 
-        assertThat(updatedUser).usingRecursiveComparison().isEqualTo(user);
+        assertThat(updatedUser).usingRecursiveComparison().isEqualTo(UserMapper.toUserDto(updatedUser.getId(), user));
 
         //вернуть
         user.setName(userInDb.getName());

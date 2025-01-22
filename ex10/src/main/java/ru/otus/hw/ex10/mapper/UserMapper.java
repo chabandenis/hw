@@ -2,22 +2,21 @@ package ru.otus.hw.ex10.mapper;
 
 import org.springframework.stereotype.Component;
 import ru.otus.hw.ex10.dto.UserDto;
-import ru.otus.hw.ex10.dto.user.UserResultDto;
 import ru.otus.hw.ex10.dto.user.UserCreateDto;
+import ru.otus.hw.ex10.dto.user.UserUpdateDto;
 import ru.otus.hw.ex10.models.User;
 
 @Component
 public class UserMapper {
-//    User toEntity(UserDto userDto);
 
-    public static UserResultDto toUserAllDto(User user) {
-        UserResultDto userResultDto = new UserResultDto(
+    public static UserDto toUserAllDto(User user) {
+        UserDto UserDto = new UserDto(
                 user.getId(),
                 user.getName(),
-                user.getLogin()/*,
-                user.getPassword()*/
+                user.getLogin(),
+                user.getPassword()
         );
-        return userResultDto;
+        return UserDto;
     }
 
     public static User toUser(UserCreateDto userCreateDto) {
@@ -28,9 +27,29 @@ public class UserMapper {
         return user;
     }
 
+    public static UserDto toUserDto(Long UserId, UserUpdateDto user) {
+        UserDto userAllDto = new UserDto(
+                UserId,
+                user.getName(),
+                user.getLogin(),
+                user.getPassword()
+        );
+        return userAllDto;
+    }
+
     public static UserDto toUserDto(User user) {
         UserDto userAllDto = new UserDto(
                 user.getId(),
+                user.getName(),
+                user.getLogin(),
+                user.getPassword()
+        );
+        return userAllDto;
+    }
+
+    public static UserDto toUserCreatedDto(Long userId, UserCreateDto user) {
+        UserDto userAllDto = new UserDto(
+                userId,
                 user.getName(),
                 user.getLogin(),
                 user.getPassword()

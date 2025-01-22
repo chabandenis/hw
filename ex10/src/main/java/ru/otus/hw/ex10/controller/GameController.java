@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ru.otus.hw.ex10.dto.GameDto;
-import ru.otus.hw.ex10.dto.game.GamesCreateDto;
 import ru.otus.hw.ex10.dto.game.CoordinatesDto;
+import ru.otus.hw.ex10.dto.game.GamesCreateDto;
 import ru.otus.hw.ex10.services.GameService;
 
 import java.util.List;

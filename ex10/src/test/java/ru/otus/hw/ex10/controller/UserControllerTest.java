@@ -9,7 +9,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-import ru.otus.hw.ex10.dto.user.UserResultDto;
+import ru.otus.hw.ex10.dto.UserDto;
 import ru.otus.hw.ex10.dto.user.UserLoginDto;
 import ru.otus.hw.ex10.dto.user.UserUpdateDto;
 import ru.otus.hw.ex10.mapper.UserMapper;
@@ -49,9 +49,9 @@ public class UserControllerTest {
     @Test
     public void getAll() throws Exception {
 
-        List<UserResultDto> users = List.of(
-                new UserResultDto(1L, "userX", "userX" )
-                , new UserResultDto(2L, "userY", "userY" )
+        List<UserDto> users = List.of(
+                new UserDto(1L, "userX", "userX", "1")
+                , new UserDto(2L, "userY", "userY", "1")
         );
 
         given(userService.getAll()).willReturn(users);
@@ -64,8 +64,8 @@ public class UserControllerTest {
 
     @Test
     public void login() throws Exception {
-        UserResultDto user = new UserResultDto(1L, "userX", "userX");
-        UserResultDto userIncorrenct = new UserResultDto(2L, "userXX", "userXX");
+        UserDto user = new UserDto(1L, "userX", "userX", "1");
+        UserDto userIncorrenct = new UserDto(2L, "userXX", "userXX", "1");
 
         UserLoginDto userLoginDto = new UserLoginDto();
         userLoginDto.setLogin("user1");
@@ -97,7 +97,7 @@ public class UserControllerTest {
         userParametr.setLogin("userX");
         userParametr.setPassword("2");
 
-        UserResultDto user = UserMapper.toUserAllDto(userParametr);
+        UserDto user = UserMapper.toUserAllDto(userParametr);
 
         String userIn = """
                     {
@@ -124,7 +124,7 @@ public class UserControllerTest {
 
     @Test
     public void put() throws Exception {
-        UserResultDto user = new UserResultDto(1L, "userX", "userX");
+        UserDto user = new UserDto(1L, "userX", "userX", "1");
         UserUpdateDto userParametrGiven = new UserUpdateDto();
         userParametrGiven.setName("userX");
         userParametrGiven.setLogin("userX");
@@ -151,7 +151,7 @@ public class UserControllerTest {
 
     @Test
     public void delete() throws Exception {
-        UserResultDto user = new UserResultDto(1L, "userX", "userX");
+        UserDto user = new UserDto(1L, "userX", "userX", "1");
 
         given(userService.delete(any())).willReturn(user);
 

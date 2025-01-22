@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.otus.hw.ex10.controller.NotFoundException;
-import ru.otus.hw.ex10.dto.user.UserResultDto;
+import ru.otus.hw.ex10.dto.UserDto;
 import ru.otus.hw.ex10.dto.user.UserCreateDto;
 import ru.otus.hw.ex10.dto.user.UserLoginDto;
 import ru.otus.hw.ex10.dto.user.UserUpdateDto;
@@ -25,11 +25,11 @@ public class UserService {
     private final GameService gameService;
 
     @Transactional(readOnly = true)
-    public UserResultDto findByLogin(UserLoginDto userLoginDto) {
-        UserResultDto user = userRepository.findByLoginAndPassword(
+    public UserDto findByLogin(UserLoginDto userLoginDto) {
+        UserDto user = userRepository.findByLoginAndPassword(
                         userLoginDto.getLogin(),
                         userLoginDto.getPassword())
-                .map(UserMapper::toUserAllDto)
+                .map(UserMapper::toUserDto)
                 .orElseThrow(() ->
                         new NotFoundException("Ошибка авторизации для пользователя <" +
                                 userLoginDto.getLogin() + ">"));
@@ -37,7 +37,7 @@ public class UserService {
     }
 
     @Transactional
-    public UserResultDto create(UserCreateDto userCreateDto) {
+    public UserDto create(UserCreateDto userCreateDto) {
         var userInDb = userRepository.findByLogin(userCreateDto.getLogin());
 
         if (userInDb.isPresent()) {
@@ -45,11 +45,11 @@ public class UserService {
                     + " был зарегистрирован в системе ранее");
         }
 
-        return UserMapper.toUserAllDto(userRepository.save(UserMapper.toUser(userCreateDto)));
+        return UserMapper.toUserDto(userRepository.save(UserMapper.toUser(userCreateDto)));
     }
 
     @Transactional
-    public UserResultDto put(Long userId, UserUpdateDto userUpdateDto) {
+    public UserDto put(Long userId, UserUpdateDto userUpdateDto) {
         var userUpdated = userRepository.findById(userId)
                 .orElseThrow(() ->
                         new EntityNotFoundException("Отсутствует пользователь с идентификатором id="
@@ -61,23 +61,23 @@ public class UserService {
         userUpdated.setLogin(userUpdateDto.getLogin());
         userUpdated.setPassword(userUpdateDto.getPassword());
 
-        return UserMapper.toUserAllDto(userRepository.save(userUpdated));
+        return UserMapper.toUserDto(userRepository.save(userUpdated));
     }
 
     @Transactional
-    public UserResultDto delete(Long id) {
+    public UserDto delete(Long id) {
         User user = userRepository.findById(id).orElse(null);
         if (user != null) {
             gameService.deleteByUser(id);
             userRepository.delete(user);
         }
-        return UserMapper.toUserAllDto(user);
+        return UserMapper.toUserDto(user);
     }
 
-    public List<UserResultDto> getAll() {
+    public List<UserDto> getAll() {
         return userRepository.findAll()
                 .stream()
-                .map(x -> UserMapper.toUserAllDto(x))
+                .map(x -> UserMapper.toUserDto(x))
                 .collect(Collectors.toList());
     }
 
