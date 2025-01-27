@@ -32,7 +32,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(Exception.class)
     public ResponseEntity<String> handleException(Exception ex) {
         // Логирование стек трейса
-        ex.printStackTrace();
+        //ex.printStackTrace();
 
         String errorMessage = "Произошла внутренняя ошибка сервера 500: ";
         return ResponseEntity

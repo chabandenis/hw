@@ -3,6 +3,8 @@ package ru.otus.hw.ex10.controller;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import ru.otus.hw.ex10.dto.UserDto;
 import ru.otus.hw.ex10.dto.user.UserCreateDto;
@@ -46,8 +49,8 @@ public class UserController {
     // http://localhost:8080/api/user
     // {"name":"user5", "login":"login", "password":"1" }
     @PostMapping(value = "")
-    public UserDto create(@RequestBody @Valid UserCreateDto userCreateDto) {
-        return userService.create(userCreateDto);
+    public ResponseEntity<UserDto> create(@RequestBody @Valid UserCreateDto userCreateDto) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(userService.create(userCreateDto));
     }
 
     // обновить пользователя
@@ -63,7 +66,8 @@ public class UserController {
     // удалить пользователя
     // http://localhost:8080/api/user/4
     @DeleteMapping("/{id}")
-    public UserDto delete(@PathVariable Long id) {
-        return userService.delete(id);
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void delete(@PathVariable Long id) {
+        userService.delete(id);
     }
 }

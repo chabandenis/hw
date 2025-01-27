@@ -118,7 +118,7 @@ public class UserControllerTest {
         mockMvc.perform(post("/api/user")
                         .content(userCreateDto)
                         .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
+                .andExpect(status().isCreated())
                 .andExpect(content().json(expectedString))
                 .andDo(print());
     }
@@ -155,8 +155,7 @@ public class UserControllerTest {
         given(userService.delete(any())).willReturn(user);
 
         mockMvc.perform(MockMvcRequestBuilders.delete("/api/user/{0}", "0"))
-                .andExpect(status().isOk())
-                .andExpect(content().json(mapper.writeValueAsString(user)))
+                .andExpect(status().isNoContent())
                 .andDo(print());
     }
 

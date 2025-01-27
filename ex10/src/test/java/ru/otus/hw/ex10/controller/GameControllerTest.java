@@ -18,12 +18,10 @@ import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -105,7 +103,7 @@ public class GameControllerTest {
         mockMvc.perform(post("/api/game")
                         .content(gamesCreateDtoStr)
                         .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
+                .andExpect(status().isCreated())
                 .andExpect(content().json(mapper.writeValueAsString(game)))
                 .andDo(print());
     }
@@ -115,8 +113,7 @@ public class GameControllerTest {
         given(gameService.delete(any())).willReturn(game);
 
         mockMvc.perform(MockMvcRequestBuilders.delete("/api/game/{0}", "0"))
-                .andExpect(status().isOk())
-                .andExpect(content().json(mapper.writeValueAsString(game)))
+                .andExpect(status().isNoContent())
                 .andDo(print());
     }
 
