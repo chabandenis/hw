@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<form id="login-input-form" action="welcome" th:object="${login}">
+    <h3>Corners game</h3>
+
+    <div class="row">
+        <label for="login-input">Login:</label>
+        <input id="login-input" name="login" type="text" value="Your loginDto" th:value="*{login}"/>
+    </div>
+
+    <div class="row">
+        <button type="submit">Login</button>
+    </div>
+</form>
+
+</body>
+</html>
