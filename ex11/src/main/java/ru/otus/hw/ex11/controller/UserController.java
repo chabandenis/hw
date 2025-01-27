@@ -5,10 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Flux;
-import ru.otus.hw.ex11.dto.UserDto;
-import ru.otus.hw.ex11.mapper.UserMapper;
 import ru.otus.hw.ex11.repositories.UserRepository;
-import ru.otus.hw.ex11.services.UserService;
 
 import java.time.Duration;
 
@@ -31,7 +28,7 @@ public class UserController {
                 .delayElements(Duration.ofSeconds(1L))
                 .map(Object::toString)
                 .map(val -> String.format("valStr:%s", val))
-                .doOnNext(val-> log.debug(val));
+                .doOnNext(val -> log.debug(val));
 
     }
 
