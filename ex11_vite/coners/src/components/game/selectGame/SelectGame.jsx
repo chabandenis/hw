@@ -1,3 +1,6 @@
+/*
+  Выбрать игру
+*/
 import React, { useState, useEffect } from "react";
 
 export default function SelectGame({ mainUser, seconUser, desk, setDesk }) {
@@ -24,9 +27,9 @@ export default function SelectGame({ mainUser, seconUser, desk, setDesk }) {
   }, []);
 
   const getApiData = async () => {
-    const response = await fetch(
-      "/api/games/" + mainUser.id + "/" + seconUser.id
-    )
+    const response = fetch(`/api/game/${mainUser.id}/${seconUser.id}`, {
+      method: "GET", // Метод отправки
+    })
       .then((response) => response.json())
       .then((games) => setGames(games));
   };
@@ -93,11 +96,16 @@ export default function SelectGame({ mainUser, seconUser, desk, setDesk }) {
       <form onSubmit={handleSubmit}>
         <button type="submit">Выбрать игру</button>
 
-        <button type="button" onClick={() => {
-          // Обновление данных
-          getApiData();
-          setSearchInput("");
-        }}>Обновить данные</button>
+        <button
+          type="button"
+          onClick={() => {
+            // Обновление данных
+            getApiData();
+            setSearchInput("");
+          }}
+        >
+          Обновить данные
+        </button>
       </form>
     </div>
   );

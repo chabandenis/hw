@@ -1,28 +1,22 @@
+/*
+  Создание пользователя
+*/
 import React, { useState } from "react";
-import UseUserState from "../state/UseUserState";
 
-export default function Authorized({ mainUser, updateMainUser }) {
-  const [login, setLogin] = useState("");
-  const [password, setPassword] = useState("");
+export default function CreateUser({ mainUser, updateMainUser }) {
   const [serverError, setServerError] = useState("");
   const [error, setError] = useState(null);
 
-  // первоначальные значения
-  if (login == "") {
-    setLogin("user1");
-  } 
-
-  if (password == "") {
-    setPassword("1");
-  }
-
-  function SendDataToServer(login, password) {
+  function SendDataToServer(name, login, password) {
     const data = {
+      name,
       login,
       password,
     };
 
-    let a = fetch("/api/users/login", {
+    //console.log("JSON.stringify(data) ", JSON.stringify(data));
+
+    let a = fetch("/api/user", {
       method: "POST", // Метод отправки
       headers: {
         "Content-Type": "application/json",
@@ -35,8 +29,8 @@ export default function Authorized({ mainUser, updateMainUser }) {
         }
         return response.json();
       })
-      .then((mainUser) => {
-        updateMainUser(mainUser);
+      .then((data) => {
+        updateMainUser(data);
       })
       .catch((error) => {
         setError(error);
@@ -46,17 +40,9 @@ export default function Authorized({ mainUser, updateMainUser }) {
   }
 
   const handleSubmit = (e) => {
-    updateMainUser({
-      id: "",
-      name: "",
-      login: "",
-      password: "",
-    });
-
     e.preventDefault();
-
     // Отправка данных на сервер
-    SendDataToServer(login, password)
+    SendDataToServer(mainUser.name, mainUser.login, mainUser.password)
       .then(() => {
         // Успешная отправка
         //console.log("Данные успешно отправлены");
@@ -65,29 +51,39 @@ export default function Authorized({ mainUser, updateMainUser }) {
         // Обработка ошибки
         setServerError(error.message);
       });
-    //      .then((mainUser) => updateMainUser(mainUser))
   };
 
   return (
     <>
       <p>==========================================================</p>
-      <p>авторизация пользователя </p>
+      <p>Создать пользователя</p>
 
       <form onSubmit={handleSubmit}>
         <input
           type="text"
+          placeholder="Имя"
+          value={mainUser.name}
+          onChange={(e) =>
+            updateMainUser({ ...mainUser, name: e.target.value })
+          }
+        />
+        <input
+          type="text"
           placeholder="Логин"
-          value={login}
-          onChange={(e) => setLogin(e.target.value)}
+          value={mainUser.login}
+          onChange={(e) =>
+            updateMainUser({ ...mainUser, login: e.target.value })
+          }
         />
         <input
           type="text"
           placeholder="Пароль"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          value={mainUser.password}
+          onChange={(e) =>
+            updateMainUser({ ...mainUser, password: e.target.value })
+          }
         />
         <button type="submit">Отправить</button>
-        {serverError && <p>{serverError}</p>}
       </form>
     </>
   );

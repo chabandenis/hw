@@ -1,26 +1,25 @@
+/*
+  Удаление пользователя
+*/
+
 import React, { useState } from "react";
 
-export default function DeleteGame({ desk, setDesk }) {
+export default function DeleteUser({ mainUser, updateMainUser }) {
   const [serverError, setServerError] = useState("");
 
   const [responseData, setResponseData] = useState(null);
 
   function SendDataToServer() {
-    let a = fetch("/api/games/delete/" + desk.id, {
-      method: "POST", // Метод отправки
+    let a = fetch(`/api/user/${mainUser.id}`, {
+      method: "DELETE", // Метод отправки
       headers: {
         "Content-Type": "application/json",
       },
-      body: " sdf sdf sdf",
     })
       .then((response) => {
         if (!response.ok) {
           throw new Error("Network response was not ok " + response.statusText);
         }
-
-        // обнулены данные о выбранной игре
-        setDesk([]);
-
         return response.json();
       })
       /*.then((data) => {
@@ -31,8 +30,8 @@ export default function DeleteGame({ desk, setDesk }) {
         setError(error);
       });
 
-    console.log("responseData ", responseData);
-    console.log("a  ", a);
+    //console.log("responseData ", responseData);
+    //console.log("a  ", a);
 
     return a;
   }
@@ -43,7 +42,7 @@ export default function DeleteGame({ desk, setDesk }) {
     SendDataToServer()
       .then(() => {
         // Успешная отправка
-        console.log("Данные успешно отправлены");
+        //console.log("Данные успешно отправлены");
         updateMainUser("");
       })
       .catch((error) => {
@@ -55,7 +54,7 @@ export default function DeleteGame({ desk, setDesk }) {
   return (
     <>
       <p>==========================================================</p>
-      <p>удалить игру </p>
+      <p>удалить учетную запись </p>
       <form onSubmit={handleSubmit}>
         <button type="submit">Удалить</button>
         {serverError && <p>{serverError}</p>}

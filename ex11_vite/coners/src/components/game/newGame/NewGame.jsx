@@ -1,3 +1,7 @@
+/*
+  Новая игра
+*/
+
 import React, { useState } from "react";
 
 export default function NewGame({ mainUser, secondUser, desk, setDesk }) {
@@ -9,12 +13,17 @@ export default function NewGame({ mainUser, secondUser, desk, setDesk }) {
 
     //console.log("secondUser", secondUser);
 
-    let a = fetch("/api/games/new/" + mainUser.id + "/" + secondUser.id, {
+    const data = {
+      mainUser: mainUser.id,
+      secondUser: secondUser.id,
+    };
+
+    let a = fetch("/api/game", {
       method: "POST", // Метод отправки
       headers: {
         "Content-Type": "application/json",
       },
-      body: "",
+      body: JSON.stringify(data),
     })
       .then((response) => {
         if (!response.ok) {

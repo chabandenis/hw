@@ -1,20 +1,24 @@
+/*
+  Обновить пользователя
+*/
+
 import React, { useState } from "react";
 
-export default function CreateUser({ mainUser, updateMainUser }) {
+export default function UpdateUser({ mainUser, updateMainUser }) {
   const [serverError, setServerError] = useState("");
-  const [error, setError] = useState(null);
 
-  function SendDataToServer(name, login, password) {
+  const [responseData, setResponseData] = useState(null);
+
+  function SendDataToServer(id, name, login, password) {
     const data = {
       name,
       login,
       password,
     };
 
-    //console.log("JSON.stringify(data) ", JSON.stringify(data));
-
-    let a = fetch("/api/users/insert", {
-      method: "POST", // Метод отправки
+    //    console.log("JSON.stringify(data) ", JSON.stringify(data));
+    let a = fetch(`/api/user/${id}`, {
+      method: "PUT", // Метод отправки
       headers: {
         "Content-Type": "application/json",
       },
@@ -27,11 +31,15 @@ export default function CreateUser({ mainUser, updateMainUser }) {
         return response.json();
       })
       .then((data) => {
+        setResponseData(data);
         updateMainUser(data);
       })
       .catch((error) => {
         setError(error);
       });
+
+    //    console.log("responseData ", responseData);
+    //    console.log("a  ", a);
 
     return a;
   }
@@ -39,10 +47,15 @@ export default function CreateUser({ mainUser, updateMainUser }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     // Отправка данных на сервер
-    SendDataToServer(mainUser.name, mainUser.login, mainUser.password)
+    SendDataToServer(
+      mainUser.id,
+      mainUser.name,
+      mainUser.login,
+      mainUser.password
+    )
       .then(() => {
         // Успешная отправка
-        //console.log("Данные успешно отправлены");
+        //        console.log("Данные успешно отправлены");
       })
       .catch((error) => {
         // Обработка ошибки
@@ -53,8 +66,7 @@ export default function CreateUser({ mainUser, updateMainUser }) {
   return (
     <>
       <p>==========================================================</p>
-      <p>Создать пользователя</p>
-
+      <p>Редактировать данные первого пользователя</p>
       <form onSubmit={handleSubmit}>
         <input
           type="text"
@@ -81,6 +93,7 @@ export default function CreateUser({ mainUser, updateMainUser }) {
           }
         />
         <button type="submit">Отправить</button>
+        {serverError && <p>{serverError}</p>}
       </form>
     </>
   );

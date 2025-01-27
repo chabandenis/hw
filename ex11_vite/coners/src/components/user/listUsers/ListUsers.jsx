@@ -1,3 +1,7 @@
+/*
+  Список пользователей
+*/
+
 import React, { useState, useEffect } from "react";
 
 export default function ListUsers({ seconUser, updateSecondUser }) {
@@ -24,7 +28,7 @@ export default function ListUsers({ seconUser, updateSecondUser }) {
   }, []);
 
   const getApiData = async () => {
-    const response = await fetch("/api/users")
+    const response = await fetch("/api/user")
       .then((response) => response.json())
       .then((users) => setUsers(users));
   };
