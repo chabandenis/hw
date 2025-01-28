@@ -1,0 +1,11 @@
+Задача из дз с webflux
+
+был пример кода, где в строку json собирались комментарии. Попробовал сделать аналогично, но у меня был набор PositionInChessFairDto. 
+
+public class PositionInChessFairDto {
+    private Long id;
+    private Integer positionX;
+    private Integer positionY;
+    private ChessFairDto chessFair; // доска
+    private FiguraDto figura;   // шашка белая/черная
+}

@@ -31,11 +31,11 @@ left join position_in_chess_fairs picf on
 	lateral (
 	select
 		picf2.id as id,
-		picf2.position_x as positionX,
-		picf2.position_y as positionY,
-		picf2.chess_fair_id as chessFairId,
-		picf2.figura_id as figuraId
-		f."name" as figuraName
+		picf2.position_x as "positionX",
+		picf2.position_y as "positionY",
+		picf2.chess_fair_id as "chessFairId",
+		picf2.figura_id as "figuraId",
+		f."name" as "figuraName"
 	from
 		position_in_chess_fairs picf2
 	inner join figuras f on
@@ -43,6 +43,8 @@ left join position_in_chess_fairs picf on
 		) picf3
 where
 	picf3.id = picf.id
+	and g.user_black_id in (:main_user, :second_user)
+	and g.user_white_id in (:main_user, :second_user)
 group by
 	g.id,
 	g.date_game,

@@ -38,7 +38,7 @@ public class GameController {
     public Flux<GameDto> getGamesForUsers(
             @PathVariable Long mainUser,
             @PathVariable Long secondUser) {
-        return gameRepositoryCustom.findAll();
+        return gameRepositoryCustom.findAll(mainUser, secondUser);
 //                gameService.getGamesForUsers(
 //                mainUser,
 //                secondUser);

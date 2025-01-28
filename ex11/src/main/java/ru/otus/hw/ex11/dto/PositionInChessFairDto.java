@@ -15,7 +15,7 @@ public class PositionInChessFairDto {
 
     private Integer positionY;
 
-    private ChessFairDto chessFair;
+    private ChessFairDto chessFair; // доска
 
-    private FiguraDto figura;
+    private FiguraDto figura;   // шашка белая/черная
 }

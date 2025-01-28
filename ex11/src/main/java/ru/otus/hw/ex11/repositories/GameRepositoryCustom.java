@@ -85,6 +85,8 @@ public class GameRepositoryCustom {
             		) picf3
             where
             	picf3.id = picf.id
+            	and g.user_black_id in ($1, $2)
+            	and g.user_white_id in ($1, $2)
             group by
             	g.id,
             	g.date_game,
@@ -100,12 +102,14 @@ public class GameRepositoryCustom {
             	u_next."name",
             	u_next.login,
             	u_next."password",
-            	cf.id            
+            	cf.id          
             """;
 
-    public Flux<GameDto> findAll() {
+    public Flux<GameDto> findAll(Long mainUser, Long secondUser) {
         return template.getDatabaseClient().inConnectionMany(connection ->
                 Flux.from(connection.createStatement(SQL_ALL)
+                                .bind("$1", mainUser)
+                                .bind("$2", secondUser)
                                 .execute())
                         .flatMap(result -> result.map(this::mapper)));
     }
@@ -153,7 +157,7 @@ public class GameRepositoryCustom {
                             x.getPositionY(),
                             new ChessFair(x.getChessFairId()),
                             //chessFairRepository.findById(x.getChessFairId()).block(),
-                            new Figura(x.getFiguraId(), x.getFiguraName())/*figuraRepository.findById(x.getFigura_id()).block()*/
+                            new Figura(x.getFiguraId(), x.getFiguraName())/*figuraRepository.findById(x.getFiguraId()).block()*/
                     )).collect(Collectors.toList());
 
             log.debug("chessFairs: " + chessFairs.toString());
