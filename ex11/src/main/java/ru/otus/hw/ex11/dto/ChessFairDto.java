@@ -1,6 +1,7 @@
 package ru.otus.hw.ex11.dto;
 
 import lombok.Data;
+import lombok.Setter;
 import ru.otus.hw.ex11.dto.desk.RowOnTheDeskDto;
 import ru.otus.hw.ex11.models.ChessFair;
 

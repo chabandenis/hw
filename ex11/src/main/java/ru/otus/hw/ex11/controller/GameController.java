@@ -19,6 +19,9 @@ import reactor.core.publisher.Mono;
 import ru.otus.hw.ex11.dto.GameDto;
 import ru.otus.hw.ex11.dto.game.CoordinatesDto;
 import ru.otus.hw.ex11.dto.game.GamesCreateDto;
+import ru.otus.hw.ex11.mapper.GameMapper;
+import ru.otus.hw.ex11.repositories.GameRepository;
+import ru.otus.hw.ex11.repositories.GameRepositoryCustom;
 
 @Slf4j
 @RestController
@@ -26,13 +29,16 @@ import ru.otus.hw.ex11.dto.game.GamesCreateDto;
 @RequestMapping("/api/game")
 public class GameController {
 
+    private final GameRepository gameRepository;
+    private final GameRepositoryCustom gameRepositoryCustom;
+
     // выбрать совместные игры
     // http://localhost:8080/api/game/1/2
     @GetMapping("/{mainUser}/{secondUser}")
     public Flux<GameDto> getGamesForUsers(
             @PathVariable Long mainUser,
             @PathVariable Long secondUser) {
-        return null;
+        return gameRepositoryCustom.findAll();
 //                gameService.getGamesForUsers(
 //                mainUser,
 //                secondUser);

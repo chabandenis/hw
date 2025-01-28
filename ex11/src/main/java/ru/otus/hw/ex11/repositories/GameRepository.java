@@ -4,6 +4,8 @@ import org.springframework.data.repository.reactive.ReactiveCrudRepository;
 import ru.otus.hw.ex11.models.Game;
 
 public interface GameRepository extends ReactiveCrudRepository<Game, Long> {
+
+
     //    @Query("""
 //            select g from Game g
 //            where (g.userWhite.id = :user1 and g.userBlack.id = :user2 ) or
