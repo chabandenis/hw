@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Table;
 
@@ -30,6 +31,7 @@ import java.time.LocalDateTime;
 //        })
 @AllArgsConstructor
 @NoArgsConstructor(force = true)
+@ToString
 public class Game {
 
     // идентификатор игры
@@ -41,22 +43,22 @@ public class Game {
     // пользователь играющий за черных
 //    @ManyToOne(fetch = FetchType.LAZY)
 //    @JoinColumn(name = "user_black_id")
-    private User userBlack;
+    private Long userBlackId;
 
     // пользователь играющий за белых
 //    @ManyToOne(fetch = FetchType.LAZY)
 //    @JoinColumn(name = "user_white_id")
-    private User userWhite;
+    private Long userWhiteId;
 
     //  Пользователь за которым следующий ход
 //    @ManyToOne(fetch = FetchType.LAZY)
 //    @JoinColumn(name = "user_next_id")
-    private User userNext;
+    private Long userNextId;
 
     // шахматная доска с расстановкой фигур
 //    @OneToOne(fetch = FetchType.LAZY, orphanRemoval = true)
 //    @JoinColumn(name = "chess_fair_id")
-    private ChessFair chessFair;
+    private Long chessFairId;
 
     //    @Column(name = "date_game")
     private LocalDateTime dateGame;

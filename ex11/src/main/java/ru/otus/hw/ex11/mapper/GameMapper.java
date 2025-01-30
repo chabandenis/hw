@@ -19,14 +19,27 @@ public class GameMapper {
 
     public static GameDto toGameDto(Game game) {
         GameDto gameDto = new GameDto();
-        gameDto.setUserWhite(UserMapper.toUserDto(game.getUserWhite()));
+/*!!!        gameDto.setUserWhite(UserMapper.toUserDto(game.getUserWhite()));
         gameDto.setId(game.getId());
         gameDto.setUserNext(UserMapper.toUserDto(game.getUserNext()));
         gameDto.setChessFair(ChessFairMapper.toChessFairDto(game.getChessFair()));
         gameDto.setUserBlack(UserMapper.toUserDto(game.getUserBlack()));
         gameDto.setDateGame(game.getDateGame());
-
+*/
         return gameDto;
+    }
+
+
+    public static Game toGameDto(GameDto gameDto) {
+        Game game = new Game();
+        game.setId(gameDto.getId());
+        game.setUserWhiteId(gameDto.getUserWhite().getId());
+        game.setUserNextId(gameDto.getUserNext().getId());
+//        game.setChessFairId(ChessFairMapper.toChessFairDto(game.getChessFair()));
+        game.setUserBlackId(gameDto.getUserBlack().getId());
+//        game.setDateGame(game.getDateGame());
+
+        return game;
     }
 
 

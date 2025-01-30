@@ -4,6 +4,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.otus.hw.ex11.dto.desk.ClmDto;
 import ru.otus.hw.ex11.dto.desk.RowOnTheDeskDto;
+import ru.otus.hw.ex11.models.Figura;
+import ru.otus.hw.ex11.models.ChessFair;
 import ru.otus.hw.ex11.models.PositionInChessFair;
 
 import java.util.ArrayList;
@@ -46,15 +48,17 @@ public class GameService {
         x2 = coordinatesDto.getX2().toUpperCase().charAt(0) - 'A' + 1;
     }*/
 
-/*    void createChecker(int x, int y, ChessFair chessFair, Figura figura) {
+    PositionInChessFair createChecker(int x, int y, ChessFair chessFair, Figura figura) {
         PositionInChessFair position = new PositionInChessFair();
         position.setFigura(figura);
         position.setPositionX(x);
         position.setPositionY(y);
         position.setChessFair(chessFair);
 
-        positionInChessFairRepository.save(position);
-    }*/
+        return position;
+
+        //positionInChessFairRepository.save(position);
+    }
 
 /*    @Transactional
     public GameDto step(
@@ -84,28 +88,27 @@ public class GameService {
         return gameDto;
     }*/
 
-/*    void fillCheckers(ChessFair chessFair) {
-        var colorWhite = figuraRepository
-                .findById(1l)
-                .orElseThrow(() -> new NotFoundException("Отсутствует фигура с id=1"));
-        var colorBlack = figuraRepository
-                .findById(2l)
-                .orElseThrow(() -> new NotFoundException("Отсутствует фигура с id=2"));
+    public List<PositionInChessFair> fillCheckers(ChessFair chessFair,
+                             Figura colorWhite,
+                             Figura colorBlack
+                             ) {
+        List<PositionInChessFair> positions = new ArrayList<>();
 
         //todo перевернуты XY переделать
         for (int i = 1; i <= 4; i++) {
             for (int j = 1; j <= 3; j++) {
-                createChecker(i, j, chessFair, colorWhite);
+                positions.add(createChecker(i, j, chessFair, colorWhite));
             }
         }
 
         for (int i = 5; i <= 8; i++) {
             for (int j = 6; j <= 8; j++) {
-                createChecker(i, j, chessFair, colorBlack);
+                positions.add(createChecker(i, j, chessFair, colorBlack));
             }
         }
 
-    }*/
+        return positions;
+    }
 
 /*    @Transactional
     public GameDto create(GamesCreateDto gamesCreateDto) {
