@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.core.scheduler.Scheduler;
+import ru.otus.hw.ex11.dto.ChessFairDto;
 import ru.otus.hw.ex11.dto.GameDto;
 import ru.otus.hw.ex11.dto.game.CoordinatesDto;
 import ru.otus.hw.ex11.dto.game.GamesCreateDto;
@@ -112,32 +113,39 @@ public class GameController {
                             }
 
                             var positionsDto = gameService.fillCheckers(chessFairForSaved, figuraWhite, figuraBlack);
-
-                            positionInChessFairRepository.saveAll(
-                                            positionsDto.stream()
-                                                    .map(PositionInChessFairMapper::toPosition)
-                                                    .collect(Collectors.toList()))
-                                    .publishOn(workerPool)
-                                    .subscribe(positionInChessFair -> {
-                                        log.debug("07 {}", Thread.currentThread().getId());
-                                        log.debug("positionInChessFair:{}", positionInChessFair);
-                                    });
+                            var positions = positionsDto.stream()
+                                    .map(PositionInChessFairMapper::toPosition)
+                                    .collect(Collectors.toList());
 
                             GameDto gameDto = new GameDto();
                             gameDto.setUserWhite(UserMapper.toUserDto(findMainUser));
                             gameDto.setUserBlack(userMapper.toUserDto(findSecondUser));
                             gameDto.setUserNext(userMapper.toUserDto(findMainUser));
-//                        gameDto.setChessFair(new ChessFairDto(positionsDto));
+                            gameDto.setChessFair(
+                                    new ChessFairDto(
+                                            chessFair.getId(),
+                                            gameService.fillFigureOnTheDesk(positionsDto)
+                                    ));
 
                             Game game = GameMapper.toGameDto(gameDto);
+
+                            positionInChessFairRepository.saveAll(positions)
+                                    .publishOn(workerPool)
+                                    .subscribe(positionInChessFair -> {
+                                        log.debug("07 {}", Thread.currentThread().getId());
+                                        log.debug("positionInChessFair:{}", positionInChessFair);
+                                    })                            ;
 
                             return gameRepository.save(game).publishOn(workerPool)
                                     .map(savedGame -> {
                                         log.debug("44 {}", Thread.currentThread().getId());
-                                        log.debug("55 {} {}", game.getId(), savedGame.getId());
-                                        gameDto.setId(game.getId());
-                                        return new ResponseEntity<>(gameDto, HttpStatus.CREATED);
-                                    });
+                                        log.debug("55 {} {}", positions, savedGame.getId());
+                                        gameDto.setId(savedGame.getId());
+                                        //return new ResponseEntity<>(gameDto, HttpStatus.CREATED);
+                                        return gameDto;
+                                    })
+                                    .map(ResponseEntity::ok)
+                                    .switchIfEmpty(Mono.fromCallable(() -> ResponseEntity.notFound().build()));
 
                         });
                     });
