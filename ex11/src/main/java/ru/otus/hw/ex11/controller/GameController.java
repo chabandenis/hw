@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.core.scheduler.Scheduler;
-import ru.otus.hw.ex11.dto.ChessFairDto;
 import ru.otus.hw.ex11.dto.GameDto;
 import ru.otus.hw.ex11.dto.game.CoordinatesDto;
 import ru.otus.hw.ex11.dto.game.GamesCreateDto;
@@ -92,84 +91,56 @@ public class GameController {
                 ChessFair chessFairForSaved = new ChessFair();
                 //chessFairForSaved.setId(22l);
 
-                var chess = chessFairRepository.save(chessFairForSaved).publishOn(workerPool).flatMap(chessFair -> {
+                return chessFairRepository.save(chessFairForSaved).publishOn(workerPool).flatMap(chessFair -> {
                     log.debug("04 {}", Thread.currentThread().getId());
                     log.debug("chessFair1:{}", chessFair);
+                    log.debug("034 {}", chessFairForSaved);
 
 
-                });
-
-
-/*
-                var chess = chessFairRepository.save(chessFairForSaved).publishOn(workerPool).map(chessFair -> {
-                    log.debug("04 {}", Thread.currentThread().getId());
-                    log.debug("chessFair1:{}", chessFair);
-
-                    return chessFair;
-                });
-*/
-                log.debug("034 {}", chessFairForSaved);
-
-
-                return figuraRepository.findById(1l).publishOn(workerPool).flatMap(figuraWhite -> {
-                    log.debug("05 {}", figuraWhite);
-                    log.debug("figuraWhite:{}", figuraWhite);
-                    if (figuraWhite == null) {
-                        //return Mono.error(new NotFoundException("Ошибка сохранения получении figura c id = 1"));
-                    }
-
-                    return figuraRepository.findById(2l).publishOn(workerPool).flatMap(figuraBlack -> {
-                        log.debug("06 {}", figuraBlack);
-                        log.debug("figuraWhite:{}", figuraBlack);
-                        if (figuraBlack == null) {
-                            //return Mono.error(new NotFoundException("Ошибка сохранения получении figura c id = 2"));
+                    return figuraRepository.findById(1l).publishOn(workerPool).flatMap(figuraWhite -> {
+                        log.debug("05 {}", figuraWhite);
+                        log.debug("figuraWhite:{}", figuraWhite);
+                        if (figuraWhite == null) {
+                            //return Mono.error(new NotFoundException("Ошибка сохранения получении figura c id = 1"));
                         }
-/*
-                chessFairRepository.save(chessFairForSaved).publishOn(workerPool).flatMap(chessFair -> {
-                    log.debug("04 {}", Thread.currentThread().getId());
-                    log.debug("chessFair1:{}", chessFair);
 
-                    if (chessFair == null) {
-                        //return Mono.error(new NotFoundException("Ошибка сохранения chessFair = " + chessFair));
-                    }
+                        return figuraRepository.findById(2l).publishOn(workerPool).flatMap(figuraBlack -> {
+                            log.debug("06 {}", figuraBlack);
+                            log.debug("figuraWhite:{}", figuraBlack);
+                            if (figuraBlack == null) {
+                                //return Mono.error(new NotFoundException("Ошибка сохранения получении figura c id = 2"));
+                            }
 
-                    return Mono.just(chessFair);
-                });
-*/
+                            var positionsDto = gameService.fillCheckers(chessFairForSaved, figuraWhite, figuraBlack);
 
-                        var positionsDto = gameService.fillCheckers(chessFairForSaved, figuraWhite, figuraBlack);
+                            positionInChessFairRepository.saveAll(
+                                            positionsDto.stream()
+                                                    .map(PositionInChessFairMapper::toPosition)
+                                                    .collect(Collectors.toList()))
+                                    .publishOn(workerPool)
+                                    .subscribe(positionInChessFair -> {
+                                        log.debug("07 {}", Thread.currentThread().getId());
+                                        log.debug("positionInChessFair:{}", positionInChessFair);
+                                    });
 
-                        positionInChessFairRepository.saveAll(
-                                positionsDto.stream()
-                                        .map(PositionInChessFairMapper::toPosition)
-                                        .collect(Collectors.toList()))
-                                .publishOn(workerPool)
-                                .subscribe(positionInChessFair -> {
-                                    log.debug("07 {}", Thread.currentThread().getId());
-                                    log.debug("positionInChessFair:{}", positionInChessFair);
-                                })
-                        ;
-
-
-                        GameDto gameDto = new GameDto();
-                        gameDto.setUserWhite(UserMapper.toUserDto(findMainUser));
-                        gameDto.setUserBlack(userMapper.toUserDto(findSecondUser));
-                        gameDto.setUserNext(userMapper.toUserDto(findMainUser));
+                            GameDto gameDto = new GameDto();
+                            gameDto.setUserWhite(UserMapper.toUserDto(findMainUser));
+                            gameDto.setUserBlack(userMapper.toUserDto(findSecondUser));
+                            gameDto.setUserNext(userMapper.toUserDto(findMainUser));
 //                        gameDto.setChessFair(new ChessFairDto(positionsDto));
 
-                        Game game = GameMapper.toGameDto(gameDto);
+                            Game game = GameMapper.toGameDto(gameDto);
 
-                        return gameRepository.save(game).publishOn(workerPool)
-                                .map(savedGame -> {
-                                    log.debug("44 {}", Thread.currentThread().getId());
-                                    log.debug("55 {} {}", game.getId(), savedGame.getId());
-                                    gameDto.setId(game.getId());
-                                    return new ResponseEntity<>(gameDto, HttpStatus.CREATED);
-                                });
+                            return gameRepository.save(game).publishOn(workerPool)
+                                    .map(savedGame -> {
+                                        log.debug("44 {}", Thread.currentThread().getId());
+                                        log.debug("55 {} {}", game.getId(), savedGame.getId());
+                                        gameDto.setId(game.getId());
+                                        return new ResponseEntity<>(gameDto, HttpStatus.CREATED);
+                                    });
 
+                        });
                     });
-
-
                 });
             });
         });
