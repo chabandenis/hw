@@ -2,11 +2,13 @@ package ru.otus.hw.ex11.services;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import ru.otus.hw.ex11.dto.PositionInChessFairDto;
 import ru.otus.hw.ex11.dto.desk.ClmDto;
 import ru.otus.hw.ex11.dto.desk.RowOnTheDeskDto;
-import ru.otus.hw.ex11.models.Figura;
+import ru.otus.hw.ex11.mapper.ChessFairMapper;
+import ru.otus.hw.ex11.mapper.FiguraMapper;
 import ru.otus.hw.ex11.models.ChessFair;
-import ru.otus.hw.ex11.models.PositionInChessFair;
+import ru.otus.hw.ex11.models.Figura;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -48,12 +50,13 @@ public class GameService {
         x2 = coordinatesDto.getX2().toUpperCase().charAt(0) - 'A' + 1;
     }*/
 
-    PositionInChessFair createChecker(int x, int y, ChessFair chessFair, Figura figura) {
-        PositionInChessFair position = new PositionInChessFair();
-        position.setFigura(figura);
-        position.setPositionX(x);
-        position.setPositionY(y);
-        position.setChessFair(chessFair);
+    PositionInChessFairDto createChecker(int x, int y, ChessFair chessFair, Figura figura) {
+        PositionInChessFairDto position = new PositionInChessFairDto(
+                null,
+                x,
+                y,
+                ChessFairMapper.toChessFairDto(chessFair),
+                FiguraMapper.toFiguraDto(figura));
 
         return position;
 
@@ -88,11 +91,11 @@ public class GameService {
         return gameDto;
     }*/
 
-    public List<PositionInChessFair> fillCheckers(ChessFair chessFair,
-                             Figura colorWhite,
-                             Figura colorBlack
-                             ) {
-        List<PositionInChessFair> positions = new ArrayList<>();
+    public List<PositionInChessFairDto> fillCheckers(ChessFair chessFair,
+                                                     Figura colorWhite,
+                                                     Figura colorBlack
+    ) {
+        List<PositionInChessFairDto> positions = new ArrayList<>();
 
         //todo перевернуты XY переделать
         for (int i = 1; i <= 4; i++) {
@@ -163,11 +166,11 @@ public class GameService {
 
     // Расставить фигуры на шахматной доске. Размер фиксирован.
     // При отображении в таблице показываются значения из массива
-    public List<RowOnTheDeskDto> fillFigureOnTheDesk(List<PositionInChessFair> positions) {
+    public List<RowOnTheDeskDto> fillFigureOnTheDesk(List<PositionInChessFairDto> positions) {
 
         var desk = createEmptyDesk();
 
-        for (PositionInChessFair position : positions) {
+        for (PositionInChessFairDto position : positions) {
             String color = "";
             if (position.getFigura().getName().contains("Белый")) {
                 color = "O"; // белая шашка

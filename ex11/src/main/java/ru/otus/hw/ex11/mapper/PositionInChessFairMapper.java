@@ -15,16 +15,26 @@ public class PositionInChessFairMapper {
 
 //    PositionInChessFair toEntity(PositionInChessFairDto positionInChessFairDto);
 
-    public static PositionInChessFairDto toPositionInChessFairDto(PositionInChessFair positionInChessFair) {
-        PositionInChessFairDto positionInChessFairDto = new PositionInChessFairDto();
-        positionInChessFairDto.setChessFair(
-                ChessFairMapper.toChessFairDto(positionInChessFair.getChessFair()));
-        positionInChessFairDto.setPositionX(positionInChessFair.getPositionX());
-        positionInChessFairDto.setPositionY(positionInChessFair.getPositionY());
-        positionInChessFairDto.setId(positionInChessFair.getId());
-        positionInChessFairDto.setFigura(FiguraMapper.toFiguraDto(positionInChessFair.getFigura()));
-        return positionInChessFairDto;
-    }
+//    public static PositionInChessFairDto toPositionInChessFairDto(PositionInChessFair positionInChessFair) {
+//        PositionInChessFairDto positionInChessFairDto = new PositionInChessFairDto();
+//        positionInChessFairDto.setChessFair(
+//                ChessFairMapper.toChessFairDto(positionInChessFair.getChessFair()));
+//        positionInChessFairDto.setPositionX(positionInChessFair.getPositionX());
+//        positionInChessFairDto.setPositionY(positionInChessFair.getPositionY());
+//        positionInChessFairDto.setId(positionInChessFair.getId());
+//        positionInChessFairDto.setFigura(FiguraMapper.toFiguraDto(positionInChessFair.getFigura()));
+//
+//
+//        return positionInChessFairDto;
+//    }
 
-    ;
+    public static PositionInChessFair toPosition(PositionInChessFairDto positionDto) {
+        PositionInChessFair position = new PositionInChessFair();
+        position.setId(positionDto.getId());
+        position.setPositionX(positionDto.getPositionX());
+        position.setPositionY(positionDto.getPositionY());
+        position.setChessFairId(positionDto.getChessFair().getId());
+        position.setFiguraId(positionDto.getFigura().getId());
+        return position;
+    }
 }

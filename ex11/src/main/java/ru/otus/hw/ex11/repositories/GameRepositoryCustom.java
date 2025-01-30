@@ -10,7 +10,9 @@ import org.springframework.data.r2dbc.core.R2dbcEntityTemplate;
 import org.springframework.stereotype.Repository;
 import reactor.core.publisher.Flux;
 import ru.otus.hw.ex11.dto.ChessFairDto;
+import ru.otus.hw.ex11.dto.FiguraDto;
 import ru.otus.hw.ex11.dto.GameDto;
+import ru.otus.hw.ex11.dto.PositionInChessFairDto;
 import ru.otus.hw.ex11.dto.PositionInChessFairInDbDto;
 import ru.otus.hw.ex11.dto.UserDto;
 import ru.otus.hw.ex11.models.ChessFair;
@@ -150,14 +152,14 @@ public class GameRepositoryCustom {
                     objectMapper.readValue(picf_json, new TypeReference<List<PositionInChessFairInDbDto>>() {
                     });
 
-            List<PositionInChessFair> chessFairs = chessFairsInDb.stream()
-                    .map(x -> new PositionInChessFair(
+            List<PositionInChessFairDto> chessFairs = chessFairsInDb.stream()
+                    .map(x -> new PositionInChessFairDto(
                             x.getId(),
                             x.getPositionX(),
                             x.getPositionY(),
-                            new ChessFair(x.getChessFairId()),
+                            new ChessFairDto(x.getChessFairId(), null),
                             //chessFairRepository.findById(x.getChessFairId()).block(),
-                            new Figura(x.getFiguraId(), x.getFiguraName())/*figuraRepository.findById(x.getFiguraId()).block()*/
+                            new FiguraDto(x.getFiguraId(), x.getFiguraName())/*figuraRepository.findById(x.getFiguraId()).block()*/
                     )).collect(Collectors.toList());
 
             log.debug("chessFairs: " + chessFairs.toString());

@@ -45,11 +45,11 @@ public class PositionInChessFair {
     // доска на которой стоит фишка
     //@ManyToOne(fetch = FetchType.LAZY)
     //@JoinColumn(name = "chess_fair_id")
-    private ChessFair chessFair;
+    private Long chessFairId;
 
     // пока цвет черный/белый
 //    @ManyToOne(fetch = FetchType.LAZY)
 //    @JoinColumn(name = "figura_id")
-    private Figura figura;
+    private Long figuraId;
 
 }
