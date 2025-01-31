@@ -3,7 +3,6 @@ package ru.otus.hw.ex11.controller;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -129,24 +128,39 @@ public class GameController {
 
                             Game game = GameMapper.toGameDto(gameDto);
 
+/*
+                            return positionInChessFairRepository.saveAll(positions)
+                                    .publishOn(workerPool)
+                                    .flatMap(positionInChessFair -> {
+                                        log.debug("07 {}", Thread.currentThread().getId());
+                                        log.debug("positionInChessFair:{}", positionInChessFair);
+                                         //return Mono.just(positionInChessFair);
+
+
+*/
+
                             positionInChessFairRepository.saveAll(positions)
                                     .publishOn(workerPool)
                                     .subscribe(positionInChessFair -> {
                                         log.debug("07 {}", Thread.currentThread().getId());
                                         log.debug("positionInChessFair:{}", positionInChessFair);
-                                    })                            ;
+                                    });
+
+                            try {
+                                Thread.sleep(2000);
+                            } catch (InterruptedException e) {
+                                throw new RuntimeException(e);
+                            }
 
                             return gameRepository.save(game).publishOn(workerPool)
                                     .map(savedGame -> {
                                         log.debug("44 {}", Thread.currentThread().getId());
                                         log.debug("55 {} {}", positions, savedGame.getId());
                                         gameDto.setId(savedGame.getId());
-                                        //return new ResponseEntity<>(gameDto, HttpStatus.CREATED);
                                         return gameDto;
                                     })
                                     .map(ResponseEntity::ok)
                                     .switchIfEmpty(Mono.fromCallable(() -> ResponseEntity.notFound().build()));
-
                         });
                     });
                 });
