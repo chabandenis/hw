@@ -9,6 +9,7 @@ import ru.otus.hw.ex11.mapper.ChessFairMapper;
 import ru.otus.hw.ex11.mapper.FiguraMapper;
 import ru.otus.hw.ex11.models.ChessFair;
 import ru.otus.hw.ex11.models.Figura;
+import ru.otus.hw.ex11.models.PositionInChessFair;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -50,6 +51,19 @@ public class GameService {
         x2 = coordinatesDto.getX2().toUpperCase().charAt(0) - 'A' + 1;
     }*/
 
+    PositionInChessFair createChecker2(int x, int y, ChessFair chessFair, Figura figura) {
+        PositionInChessFair position = new PositionInChessFair(
+                null,
+                x,
+                y,
+                chessFair.getId(),
+                figura.getId());
+
+        return position;
+
+        //positionInChessFairRepository.save(position);
+    }
+
     PositionInChessFairDto createChecker(int x, int y, ChessFair chessFair, Figura figura) {
         PositionInChessFairDto position = new PositionInChessFairDto(
                 null,
@@ -90,6 +104,28 @@ public class GameService {
 
         return gameDto;
     }*/
+
+    public List<PositionInChessFair> fillCheckers2(ChessFair chessFair,
+                                                  Figura colorWhite,
+                                                  Figura colorBlack
+    ) {
+        List<PositionInChessFair> positions = new ArrayList<>();
+
+        //todo перевернуты XY переделать
+        for (int i = 1; i <= 4; i++) {
+            for (int j = 1; j <= 3; j++) {
+                positions.add(createChecker2(i, j, chessFair, colorWhite));
+            }
+        }
+
+        for (int i = 5; i <= 8; i++) {
+            for (int j = 6; j <= 8; j++) {
+                positions.add(createChecker2(i, j, chessFair, colorBlack));
+            }
+        }
+
+        return positions;
+    }
 
     public List<PositionInChessFairDto> fillCheckers(ChessFair chessFair,
                                                      Figura colorWhite,
@@ -166,6 +202,28 @@ public class GameService {
 
     // Расставить фигуры на шахматной доске. Размер фиксирован.
     // При отображении в таблице показываются значения из массива
+/*    public RowOnTheDeskDto fillFigureOnTheDesk2(PositionInChessFairDto positions) {
+        RowOnTheDeskDto rowOnTheDeskDto = new RowOnTheDeskDto();
+
+            String color = "";
+            if (position.getFigura().getName().contains("Белый")) {
+                color = "O"; // белая шашка
+            } else if (position.getFigura().getName().contains("Черный")) {
+                color = "X"; // черная шашка
+            }
+
+            desk.get(8 - position.getPositionY())
+                    .getArr()
+                    .put(position.getPositionX() - 1,
+                            new ClmDto(color, position.getId()));
+
+            position.getPositionX();
+
+        return rowOnTheDeskDto;
+    }*/
+
+    // Расставить фигуры на шахматной доске. Размер фиксирован.
+    // При отображении в таблице показываются значения из массива
     public List<RowOnTheDeskDto> fillFigureOnTheDesk(List<PositionInChessFairDto> positions) {
 
         var desk = createEmptyDesk();
@@ -175,6 +233,31 @@ public class GameService {
             if (position.getFigura().getName().contains("Белый")) {
                 color = "O"; // белая шашка
             } else if (position.getFigura().getName().contains("Черный")) {
+                color = "X"; // черная шашка
+            }
+
+            desk.get(8 - position.getPositionY())
+                    .getArr()
+                    .put(position.getPositionX() - 1,
+                            new ClmDto(color, position.getId()));
+
+            position.getPositionX();
+        }
+
+        return desk;
+    }
+
+    // Расставить фигуры на шахматной доске. Размер фиксирован.
+    // При отображении в таблице показываются значения из массива
+    public List<RowOnTheDeskDto> fillFigureOnTheDesk2(List<PositionInChessFair> positions) {
+
+        var desk = createEmptyDesk();
+
+        for (PositionInChessFair position : positions) {
+            String color = "";
+            if (position.getFiguraId().equals(1)) {
+                color = "O"; // белая шашка
+            } else if (position.getFiguraId().equals(2)) {
                 color = "X"; // черная шашка
             }
 
