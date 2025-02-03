@@ -20,13 +20,14 @@ public class GameMapper {
     public static GameDto toGameDto(Game game) {
         GameDto gameDto = new GameDto();
         gameDto.setId(game.getId());
+        gameDto.setDateGame(game.getDateGame());
 
 /*        gameDto.setUserWhite(UserMapper.toUserDto(game.getUserWhite()));
 
         gameDto.setUserNext(UserMapper.toUserDto(game.getUserNext()));
         gameDto.setChessFair(ChessFairMapper.toChessFairDto(game.getChessFair()));
         gameDto.setUserBlack(UserMapper.toUserDto(game.getUserBlack()));
-        gameDto.setDateGame(game.getDateGame());
+
 
  */
 

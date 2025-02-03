@@ -3,10 +3,14 @@ package ru.otus.hw.ex11.services.Game;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import reactor.core.publisher.Mono;
 import reactor.core.scheduler.Scheduler;
+import ru.otus.hw.ex11.controller.NotFoundException;
+import ru.otus.hw.ex11.dto.GameDto;
 import ru.otus.hw.ex11.dto.PositionInChessFairDto;
 import ru.otus.hw.ex11.dto.desk.ClmDto;
 import ru.otus.hw.ex11.dto.desk.RowOnTheDeskDto;
+import ru.otus.hw.ex11.mapper.GameMapper;
 import ru.otus.hw.ex11.mapper.PositionInChessFairMapper;
 import ru.otus.hw.ex11.models.ChessFair;
 import ru.otus.hw.ex11.models.Figura;
@@ -111,31 +115,6 @@ public class GameService {
 
 
 
-/*    @Transactional
-    public GameDto create(GamesCreateDto gamesCreateDto) {
-        Game game = new Game();
-        game.setId(0l);
-        ChessFair chessFair = new ChessFair();
-        game.setChessFair(chessFair);
-        game.setUserWhite(
-                userRepository.findById(gamesCreateDto.getMainUser())
-                        .orElseThrow(() -> new NotFoundException(
-                                "Отсутствует пользователь с Id = " + gamesCreateDto.getMainUser())));
-        game.setUserBlack(
-                userRepository.findById(gamesCreateDto.getSecondUser())
-                        .orElseThrow(() -> new NotFoundException(
-                                "Отсутствует пользователь с Id = " + gamesCreateDto.getSecondUser())));
-        game.setUserNext(
-                userRepository.findById(gamesCreateDto.getMainUser())
-                        .orElseThrow(() -> new NotFoundException(
-                                "Отсутствует пользователь с Id = " + gamesCreateDto.getMainUser())));
-        game.setDateGame(LocalDateTime.now());
-        chessFair = chessFairRepository.save(chessFair);
-        fillCheckers(chessFair);
-        game = gameRepository.save(game);
-        return GameMapper.toGameDto(game);
-    }*/
-
     private PositionInChessFair createChecker(int x, int y, ChessFair chessFair, Figura figura) {
         PositionInChessFair position = new PositionInChessFair(
                 null,
@@ -228,47 +207,6 @@ public class GameService {
         return desk;
     }
 
-
-// Расставить фигуры на шахматной доске. Размер фиксирован.
-// При отображении в таблице показываются значения из массива
-/*    public RowOnTheDeskDto fillFigureOnTheDesk2(PositionInChessFairDto positions) {
-        RowOnTheDeskDto rowOnTheDeskDto = new RowOnTheDeskDto();
-
-            String color = "";
-            if (position.getFigura().getName().contains("Белый")) {
-                color = "O"; // белая шашка
-            } else if (position.getFigura().getName().contains("Черный")) {
-                color = "X"; // черная шашка
-            }
-
-            desk.get(8 - position.getPositionY())
-                    .getArr()
-                    .put(position.getPositionX() - 1,
-                            new ClmDto(color, position.getId()));
-
-            position.getPositionX();
-
-        return rowOnTheDeskDto;
-    }*/
-
-
-
-/*    @Transactional(readOnly = true)
-    public GameDto getOne(Long id) {
-        Optional<Game> gameOptional = gameRepository.findById(id);
-
-        // отдельно обработать фигуры на доске
-        var gameDto = GameMapper.toGameDto(
-                gameOptional.orElseThrow(
-                        () -> new NotFoundException("Entity Game with id=`%s` not found".formatted(id))));
-
-        var chessFair = positionInChessFairRepository.findByChessFairId(gameDto.getChessFair().getId());
-
-        // расставить фигуры в виде удобном для отображения в TL
-        gameDto.getChessFair().setDesk(fillFigureOnTheDesk(chessFair));
-
-        return gameDto;
-    }*/
 
 /*    @Transactional
     public GameDto delete(Long id) {
