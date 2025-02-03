@@ -11,12 +11,6 @@ import ru.otus.hw.ex11.models.PositionInChessFair;
 @AllArgsConstructor
 public class PositionInChessFairMapper {
 
-//    private final ChessFairMapper chessFairMapper;
-
-//    private final FiguraMapper figuraMapper;
-
-//    PositionInChessFair toEntity(PositionInChessFairDto positionInChessFairDto);
-
     public static PositionInChessFairDto toPositionInChessFairDto(
             ChessFair chessFair,
             Figura white,

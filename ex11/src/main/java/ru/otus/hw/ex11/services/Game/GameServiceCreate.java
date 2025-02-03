@@ -17,7 +17,7 @@ import ru.otus.hw.ex11.models.PositionInChessFair;
 import ru.otus.hw.ex11.models.User;
 import ru.otus.hw.ex11.repositories.ChessFairRepository;
 import ru.otus.hw.ex11.repositories.FiguraRepository;
-import ru.otus.hw.ex11.repositories.GameRepository;
+import ru.otus.hw.ex11.repositories.game.GameRepository;
 import ru.otus.hw.ex11.repositories.PositionInChessFairRepository;
 import ru.otus.hw.ex11.repositories.UserRepository;
 
@@ -104,7 +104,7 @@ public class GameServiceCreate {
     // 4. сохраняю информацию о шахматной доске
     public Mono<ResponseEntity<GameDto>> savePositionInDb() {
         // 5 сохранить расположение шашек на доске
-        positions = gameService.fillCheckers2(chessFair, figuraType.get(WHITE), figuraType.get(BLACK));
+        positions = gameService.fillCheckers(chessFair, figuraType.get(WHITE), figuraType.get(BLACK));
 
         return positionInChessFairRepository.saveAll(positions).publishOn(workerPool)
                 .map(z -> new GameDto()).last()
@@ -119,7 +119,7 @@ public class GameServiceCreate {
         gameDto.setUserWhite(UserMapper.toUserDto(userInGame.get(MAIN_USER)));
         gameDto.setUserBlack(UserMapper.toUserDto(userInGame.get(SECOND_USER)));
         gameDto.setUserNext(UserMapper.toUserDto(userInGame.get(MAIN_USER)));
-        gameDto.setChessFair(new ChessFairDto(chessFair.getId(), gameService.fillFigureOnTheDesk2(positions)));
+        gameDto.setChessFair(new ChessFairDto(chessFair.getId(), gameService.fillFigureOnTheDesk(positions)));
         return gameDto;
     }
 

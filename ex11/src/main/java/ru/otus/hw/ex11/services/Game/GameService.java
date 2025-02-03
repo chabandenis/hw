@@ -7,32 +7,37 @@ import reactor.core.scheduler.Scheduler;
 import ru.otus.hw.ex11.dto.PositionInChessFairDto;
 import ru.otus.hw.ex11.dto.desk.ClmDto;
 import ru.otus.hw.ex11.dto.desk.RowOnTheDeskDto;
-import ru.otus.hw.ex11.mapper.ChessFairMapper;
-import ru.otus.hw.ex11.mapper.FiguraMapper;
+import ru.otus.hw.ex11.mapper.PositionInChessFairMapper;
 import ru.otus.hw.ex11.models.ChessFair;
 import ru.otus.hw.ex11.models.Figura;
 import ru.otus.hw.ex11.models.PositionInChessFair;
 import ru.otus.hw.ex11.models.User;
 import ru.otus.hw.ex11.repositories.ChessFairRepository;
 import ru.otus.hw.ex11.repositories.FiguraRepository;
-import ru.otus.hw.ex11.repositories.GameRepository;
 import ru.otus.hw.ex11.repositories.PositionInChessFairRepository;
 import ru.otus.hw.ex11.repositories.UserRepository;
+import ru.otus.hw.ex11.repositories.game.GameRepository;
 import ru.otus.hw.ex11.services.InputXYService;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
 @Slf4j
 public class GameService {
 
-    private static final String WITE = "white";
+
+    private static final String WHITE = "white";
 
     private static final String BLACK = "black";
+
+    private static final Long MAIN_USER = 1l;
+
+    private static final Long SECOND_USER = 2l;
 
     private final UserRepository userRepository;
 
@@ -74,95 +79,6 @@ public class GameService {
         x2 = coordinatesDto.getX2().toUpperCase().charAt(0) - 'A' + 1;
     }*/
 
-
-
-/*
-    // создать игру
-// http://localhost:8080/api/game
-// {"mainUser": 1,"secondUser": 2}
-    @PostMapping(value = "\2")
-    public Mono<ResponseEntity<GameDto>> create2(@RequestBody @Valid GamesCreateDto gamesCreateDto) {
-        log.debug("01; {}", Thread.currentThread().getId());
-        return
-                // 1. создаю игру -----------------------------------------------
-                gameRepository.save(new Game()).publishOn(workerPool)
-                .map(game -> GameMapper.toGameDto(game)).flatMap(game -> {
-                    log.debug("02; game {}; {}", Thread.currentThread().getId(), game);
-
-                    // 2. получаю информацию о первом пользователе
-                    return userRepository.findById(gamesCreateDto.getMainUser()).publishOn(workerPool)
-                    .doOnNext(mainUser -> addMainUser(game, UserMapper.toUserDto(mainUser))).flatMap(firstUser -> {
-                        log.debug("03; firstUser {}; {}", Thread.currentThread().getId(), firstUser);
-
-                        // 3. получаю информацию о втором пользователе
-                        return userRepository.findById(gamesCreateDto.getSecondUser()).publishOn(workerPool)
-                        .doOnNext(secondUser -> addSecondUser(game, UserMapper.toUserDto(secondUser)))
-                        .flatMap(secondUser -> {
-                            log.debug("04; SecondUser {}; {}", Thread.currentThread().getId(), secondUser);
-
-                            // 4. сохраняю информацию о шахматной доске
-                            return chessFairRepository.save(new ChessFair()).publishOn(workerPool)
-                            .doOnNext(chessFair2 -> addChessFair(game, ChessFairMapper.toChessFairDto(chessFair2)))
-                            .flatMap(chessFair -> {
-                                log.debug("05; chessFair {}; {}", Thread.currentThread().getId(), chessFair);
-
-                                // 5. белая шашка
-                                return figuraRepository.findById(1l).publishOn(workerPool)
-                                        //.doOnNext(white -> addFigure(game, FiguraMapper.toFiguraDto(white)))
-                                        .flatMap(white -> {
-                                            log.debug("06; white {}; {}", Thread.currentThread().getId(), white);
-
-                                            // 6. черная шашка
-                                            return figuraRepository.findById(2l).publishOn(workerPool)
-                                            .flatMap(black -> {
-                                                log.debug("07; black {}; {}", Thread.currentThread().getId(), black);
-
-                                                var positions = gameService.fillCheckers2(chessFair, white, black);
-
-                                                // 7 расставить шашки на доске
-                                                return positionInChessFairRepository.saveAll(positions)
-                                                .publishOn(workerPool).doOnNext(pos -> log.debug("pos {} ", pos)
-                                                        */
-    /*game.getChessFair().getDesk().add(pos)*//*
-).map(gameUpdate -> game).last()*/
-    /*addFigure(game, null)).last()*//*
-.flatMap(gameUpdate -> {
-        log.debug("08; gameUpdate {}; {}", Thread.currentThread().getId(), gameUpdate);
-        log.debug("09; positions {}", positions);
-
-        game.setChessFair(new ChessFairDto(chessFair.getId(), gameService.fillFigureOnTheDesk2(positions)
-
-        ));
-
-        // 8 сохранить обновленную игру
-        return gameRepository.save(GameMapper.toGameDto(game)).publishOn(workerPool)
-        .map(savedGame -> game).map(ResponseEntity::ok)
-        .switchIfEmpty(Mono.fromCallable(() -> ResponseEntity.notFound().build()));
-    });
-
-
-});
-
-                                        });
-                            });
-                        });
-                    });
-                });
-    }
-}
-*/
-
-    PositionInChessFair createChecker2(int x, int y, ChessFair chessFair, Figura figura) {
-        PositionInChessFair position = new PositionInChessFair(
-                null,
-                x,
-                y,
-                chessFair.getId(),
-                figura.getId());
-
-        return position;
-
-    }
 
 
 /*    @Transactional
@@ -220,22 +136,33 @@ public class GameService {
         return GameMapper.toGameDto(game);
     }*/
 
-    public List<PositionInChessFair> fillCheckers2(ChessFair chessFair,
-                                                   Figura colorWhite,
-                                                   Figura colorBlack
+    private PositionInChessFair createChecker(int x, int y, ChessFair chessFair, Figura figura) {
+        PositionInChessFair position = new PositionInChessFair(
+                null,
+                x,
+                y,
+                chessFair.getId(),
+                figura.getId());
+
+        return position;
+    }
+
+    public List<PositionInChessFair> fillCheckers(ChessFair chessFair,
+                                                  Figura colorWhite,
+                                                  Figura colorBlack
     ) {
         List<PositionInChessFair> positions = new ArrayList<>();
 
         //todo перевернуты XY переделать
         for (int i = 1; i <= 4; i++) {
             for (int j = 1; j <= 3; j++) {
-                positions.add(createChecker2(i, j, chessFair, colorWhite));
+                positions.add(createChecker(i, j, chessFair, colorWhite));
             }
         }
 
         for (int i = 5; i <= 8; i++) {
             for (int j = 6; j <= 8; j++) {
-                positions.add(createChecker2(i, j, chessFair, colorBlack));
+                positions.add(createChecker(i, j, chessFair, colorBlack));
             }
         }
 
@@ -243,7 +170,7 @@ public class GameService {
     }
 
     // пустая доска
-    List<RowOnTheDeskDto> createEmptyDesk() {
+    private List<RowOnTheDeskDto> createEmptyDesk() {
         List<RowOnTheDeskDto> desk = new ArrayList<>();
         for (int i = 0; i < 8; i++) {
             RowOnTheDeskDto row = new RowOnTheDeskDto();
@@ -268,42 +195,25 @@ public class GameService {
         return desk;
     }
 
-    // Расставить фигуры на шахматной доске. Размер фиксирован.
-// При отображении в таблице показываются значения из массива
-    public List<RowOnTheDeskDto> fillFigureOnTheDesk(List<PositionInChessFairDto> positions) {
+    // Расставить фигуры на шахматной доске
+    public List<RowOnTheDeskDto> fillFigureOnTheDeskDto(List<PositionInChessFairDto> positionsDto) {
+        var position = positionsDto.stream()
+                .map(x -> PositionInChessFairMapper.toPosition(x))
+                .collect(Collectors.toList());
 
-        var desk = createEmptyDesk();
-
-        for (PositionInChessFairDto position : positions) {
-            String color = "";
-            if (position.getFigura().getName().contains("Белый")) {
-                color = "O"; // белая шашка
-            } else if (position.getFigura().getName().contains("Черный")) {
-                color = "X"; // черная шашка
-            }
-
-            desk.get(8 - position.getPositionY())
-                    .getArr()
-                    .put(position.getPositionX() - 1,
-                            new ClmDto(color, position.getId()));
-
-            position.getPositionX();
-        }
-
-        return desk;
+        return fillFigureOnTheDesk(position);
     }
 
-    // Расставить фигуры на шахматной доске. Размер фиксирован.
-// При отображении в таблице показываются значения из массива
-    public List<RowOnTheDeskDto> fillFigureOnTheDesk2(List<PositionInChessFair> positions) {
+    // Расставить фигуры на шахматной доске.
+    public List<RowOnTheDeskDto> fillFigureOnTheDesk(List<PositionInChessFair> positions) {
 
         var desk = createEmptyDesk();
 
         for (PositionInChessFair position : positions) {
             String color = "";
-            if (position.getFiguraId().equals(1)) {
+            if (position.getFiguraId().equals(MAIN_USER)) {
                 color = "O"; // белая шашка
-            } else if (position.getFiguraId().equals(2)) {
+            } else if (position.getFiguraId().equals(SECOND_USER)) {
                 color = "X"; // черная шашка
             }
 

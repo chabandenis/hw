@@ -18,7 +18,7 @@ import ru.otus.hw.ex11.dto.GameDto;
 import ru.otus.hw.ex11.dto.UserDto;
 import ru.otus.hw.ex11.dto.game.CoordinatesDto;
 import ru.otus.hw.ex11.dto.game.GamesCreateDto;
-import ru.otus.hw.ex11.repositories.GameRepositoryCustom;
+import ru.otus.hw.ex11.repositories.game.GameRepositoryCustom;
 import ru.otus.hw.ex11.services.Game.GameServiceCreate;
 
 @Slf4j

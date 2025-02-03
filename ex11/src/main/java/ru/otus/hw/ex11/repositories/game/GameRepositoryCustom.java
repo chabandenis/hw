@@ -1,4 +1,4 @@
-package ru.otus.hw.ex11.repositories;
+package ru.otus.hw.ex11.repositories.game;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -134,7 +134,7 @@ public class GameRepositoryCustom {
         try {
             // класс в виде идентичном хранению данных в БД
             List<PositionInChessFairInDbDto> chessFairsInDb =
-                    objectMapper.readValue(picfJson, new TypeReference<List<PositionInChessFairInDbDto>>() {
+                    objectMapper.readValue(picfJson, new TypeReference<>() {
                     });
             List<PositionInChessFairDto> chessFairs = chessFairsInDb.stream()
                     .map(x -> new PositionInChessFairDto(
@@ -147,7 +147,7 @@ public class GameRepositoryCustom {
             log.debug("chessFairs: " + chessFairs.toString());
             ChessFairDto chessFairDto = new ChessFairDto();
             chessFairDto.setId(selectedRecord.get("cf_id", Long.class));
-            chessFairDto.setDesk(gameService.fillFigureOnTheDesk(chessFairs));
+            chessFairDto.setDesk(gameService.fillFigureOnTheDeskDto(chessFairs));
             gameDto.setChessFair(chessFairDto);
 
         } catch (JsonProcessingException e) {

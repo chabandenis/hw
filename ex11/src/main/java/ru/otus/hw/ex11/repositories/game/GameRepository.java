@@ -1,4 +1,4 @@
-package ru.otus.hw.ex11.repositories;
+package ru.otus.hw.ex11.repositories.game;
 
 import org.springframework.data.repository.reactive.ReactiveCrudRepository;
 import ru.otus.hw.ex11.models.Game;
