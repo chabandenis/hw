@@ -2,7 +2,6 @@ package ru.otus.hw.ex11.mapper;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
-import ru.otus.hw.ex11.dto.ChessFairDto;
 import ru.otus.hw.ex11.dto.PositionInChessFairDto;
 import ru.otus.hw.ex11.models.ChessFair;
 import ru.otus.hw.ex11.models.Figura;
@@ -21,7 +20,7 @@ public class PositionInChessFairMapper {
     public static PositionInChessFairDto toPositionInChessFairDto(
             ChessFair chessFair,
             Figura white,
-            Figura Black,
+            Figura black,
             PositionInChessFair positionInChessFair) {
         PositionInChessFairDto positionInChessFairDto = new PositionInChessFairDto();
 
@@ -33,7 +32,7 @@ public class PositionInChessFairMapper {
         if (positionInChessFair.getFiguraId().equals(1)) {
             positionInChessFairDto.setFigura(FiguraMapper.toFiguraDto(white));
         } else {
-            positionInChessFairDto.setFigura(FiguraMapper.toFiguraDto(Black));
+            positionInChessFairDto.setFigura(FiguraMapper.toFiguraDto(black));
         }
 
         return positionInChessFairDto;

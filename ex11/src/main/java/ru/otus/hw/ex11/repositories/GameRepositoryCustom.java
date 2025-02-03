@@ -15,10 +15,7 @@ import ru.otus.hw.ex11.dto.GameDto;
 import ru.otus.hw.ex11.dto.PositionInChessFairDto;
 import ru.otus.hw.ex11.dto.PositionInChessFairInDbDto;
 import ru.otus.hw.ex11.dto.UserDto;
-import ru.otus.hw.ex11.models.ChessFair;
-import ru.otus.hw.ex11.models.Figura;
-import ru.otus.hw.ex11.models.PositionInChessFair;
-import ru.otus.hw.ex11.services.GameService;
+import ru.otus.hw.ex11.services.Game.GameService;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -29,17 +26,6 @@ import java.util.stream.Collectors;
 @Repository
 @Slf4j
 public class GameRepositoryCustom {
-
-    private final R2dbcEntityTemplate template;
-
-    private final ObjectMapper objectMapper;
-
-    private final GameService gameService;
-
-    private final ChessFairRepository chessFairRepository;
-
-    private final FiguraRepository figuraRepository;
-
 
     private static final String SQL_ALL = """
             select
@@ -58,7 +44,8 @@ public class GameRepositoryCustom {
             	u_next.login next_login,
             	u_next."password" next_password,
             	cf.id cf_id,
-            	-- для удобства обработки json объекта из строки создаю в нужном виде. Решается проблема. получения недостающих данных из бд.	
+            	-- для удобства обработки json объекта из строки создаю в нужном виде. 
+            	-- Решается проблема. получения недостающих данных из бд.	
             	JSON_AGG(picf3) picf_json
             from
             	games g
@@ -107,6 +94,12 @@ public class GameRepositoryCustom {
             	cf.id          
             """;
 
+    private final R2dbcEntityTemplate template;
+
+    private final ObjectMapper objectMapper;
+
+    private final GameService gameService;
+
     public Flux<GameDto> findAll(Long mainUser, Long secondUser) {
         return template.getDatabaseClient().inConnectionMany(connection ->
                 Flux.from(connection.createStatement(SQL_ALL)
@@ -116,64 +109,59 @@ public class GameRepositoryCustom {
                         .flatMap(result -> result.map(this::mapper)));
     }
 
-    private GameDto mapper(Readable selectedRecord) {
-        GameDto gameDto = new GameDto();
-        gameDto.setDateGame(selectedRecord.get("date_game", LocalDateTime.class));
-        gameDto.setId(selectedRecord.get("id", Long.class));
-
-        UserDto userBlack = new UserDto(
-                selectedRecord.get("black_id", Long.class),
-                selectedRecord.get("black_name", String.class),
-                selectedRecord.get("black_login", String.class),
+    private void addUsers(Readable selectedRecord, GameDto gameDto) {
+        UserDto userBlack = new UserDto(selectedRecord.get("black_id", Long.class),
+                selectedRecord.get("black_name", String.class), selectedRecord.get("black_login", String.class),
                 selectedRecord.get("black_password", String.class)
         );
         gameDto.setUserBlack(userBlack);
 
-        UserDto userWhite = new UserDto(
-                selectedRecord.get("white_id", Long.class),
-                selectedRecord.get("white_name", String.class),
-                selectedRecord.get("white_login", String.class),
+        UserDto userWhite = new UserDto(selectedRecord.get("white_id", Long.class),
+                selectedRecord.get("white_name", String.class), selectedRecord.get("white_login", String.class),
                 selectedRecord.get("white_password", String.class)
         );
         gameDto.setUserWhite(userWhite);
 
-        UserDto userNext = new UserDto(
-                selectedRecord.get("next_id", Long.class),
-                selectedRecord.get("next_name", String.class),
-                selectedRecord.get("next_login", String.class),
+        UserDto userNext = new UserDto(selectedRecord.get("next_id", Long.class),
+                selectedRecord.get("next_name", String.class), selectedRecord.get("next_login", String.class),
                 selectedRecord.get("next_password", String.class)
         );
         gameDto.setUserNext(userNext);
+    }
 
-        var picf_json = selectedRecord.get("picf_json", String.class);
+    private void addChessFairs(Readable selectedRecord, GameDto gameDto) {
+        var picfJson = selectedRecord.get("picf_json", String.class);
         try {
-            // класс в виде полностью идентичном хранению данных в БД
+            // класс в виде идентичном хранению данных в БД
             List<PositionInChessFairInDbDto> chessFairsInDb =
-                    objectMapper.readValue(picf_json, new TypeReference<List<PositionInChessFairInDbDto>>() {
+                    objectMapper.readValue(picfJson, new TypeReference<List<PositionInChessFairInDbDto>>() {
                     });
-
             List<PositionInChessFairDto> chessFairs = chessFairsInDb.stream()
                     .map(x -> new PositionInChessFairDto(
                             x.getId(),
                             x.getPositionX(),
                             x.getPositionY(),
                             new ChessFairDto(x.getChessFairId(), null),
-                            //chessFairRepository.findById(x.getChessFairId()).block(),
-                            new FiguraDto(x.getFiguraId(), x.getFiguraName())/*figuraRepository.findById(x.getFiguraId()).block()*/
+                            new FiguraDto(x.getFiguraId(), x.getFiguraName())
                     )).collect(Collectors.toList());
-
             log.debug("chessFairs: " + chessFairs.toString());
-
             ChessFairDto chessFairDto = new ChessFairDto();
             chessFairDto.setId(selectedRecord.get("cf_id", Long.class));
             chessFairDto.setDesk(gameService.fillFigureOnTheDesk(chessFairs));
-
             gameDto.setChessFair(chessFairDto);
 
         } catch (JsonProcessingException e) {
-            throw new IllegalArgumentException("notes:" + picf_json + " parsing error:" + e);
+            throw new IllegalArgumentException("notes:" + picfJson + " parsing error:" + e);
         }
+    }
 
+    private GameDto mapper(Readable selectedRecord) {
+        GameDto gameDto = new GameDto();
+        gameDto.setDateGame(selectedRecord.get("date_game", LocalDateTime.class));
+        gameDto.setId(selectedRecord.get("id", Long.class));
+
+        addUsers(selectedRecord, gameDto);
+        addChessFairs(selectedRecord, gameDto);
 
         return gameDto;
     }

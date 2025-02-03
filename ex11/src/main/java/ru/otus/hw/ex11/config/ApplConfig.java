@@ -21,6 +21,7 @@ public class ApplConfig {
         return new NioEventLoopGroup(THREAD_POOL_SIZE,
                 new ThreadFactory() {
                     private final AtomicLong threadIdGenerator = new AtomicLong(0);
+
                     @Override
                     public Thread newThread(@NonNull Runnable task) {
                         return new Thread(task, "server-thread-" + threadIdGenerator.incrementAndGet());

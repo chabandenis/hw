@@ -11,16 +11,17 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.1.0</version>
+        <version>3.1.0</version> <!--
+        не работает на свежей версии. Так работает.
+        Заниматься переустановкй postgree, он на него жалуется не стал
+        Если все заработает, в лекции был механизм, как поднялся Postgree, до него пока не дошел(пока не понял) -->
         <relativePath/>
     </parent>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
-        <h2.version>2.2.220</h2.version>
         <snakeyaml.version>2.0</snakeyaml.version>
-        <!--<hibernate.validator.version>7.0.2.Final</hibernate.validator.version>-->
         <checkstyle-plugin.version>3.3.1</checkstyle-plugin.version>
         <checkstyle.version>10.15.0</checkstyle.version>
         <checkstyle.config.url>
@@ -174,6 +175,8 @@
                         <path>
                             <groupId>org.projectlombok</groupId>
                             <artifactId>lombok</artifactId>
+                            <!-- если убрать версию, то вообще все перестает даже компилироваться.
+                            Версию взаял из примера, когда пытался заставить работать -->
                             <version>1.18.32</version>
                         </path>
                         <!--
