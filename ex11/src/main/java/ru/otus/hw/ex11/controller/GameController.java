@@ -52,7 +52,8 @@ public class GameController {
     // http://localhost:8080/api/game/1
     // {"x1":"D","y1":1,"x2":"F","y2":1}
     @PutMapping(value = "/{gameId}")
-    public Mono<ResponseEntity<GameDto>> step(@PathVariable Long gameId, @RequestBody @Valid CoordinatesDto coordinatesDto) {
+    public Mono<ResponseEntity<GameDto>> step(@PathVariable Long gameId,
+                                              @RequestBody @Valid CoordinatesDto coordinatesDto) {
         return gameServiceStep.step(gameId, coordinatesDto);
     }
 

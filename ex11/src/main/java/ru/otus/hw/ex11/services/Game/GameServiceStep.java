@@ -48,20 +48,15 @@ public class GameServiceStep {
         x2 = coordinatesDto.getX2().toUpperCase().charAt(0) - 'A' + 1;
     }
 
-
     public Mono<ResponseEntity<GameDto>> step(
             Long id,
             CoordinatesDto coordinatesDto) {
         // проверка значений
-
         inputXYService.verfif(coordinatesDto);
-
         // поиск значений
         convert(coordinatesDto);
-
         return gameServiceGetOne.getOne(id).
-                flatMap(gameDto ->
-                {
+                flatMap(gameDto -> {
                     var posId = gameDto.getBody().getChessFair().getDesk().get(y1)
                             .getArr().get(x1).getPositionId();
 

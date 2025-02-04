@@ -5,9 +5,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Flux;
+import ru.otus.hw.ex11.models.User;
 import ru.otus.hw.ex11.repositories.UserRepository;
-
-import java.time.Duration;
 
 @Slf4j
 @RestController
@@ -18,18 +17,8 @@ public class UserController {
 
     // пользователи
     @GetMapping("/api/users")
-    public Flux<String> getAll() {
-        //!!!return userService.getAll();
-        //return UserMapper.toUserDto(userRepository.findAll());
-        return Flux.generate(() -> 0, (state, emitter) -> {
-                    emitter.next(state);
-                    return state + 1;
-                })
-                .delayElements(Duration.ofSeconds(1L))
-                .map(Object::toString)
-                .map(val -> String.format("valStr:%s", val))
-                .doOnNext(val -> log.debug(val));
-
+    public Flux<User> getAll() {
+        return userRepository.findAll();
     }
 
 
