@@ -5,16 +5,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
-import reactor.core.scheduler.Scheduler;
 import ru.otus.hw.ex11.dto.GameDto;
 import ru.otus.hw.ex11.dto.game.CoordinatesDto;
 import ru.otus.hw.ex11.models.Figura;
 import ru.otus.hw.ex11.models.User;
-import ru.otus.hw.ex11.repositories.ChessFairRepository;
-import ru.otus.hw.ex11.repositories.FiguraRepository;
 import ru.otus.hw.ex11.repositories.PositionInChessFairRepository;
-import ru.otus.hw.ex11.repositories.UserRepository;
-import ru.otus.hw.ex11.repositories.game.GameRepository;
 import ru.otus.hw.ex11.services.InputXYService;
 
 import java.util.HashMap;
@@ -24,8 +19,6 @@ import java.util.Map;
 @Service
 @Slf4j
 public class GameServiceStep {
-
-
 
     private final PositionInChessFairRepository positionInChessFairRepository;
 
@@ -84,18 +77,5 @@ public class GameServiceStep {
                             }
                     );
                 });
-
-
-/*
-
-
-
-        ;
-
-        gameDto = getOne(id);
-
-        return gameDto;
-*/
-
     }
 }
