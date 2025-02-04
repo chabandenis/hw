@@ -1,42 +1,48 @@
 package ru.otus.hw.ex11.services;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import reactor.core.publisher.Mono;
+import reactor.core.scheduler.Scheduler;
+import ru.otus.hw.ex11.dto.UserDto;
+import ru.otus.hw.ex11.dto.user.UserCreateDto;
+import ru.otus.hw.ex11.dto.user.UserLoginDto;
+import ru.otus.hw.ex11.mapper.UserMapper;
+import ru.otus.hw.ex11.repositories.UserRepository;
+import ru.otus.hw.ex11.services.Game.GameService;
+
 
 @RequiredArgsConstructor
 @Service
+@Slf4j
 public class UserService {
-/*
 
     private final UserRepository userRepository;
 
     private final GameService gameService;
 
-    @Transactional(readOnly = true)
-    public UserDto findByLogin(UserLoginDto userLoginDto) {
-        UserDto user = userRepository.findByLoginAndPassword(
+    private final Scheduler workerPool;
+
+    public Mono<UserDto> findByLogin(UserLoginDto userLoginDto) {
+        return userRepository.findByLoginAndPassword(
                         userLoginDto.getLogin(),
                         userLoginDto.getPassword())
-                .map(UserMapper::toUserDto)
-                .orElseThrow(() ->
-                        new NotFoundException("Ошибка авторизации для пользователя <" +
-                                userLoginDto.getLogin() + ">"));
-        return user;
+                .publishOn(workerPool)
+                .map(UserMapper::toUserDto);
     }
 
-    @Transactional
-    public UserDto create(UserCreateDto userCreateDto) {
-        var userInDb = userRepository.findByLogin(userCreateDto.getLogin());
+    public Mono<ResponseEntity<UserDto>> create(UserCreateDto userCreateDto) {
+        log.debug("Создать пользователя {} ", userCreateDto);
+        return userRepository.save(UserMapper.toUser(userCreateDto)).publishOn(workerPool)
+                        .map(y -> UserMapper.toUserDto(y))
+                        .map(ResponseEntity::ok)
+                        .switchIfEmpty(Mono.fromCallable(() -> ResponseEntity.notFound().build()));
+    };
+}
 
-        if (userInDb.isPresent()) {
-            throw new EntityNotFoundException("Пользователь с логином " + userCreateDto.getLogin()
-                    + " был зарегистрирован в системе ранее");
-        }
-
-        return UserMapper.toUserDto(userRepository.save(UserMapper.toUser(userCreateDto)));
-    }
-
-    @Transactional
+    /*
     public UserDto put(Long userId, UserUpdateDto userUpdateDto) {
         var userUpdated = userRepository.findById(userId)
                 .orElseThrow(() ->
@@ -52,7 +58,6 @@ public class UserService {
         return UserMapper.toUserDto(userRepository.save(userUpdated));
     }
 
-    @Transactional
     public UserDto delete(Long id) {
         User user = userRepository.findById(id).orElse(null);
         if (user != null) {
@@ -70,4 +75,4 @@ public class UserService {
     }
 
 */
-}
+
