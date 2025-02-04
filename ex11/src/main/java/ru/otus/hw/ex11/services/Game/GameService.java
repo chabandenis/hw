@@ -6,11 +6,9 @@ import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 import reactor.core.scheduler.Scheduler;
 import ru.otus.hw.ex11.controller.NotFoundException;
-import ru.otus.hw.ex11.dto.GameDto;
 import ru.otus.hw.ex11.dto.PositionInChessFairDto;
 import ru.otus.hw.ex11.dto.desk.ClmDto;
 import ru.otus.hw.ex11.dto.desk.RowOnTheDeskDto;
-import ru.otus.hw.ex11.mapper.GameMapper;
 import ru.otus.hw.ex11.mapper.PositionInChessFairMapper;
 import ru.otus.hw.ex11.models.ChessFair;
 import ru.otus.hw.ex11.models.Figura;
@@ -55,65 +53,12 @@ public class GameService {
 
     private final GameRepository gameRepository;
 
-    //private final GameMapper gameMapper;
-
-//    private final GameRepository gameRepository;
-
-//    private final UserRepository userRepository;
-
-//    private final PositionInChessFairRepository positionInChessFairRepository;
-
     private final InputXYService inputXYService;
-
-//    private final ChessFairRepository chessFairRepository;
-
-//    private final FiguraRepository figuraRepository;
 
     // информация об игре из БД
     private Map<Long, User> userInGame = new HashMap<>();
 
     private Map<String, Figura> figuraType = new HashMap<>();
-
-/*    private void convert(CoordinatesDto coordinatesDto) {
-        // координты в DTO
-        y1 = 8 - Integer.parseInt(coordinatesDto.getY1());
-        x1 = coordinatesDto.getX1().toUpperCase().charAt(0) - 'A';
-        // координаты в БД
-        y2 = Integer.parseInt(coordinatesDto.getY2());
-        x2 = coordinatesDto.getX2().toUpperCase().charAt(0) - 'A' + 1;
-    }*/
-
-
-
-/*    @Transactional
-    public GameDto step(
-            Long id,
-            CoordinatesDto coordinatesDto) {
-        // проверка значений
-        inputXYService.verfif(coordinatesDto);
-
-        GameDto gameDto = getOne(id);
-
-        // поиск значений
-        convert(coordinatesDto);
-
-        var posId = gameDto.getChessFair().getDesk().get(y1)
-                .getArr().get(x1).getPositionId();
-
-        PositionInChessFair position =
-                positionInChessFairRepository.findById(posId).get();
-
-        position.setPositionX(x2);
-        position.setPositionY(y2);
-
-        positionInChessFairRepository.save(position);
-
-        gameDto = getOne(id);
-
-        return gameDto;
-    }*/
-
-
 
     private PositionInChessFair createChecker(int x, int y, ChessFair chessFair, Figura figura) {
         PositionInChessFair position = new PositionInChessFair(
@@ -207,39 +152,44 @@ public class GameService {
         return desk;
     }
 
+    private void deleteGame(Long gameId) {
+        log.debug("deleteGame {}", gameId);
+        gameRepository.deleteById(gameId).publishOn(workerPool)
+                .subscribe(x -> {
+                            log.debug("удалена игра {} ", x);
+                        }
+                );
+    }
 
-/*    @Transactional
-    public GameDto delete(Long id) {
-        if (id == null) {
+    private void deleteByChessFairId(Long chessFairId, Long gameId) {
+        log.debug("deleteByChessFairId");
+        if (gameId == null) {
             throw new NotFoundException("В запросе на удаление отсутствует id игры");
         }
 
-        Game game = gameRepository.findById(id).orElseThrow(
-                () -> new NotFoundException("Отсутствует игра с идентификатором " + id));
-
-        positionInChessFairRepository.deleteByChessFair(game.getChessFair());
-
-        if (game != null) {
-            try {
-                gameRepository.delete(game);
-            } catch (Exception e) {
-                throw new NotFoundException("Возникла ошибка при удалении игры с id=" + id);
-            }
+        if (chessFairId == null) {
+            throw new NotFoundException("В запросе на удаление отсутствует chessFairId");
         }
-        return GameMapper.toGameDto(game);
-    }*/
 
-/*    @Transactional
-    public void deleteByUser(Long id) {
-        var games = gameRepository.findByUserBlackIdOrUserWhiteIdOrderByIdDesc(id);
-        games.forEach(game -> delete(game.getId()));
-    }*/
+        positionInChessFairRepository.deleteByChessFairId(chessFairId).publishOn(workerPool)
+                .subscribe(x -> {
+                    log.debug("удалены шашки на доске {} ", x);
+                    deleteGame(gameId);
+                });
+    }
 
-/*    public List<GameDto> getGamesForUsers(Long mainUserId, Long secondUserId) {
-        return gameRepository.findByUserId1AndUserId2OrderByDateGameDesc(mainUserId, secondUserId)
-                .stream()
-                .map(
-                        x -> GameMapper.toGameDto(x))
-                .collect(Collectors.toList());
-    }*/
+    private void getGame(Long gameId) {
+        gameRepository.findById(gameId)
+                .switchIfEmpty(
+                        Mono.error(new NotFoundException("Entity Game with id=`%s` not found".formatted(gameId))))
+                .publishOn(workerPool)
+                .subscribe(game -> {
+                    log.debug("игра найдена {} {}; {}", game, game.getChessFairId(), gameId);
+                    deleteByChessFairId(game.getChessFairId(), gameId);
+                });
+    }
+
+    public void delete(Long id) {
+        getGame(id);
+    }
 }

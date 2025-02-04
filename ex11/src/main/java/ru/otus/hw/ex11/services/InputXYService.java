@@ -2,12 +2,11 @@ package ru.otus.hw.ex11.services;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import ru.otus.hw.ex11.dto.game.CoordinatesDto;
 
 @RequiredArgsConstructor
 @Service
 public class InputXYService {
-/*
-
     private String x1 = "Incorrect";
 
     private String y1 = "Incorrect";
@@ -65,5 +64,4 @@ public class InputXYService {
             coordinatesDTO.setY2(y2);
         }
     }
-*/
 }

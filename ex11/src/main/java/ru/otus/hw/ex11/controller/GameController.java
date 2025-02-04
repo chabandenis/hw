@@ -23,6 +23,7 @@ import ru.otus.hw.ex11.repositories.game.GameRepositoryCustom;
 import ru.otus.hw.ex11.services.Game.GameService;
 import ru.otus.hw.ex11.services.Game.GameServiceCreate;
 import ru.otus.hw.ex11.services.Game.GameServiceGetOne;
+import ru.otus.hw.ex11.services.Game.GameServiceStep;
 
 @Slf4j
 @RestController
@@ -35,6 +36,8 @@ public class GameController {
     private final GameService gameService;
 
     private final GameServiceGetOne gameServiceGetOne;
+
+    private final GameServiceStep gameServiceStep;
 
     private final GameRepositoryCustom gameRepositoryCustom;
 
@@ -49,11 +52,9 @@ public class GameController {
     // http://localhost:8080/api/game/1
     // {"x1":"D","y1":1,"x2":"F","y2":1}
     @PutMapping(value = "/{gameId}")
-    public Mono<GameDto> step(@PathVariable Long gameId, @RequestBody @Valid CoordinatesDto coordinatesDto) {
-        return null;
-//        return gameService.step(gameId, coordinatesDto);
+    public Mono<ResponseEntity<GameDto>> step(@PathVariable Long gameId, @RequestBody @Valid CoordinatesDto coordinatesDto) {
+        return gameServiceStep.step(gameId, coordinatesDto);
     }
-
 
     // создать игру
     // http://localhost:8080/api/game
@@ -63,13 +64,12 @@ public class GameController {
         return gameServiceCreate.create(gamesCreateDto);
     }
 
-
     // удалить игру
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     // http://localhost:8080/api/game/7
     public void delete(@PathVariable Long id) {
-        //gameService.delete(id);
+        gameService.delete(id);
     }
 
     // информация об игре по заданному идентификатору

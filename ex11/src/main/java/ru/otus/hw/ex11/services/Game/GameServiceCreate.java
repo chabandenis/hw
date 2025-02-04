@@ -17,9 +17,9 @@ import ru.otus.hw.ex11.models.PositionInChessFair;
 import ru.otus.hw.ex11.models.User;
 import ru.otus.hw.ex11.repositories.ChessFairRepository;
 import ru.otus.hw.ex11.repositories.FiguraRepository;
-import ru.otus.hw.ex11.repositories.game.GameRepository;
 import ru.otus.hw.ex11.repositories.PositionInChessFairRepository;
 import ru.otus.hw.ex11.repositories.UserRepository;
+import ru.otus.hw.ex11.repositories.game.GameRepository;
 
 import java.time.LocalDateTime;
 import java.util.HashMap;
@@ -62,6 +62,8 @@ public class GameServiceCreate {
 
     private List<PositionInChessFair> positions;
 
+    private Game game;
+
     // 1. Информацию о пользователях
     private Mono<ResponseEntity<GameDto>> loadUsers(GamesCreateDto gamesCreateDto) {
         return userRepository.findByIdIn(List.of(gamesCreateDto.getMainUser(), gamesCreateDto.getSecondUser()))
@@ -101,13 +103,25 @@ public class GameServiceCreate {
                 .flatMap(chessFair -> savePositionInDb());
     }
 
+    void fillGame() {
+        game.setDateGame(LocalDateTime.now());
+        game.setUserWhiteId(userInGame.get(MAIN_USER).getId());
+        game.setUserNextId(userInGame.get(MAIN_USER).getId());
+        game.setChessFairId(chessFair.getId());
+        game.setUserBlackId(userInGame.get(SECOND_USER).getId());
+    }
+
     // 4. сохраняю информацию о шахматной доске
     public Mono<ResponseEntity<GameDto>> savePositionInDb() {
         // 5 сохранить расположение шашек на доске
         positions = gameService.fillCheckers(chessFair, figuraType.get(WHITE), figuraType.get(BLACK));
 
         return positionInChessFairRepository.saveAll(positions).publishOn(workerPool)
-                .map(z -> new GameDto()).last()
+                .map(z -> {
+                    // заполнить информацию об игре для сохранения
+                    fillGame();
+                    return new GameDto();
+                }).last()
                 .flatMap(chess -> saveGameInDb());
     }
 
@@ -115,7 +129,7 @@ public class GameServiceCreate {
     GameDto retGameDto(Game game) {
         GameDto gameDto = new GameDto();
         gameDto.setId(game.getId());
-        gameDto.setDateGame(LocalDateTime.now());
+        gameDto.setDateGame(game.getDateGame());
         gameDto.setUserWhite(UserMapper.toUserDto(userInGame.get(MAIN_USER)));
         gameDto.setUserBlack(UserMapper.toUserDto(userInGame.get(SECOND_USER)));
         gameDto.setUserNext(UserMapper.toUserDto(userInGame.get(MAIN_USER)));
@@ -125,7 +139,7 @@ public class GameServiceCreate {
 
     // 4. сохраняю информацию об игре
     public Mono<ResponseEntity<GameDto>> saveGameInDb() {
-        return gameRepository.save(new Game()).publishOn(workerPool)
+        return gameRepository.save(game).publishOn(workerPool)
                 .map(savedGame -> retGameDto(savedGame))
                 .map(ResponseEntity::ok)
                 .switchIfEmpty(Mono.fromCallable(() -> ResponseEntity.notFound().build()));
@@ -133,6 +147,7 @@ public class GameServiceCreate {
 
     public Mono<ResponseEntity<GameDto>> create(GamesCreateDto gamesCreateDto) {
         log.debug("01; {}", Thread.currentThread().getId());
+        game = new Game();
         return loadUsers(gamesCreateDto);
     }
 }

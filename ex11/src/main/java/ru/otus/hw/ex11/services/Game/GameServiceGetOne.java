@@ -12,19 +12,13 @@ import ru.otus.hw.ex11.dto.GameDto;
 import ru.otus.hw.ex11.dto.UserDto;
 import ru.otus.hw.ex11.mapper.GameMapper;
 import ru.otus.hw.ex11.mapper.UserMapper;
-import ru.otus.hw.ex11.models.Figura;
 import ru.otus.hw.ex11.models.Game;
 import ru.otus.hw.ex11.models.User;
-import ru.otus.hw.ex11.repositories.ChessFairRepository;
-import ru.otus.hw.ex11.repositories.FiguraRepository;
 import ru.otus.hw.ex11.repositories.PositionInChessFairRepository;
 import ru.otus.hw.ex11.repositories.UserRepository;
 import ru.otus.hw.ex11.repositories.game.GameRepository;
-import ru.otus.hw.ex11.services.InputXYService;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @RequiredArgsConstructor
 @Service
@@ -46,7 +40,7 @@ public class GameServiceGetOne {
     private UserDto getUser(List<User> users, Long userId) {
         return UserMapper.toUserDto(
                 users.stream().
-                        filter(x -> x.getId() == userId)
+                        filter(x -> x.getId().equals(userId))
                         .findFirst()
                         .orElse(null));
     }
@@ -86,8 +80,7 @@ public class GameServiceGetOne {
                 .flatMap(gameFound -> {
                     gameDto = GameMapper.toGameDto(gameFound);
                     return loadUsers(gameFound);
-                })
-                ;
+                });
     }
 
     public Mono<ResponseEntity<GameDto>> getOne(Long id) {
