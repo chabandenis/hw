@@ -16,4 +16,8 @@ public interface UserRepository extends ReactiveCrudRepository<User, Long> {
 
     Mono<User> findById(Long aLong);
 
+    @Override
+    Mono<Void> deleteById(Long id);
+
+
 }

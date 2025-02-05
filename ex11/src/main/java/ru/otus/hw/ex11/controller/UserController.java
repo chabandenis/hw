@@ -64,17 +64,16 @@ public class UserController {
     // http://localhost:8080/api/user/1
     // {"name":"Первый Иван Иваныч Иванов", "login":"login", "password":"1"}
     @PutMapping(value = "/{userId}")
-    public UserDto put(@PathVariable Long userId,
+    public Mono<UserDto> put(@PathVariable Long userId,
                        @RequestBody @Valid UserUpdateDto userUpdateDto) {
-        //return userService.put(userId, userUpdateDto);
-        return null;
+        return userService.put(userId, userUpdateDto);
     }
 
     // удалить пользователя
     // http://localhost:8080/api/user/4
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable Long id) {
-        //userService.delete(id);
+    public Mono<Void> delete(@PathVariable Long id) {
+        return userService.delete(id);
     }
 }

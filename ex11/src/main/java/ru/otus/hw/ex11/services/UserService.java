@@ -6,12 +6,17 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 import reactor.core.scheduler.Scheduler;
+import ru.otus.hw.ex11.controller.NotFoundException;
 import ru.otus.hw.ex11.dto.UserDto;
 import ru.otus.hw.ex11.dto.user.UserCreateDto;
 import ru.otus.hw.ex11.dto.user.UserLoginDto;
+import ru.otus.hw.ex11.dto.user.UserUpdateDto;
 import ru.otus.hw.ex11.mapper.UserMapper;
 import ru.otus.hw.ex11.repositories.UserRepository;
+import ru.otus.hw.ex11.repositories.game.GameRepository;
 import ru.otus.hw.ex11.services.Game.GameService;
+
+import java.util.List;
 
 
 @RequiredArgsConstructor
@@ -20,6 +25,8 @@ import ru.otus.hw.ex11.services.Game.GameService;
 public class UserService {
 
     private final UserRepository userRepository;
+
+    private final GameRepository gameRepository;
 
     private final GameService gameService;
 
@@ -36,43 +43,43 @@ public class UserService {
     public Mono<ResponseEntity<UserDto>> create(UserCreateDto userCreateDto) {
         log.debug("Создать пользователя {} ", userCreateDto);
         return userRepository.save(UserMapper.toUser(userCreateDto)).publishOn(workerPool)
-                        .map(y -> UserMapper.toUserDto(y))
-                        .map(ResponseEntity::ok)
-                        .switchIfEmpty(Mono.fromCallable(() -> ResponseEntity.notFound().build()));
-    };
+                .map(y -> UserMapper.toUserDto(y))
+                .map(ResponseEntity::ok)
+                .switchIfEmpty(Mono.fromCallable(() -> ResponseEntity.notFound().build()));
+    }
+
+    public Mono<Void> delete(Long id) {
+        return gameRepository.findByUserWhiteIdInAndUserBlackIdInOrderByDateGameDesc(List.of(id), List.of(id))
+                .publishOn(workerPool)
+                .collectList()
+                .flatMap(games -> {
+                    log.debug("Игры удалены");
+                    return userRepository.deleteById(id)
+                            .publishOn(workerPool)
+                            .doOnSuccess(user -> {
+                                log.debug("Пользователь удален");
+                            });
+                });
+    }
+
+    public Mono<UserDto> put(Long userId, UserUpdateDto userUpdateDto) {
+        return userRepository.findById(userId).publishOn(workerPool)
+                .switchIfEmpty(Mono.error(new NotFoundException(
+                        "Отсутствует пользователь с id=`%s`".formatted(userId))))
+                .flatMap(user -> {
+                            log.debug("user befor {}", user);
+                            user.setName(userUpdateDto.getName());
+                            user.setLogin(userUpdateDto.getLogin());
+                            user.setPassword(userUpdateDto.getPassword());
+
+                            log.debug("user after {}", user);
+
+                            return userRepository.save(user).publishOn(workerPool)
+                                    .map(UserMapper::toUserDto)
+                                    .doOnSuccess(x -> log.debug("Обновлен пользователь"));
+                        }
+                );
+    }
 }
 
-    /*
-    public UserDto put(Long userId, UserUpdateDto userUpdateDto) {
-        var userUpdated = userRepository.findById(userId)
-                .orElseThrow(() ->
-                        new EntityNotFoundException("Отсутствует пользователь с идентификатором id="
-                                + userId
-                        )
-                );
-
-        userUpdated.setName(userUpdateDto.getName());
-        userUpdated.setLogin(userUpdateDto.getLogin());
-        userUpdated.setPassword(userUpdateDto.getPassword());
-
-        return UserMapper.toUserDto(userRepository.save(userUpdated));
-    }
-
-    public UserDto delete(Long id) {
-        User user = userRepository.findById(id).orElse(null);
-        if (user != null) {
-            gameService.deleteByUser(id);
-            userRepository.delete(user);
-        }
-        return UserMapper.toUserDto(user);
-    }
-
-    public List<UserDto> getAll() {
-        return userRepository.findAll()
-                .stream()
-                .map(x -> UserMapper.toUserDto(x))
-                .collect(Collectors.toList());
-    }
-
-*/
 
