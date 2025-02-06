@@ -26,15 +26,6 @@ public class ApplConfig {
                     }
                 });
     }
-/*
-    @Bean
-    public ReactiveWebServerFactory reactiveWebServerFactory(NioEventLoopGroup eventLoopGroup) {
-        var factory = new NettyReactiveWebServerFactory();
-        factory.addServerCustomizers(builder -> builder.runOn(eventLoopGroup));
-        return factory;
-    }
-
- */
 
     @Bean
     public Scheduler workerPool() {
