@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+import ru.otus.hw.ex11.container.BaseContainerTest;
 import ru.otus.hw.ex11.dto.GameDto;
 import ru.otus.hw.ex11.dto.game.CoordinatesDto;
 import ru.otus.hw.ex11.dto.game.GamesCreateDto;
@@ -29,7 +30,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON;
  * Test class for the {@link GameController}
  */
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class GameControllerTest {
+public class GameControllerTest extends BaseContainerTest {
 
     @MockBean
     private GameService gameService;

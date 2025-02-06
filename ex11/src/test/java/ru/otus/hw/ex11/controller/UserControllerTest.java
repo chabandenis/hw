@@ -10,6 +10,7 @@ import org.springframework.test.web.reactive.server.WebTestClient;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
+import ru.otus.hw.ex11.container.BaseContainerTest;
 import ru.otus.hw.ex11.dto.UserDto;
 import ru.otus.hw.ex11.dto.user.UserCreateDto;
 import ru.otus.hw.ex11.dto.user.UserLoginDto;
@@ -26,7 +27,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON;
  * Test class for the {@link UserController}
  */
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class UserControllerTest {
+public class UserControllerTest extends BaseContainerTest {
 
     @Autowired
     private WebTestClient webTestClient;
