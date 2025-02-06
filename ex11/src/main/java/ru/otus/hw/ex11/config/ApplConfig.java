@@ -14,6 +14,7 @@ import java.util.concurrent.atomic.AtomicLong;
 public class ApplConfig {
     private static final int THREAD_POOL_SIZE = 5;
 
+    /*
     @Bean(destroyMethod = "close")
     public NioEventLoopGroup eventLoopGroup() {
         return new NioEventLoopGroup(THREAD_POOL_SIZE,
@@ -26,7 +27,7 @@ public class ApplConfig {
                     }
                 });
     }
-
+*/
     @Bean
     public Scheduler workerPool() {
         return Schedulers.newParallel("worker-thread", THREAD_POOL_SIZE);
