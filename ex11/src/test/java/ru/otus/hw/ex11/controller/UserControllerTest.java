@@ -42,7 +42,6 @@ public class UserControllerTest {
 
     @Test
     public void verif() throws Exception {
-
     }
 
     @Test
