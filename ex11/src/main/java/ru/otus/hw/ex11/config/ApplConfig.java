@@ -1,14 +1,9 @@
 package ru.otus.hw.ex11.config;
 
-import io.netty.channel.nio.NioEventLoopGroup;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import reactor.core.scheduler.Scheduler;
 import reactor.core.scheduler.Schedulers;
-import reactor.util.annotation.NonNull;
-
-import java.util.concurrent.ThreadFactory;
-import java.util.concurrent.atomic.AtomicLong;
 
 @Configuration
 public class ApplConfig {
