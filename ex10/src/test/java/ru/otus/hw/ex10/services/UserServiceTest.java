@@ -16,7 +16,6 @@ import ru.otus.hw.ex10.mapper.UserMapper;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-
 @Slf4j
 @DataJpaTest
 @Transactional(propagation = Propagation.NOT_SUPPORTED)

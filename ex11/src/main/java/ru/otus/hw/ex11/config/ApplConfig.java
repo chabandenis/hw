@@ -1,8 +1,6 @@
 package ru.otus.hw.ex11.config;
 
 import io.netty.channel.nio.NioEventLoopGroup;
-import org.springframework.boot.web.embedded.netty.NettyReactiveWebServerFactory;
-import org.springframework.boot.web.reactive.server.ReactiveWebServerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import reactor.core.scheduler.Scheduler;
@@ -28,13 +26,15 @@ public class ApplConfig {
                     }
                 });
     }
-
+/*
     @Bean
     public ReactiveWebServerFactory reactiveWebServerFactory(NioEventLoopGroup eventLoopGroup) {
         var factory = new NettyReactiveWebServerFactory();
         factory.addServerCustomizers(builder -> builder.runOn(eventLoopGroup));
         return factory;
     }
+
+ */
 
     @Bean
     public Scheduler workerPool() {
