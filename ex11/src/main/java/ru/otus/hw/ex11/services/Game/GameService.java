@@ -152,16 +152,16 @@ public class GameService {
         return desk;
     }
 
-    private void deleteGame(Long gameId) {
+    private Mono<Void> deleteGame(Long gameId) {
         log.debug("deleteGame {}", gameId);
-        gameRepository.deleteById(gameId).publishOn(workerPool)
-                .subscribe(x -> {
+        return gameRepository.deleteById(gameId).publishOn(workerPool)
+                .doOnSuccess(x -> {
                             log.debug("удалена игра {} ", x);
                         }
                 );
     }
 
-    private void deleteByChessFairId(Long chessFairId, Long gameId) {
+    private Mono<Void> deleteByChessFairId(Long chessFairId, Long gameId) {
         log.debug("deleteByChessFairId");
         if (gameId == null) {
             throw new NotFoundException("В запросе на удаление отсутствует id игры");
@@ -171,25 +171,25 @@ public class GameService {
             throw new NotFoundException("В запросе на удаление отсутствует chessFairId");
         }
 
-        positionInChessFairRepository.deleteByChessFairId(chessFairId).publishOn(workerPool)
-                .subscribe(x -> {
+        return positionInChessFairRepository.deleteByChessFairId(chessFairId).publishOn(workerPool)
+                .flatMap(x -> {
                     log.debug("удалены шашки на доске {} ", x);
-                    deleteGame(gameId);
+                    return deleteGame(gameId);
                 });
     }
 
-    private void getGame(Long gameId) {
-        gameRepository.findById(gameId)
+    private Mono<Void> getGame(Long gameId) {
+        return gameRepository.findById(gameId)
                 .switchIfEmpty(
                         Mono.error(new NotFoundException("Entity Game with id=`%s` not found".formatted(gameId))))
                 .publishOn(workerPool)
-                .subscribe(game -> {
+                .flatMap(game -> {
                     log.debug("игра найдена {} {}; {}", game, game.getChessFairId(), gameId);
-                    deleteByChessFairId(game.getChessFairId(), gameId);
+                    return deleteByChessFairId(game.getChessFairId(), gameId);
                 });
     }
 
-    public void delete(Long id) {
-        getGame(id);
+    public Mono<Void> delete(Long id) {
+        return getGame(id);
     }
 }

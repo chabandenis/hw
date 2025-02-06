@@ -1,102 +1,159 @@
 package ru.otus.hw.ex11.controller;
 
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.http.ResponseEntity;
+import org.springframework.test.web.reactive.server.WebTestClient;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
+import ru.otus.hw.ex11.dto.GameDto;
+import ru.otus.hw.ex11.dto.game.CoordinatesDto;
+import ru.otus.hw.ex11.dto.game.GamesCreateDto;
+import ru.otus.hw.ex11.repositories.game.GameRepositoryCustom;
+import ru.otus.hw.ex11.services.Game.GameService;
+import ru.otus.hw.ex11.services.Game.GameServiceCreate;
+import ru.otus.hw.ex11.services.Game.GameServiceGetOne;
+import ru.otus.hw.ex11.services.Game.GameServiceStep;
+
+import java.util.List;
+
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+import static org.springframework.http.MediaType.APPLICATION_JSON;
 
 /**
  * Test class for the {@link GameController}
  */
-@WebMvcTest({GameController.class})
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class GameControllerTest {
-/*
-
-    @Autowired
-    private MockMvc mockMvc;
 
     @MockBean
     private GameService gameService;
 
     @Autowired
-    private ObjectMapper mapper;
+    private TestRestTemplate restTemplate;
 
-    private GameDto game;
+    @Autowired
+    private WebTestClient webTestClient;
 
-    @BeforeEach
-    public void setup() {
-        game = new GameDto();
-        game.setDateGame(LocalDateTime.now());
-        game.setId(1l);
-        game.setChessFair(null);
-        game.setUserWhite(null);
-        game.setUserNext(null);
-        game.setUserBlack(null);
+    @Autowired
+    private GameController gameController;
+
+    @MockBean
+    private GameServiceCreate gameServiceCreate;
+
+
+    @MockBean
+    private GameServiceGetOne gameServiceGetOne;
+
+    @MockBean
+    private GameServiceStep gameServiceStep;
+
+    @MockBean
+    private GameRepositoryCustom gameRepositoryCustom;
+
+    @Test
+    public void test() {
+
     }
 
     @Test
-    public void getAll() throws Exception {
-        List<GameDto> games = List.of(game);
+    public void testDelete() {
+        Long userId = 4L;
 
-        given(gameService.getAllByUsers(1l, 2l)).willReturn(games);
+        when(gameService.delete(userId)).thenReturn(Mono.empty());
 
-        mockMvc.perform(get("/api/games/{0}/{1}", "1", "2"))
-                .andExpect(status().isOk())
-                .andExpect(content().json(mapper.writeValueAsString(games)))
-                .andDo(print());
+        webTestClient.delete()
+                .uri("/api/game/" + userId)
+                .exchange()
+                .expectStatus().isNoContent();
+
+        verify(gameService).delete(userId);
+
+    }
+
+
+    @Test
+    public void testGetGamesForUsers() {
+        Long mainUser = 1L;
+        Long secondUser = 2L;
+        List<GameDto> gameDtos = List.of(new GameDto(), new GameDto());
+
+        when(gameRepositoryCustom.findAll(mainUser, secondUser)).thenReturn(Flux.fromIterable(gameDtos));
+
+        webTestClient.get()
+                .uri("/api/game/{mainUser}/{secondUser}", mainUser, secondUser)
+                .exchange()
+                .expectStatus().isOk()
+                .expectBodyList(GameDto.class)
+                .hasSize(2);
+    }
+
+
+    @Test
+    public void testStep() {
+        Long gameId = 1L;
+        CoordinatesDto coordinatesDto = new CoordinatesDto();
+        coordinatesDto.setX1("D");
+        coordinatesDto.setY1("1");
+        coordinatesDto.setX2("F");
+        coordinatesDto.setY2("1");
+
+        GameDto gameDto = new GameDto();
+        gameDto.setId(gameId);
+
+        when(gameServiceStep.step(any(), any())).thenReturn(Mono.just(ResponseEntity.ok(gameDto)));
+
+        webTestClient.put()
+                .uri("/api/game/{gameId}", gameId)
+                .contentType(APPLICATION_JSON)
+                .bodyValue(coordinatesDto)
+                .exchange()
+                .expectStatus().isOk()
+                .expectBody(GameDto.class)
+                .isEqualTo(gameDto);
     }
 
     @Test
-    public void doStep() throws Exception {
-        String inputXYDTO = """
-                {
-                    "gameId": 0,
-                    "x1": "",
-                    "y1": "",
-                    "x2": "",
-                    "y2": ""
-                }""";
+    public void testCreate() {
+        GamesCreateDto gamesCreateDto = new GamesCreateDto();
+        gamesCreateDto.setMainUser(1L);
+        gamesCreateDto.setSecondUser(2L);
 
-        given(gameService.doStep(any())).willReturn(game);
+        GameDto gameDto = new GameDto();
+        gameDto.setId(1L);
 
-        mockMvc.perform(post("/api/games/step")
-                        .content(inputXYDTO)
-                        .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andExpect(content().json(mapper.writeValueAsString(game)))
-                .andDo(print());
+        when(gameServiceCreate.create(gamesCreateDto)).thenReturn(Mono.just(ResponseEntity.ok(gameDto)));
+
+        webTestClient.post()
+                .uri("/api/game")
+                .contentType(APPLICATION_JSON)
+                .bodyValue(gamesCreateDto)
+                .exchange()
+                .expectStatus().isOk()
+                .expectBody(GameDto.class)
+                .isEqualTo(gameDto);
     }
 
     @Test
-    public void newGame() throws Exception {
-        given(gameService.newGame(0l, 0l)).willReturn(game);
+    public void testGetOne() {
+        Long gameId = 1L;
+        GameDto gameDto = new GameDto();
+        gameDto.setId(gameId);
 
-        mockMvc.perform(post("/api/games/new/{0}/{1}", "0", "0"))
-                .andExpect(status().isOk())
-                .andExpect(content().json(mapper.writeValueAsString(game)))
-                .andDo(print());
+        when(gameServiceGetOne.getOne(gameId)).thenReturn(Mono.just(ResponseEntity.ok(gameDto)));
+
+        webTestClient.get()
+                .uri("/api/game/{id}", gameId)
+                .exchange()
+                .expectStatus().isOk()
+                .expectBody(GameDto.class)
+                .isEqualTo(gameDto);
     }
 
-    @Test
-    public void delete() throws Exception {
-        given(gameService.delete(any())).willReturn(game);
 
-        mockMvc.perform(post("/api/games/delete/{0}", "0"))
-                .andExpect(status().isOk())
-                .andExpect(content().json(mapper.writeValueAsString(game)))
-                .andDo(print());
-    }
-
-    @Test
-    public void getOne() throws Exception {
-        given(gameService.getOne(any())).willReturn(game);
-
-        mockMvc.perform(get("/api/games/{0}", "0"))
-                .andExpect(status().isOk())
-                .andExpect(content().json(mapper.writeValueAsString(game)))
-                .andDo(print());
-    }
-
-    @Test
-    public void test() throws Exception {
-
-    }
-*/
 }

@@ -1,147 +1,144 @@
 package ru.otus.hw.ex11.controller;
 
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.test.web.reactive.server.WebTestClient;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
+import reactor.test.StepVerifier;
+import ru.otus.hw.ex11.dto.UserDto;
+import ru.otus.hw.ex11.dto.user.UserCreateDto;
+import ru.otus.hw.ex11.dto.user.UserLoginDto;
+import ru.otus.hw.ex11.dto.user.UserUpdateDto;
+import ru.otus.hw.ex11.models.User;
+import ru.otus.hw.ex11.repositories.UserRepository;
+import ru.otus.hw.ex11.services.UserService;
+
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+import static org.springframework.http.MediaType.APPLICATION_JSON;
 
 /**
  * Test class for the {@link UserController}
  */
-@WebMvcTest({UserController.class})
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class UserControllerTest {
-/*
 
     @Autowired
-    private MockMvc mockMvc;
+    private WebTestClient webTestClient;
+
+    @Autowired
+    private UserController userController;
+
+    @MockBean
+    UserRepository userRepository;
 
     @MockBean
     UserService userService;
 
-    @Autowired
-    private ObjectMapper mapper;
-
-    @BeforeEach
-    public void setup() {
+    @Test
+    public void verif() throws Exception {
 
     }
 
     @Test
     public void getAll() throws Exception {
 
-        List<UserDto> users = List.of(
-                new UserDto(1L, "userX", "userX", "1")
-                , new UserDto(2L, "userY", "userY", "1")
-        );
+        User user1 = new User();
+        user1.setId(1L);
+        user1.setName("John Doe");
+        user1.setLogin("john.doe");
+        user1.setPassword("password123");
 
-        given(userService.getAll()).willReturn(users);
+        User user2 = new User();
+        user2.setId(2L);
+        user2.setName("Jane Doe");
+        user2.setLogin("jane.doe");
+        user2.setPassword("password456");
 
-        mockMvc.perform(get("/api/users"))
-                .andExpect(status().isOk())
-                .andExpect(content().json(mapper.writeValueAsString(users)))
-                .andDo(print());
+        Flux<User> userFlux = Flux.just(user1, user2);
+        when(userRepository.findAll()).thenReturn(userFlux);
+
+        Flux<UserDto> userDtoFlux = userController.getAll();
+
+        StepVerifier.create(userDtoFlux)
+                .expectNext(new UserDto(1L, "John Doe", "john.doe", "password123"))
+                .expectNext(new UserDto(2L, "Jane Doe", "jane.doe", "password456"))
+                .verifyComplete();
     }
 
     @Test
     public void login() throws Exception {
-        UserDto user = new UserDto(1L, "userX", "userX", "1");
-        UserDto userIncorrenct = new UserDto(2L, "userXX", "userXX", "11");
+        UserLoginDto userLoginDto = new UserLoginDto("user1", "1");
+        UserDto userDto = new UserDto(1L, "John Doe", "user1", "1");
 
-        UserLoginActionDto userLoginActionDto = new UserLoginActionDto();
-        userLoginActionDto.setLogin("user1");
-        userLoginActionDto.setPassword("1");
+        when(userService.findByLogin(userLoginDto)).thenReturn(Mono.just(userDto));
 
-        given(userService.findByLogin(any())).willReturn(userIncorrenct);
-        given(userService.findByLogin(userLoginActionDto)).willReturn(user);
+        webTestClient.put().uri("/api/user/login")
+                .contentType(APPLICATION_JSON)
+                .bodyValue(userLoginDto)
+                .exchange()
+                .expectStatus().isOk()
+                .expectBody(UserDto.class).isEqualTo(userDto);
 
-        String userLoginActionDtoStr = """
-                {
-                    "login": "user1",
-                    "password": "1"
-                }""";
-
-        mockMvc.perform(post("/api/users/login")
-                        .content(userLoginActionDtoStr)
-                        .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andExpect(content().json(mapper.writeValueAsString(user)))
-                .andDo(print());
     }
 
     @Test
-    public void insert() throws Exception {
+    public void create() throws Exception {
+        // Arrange
+        UserCreateDto userCreateDto = new UserCreateDto();
+        userCreateDto.setName("user5");
+        userCreateDto.setLogin("login");
+        userCreateDto.setPassword("1");
 
-        User userParametr = new User();
-        userParametr.setId(1l);
-        userParametr.setName("userX");
-        userParametr.setLogin("userX");
-        userParametr.setPassword("2");
+        UserDto expectedUserDto = new UserDto();
+        expectedUserDto.setId(1L); // Assuming the service will assign an ID
+        expectedUserDto.setName("user5");
+        expectedUserDto.setLogin("login");
+        expectedUserDto.setPassword("1");
 
-        UserDto user = UserMapper.toUserDto(userParametr);
+        when(userService.create(userCreateDto)).thenReturn(Mono.just(ResponseEntity.ok(expectedUserDto)));
 
-        String userIn = """
-                    {
-                        "id": 1,
-                        "name": "userX",
-                        "login": "userX",
-                        "password": "2"
-                    }
-                """;
-
-        Mockito.when(userService.insert(any())).thenReturn(user);
-
-        String expectedString = mapper.writeValueAsString(user);
-        System.out.println(expectedString);
-
-        mockMvc.perform(post("/api/users/insert")
-                        .content(userIn)
-                        .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andExpect(content().json(expectedString))
-                .andDo(print())
-        ;
+        webTestClient.post()
+                .uri("/api/user")
+                .contentType(MediaType.APPLICATION_JSON)
+                .bodyValue(userCreateDto)
+                .exchange()
+                .expectStatus().isOk()
+                .expectBody(UserDto.class)
+                .isEqualTo(expectedUserDto);
     }
 
     @Test
-    public void update() throws Exception {
-        UserDto user = new UserDto(1L, "userX", "userX", "1");
-        User userParametrGiven = new User();
-        userParametrGiven.setName("userX");
-        userParametrGiven.setId(1l);
-        userParametrGiven.setLogin("userX");
-        userParametrGiven.setPassword("1");
+    public void put() throws Exception {
+        Long userId = 1L;
+        UserUpdateDto userUpdateDto = new UserUpdateDto("Первый Иван Иваныч Иванов", "login", "1");
+        UserDto expectedUserDto = new UserDto(userId, "Первый Иван Иваныч Иванов", "login", "1");
 
-        String userIn = """
-                {
-                    "id": 1,
-                    "name": "userX",
-                    "login": "userX",
-                    "password": "1"
-                }""";
+        when(userService.put(userId, userUpdateDto)).thenReturn(Mono.just(expectedUserDto));
 
-        //given(userService.update(any())).willReturn(user);
-        given(userService.update(userParametrGiven)).willReturn(user);
+        Mono<UserDto> result = userController.put(userId, userUpdateDto);
 
-        mockMvc.perform(post("/api/users/update")
-                        .content(userIn)
-                        .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andExpect(content().json(mapper.writeValueAsString(user)))
-                .andDo(print());
+        StepVerifier.create(result)
+                .expectNext(expectedUserDto)
+                .verifyComplete();
     }
 
     @Test
     public void delete() throws Exception {
-        UserDto user = new UserDto(1L, "userX", "userX", "1");
+        Long userId = 4L;
 
-        given(userService.delete(any())).willReturn(user);
+        when(userService.delete(userId)).thenReturn(Mono.empty());
 
-        mockMvc.perform(post("/api/users/delete/{0}", "0"))
-                .andExpect(status().isOk())
-                .andExpect(content().json(mapper.writeValueAsString(user)))
-                .andDo(print());
+        webTestClient.delete()
+                .uri("/api/user/" + userId)
+                .exchange()
+                .expectStatus().isNoContent();
+
+        verify(userService).delete(userId);
     }
-
-    @Test
-    public void test() throws Exception {
-
-    }
-*/
 }

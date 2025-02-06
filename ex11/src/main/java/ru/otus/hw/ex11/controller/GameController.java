@@ -69,8 +69,8 @@ public class GameController {
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     // http://localhost:8080/api/game/7
-    public void delete(@PathVariable Long id) {
-        gameService.delete(id);
+    public Mono<Void> delete(@PathVariable Long id) {
+        return gameService.delete(id);
     }
 
     // информация об игре по заданному идентификатору

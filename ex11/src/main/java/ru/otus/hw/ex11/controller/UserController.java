@@ -41,7 +41,7 @@ public class UserController {
     // http://localhost:8080/api/user
     @GetMapping("")
     public Flux<UserDto> getAll() {
-        return userRepository.findAll().publishOn(workerPool).map(user-> UserMapper.toUserDto(user));
+        return userRepository.findAll().publishOn(workerPool).map(user -> UserMapper.toUserDto(user));
     }
 
     // авторизация пользователя
@@ -65,7 +65,7 @@ public class UserController {
     // {"name":"Первый Иван Иваныч Иванов", "login":"login", "password":"1"}
     @PutMapping(value = "/{userId}")
     public Mono<UserDto> put(@PathVariable Long userId,
-                       @RequestBody @Valid UserUpdateDto userUpdateDto) {
+                             @RequestBody @Valid UserUpdateDto userUpdateDto) {
         return userService.put(userId, userUpdateDto);
     }
 
