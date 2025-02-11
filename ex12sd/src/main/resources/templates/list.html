@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>List of all persons</title>
+
+    <style type="text/css">
+        body {
+            padding: 50px;
+        }
+
+        .checkers {
+            border: 1px solid steelblue;
+            width: 300px;
+            border-collapse: collapse;
+        }
+
+        .checkers tr td, th {
+            padding: 5px;
+            border: 1px solid steelblue;
+        }
+
+        .checkers td:last-child, td:first-child {
+            width: 50px;
+        }
+
+    </style>
+</head>
+<body>
+<h3>Уголки</h3>
+
+<form action="#" th:action="@{/del(id=${game.id})}" method="post">
+    <td>
+        <input type="submit" value="Удалить"/>
+    </td>
+</form>
+
+<form action="#" th:action="@{/edit}" th:object="${xys}" method="post">
+    <div class="row">
+        <label for="id-input" th:text="'X1:'">X1:</label>
+        <input id="id-input" type="text" name="xFirst" th:value="${xys.xFirst}" value="1"/>
+    </div>
+    <div class="row">
+        <label for="id-input2" th:text="'Y1:'">Y1:</label>
+        <input id="id-input2" type="text" name="yFirst" th:value="${xys.yFirst}" value="2"/>
+    </div>
+    <div class="row">
+        <label for="id-input3" th:text="'X2:'">X2:</label>
+        <input id="id-input3" type="text" name="xSecond" th:value="${xys.xSecond}" value="3"/>
+    </div>
+    <div class="row">
+        <label for="id-input4" th:text="'Y2:'">Y2:</label>
+        <input id="id-input4" type="text" name="ySecond" th:value="${xys.ySecond}" value="4"/>
+    </div>
+
+    <td>
+        <input type="submit" value="Ход"/>
+    </td>
+</form>
+
+<h5></h5>
+
+<table class="checkers">
+    <thead>
+    <tr>
+        <th></th>
+        <th>A</th>
+        <th>B</th>
+        <th>C</th>
+        <th>D</th>
+        <th>E</th>
+        <th>F</th>
+        <th>G</th>
+        <th>H</th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="row : ${game.chessFair.desk}">
+        <td th:text="${row.leftClm}">_</td>
+
+        <td th:text="${row.arr[0].val}">_</td>
+        <td th:text="${row.arr[1].val}">_</td>
+        <td th:text="${row.arr[2].val}">_</td>
+        <td th:text="${row.arr[3].val}">_</td>
+        <td th:text="${row.arr[4].val}">_</td>
+        <td th:text="${row.arr[5].val}">_</td>
+        <td th:text="${row.arr[6].val}">_</td>
+        <td th:text="${row.arr[7].val}">_</td>
+        <td th:text="${row.rightClm}">_</td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>
