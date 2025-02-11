@@ -1,4 +1,4 @@
-package ru.otus.hw.ex10.services;
+package ru.otus.hw.ex12sd.services;
 
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
@@ -8,11 +8,11 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import ru.otus.hw.ex10.dto.UserDto;
-import ru.otus.hw.ex10.dto.user.UserCreateDto;
-import ru.otus.hw.ex10.dto.user.UserLoginDto;
-import ru.otus.hw.ex10.dto.user.UserUpdateDto;
-import ru.otus.hw.ex10.mapper.UserMapper;
+import ru.otus.hw.ex12sd.dto.UserDto;
+import ru.otus.hw.ex12sd.dto.user.UserCreateDto;
+import ru.otus.hw.ex12sd.dto.user.UserLoginDto;
+import ru.otus.hw.ex12sd.dto.user.UserUpdateDto;
+import ru.otus.hw.ex12sd.mapper.UserMapper;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -38,9 +38,7 @@ class UserServiceTest {
 
     @Test
     void findByLogin() {
-        UserLoginDto loginActionDtoExpected = new UserLoginDto();
-        loginActionDtoExpected.setLogin("user1");
-        loginActionDtoExpected.setPassword("1");
+        UserLoginDto loginActionDtoExpected = new UserLoginDto("user1", "1");
 
         var user = userService.findByLogin(loginActionDtoExpected);
         assertThat(user)
@@ -71,9 +69,7 @@ class UserServiceTest {
 
     @Test
     void put() {
-        UserLoginDto loginActionDtoExpected = new UserLoginDto();
-        loginActionDtoExpected.setLogin("user1");
-        loginActionDtoExpected.setPassword("1");
+        UserLoginDto loginActionDtoExpected = new UserLoginDto("user1", "1");
 
         var userInDb = userService.findByLogin(loginActionDtoExpected);
 

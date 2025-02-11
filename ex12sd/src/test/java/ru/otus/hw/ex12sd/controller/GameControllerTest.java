@@ -1,4 +1,4 @@
-package ru.otus.hw.ex10.controller;
+package ru.otus.hw.ex12sd.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
@@ -9,9 +9,9 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import ru.otus.hw.ex10.dto.GameDto;
-import ru.otus.hw.ex10.dto.game.GamesCreateDto;
-import ru.otus.hw.ex10.services.GameService;
+import ru.otus.hw.ex12sd.dto.GameDto;
+import ru.otus.hw.ex12sd.dto.game.GamesCreateDto;
+import ru.otus.hw.ex12sd.services.GameService;
 
 import java.time.LocalDateTime;
 import java.util.List;

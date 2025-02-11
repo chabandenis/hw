@@ -1,7 +1,7 @@
-package ru.otus.hw.ex10.repositories;
+package ru.otus.hw.ex12sd.repositories;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import ru.otus.hw.ex10.models.User;
+import ru.otus.hw.ex12sd.models.User;
 
 import java.util.Optional;
 

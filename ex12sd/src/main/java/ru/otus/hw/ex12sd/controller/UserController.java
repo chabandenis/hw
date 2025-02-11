@@ -1,4 +1,4 @@
-package ru.otus.hw.ex10.controller;
+package ru.otus.hw.ex12sd.controller;
 
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -14,11 +14,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-import ru.otus.hw.ex10.dto.UserDto;
-import ru.otus.hw.ex10.dto.user.UserCreateDto;
-import ru.otus.hw.ex10.dto.user.UserLoginDto;
-import ru.otus.hw.ex10.dto.user.UserUpdateDto;
-import ru.otus.hw.ex10.services.UserService;
+import ru.otus.hw.ex12sd.dto.UserDto;
+import ru.otus.hw.ex12sd.dto.user.UserCreateDto;
+import ru.otus.hw.ex12sd.dto.user.UserLoginDto;
+import ru.otus.hw.ex12sd.dto.user.UserUpdateDto;
+import ru.otus.hw.ex12sd.services.UserService;
 
 import java.util.List;
 

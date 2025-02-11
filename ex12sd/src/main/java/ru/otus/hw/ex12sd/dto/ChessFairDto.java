@@ -1,8 +1,8 @@
-package ru.otus.hw.ex10.dto;
+package ru.otus.hw.ex12sd.dto;
 
 import lombok.Data;
-import ru.otus.hw.ex10.dto.desk.RowOnTheDeskDto;
-import ru.otus.hw.ex10.models.ChessFair;
+import ru.otus.hw.ex12sd.dto.desk.RowOnTheDeskDto;
+
 
 import java.util.List;
 

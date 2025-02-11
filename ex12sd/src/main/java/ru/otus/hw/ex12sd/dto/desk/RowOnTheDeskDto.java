@@ -1,6 +1,7 @@
-package ru.otus.hw.ex10.dto.desk;
+package ru.otus.hw.ex12sd.dto.desk;
 
 import lombok.Data;
+import ru.otus.hw.ex12sd.dto.desk.ClmDto;
 
 import java.util.HashMap;
 import java.util.Map;

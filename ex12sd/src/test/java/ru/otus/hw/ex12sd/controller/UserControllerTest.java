@@ -1,4 +1,4 @@
-package ru.otus.hw.ex10.controller;
+package ru.otus.hw.ex12sd.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
@@ -10,12 +10,12 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import ru.otus.hw.ex10.dto.UserDto;
-import ru.otus.hw.ex10.dto.user.UserLoginDto;
-import ru.otus.hw.ex10.dto.user.UserUpdateDto;
-import ru.otus.hw.ex10.mapper.UserMapper;
-import ru.otus.hw.ex10.models.User;
-import ru.otus.hw.ex10.services.UserService;
+import ru.otus.hw.ex12sd.dto.UserDto;
+import ru.otus.hw.ex12sd.dto.user.UserLoginDto;
+import ru.otus.hw.ex12sd.dto.user.UserUpdateDto;
+import ru.otus.hw.ex12sd.mapper.UserMapper;
+import ru.otus.hw.ex12sd.models.User;
+import ru.otus.hw.ex12sd.services.UserService;
 
 import java.util.List;
 
@@ -71,9 +71,7 @@ public class UserControllerTest {
         UserDto user = new UserDto(1L, "userX", "userX", "1");
         UserDto userIncorrenct = new UserDto(2L, "userXX", "userXX", "1");
 
-        UserLoginDto userLoginDto = new UserLoginDto();
-        userLoginDto.setLogin("user1");
-        userLoginDto.setPassword("1");
+        UserLoginDto userLoginDto = new UserLoginDto("user1", "1");
 
         given(userService.findByLogin(any())).willReturn(userIncorrenct);
         given(userService.findByLogin(userLoginDto)).willReturn(user);

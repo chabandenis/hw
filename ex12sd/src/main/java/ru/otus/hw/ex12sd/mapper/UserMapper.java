@@ -1,13 +1,23 @@
-package ru.otus.hw.ex10.mapper;
+package ru.otus.hw.ex12sd.mapper;
 
 import org.springframework.stereotype.Component;
-import ru.otus.hw.ex10.dto.UserDto;
-import ru.otus.hw.ex10.dto.user.UserCreateDto;
-import ru.otus.hw.ex10.dto.user.UserUpdateDto;
-import ru.otus.hw.ex10.models.User;
+import ru.otus.hw.ex12sd.dto.UserDto;
+import ru.otus.hw.ex12sd.dto.user.UserCreateDto;
+import ru.otus.hw.ex12sd.dto.user.UserUpdateDto;
+import ru.otus.hw.ex12sd.models.User;
 
 @Component
 public class UserMapper {
+
+    public static User toUser(UserDto userDto) {
+        User user = new User(
+                userDto.getId(),
+                userDto.getName(),
+                userDto.getLogin(),
+                userDto.getPassword()
+        );
+        return user;
+    }
 
     public static UserDto toUserAllDto(User user) {
         UserDto userDto = new UserDto(

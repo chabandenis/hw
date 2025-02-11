@@ -1,11 +1,5 @@
 package ru.otus.hw.ex12sd.config;
 
-import com.manunin.auth.exception.ErrorResponseHandler;
-import com.manunin.auth.secutiry.jwt.JwtTokenProvider;
-import com.manunin.auth.secutiry.jwt.RefreshTokenAuthenticationFilter;
-import com.manunin.auth.secutiry.jwt.TokenAuthenticationFilter;
-import com.manunin.auth.secutiry.login.LoginAuthenticationFilter;
-import com.manunin.auth.secutiry.matcher.SkipPathRequestMatcher;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.context.annotation.Bean;
@@ -26,6 +20,12 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import ru.otus.hw.ex12sd.exception.ErrorResponseHandler;
+import ru.otus.hw.ex12sd.secutiry.jwt.JwtTokenProvider;
+import ru.otus.hw.ex12sd.secutiry.jwt.RefreshTokenAuthenticationFilter;
+import ru.otus.hw.ex12sd.secutiry.jwt.TokenAuthenticationFilter;
+import ru.otus.hw.ex12sd.secutiry.login.LoginAuthenticationFilter;
+import ru.otus.hw.ex12sd.secutiry.matcher.SkipPathRequestMatcher;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -81,16 +81,16 @@ public class SecurityConfiguration {
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .csrf(AbstractHttpConfigurer::disable)
                 .exceptionHandling(configurer -> configurer
-                    .accessDeniedHandler(accessDeniedHandler))
+                        .accessDeniedHandler(accessDeniedHandler))
                 .sessionManagement(configurer -> configurer
-                    .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> authorize
-                    .requestMatchers(SIGNIN_ENTRY_POINT).permitAll()
-                    .requestMatchers(SIGNUP_ENTRY_POINT).permitAll()
-                    .requestMatchers(SWAGGER_ENTRY_POINT).permitAll()
-                    .requestMatchers(API_DOCS_ENTRY_POINT).permitAll()
-                    .requestMatchers(TOKEN_REFRESH_ENTRY_POINT).permitAll()
-                    .anyRequest().authenticated()
+                        .requestMatchers(SIGNIN_ENTRY_POINT).permitAll()
+                        .requestMatchers(SIGNUP_ENTRY_POINT).permitAll()
+                        .requestMatchers(SWAGGER_ENTRY_POINT).permitAll()
+                        .requestMatchers(API_DOCS_ENTRY_POINT).permitAll()
+                        .requestMatchers(TOKEN_REFRESH_ENTRY_POINT).permitAll()
+                        .anyRequest().authenticated()
                 )
                 .addFilterBefore(buildLoginProcessingFilter(), UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(buildTokenAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)

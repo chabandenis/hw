@@ -1,4 +1,4 @@
-package ru.otus.hw.ex10.dto.fromWeb;
+package ru.otus.hw.ex12sd.dto.fromWeb;
 
 import lombok.Data;
 

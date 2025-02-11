@@ -1,7 +1,7 @@
-package ru.otus.hw.ex10.dto.fromWeb;
+package ru.otus.hw.ex12sd.dto.fromWeb;
 
 import lombok.Data;
-import ru.otus.hw.ex10.dto.GameDto;
+import ru.otus.hw.ex12sd.dto.GameDto;
 
 import java.util.List;
 

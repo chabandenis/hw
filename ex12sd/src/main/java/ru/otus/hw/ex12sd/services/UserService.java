@@ -1,17 +1,18 @@
-package ru.otus.hw.ex10.services;
+package ru.otus.hw.ex12sd.services;
 
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.otus.hw.ex10.controller.NotFoundException;
-import ru.otus.hw.ex10.dto.UserDto;
-import ru.otus.hw.ex10.dto.user.UserCreateDto;
-import ru.otus.hw.ex10.dto.user.UserLoginDto;
-import ru.otus.hw.ex10.dto.user.UserUpdateDto;
-import ru.otus.hw.ex10.mapper.UserMapper;
-import ru.otus.hw.ex10.models.User;
-import ru.otus.hw.ex10.repositories.UserRepository;
+import ru.otus.hw.ex12sd.controller.NotFoundException;
+import ru.otus.hw.ex12sd.dto.UserDto;
+import ru.otus.hw.ex12sd.dto.user.UserCreateDto;
+import ru.otus.hw.ex12sd.dto.user.UserLoginDto;
+import ru.otus.hw.ex12sd.dto.user.UserUpdateDto;
+import ru.otus.hw.ex12sd.mapper.UserMapper;
+import ru.otus.hw.ex12sd.models.User;
+import ru.otus.hw.ex12sd.repositories.UserRepository;
+import ru.otus.hw.ex12sd.services.GameService;
 
 import java.util.List;
 import java.util.stream.Collectors;

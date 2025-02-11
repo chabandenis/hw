@@ -1,7 +1,7 @@
-package ru.otus.hw.ex10.dto;
+package ru.otus.hw.ex12sd.dto;
 
 import lombok.Data;
-import ru.otus.hw.ex10.models.Figura;
+import ru.otus.hw.ex12sd.models.Figura;
 
 /**
  * DTO for {@link Figura}

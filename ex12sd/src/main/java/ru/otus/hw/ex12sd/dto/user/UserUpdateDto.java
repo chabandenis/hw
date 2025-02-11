@@ -1,8 +1,8 @@
-package ru.otus.hw.ex10.dto.user;
+package ru.otus.hw.ex12sd.dto.user;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
-import ru.otus.hw.ex10.models.User;
+import ru.otus.hw.ex12sd.models.User;
 
 /**
  * DTO for {@link User}

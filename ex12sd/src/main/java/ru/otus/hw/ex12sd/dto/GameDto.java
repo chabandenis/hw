@@ -1,7 +1,7 @@
-package ru.otus.hw.ex10.dto;
+package ru.otus.hw.ex12sd.dto;
 
 import lombok.Data;
-import ru.otus.hw.ex10.models.Game;
+import ru.otus.hw.ex12sd.models.Game;
 
 import java.time.LocalDateTime;
 

@@ -1,13 +1,14 @@
 package ru.otus.hw.ex12sd.config;
 
-import com.manunin.auth.secutiry.jwt.TokenAuthenticationProvider;
-import com.manunin.auth.secutiry.jwt.RefreshTokenAuthenticationProvider;
-import com.manunin.auth.secutiry.login.LoginAuthenticationProvider;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.ObjectPostProcessor;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import ru.otus.hw.ex12sd.secutiry.jwt.RefreshTokenAuthenticationProvider;
+import ru.otus.hw.ex12sd.secutiry.jwt.TokenAuthenticationProvider;
+import ru.otus.hw.ex12sd.secutiry.login.LoginAuthenticationProvider;
 
 @Configuration
 public class AuthenticationManagerConfiguration {

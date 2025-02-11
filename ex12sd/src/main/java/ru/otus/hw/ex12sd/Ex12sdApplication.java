@@ -1,4 +1,4 @@
-package ru.otus.hw.ex10;
+package ru.otus.hw.ex12sd;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

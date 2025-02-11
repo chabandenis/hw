@@ -1,4 +1,4 @@
-package ru.otus.hw.ex10.controller;
+package ru.otus.hw.ex12sd.controller;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -14,10 +14,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-import ru.otus.hw.ex10.dto.GameDto;
-import ru.otus.hw.ex10.dto.game.CoordinatesDto;
-import ru.otus.hw.ex10.dto.game.GamesCreateDto;
-import ru.otus.hw.ex10.services.GameService;
+import ru.otus.hw.ex12sd.dto.GameDto;
+import ru.otus.hw.ex12sd.dto.game.CoordinatesDto;
+import ru.otus.hw.ex12sd.dto.game.GamesCreateDto;
+import ru.otus.hw.ex12sd.services.GameService;
 
 import java.util.List;
 

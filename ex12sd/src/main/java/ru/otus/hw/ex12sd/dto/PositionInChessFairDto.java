@@ -1,7 +1,7 @@
-package ru.otus.hw.ex10.dto;
+package ru.otus.hw.ex12sd.dto;
 
 import lombok.Data;
-import ru.otus.hw.ex10.models.PositionInChessFair;
+import ru.otus.hw.ex12sd.models.PositionInChessFair;
 
 /**
  * DTO for {@link PositionInChessFair}

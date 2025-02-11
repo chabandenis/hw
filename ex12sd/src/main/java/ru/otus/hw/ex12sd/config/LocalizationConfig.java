@@ -1,4 +1,4 @@
-package ru.otus.hw.ex10.config;
+package ru.otus.hw.ex12sd.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

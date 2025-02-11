@@ -1,4 +1,4 @@
-package ru.otus.hw.ex10.services;
+package ru.otus.hw.ex12sd.services;
 
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
