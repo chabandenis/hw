@@ -18,14 +18,16 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SecurityConfiguration {
 
     @Bean
-    public SecurityFilterChain securityFilterChain( HttpSecurity http ) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests( ( authorize ) -> authorize
-                        .requestMatchers(  "/api/user/login" ).permitAll()
+                .authorizeHttpRequests((authorize) -> authorize
+                        .requestMatchers("/api/user/login").permitAll()
                         .anyRequest().authenticated()
                 )
-                .httpBasic(Customizer.withDefaults());
+                .formLogin(Customizer.withDefaults())
+        //.httpBasic(Customizer.withDefaults())
+        ;
         return http.build();
     }
 
