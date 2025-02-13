@@ -24,3 +24,5 @@ dependency-reduced-pom.xml
 /nbdist/
 /.nb-gradle/
 /.idea/
+/ex12sd_vite/coners/*
+/ex12_vite/coners/*

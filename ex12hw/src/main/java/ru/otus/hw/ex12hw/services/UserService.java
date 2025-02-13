@@ -2,6 +2,10 @@ package ru.otus.hw.ex12hw.services;
 
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.otus.hw.ex12hw.controller.NotFoundException;
@@ -24,6 +28,8 @@ public class UserService {
 
     private final GameService gameService;
 
+    private final SampleAuthenticationManager am;
+
     @Transactional(readOnly = true)
     public UserDto findByLogin(UserLoginDto userLoginDto) {
         UserDto user = userRepository.findByLoginAndPassword(
@@ -33,6 +39,17 @@ public class UserService {
                 .orElseThrow(() ->
                         new NotFoundException("Ошибка авторизации для пользователя <" +
                                 userLoginDto.getLogin() + ">"));
+/*        try {
+            Authentication request = new UsernamePasswordAuthenticationToken(user.getLogin(), user.getPassword());
+            Authentication result = am.authenticate(request);
+
+            SecurityContextHolder.getContext().setAuthentication(result);
+
+        } catch (AuthenticationException e) {
+            throw new NotFoundException("Ошибка авторизации для пользователя. Пароль с ошибкой <" +
+                    userLoginDto.getLogin() + ">");
+        }*/
+
         return user;
     }
 

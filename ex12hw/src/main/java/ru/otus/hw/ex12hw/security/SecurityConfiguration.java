@@ -23,9 +23,16 @@ public class SecurityConfiguration {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests((authorize) -> authorize
                         .requestMatchers("/api/user/login").permitAll()
-                        .anyRequest().authenticated()
+                                .anyRequest().authenticated()
                 )
-                .formLogin(Customizer.withDefaults())
+                .formLogin( Customizer.withDefaults())
+/*                .formLogin(formLogin -> formLogin
+                        //.loginPage("/login") // URL страницы логина
+                        .defaultSuccessUrl("http://localhost:5173/") // URL на которую перенаправить после успешного логина
+                        //.permitAll()
+                )*/
+                .rememberMe(rm -> rm.key("AnyKey")
+                        .tokenValiditySeconds(600))
         //.httpBasic(Customizer.withDefaults())
         ;
         return http.build();
@@ -43,8 +50,8 @@ public class SecurityConfiguration {
     public InMemoryUserDetailsManager userDetailsService() {
         UserDetails user = User
                 .builder()
-                .username("user")
-                .password("password")
+                .username("user1")
+                .password("1")
                 .roles("USER")
                 .build();
         return new InMemoryUserDetailsManager(user);
