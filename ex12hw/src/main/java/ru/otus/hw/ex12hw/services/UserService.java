@@ -39,7 +39,7 @@ public class UserService {
                 .orElseThrow(() ->
                         new NotFoundException("Ошибка авторизации для пользователя <" +
                                 userLoginDto.getLogin() + ">"));
-/*        try {
+        try {
             Authentication request = new UsernamePasswordAuthenticationToken(user.getLogin(), user.getPassword());
             Authentication result = am.authenticate(request);
 
@@ -48,7 +48,7 @@ public class UserService {
         } catch (AuthenticationException e) {
             throw new NotFoundException("Ошибка авторизации для пользователя. Пароль с ошибкой <" +
                     userLoginDto.getLogin() + ">");
-        }*/
+        }
 
         return user;
     }
