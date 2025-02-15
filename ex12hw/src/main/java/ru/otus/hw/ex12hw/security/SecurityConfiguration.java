@@ -6,6 +6,7 @@ import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
@@ -21,11 +22,13 @@ public class SecurityConfiguration {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(AbstractHttpConfigurer::disable)
+                //.sessionManagement((session) -> session
+                //        .sessionCreationPolicy(SessionCreationPolicy.ALWAYS))
                 .authorizeHttpRequests((authorize) -> authorize
                         .requestMatchers("/api/user/login").permitAll()
-                                .anyRequest().authenticated()
+                        .anyRequest().authenticated()
                 )
-                .formLogin( Customizer.withDefaults())
+                .formLogin(Customizer.withDefaults())
 /*                .formLogin(formLogin -> formLogin
                         //.loginPage("/login") // URL страницы логина
                         .defaultSuccessUrl("http://localhost:5173/") // URL на которую перенаправить после успешного логина
@@ -33,7 +36,7 @@ public class SecurityConfiguration {
                 )*/
                 .rememberMe(rm -> rm.key("AnyKey")
                         .tokenValiditySeconds(600))
-        //.httpBasic(Customizer.withDefaults())
+                .httpBasic(Customizer.withDefaults())
         ;
         return http.build();
     }
