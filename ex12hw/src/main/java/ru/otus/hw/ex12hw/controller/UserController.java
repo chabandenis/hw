@@ -18,7 +18,6 @@ import ru.otus.hw.ex12hw.dto.UserDto;
 import ru.otus.hw.ex12hw.dto.user.UserCreateDto;
 import ru.otus.hw.ex12hw.dto.user.UserLoginDto;
 import ru.otus.hw.ex12hw.dto.user.UserUpdateDto;
-import ru.otus.hw.ex12hw.services.SampleAuthenticationManager;
 import ru.otus.hw.ex12hw.services.UserService;
 
 import java.util.List;
