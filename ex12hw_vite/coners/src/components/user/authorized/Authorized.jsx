@@ -26,12 +26,15 @@ export default function Authorized({ mainUser, updateMainUser }) {
       password,
     };
 
+    const encodedCredentials = btoa(`${login}:${password}`);
+
     let a = fetch("/api/user/login", {
       method: "PUT", // Метод отправки
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Basic ${encodedCredentials}`,
       },
-      body: JSON.stringify(data),
+      //body: JSON.stringify(data),
     })
       .then((response) => {
         if (!response.ok) {
