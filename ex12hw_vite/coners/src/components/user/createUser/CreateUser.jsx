@@ -2,6 +2,7 @@
   Создание пользователя
 */
 import React, { useState } from "react";
+import Login from "../authorized/login";
 
 export default function CreateUser({ mainUser, updateMainUser }) {
   const [serverError, setServerError] = useState("");
@@ -16,7 +17,9 @@ export default function CreateUser({ mainUser, updateMainUser }) {
 
     //console.log("JSON.stringify(data) ", JSON.stringify(data));
 
-    let a = fetch("/api/user", {
+    console.log("создать пользователя ");
+
+    let a = fetch("/api/user/create", {
       method: "POST", // Метод отправки
       headers: {
         "Content-Type": "application/json",
@@ -30,7 +33,9 @@ export default function CreateUser({ mainUser, updateMainUser }) {
         return response.json();
       })
       .then((data) => {
-        updateMainUser(data);
+        console.log("создали ");
+        //updateMainUser(data);
+        Login(login, password, updateMainUser, setError);
       })
       .catch((error) => {
         setError(error);

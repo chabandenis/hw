@@ -3,7 +3,7 @@
 */
 
 import React, { useState } from "react";
-import UseUserState from "../state/UseUserState";
+import Login from "../authorized/login";
 
 export default function Authorized({ mainUser, updateMainUser }) {
   const [login, setLogin] = useState("");
@@ -20,47 +20,6 @@ export default function Authorized({ mainUser, updateMainUser }) {
     setPassword("1");
   }
 
-  function SendDataToServer(login, password) {
-    const data = {
-      login,
-      password,
-    };
-
-    const encodedCredentials = btoa(`${login}:${password}`);
-
-    fetch("/api/token", {
-      method: "POST", // Метод отправки
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Basic ${encodedCredentials}`,
-      },
-    }).then((x) => {
-      let a = fetch("/api/user/login", {
-        method: "PUT", // Метод отправки
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      })
-        .then((response) => {
-          if (!response.ok) {
-            throw new Error(
-              "Network response was not ok " + response.statusText
-            );
-          }
-          return response.json();
-        })
-        .then((mainUser) => {
-          updateMainUser(mainUser);
-        })
-        .catch((error) => {
-          setError(error);
-        });
-      return a;
-    });
-    //return a;
-  }
-
   const handleSubmit = (e) => {
     updateMainUser({
       id: "",
@@ -71,8 +30,9 @@ export default function Authorized({ mainUser, updateMainUser }) {
 
     e.preventDefault();
 
+    console.log("вызвать отправку");
     // Отправка данных на сервер
-    SendDataToServer(login, password);
+    Login(login, password, updateMainUser, setError);
     //      .then(() => {
     //        // Успешная отправка
     //        //console.log("Данные успешно отправлены");

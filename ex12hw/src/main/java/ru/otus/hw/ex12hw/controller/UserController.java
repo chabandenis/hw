@@ -48,7 +48,7 @@ public class UserController {
     // создать пользователя
     // http://localhost:8080/api/user
     // {"name":"user5", "login":"login", "password":"1" }
-    @PostMapping(value = "")
+    @PostMapping(value = "create")
     public ResponseEntity<UserDto> create(@RequestBody @Valid UserCreateDto userCreateDto) {
         return ResponseEntity.status(HttpStatus.CREATED).body(userService.create(userCreateDto));
     }
