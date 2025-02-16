@@ -28,28 +28,37 @@ export default function Authorized({ mainUser, updateMainUser }) {
 
     const encodedCredentials = btoa(`${login}:${password}`);
 
-    let a = fetch("/api/user/login", {
-      method: "PUT", // Метод отправки
+    fetch("/api/token", {
+      method: "POST", // Метод отправки
       headers: {
         "Content-Type": "application/json",
         Authorization: `Basic ${encodedCredentials}`,
       },
-      //body: JSON.stringify(data),
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Network response was not ok " + response.statusText);
-        }
-        return response.json();
+    }).then((x) => {
+      let a = fetch("/api/user/login", {
+        method: "PUT", // Метод отправки
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
       })
-      .then((mainUser) => {
-        updateMainUser(mainUser);
-      })
-      .catch((error) => {
-        setError(error);
-      });
-
-    return a;
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error(
+              "Network response was not ok " + response.statusText
+            );
+          }
+          return response.json();
+        })
+        .then((mainUser) => {
+          updateMainUser(mainUser);
+        })
+        .catch((error) => {
+          setError(error);
+        });
+      return a;
+    });
+    //return a;
   }
 
   const handleSubmit = (e) => {
@@ -63,15 +72,15 @@ export default function Authorized({ mainUser, updateMainUser }) {
     e.preventDefault();
 
     // Отправка данных на сервер
-    SendDataToServer(login, password)
-      .then(() => {
-        // Успешная отправка
-        //console.log("Данные успешно отправлены");
-      })
-      .catch((error) => {
-        // Обработка ошибки
-        setServerError(error.message);
-      });
+    SendDataToServer(login, password);
+    //      .then(() => {
+    //        // Успешная отправка
+    //        //console.log("Данные успешно отправлены");
+    //      })
+    //      .catch((error) => {
+    // Обработка ошибки
+    //        setServerError(error.message);
+    //      });
     //      .then((mainUser) => updateMainUser(mainUser))
   };
 
