@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -48,7 +50,7 @@ public class UserController {
     // создать пользователя
     // http://localhost:8080/api/user
     // {"name":"user5", "login":"login", "password":"1" }
-    @PostMapping(value = "create")
+    @PostMapping(value = "/create")
     public ResponseEntity<UserDto> create(@RequestBody @Valid UserCreateDto userCreateDto) {
         return ResponseEntity.status(HttpStatus.CREATED).body(userService.create(userCreateDto));
     }

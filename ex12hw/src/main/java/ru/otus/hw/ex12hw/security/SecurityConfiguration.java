@@ -9,6 +9,10 @@ import com.nimbusds.jose.proc.SecurityContext;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.access.AccessDecisionManager;
+import org.springframework.security.access.vote.AuthenticatedVoter;
+import org.springframework.security.access.vote.ConsensusBased;
+import org.springframework.security.access.vote.RoleVoter;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -29,6 +33,7 @@ import org.springframework.security.web.SecurityFilterChain;
 
 import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
+import java.util.Arrays;
 
 @Configuration
 @EnableWebSecurity
@@ -39,6 +44,13 @@ public class SecurityConfiguration {
 
     @Value("${jwt.private.key}")
     RSAPrivateKey priv;
+
+/*    @Bean
+    public AccessDecisionManager accessDecisionManager() {
+        // Создание UnanimousBased AccessDecisionManager с RoleVoter и AuthenticatedVoter
+        return new ConsensusBased(
+                Arrays.asList(new RoleVoter(), new AuthenticatedVoter()));
+    }*/
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {

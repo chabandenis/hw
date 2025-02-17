@@ -2,6 +2,8 @@ package ru.otus.hw.ex12hw.services;
 
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -93,6 +95,8 @@ public class UserService {
         return UserMapper.toUserDto(user);
     }
 
+    //@PreAuthorize("isAuthenticated()")
+//    @Secured("ADMIN")
     public List<UserDto> getAll() {
         return userRepository.findAll()
                 .stream()
