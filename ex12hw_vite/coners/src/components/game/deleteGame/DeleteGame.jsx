@@ -6,10 +6,13 @@ export default function DeleteGame({ desk, setDesk }) {
   const [responseData, setResponseData] = useState(null);
 
   function SendDataToServer() {
+    const jwtToken = localStorage.getItem("jwt_token");
+
     let a = fetch(`/api/game/${desk.id}`, {
       method: "DELETE", // Метод отправки
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${jwtToken}`,
       },
       body: " sdf sdf sdf",
     })

@@ -11,9 +11,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.Customizer;
-import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity;
-import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.config.web.server.ServerHttpSecurity;
 import org.springframework.security.core.userdetails.MapReactiveUserDetailsService;
 import org.springframework.security.core.userdetails.ReactiveUserDetailsService;
@@ -21,14 +19,10 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.jwt.JwtEncoder;
-import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtEncoder;
 import org.springframework.security.oauth2.jwt.NimbusReactiveJwtDecoder;
 import org.springframework.security.oauth2.jwt.ReactiveJwtDecoder;
-import org.springframework.security.oauth2.server.resource.web.BearerTokenAuthenticationEntryPoint;
-import org.springframework.security.oauth2.server.resource.web.access.BearerTokenAccessDeniedHandler;
 import org.springframework.security.web.server.SecurityWebFilterChain;
 
 import java.security.interfaces.RSAPrivateKey;
@@ -45,32 +39,33 @@ public class SecurityConfiguration {
     RSAPrivateKey priv;
 
     @Bean
-    public SecurityWebFilterChain springWebFilterChain( ServerHttpSecurity http ) {
+    public SecurityWebFilterChain springWebFilterChain(ServerHttpSecurity http) {
 
         http
+                .authorizeExchange((exchanges) -> exchanges
+                        .pathMatchers(HttpMethod.POST, "/api/user").permitAll()
+                        //.pathMatchers( "/person" ).hasAnyRole( "USER" )
+                        .anyExchange().authenticated()
+                )
+                .csrf(csrf -> csrf.disable())
+                .httpBasic(Customizer.withDefaults())
+                .oauth2ResourceServer(oauth2
+                        -> oauth2.jwt(Customizer.withDefaults()));
+
+        return http.build();
+
 /*                .authorizeHttpRequests((authorize) -> authorize
 //                        .requestMatchers("/api/user/login").permitAll()
                                 .requestMatchers("/api/user/create").permitAll()
                                 .anyRequest().authenticated()
                 )*/
-                .authorizeExchange((exchanges)->exchanges
-                        .pathMatchers( HttpMethod.GET, "/api/user" ).authenticated()
-                        //.pathMatchers( "/person" ).hasAnyRole( "USER" )
-                        .anyExchange().authenticated()
-                )
 
-                //.csrf(AbstractHttpConfigurer::disable)
-                .httpBasic(Customizer.withDefaults())
-                .oauth2ResourceServer(oauth2
-                        -> oauth2.jwt(Customizer.withDefaults()))
+
 //                .sessionManagement((session)
 //                        -> session.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED))
 //                .exceptionHandling((exceptions) -> exceptions
 //                        .authenticationEntryPoint(new BearerTokenAuthenticationEntryPoint())
 //                        .accessDeniedHandler(new BearerTokenAccessDeniedHandler())
-                ;
-
-        return http.build();
 
 /*
         return http
@@ -93,11 +88,11 @@ public class SecurityConfiguration {
     @Bean
     public ReactiveUserDetailsService userDetailsService() {
         UserDetails user = User
-                .withUsername( "user1" )
-                .password( "1" )
-                .roles( "USER" )
+                .withUsername("user1")
+                .password("1")
+                .roles("USER")
                 .build();
-        return new MapReactiveUserDetailsService( user );
+        return new MapReactiveUserDetailsService(user);
     }
 
     @Bean

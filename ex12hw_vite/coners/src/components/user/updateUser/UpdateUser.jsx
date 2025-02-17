@@ -16,11 +16,13 @@ export default function UpdateUser({ mainUser, updateMainUser }) {
       password,
     };
 
+    const jwtToken = localStorage.getItem("jwt_token");
     //    console.log("JSON.stringify(data) ", JSON.stringify(data));
     let a = fetch(`/api/user/${id}`, {
       method: "PUT", // Метод отправки
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${jwtToken}`,
       },
       body: JSON.stringify(data),
     })

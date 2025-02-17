@@ -10,10 +10,12 @@ export default function DeleteUser({ mainUser, updateMainUser }) {
   const [responseData, setResponseData] = useState(null);
 
   function SendDataToServer() {
+    const jwtToken = localStorage.getItem("jwt_token");
     let a = fetch(`/api/user/${mainUser.id}`, {
       method: "DELETE", // Метод отправки
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${jwtToken}`,
       },
     })
       .then((response) => {

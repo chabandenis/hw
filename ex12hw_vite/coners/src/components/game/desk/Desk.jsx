@@ -108,11 +108,14 @@ export default function Desk({ desk, setDesk }) {
     };
 
     //    console.log("JSON.stringify(data) ", JSON.stringify(data));
+    
+    const jwtToken = localStorage.getItem("jwt_token");
 
     let a = fetch(`/api/game/${desk.id}`, {
       method: "PUT", // Метод отправки
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${jwtToken}`,
       },
       body: JSON.stringify(data),
     })

@@ -18,10 +18,13 @@ export default function NewGame({ mainUser, secondUser, desk, setDesk }) {
       secondUser: secondUser.id,
     };
 
+    const jwtToken = localStorage.getItem("jwt_token");
+
     let a = fetch("/api/game", {
       method: "POST", // Метод отправки
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${jwtToken}`,
       },
       body: JSON.stringify(data),
     })

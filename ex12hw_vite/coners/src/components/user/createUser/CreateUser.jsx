@@ -19,10 +19,13 @@ export default function CreateUser({ mainUser, updateMainUser }) {
 
     console.log("создать пользователя ");
 
+    const jwtToken = localStorage.getItem("jwt_token");
+
     let a = fetch("/api/user/create", {
       method: "POST", // Метод отправки
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${jwtToken}`,
       },
       body: JSON.stringify(data),
     })
