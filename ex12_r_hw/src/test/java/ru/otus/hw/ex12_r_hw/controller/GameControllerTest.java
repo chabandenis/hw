@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.reactive.server.WebTestClient;
@@ -15,6 +16,7 @@ import ru.otus.hw.ex12_r_hw.dto.GameDto;
 import ru.otus.hw.ex12_r_hw.dto.game.CoordinatesDto;
 import ru.otus.hw.ex12_r_hw.dto.game.GamesCreateDto;
 import ru.otus.hw.ex12_r_hw.repositories.game.GameRepositoryCustom;
+import ru.otus.hw.ex12_r_hw.security.SecurityConfiguration;
 import ru.otus.hw.ex12_r_hw.services.Game.GameService;
 import ru.otus.hw.ex12_r_hw.services.Game.GameServiceCreate;
 import ru.otus.hw.ex12_r_hw.services.Game.GameServiceGetOne;
@@ -31,6 +33,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON;
  * Test class for the {@link GameController}
  */
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@Import(SecurityConfiguration.class)
 public class GameControllerTest extends BaseContainerTest {
 
     @MockBean

@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.test.context.support.WithMockUser;
@@ -18,6 +19,7 @@ import ru.otus.hw.ex12_r_hw.dto.user.UserLoginDto;
 import ru.otus.hw.ex12_r_hw.dto.user.UserUpdateDto;
 import ru.otus.hw.ex12_r_hw.models.User;
 import ru.otus.hw.ex12_r_hw.repositories.UserRepository;
+import ru.otus.hw.ex12_r_hw.security.SecurityConfiguration;
 import ru.otus.hw.ex12_r_hw.services.UserService;
 
 import static org.mockito.Mockito.verify;
@@ -28,6 +30,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON;
  * Test class for the {@link UserController}
  */
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@Import(SecurityConfiguration.class)
 public class UserControllerTest extends BaseContainerTest {
 
     @Autowired
