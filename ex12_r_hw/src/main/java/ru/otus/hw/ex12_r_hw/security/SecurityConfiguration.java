@@ -13,10 +13,6 @@ import org.springframework.http.HttpMethod;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity;
 import org.springframework.security.config.web.server.ServerHttpSecurity;
-import org.springframework.security.core.userdetails.MapReactiveUserDetailsService;
-import org.springframework.security.core.userdetails.ReactiveUserDetailsService;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.jwt.JwtEncoder;
@@ -59,16 +55,22 @@ public class SecurityConfiguration {
         return NoOpPasswordEncoder.getInstance();
     }
 
-    @Bean
-    public ReactiveUserDetailsService userDetailsService() {
-        UserDetails user = User
-                .withUsername("user1")
-                .password("1")
-                .roles("USER")
-                .build();
-        return new MapReactiveUserDetailsService(user);
-    }
+/*    @Bean
+    public ReactiveUserDetailsService userDetailsService(UserRepository userRepository) {
+        return new CustomReactiveUserDetailsService(userRepository);
+    }*/
 
+    /*
+        @Bean
+        public ReactiveUserDetailsService userDetailsService() {
+            UserDetails user = User
+                    .withUsername("user1")
+                    .password("1")
+                    .roles("USER")
+                    .build();
+            return new MapReactiveUserDetailsService(user);
+        }
+    */
     @Bean
     ReactiveJwtDecoder jwtDecoder() {
         return NimbusReactiveJwtDecoder.withPublicKey(this.key).build();
