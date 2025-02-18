@@ -14,8 +14,8 @@ spring:
     password: 1
 
 jwt:
-      private.key: classpath:app.key
-      public.key: classpath:app.pub
+  private.key: classpath:app.key
+  public.key: classpath:app.pub
 
   #  datasource:
   #    driver-class-name: org.postgresql.Driver

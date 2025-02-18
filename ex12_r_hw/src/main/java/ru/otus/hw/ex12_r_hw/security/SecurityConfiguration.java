@@ -33,14 +33,13 @@ import java.security.interfaces.RSAPublicKey;
 public class SecurityConfiguration {
 
     @Value("${jwt.public.key}")
-    RSAPublicKey key;
+    private RSAPublicKey key;
 
     @Value("${jwt.private.key}")
-    RSAPrivateKey priv;
+    private RSAPrivateKey priv;
 
     @Bean
     public SecurityWebFilterChain springWebFilterChain(ServerHttpSecurity http) {
-
         http
                 .authorizeExchange((exchanges) -> exchanges
                         .pathMatchers(HttpMethod.POST, "/api/user").permitAll()
@@ -53,31 +52,6 @@ public class SecurityConfiguration {
                         -> oauth2.jwt(Customizer.withDefaults()));
 
         return http.build();
-
-/*                .authorizeHttpRequests((authorize) -> authorize
-//                        .requestMatchers("/api/user/login").permitAll()
-                                .requestMatchers("/api/user/create").permitAll()
-                                .anyRequest().authenticated()
-                )*/
-
-
-//                .sessionManagement((session)
-//                        -> session.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED))
-//                .exceptionHandling((exceptions) -> exceptions
-//                        .authenticationEntryPoint(new BearerTokenAuthenticationEntryPoint())
-//                        .accessDeniedHandler(new BearerTokenAccessDeniedHandler())
-
-/*
-        return http
-                .authorizeExchange((exchanges)->exchanges
-                        .pathMatchers( HttpMethod.GET, "/authenticated.html" ).authenticated()
-                        .pathMatchers( "/person" ).hasAnyRole( "USER" )
-                        .anyExchange().permitAll()
-                )
-                .formLogin( Customizer.withDefaults())
-                .build();
-
- */
     }
 
     @Bean
@@ -106,15 +80,4 @@ public class SecurityConfiguration {
         JWKSource<SecurityContext> jwks = new ImmutableJWKSet<>(new JWKSet(jwk));
         return new NimbusJwtEncoder(jwks);
     }
-
-/*
-    @Bean
-    public JwtEncoder jwtEncoder() {
-        RSAKey rsaKey = new RSAKey.Builder(this.keyPair.getPublic())
-                .privateKey(this.keyPair.getPrivate())
-                .build();
-        JWKSource<SecurityContext> jwks = new ImmutableJWKSet<>(new com.nimbusds.jose.jwk.JWKSet(rsaKey));
-        return new NimbusReactiveJwtEncoder(jwks);
-    }
-*/
 }
