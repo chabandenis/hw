@@ -27,8 +27,14 @@ export default function SelectGame({ mainUser, seconUser, desk, setDesk }) {
   }, []);
 
   const getApiData = async () => {
+    const jwtToken = localStorage.getItem("jwt_token");
+
     const response = fetch(`/api/game/${mainUser.id}/${seconUser.id}`, {
       method: "GET", // Метод отправки
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${jwtToken}`,
+      },
     })
       .then((response) => response.json())
       .then((games) => setGames(games));

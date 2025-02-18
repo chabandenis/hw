@@ -69,10 +69,17 @@ export default function Desk({ desk, setDesk }) {
   });
 
   const getApiData = async () => {
+    const jwtToken = localStorage.getItem("jwt_token");
+
     // запрос отправляется, если заполнен идентификатор
     if (desk && desk.id) {
       //      console.log("getApiData", desk, desk.id);
-      const response = await fetch(`/api/game/${desk.id}`)
+      const response = await fetch(`/api/game/${desk.id}`, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${jwtToken}`,
+        },
+      })
         .then((response) => response.json())
         .then((desk) => setDesk(desk));
     }
@@ -109,10 +116,13 @@ export default function Desk({ desk, setDesk }) {
 
     //    console.log("JSON.stringify(data) ", JSON.stringify(data));
 
+    const jwtToken = localStorage.getItem("jwt_token");
+
     let a = fetch(`/api/game/${desk.id}`, {
       method: "PUT", // Метод отправки
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${jwtToken}`,
       },
       body: JSON.stringify(data),
     })

@@ -28,7 +28,13 @@ export default function ListUsers({ seconUser, updateSecondUser }) {
   }, []);
 
   const getApiData = async () => {
-    const response = await fetch("/api/user")
+    const jwtToken = localStorage.getItem("jwt_token");
+    const response = await fetch("/api/user", {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${jwtToken}`,
+      },
+    })
       .then((response) => response.json())
       .then((users) => setUsers(users));
   };
