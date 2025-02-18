@@ -6,6 +6,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -71,6 +72,10 @@ public class UserControllerTest extends BaseContainerTest {
                 .verifyComplete();
     }
 
+    @WithMockUser(
+            username = "USER1",
+            authorities = {"ROLE_ADMIN"}
+    )
     @Test
     public void login() throws Exception {
         UserLoginDto userLoginDto = new UserLoginDto("user1", "1");
@@ -87,6 +92,10 @@ public class UserControllerTest extends BaseContainerTest {
 
     }
 
+    @WithMockUser(
+            username = "USER1",
+            authorities = {"ROLE_ADMIN"}
+    )
     @Test
     public void create() throws Exception {
         // Arrange
@@ -128,6 +137,10 @@ public class UserControllerTest extends BaseContainerTest {
                 .verifyComplete();
     }
 
+    @WithMockUser(
+            username = "USER1",
+            authorities = {"ROLE_ADMIN"}
+    )
     @Test
     public void delete() throws Exception {
         Long userId = 4L;

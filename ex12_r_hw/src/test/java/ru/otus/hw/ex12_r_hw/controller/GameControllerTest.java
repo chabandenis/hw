@@ -6,6 +6,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -62,6 +63,10 @@ public class GameControllerTest extends BaseContainerTest {
 
     }
 
+    @WithMockUser(
+            username = "USER1",
+            authorities = {"ROLE_ADMIN"}
+    )
     @Test
     public void testDelete() {
         Long userId = 4L;
@@ -77,7 +82,10 @@ public class GameControllerTest extends BaseContainerTest {
 
     }
 
-
+    @WithMockUser(
+            username = "USER1",
+            authorities = {"ROLE_ADMIN"}
+    )
     @Test
     public void testGetGamesForUsers() {
         Long mainUser = 1L;
@@ -95,6 +103,10 @@ public class GameControllerTest extends BaseContainerTest {
     }
 
 
+    @WithMockUser(
+            username = "USER1",
+            authorities = {"ROLE_ADMIN"}
+    )
     @Test
     public void testStep() {
         Long gameId = 1L;
@@ -119,6 +131,10 @@ public class GameControllerTest extends BaseContainerTest {
                 .isEqualTo(gameDto);
     }
 
+    @WithMockUser(
+            username = "USER1",
+            authorities = {"ROLE_ADMIN"}
+    )
     @Test
     public void testCreate() {
         GamesCreateDto gamesCreateDto = new GamesCreateDto();
@@ -140,6 +156,10 @@ public class GameControllerTest extends BaseContainerTest {
                 .isEqualTo(gameDto);
     }
 
+    @WithMockUser(
+            username = "USER1",
+            authorities = {"ROLE_ADMIN"}
+    )
     @Test
     public void testGetOne() {
         Long gameId = 1L;
