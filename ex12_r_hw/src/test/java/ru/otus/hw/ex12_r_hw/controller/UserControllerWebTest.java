@@ -7,13 +7,10 @@ import org.springframework.boot.test.autoconfigure.web.reactive.WebFluxTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
-import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
-import reactor.core.scheduler.Scheduler;
 import ru.otus.hw.ex12_r_hw.config.ApplConfig;
-import ru.otus.hw.ex12_r_hw.dto.UserDto;
 import ru.otus.hw.ex12_r_hw.dto.user.UserCreateDto;
 import ru.otus.hw.ex12_r_hw.dto.user.UserLoginDto;
 import ru.otus.hw.ex12_r_hw.dto.user.UserUpdateDto;
@@ -24,8 +21,6 @@ import ru.otus.hw.ex12_r_hw.security.MethodSecurityConfiguration;
 import ru.otus.hw.ex12_r_hw.security.SecurityConfiguration;
 import ru.otus.hw.ex12_r_hw.services.UserService;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.security.test.web.reactive.server.SecurityMockServerConfigurers.mockUser;
@@ -44,9 +39,6 @@ public class UserControllerWebTest {
 
     @MockBean
     private UserService userService;
-
-    @Autowired
-    private Scheduler workerPool;
 
     @Autowired
     private WebTestClient webTestClient;
@@ -140,7 +132,6 @@ public class UserControllerWebTest {
 
     @Test
     public void delete() throws Exception {
-
         webTestClient
                 .mutateWith(mockUser())
                 .delete()
