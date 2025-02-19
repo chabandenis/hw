@@ -23,9 +23,7 @@ import static org.mockito.Mockito.when;
 /**
  * Test class for the {@link UserController}
  */
-//SpringTest
 @WebFluxTest({UserController.class})
-//@Import({SecurityConfiguration.class, })
 @Import({ApplConfig.class,
         SecurityConfiguration.class,
         MethodSecurityConfiguration.class,
@@ -53,17 +51,17 @@ public class UserControllerWebTest {
     public void verif() throws Exception {
     }
 
-    @WithMockUser(
-            username = "USER1",
+/*    @WithMockUser(
+            username = "USER55",
             authorities = {"ROLE_ADMIN"}
-    )
+    )*/
     @Test
     public void getAll() throws Exception {
+
         User user1 = new User(1L, "Aa", "BB", "CC");
         User user2 = new User(2L, "dd", "ee", "ff");
 
         when(userRepository.findAll()).thenReturn(Flux.just(user1, user2));
-
         webTestClient.get().uri("/api/user")
                 .exchange()
                 .expectStatus().isOk();
