@@ -8,7 +8,6 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import ru.otus.hw.ex12_r_hw.config.ApplConfig;
-import ru.otus.hw.ex12_r_hw.dto.GameDto;
 import ru.otus.hw.ex12_r_hw.dto.game.CoordinatesDto;
 import ru.otus.hw.ex12_r_hw.dto.game.GamesCreateDto;
 import ru.otus.hw.ex12_r_hw.repositories.UserRepository;

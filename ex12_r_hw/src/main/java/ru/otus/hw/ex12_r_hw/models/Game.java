@@ -20,15 +20,7 @@ import java.time.LocalDateTime;
  */
 @Getter
 @Setter
-//@Entity
 @Table(name = "games")
-//@NamedEntityGraph(name = "game-graph",
-//        attributeNodes = {
-//                @NamedAttributeNode("userBlack"),
-//                @NamedAttributeNode("userWhite"),
-//                @NamedAttributeNode("userNext"),
-//                @NamedAttributeNode("chessFair"),
-//        })
 @AllArgsConstructor
 @NoArgsConstructor(force = true)
 @ToString

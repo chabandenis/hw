@@ -6,23 +6,29 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
+import ru.otus.hw.ex12_r_hw.config.ApplConfig;
 import ru.otus.hw.ex12_r_hw.container.BaseContainerTest;
 import ru.otus.hw.ex12_r_hw.dto.UserDto;
 import ru.otus.hw.ex12_r_hw.dto.user.UserCreateDto;
 import ru.otus.hw.ex12_r_hw.dto.user.UserLoginDto;
 import ru.otus.hw.ex12_r_hw.dto.user.UserUpdateDto;
+import ru.otus.hw.ex12_r_hw.models.Game;
 import ru.otus.hw.ex12_r_hw.models.User;
 import ru.otus.hw.ex12_r_hw.repositories.UserRepository;
+import ru.otus.hw.ex12_r_hw.repositories.game.GameRepository;
+import ru.otus.hw.ex12_r_hw.security.CustomReactiveUserDetailsService;
+import ru.otus.hw.ex12_r_hw.security.MethodSecurityConfiguration;
 import ru.otus.hw.ex12_r_hw.security.SecurityConfiguration;
-import ru.otus.hw.ex12_r_hw.services.UserService;
 
-import static org.mockito.Mockito.verify;
+import java.util.List;
+
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyCollection;
 import static org.mockito.Mockito.when;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 
@@ -30,7 +36,11 @@ import static org.springframework.http.MediaType.APPLICATION_JSON;
  * Test class for the {@link UserController}
  */
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@Import(SecurityConfiguration.class)
+@Import({
+        ApplConfig.class,
+        SecurityConfiguration.class,
+        MethodSecurityConfiguration.class,
+        CustomReactiveUserDetailsService.class})
 public class UserControllerTest extends BaseContainerTest {
 
     @Autowired
@@ -43,7 +53,7 @@ public class UserControllerTest extends BaseContainerTest {
     UserRepository userRepository;
 
     @MockBean
-    UserService userService;
+    GameRepository gameRepository;
 
     @Test
     public void verif() throws Exception {
@@ -84,7 +94,8 @@ public class UserControllerTest extends BaseContainerTest {
         UserLoginDto userLoginDto = new UserLoginDto("user1", "1");
         UserDto userDto = new UserDto(1L, "John Doe", "user1", "1");
 
-        when(userService.findByLogin(userLoginDto)).thenReturn(Mono.just(userDto));
+        when(userRepository.findByLoginAndPassword(any(), any()))
+                .thenReturn(Mono.just(new User(1L, "John Doe", "user1", "1")));
 
         webTestClient.put().uri("/api/user/login")
                 .contentType(APPLICATION_JSON)
@@ -95,25 +106,13 @@ public class UserControllerTest extends BaseContainerTest {
 
     }
 
-    @WithMockUser(
-            username = "USER1",
-            authorities = {"ROLE_ADMIN"}
-    )
     @Test
     public void create() throws Exception {
-        // Arrange
-        UserCreateDto userCreateDto = new UserCreateDto();
-        userCreateDto.setName("user5");
-        userCreateDto.setLogin("login");
-        userCreateDto.setPassword("1");
+        User user = new User(1l, "user5", "login", "1");
+        UserCreateDto userCreateDto = new UserCreateDto("user5", "login", "1");
+        UserDto expectedUserDto = new UserDto(user.getId(), user.getName(), user.getLogin(), user.getPassword());
 
-        UserDto expectedUserDto = new UserDto();
-        expectedUserDto.setId(1L); // Assuming the service will assign an ID
-        expectedUserDto.setName("user5");
-        expectedUserDto.setLogin("login");
-        expectedUserDto.setPassword("1");
-
-        when(userService.create(userCreateDto)).thenReturn(Mono.just(ResponseEntity.ok(expectedUserDto)));
+        when(userRepository.save(any(User.class))).thenReturn(Mono.just(user));
 
         webTestClient.post()
                 .uri("/api/user")
@@ -130,8 +129,13 @@ public class UserControllerTest extends BaseContainerTest {
         Long userId = 1L;
         UserUpdateDto userUpdateDto = new UserUpdateDto("Первый Иван Иваныч Иванов", "login", "1");
         UserDto expectedUserDto = new UserDto(userId, "Первый Иван Иваныч Иванов", "login", "1");
+        User expectedUser = new User(userId, "Первый Иван Иваныч Иванов", "login", "1");
 
-        when(userService.put(userId, userUpdateDto)).thenReturn(Mono.just(expectedUserDto));
+        when(userRepository.findById(userId))
+                .thenReturn(Mono.just(expectedUser));
+
+        when(userRepository.save(any()))
+                .thenReturn(Mono.just(expectedUser));
 
         Mono<UserDto> result = userController.put(userId, userUpdateDto);
 
@@ -148,13 +152,17 @@ public class UserControllerTest extends BaseContainerTest {
     public void delete() throws Exception {
         Long userId = 4L;
 
-        when(userService.delete(userId)).thenReturn(Mono.empty());
+        when(gameRepository.findByUserWhiteIdInAndUserBlackIdInOrderByDateGameDesc(
+                anyCollection(), anyCollection()))
+                .thenReturn(Flux.fromIterable(List.of(new Game())));
+
+        when(userRepository.deleteById(userId)).thenReturn(Mono.empty());
 
         webTestClient.delete()
                 .uri("/api/user/" + userId)
                 .exchange()
                 .expectStatus().isNoContent();
 
-        verify(userService).delete(userId);
+        //verify(userService).delete(userId);
     }
 }

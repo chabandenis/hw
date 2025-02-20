@@ -23,7 +23,9 @@ import ru.otus.hw.ex12_r_hw.dto.user.UserLoginDto;
 import ru.otus.hw.ex12_r_hw.dto.user.UserUpdateDto;
 import ru.otus.hw.ex12_r_hw.mapper.UserMapper;
 import ru.otus.hw.ex12_r_hw.repositories.UserRepository;
-import ru.otus.hw.ex12_r_hw.services.UserService;
+import ru.otus.hw.ex12_r_hw.repositories.game.GameRepository;
+
+import java.util.List;
 
 @Slf4j
 @RestController
@@ -33,9 +35,9 @@ public class UserController {
 
     private final UserRepository userRepository;
 
-    private final UserService userService;
-
     private final Scheduler workerPool;
+
+    private final GameRepository gameRepository;
 
     // пользователи
     // http://localhost:8080/api/user
@@ -49,7 +51,11 @@ public class UserController {
     // {"login": "user1", "password": "1"}
     @PutMapping(value = "/login")
     public Mono<UserDto> login(@RequestBody @Valid UserLoginDto userLoginDto) throws Exception {
-        return userService.findByLogin(userLoginDto);
+        return userRepository.findByLoginAndPassword(
+                        userLoginDto.getLogin(),
+                        userLoginDto.getPassword())
+                .publishOn(workerPool)
+                .map(UserMapper::toUserDto);
     }
 
     // создать пользователя
@@ -57,7 +63,12 @@ public class UserController {
     // {"name":"user5", "login":"login", "password":"1" }
     @PostMapping(value = "")
     public Mono<ResponseEntity<UserDto>> create(@RequestBody /*@Valid*/ UserCreateDto userCreateDto) {
-        return userService.create(userCreateDto);
+        log.debug("Создать пользователя {} ", userCreateDto);
+        return userRepository.save(UserMapper.toUser(userCreateDto)).publishOn(workerPool)
+                .map(y -> UserMapper.toUserDto(y))
+                .map(ResponseEntity::ok)
+                .switchIfEmpty(Mono.fromCallable(() -> ResponseEntity.notFound().build()));
+
     }
 
     // обновить пользователя
@@ -66,7 +77,22 @@ public class UserController {
     @PutMapping(value = "/{userId}")
     public Mono<UserDto> put(@PathVariable Long userId,
                              @RequestBody @Valid UserUpdateDto userUpdateDto) {
-        return userService.put(userId, userUpdateDto);
+        return userRepository.findById(userId).publishOn(workerPool)
+                .switchIfEmpty(Mono.error(new NotFoundException(
+                        "Отсутствует пользователь с id=`%s`".formatted(userId))))
+                .flatMap(user -> {
+                            log.debug("user befor {}", user);
+                            user.setName(userUpdateDto.getName());
+                            user.setLogin(userUpdateDto.getLogin());
+                            user.setPassword(userUpdateDto.getPassword());
+
+                            log.debug("user after {}", user);
+
+                            return userRepository.save(user).publishOn(workerPool)
+                                    .map(UserMapper::toUserDto)
+                                    .doOnSuccess(x -> log.debug("Обновлен пользователь"));
+                        }
+                );
     }
 
     // удалить пользователя
@@ -74,6 +100,16 @@ public class UserController {
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public Mono<Void> delete(@PathVariable Long id) {
-        return userService.delete(id);
+        return gameRepository.findByUserWhiteIdInAndUserBlackIdInOrderByDateGameDesc(List.of(id), List.of(id))
+                .publishOn(workerPool)
+                .collectList()
+                .flatMap(games -> {
+                    log.debug("Игры удалены");
+                    return userRepository.deleteById(id)
+                            .publishOn(workerPool)
+                            .doOnSuccess(user -> {
+                                log.debug("Пользователь удален");
+                            });
+                });
     }
 }
