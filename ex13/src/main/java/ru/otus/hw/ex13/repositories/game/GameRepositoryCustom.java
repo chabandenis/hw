@@ -114,26 +114,21 @@ public class GameRepositoryCustom {
 
     private void addUsers(Readable selectedRecord, GameDto gameDto) {
         UserDto userBlack = new UserDto(
-                selectedRecord.get("black_id", Long.class),
-                selectedRecord.get("black_name", String.class),
+                selectedRecord.get("black_id", Long.class), selectedRecord.get("black_name", String.class),
                 selectedRecord.get("black_login", String.class),
                 selectedRecord.get("black_password", String.class),
                 selectedRecord.get("black_role", String.class)
         );
         gameDto.setUserBlack(userBlack);
-
         UserDto userWhite = new UserDto(
-                selectedRecord.get("white_id", Long.class),
-                selectedRecord.get("white_name", String.class),
+                selectedRecord.get("white_id", Long.class), selectedRecord.get("white_name", String.class),
                 selectedRecord.get("white_login", String.class),
                 selectedRecord.get("white_password", String.class),
                 selectedRecord.get("white_role", String.class)
         );
         gameDto.setUserWhite(userWhite);
-
         UserDto userNext = new UserDto(
-                selectedRecord.get("next_id", Long.class),
-                selectedRecord.get("next_name", String.class),
+                selectedRecord.get("next_id", Long.class), selectedRecord.get("next_name", String.class),
                 selectedRecord.get("next_login", String.class),
                 selectedRecord.get("next_password", String.class),
                 selectedRecord.get("next_role", String.class)
