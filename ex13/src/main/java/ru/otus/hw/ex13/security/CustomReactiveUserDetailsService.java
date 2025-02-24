@@ -20,7 +20,7 @@ public class CustomReactiveUserDetailsService implements ReactiveUserDetailsServ
         return userRepository.findByLogin(username)
                 .map(user -> withUsername(user.getLogin())
                         .password(user.getPassword())
-                        .roles("USER"/*user.getRoles()*/)
+                        .roles(user.getRole())
                         .build());
     }
 }

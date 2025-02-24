@@ -39,13 +39,15 @@ public class SecurityConfiguration {
         http
                 .authorizeExchange((exchanges) -> exchanges
                         .pathMatchers(HttpMethod.POST, "/api/user").permitAll()
-                        //.pathMatchers( "/person" ).hasAnyRole( "USER" )
+                        .pathMatchers(HttpMethod.DELETE, "/api/user/*").hasAnyRole("ADMIN")
+                        .pathMatchers(HttpMethod.DELETE, "/api/game/*").hasAnyRole("ADMIN")
                         .anyExchange().authenticated()
                 )
                 .csrf(csrf -> csrf.disable())
                 .httpBasic(Customizer.withDefaults())
                 .oauth2ResourceServer(oauth2
-                        -> oauth2.jwt(Customizer.withDefaults()));
+                        -> oauth2.jwt(Customizer.withDefaults()))
+        ;
 
         return http.build();
     }
@@ -55,22 +57,6 @@ public class SecurityConfiguration {
         return NoOpPasswordEncoder.getInstance();
     }
 
-/*    @Bean
-    public ReactiveUserDetailsService userDetailsService(UserRepository userRepository) {
-        return new CustomReactiveUserDetailsService(userRepository);
-    }*/
-
-    /*
-        @Bean
-        public ReactiveUserDetailsService userDetailsService() {
-            UserDetails user = User
-                    .withUsername("user1")
-                    .password("1")
-                    .roles("USER")
-                    .build();
-            return new MapReactiveUserDetailsService(user);
-        }
-    */
     @Bean
     ReactiveJwtDecoder jwtDecoder() {
         return NimbusReactiveJwtDecoder.withPublicKey(this.key).build();

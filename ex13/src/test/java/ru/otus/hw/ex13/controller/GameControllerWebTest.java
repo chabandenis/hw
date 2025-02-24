@@ -138,12 +138,21 @@ public class GameControllerWebTest {
                 .exchange()
                 .expectStatus().isUnauthorized();
 
+        // разрешение удаление под админом
         webTestClient
-                .mutateWith(mockUser())
+                .mutateWith(mockUser().roles("ADMIN"))
                 .delete()
                 .uri("/api/game/{id}", id)
                 .exchange()
                 .expectStatus().isNoContent();
+
+        // запрет уделения под пользователем
+        webTestClient
+                .mutateWith(mockUser().roles("USER"))
+                .delete()
+                .uri("/api/game/{id}", id)
+                .exchange()
+                .expectStatus().isForbidden();
     }
 
     @Test

@@ -182,12 +182,21 @@ public class UserControllerWebTest {
 
         when(userRepository.deleteById(any(Long.class))).thenReturn(Mono.empty());
 
+        // разрешение на удаление под пользователем с правами ADMIN
         webTestClient
-                .mutateWith(mockUser())
+                .mutateWith(mockUser().roles("ADMIN"))
                 .delete()
                 .uri("/api/user/4")
                 .exchange()
                 .expectStatus().isNoContent();
+
+        // запрет на удаление пользователя для роли USER
+        webTestClient
+                .mutateWith(mockUser().roles("USER"))
+                .delete()
+                .uri("/api/user/4")
+                .exchange()
+                .expectStatus().isForbidden();
 
         webTestClient
                 .delete()
