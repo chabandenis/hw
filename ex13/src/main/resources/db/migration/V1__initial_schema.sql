@@ -39,6 +39,7 @@ CREATE TABLE public.users (
    name VARCHAR(255),
    login VARCHAR(255),
    password VARCHAR,
+   role VARCHAR,
    CONSTRAINT pk_users PRIMARY KEY (id)
 );
 

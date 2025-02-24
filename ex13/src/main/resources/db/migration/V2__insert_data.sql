@@ -1,7 +1,7 @@
-INSERT INTO users (name, login, password)
-VALUES('Первый Иван Иваныч', 'user1', '1'),
-('Второй Петр Петрович', 'user2', '1'),
-('Третий Великий Петр', 'user3', '1');
+INSERT INTO users (name, login, password, role)
+VALUES('Первый Иван Иваныч', 'user1', '1', 'ADMIN'),
+('Второй Петр Петрович', 'user2', '1', 'USER'),
+('Третий Великий Петр', 'user3', '1', 'USER');
 
 INSERT INTO figuras (name)
 VALUES('Белый'), ('Черный');
