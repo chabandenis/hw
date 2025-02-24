@@ -1,4 +1,4 @@
-package ru.otus.hw.ex12_r_hw.mapper;
+package ru.otus.hw.ex13.mapper;
 
 import lombok.Data;
 import org.springframework.stereotype.Component;

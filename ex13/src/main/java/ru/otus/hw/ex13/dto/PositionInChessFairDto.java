@@ -1,9 +1,9 @@
-package ru.otus.hw.ex12_r_hw.dto;
+package ru.otus.hw.ex13.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import ru.otus.hw.ex12_r_hw.models.PositionInChessFair;
+import ru.otus.hw.ex13.models.PositionInChessFair;
 
 /**
  * DTO for {@link PositionInChessFair}

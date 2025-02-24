@@ -1,4 +1,4 @@
-package ru.otus.hw.ex12_r_hw.logic;
+package ru.otus.hw.ex13.logic;
 
 import lombok.Data;
 import org.springframework.stereotype.Component;

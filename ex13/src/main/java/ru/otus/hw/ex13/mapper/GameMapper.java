@@ -1,9 +1,9 @@
-package ru.otus.hw.ex12_r_hw.mapper;
+package ru.otus.hw.ex13.mapper;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
-import ru.otus.hw.ex12_r_hw.dto.GameDto;
-import ru.otus.hw.ex12_r_hw.models.Game;
+import ru.otus.hw.ex13.dto.GameDto;
+import ru.otus.hw.ex13.models.Game;
 
 @Component
 @AllArgsConstructor

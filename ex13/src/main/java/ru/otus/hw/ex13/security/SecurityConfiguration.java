@@ -1,4 +1,4 @@
-package ru.otus.hw.ex12_r_hw.security;
+package ru.otus.hw.ex13.security;
 
 import com.nimbusds.jose.jwk.JWK;
 import com.nimbusds.jose.jwk.JWKSet;

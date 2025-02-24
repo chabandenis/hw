@@ -1,4 +1,4 @@
-package ru.otus.hw.ex12_r_hw.controller;
+package ru.otus.hw.ex13.controller;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -16,14 +16,14 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
-import ru.otus.hw.ex12_r_hw.dto.GameDto;
-import ru.otus.hw.ex12_r_hw.dto.game.CoordinatesDto;
-import ru.otus.hw.ex12_r_hw.dto.game.GamesCreateDto;
-import ru.otus.hw.ex12_r_hw.repositories.game.GameRepositoryCustom;
-import ru.otus.hw.ex12_r_hw.services.Game.GameService;
-import ru.otus.hw.ex12_r_hw.services.Game.GameServiceCreate;
-import ru.otus.hw.ex12_r_hw.services.Game.GameServiceGetOne;
-import ru.otus.hw.ex12_r_hw.services.Game.GameServiceStep;
+import ru.otus.hw.ex13.dto.GameDto;
+import ru.otus.hw.ex13.dto.game.CoordinatesDto;
+import ru.otus.hw.ex13.dto.game.GamesCreateDto;
+import ru.otus.hw.ex13.repositories.game.GameRepositoryCustom;
+import ru.otus.hw.ex13.services.Game.GameService;
+import ru.otus.hw.ex13.services.Game.GameServiceCreate;
+import ru.otus.hw.ex13.services.Game.GameServiceGetOne;
+import ru.otus.hw.ex13.services.Game.GameServiceStep;
 
 @Slf4j
 @RestController

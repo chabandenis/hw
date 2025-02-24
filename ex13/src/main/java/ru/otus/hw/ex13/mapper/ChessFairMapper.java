@@ -1,8 +1,8 @@
-package ru.otus.hw.ex12_r_hw.mapper;
+package ru.otus.hw.ex13.mapper;
 
 import org.springframework.stereotype.Component;
-import ru.otus.hw.ex12_r_hw.dto.ChessFairDto;
-import ru.otus.hw.ex12_r_hw.models.ChessFair;
+import ru.otus.hw.ex13.dto.ChessFairDto;
+import ru.otus.hw.ex13.models.ChessFair;
 
 @Component
 public class ChessFairMapper {

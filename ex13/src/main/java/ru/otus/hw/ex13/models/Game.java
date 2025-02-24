@@ -1,4 +1,4 @@
-package ru.otus.hw.ex12_r_hw.models;
+package ru.otus.hw.ex13.models;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

@@ -1,4 +1,4 @@
-package ru.otus.hw.ex12_r_hw.controller;
+package ru.otus.hw.ex13.controller;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

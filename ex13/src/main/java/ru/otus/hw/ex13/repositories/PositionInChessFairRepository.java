@@ -1,9 +1,9 @@
-package ru.otus.hw.ex12_r_hw.repositories;
+package ru.otus.hw.ex13.repositories;
 
 import org.springframework.data.repository.reactive.ReactiveCrudRepository;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
-import ru.otus.hw.ex12_r_hw.models.PositionInChessFair;
+import ru.otus.hw.ex13.models.PositionInChessFair;
 
 public interface PositionInChessFairRepository extends ReactiveCrudRepository<PositionInChessFair, Long> {
 

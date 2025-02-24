@@ -1,4 +1,4 @@
-package ru.otus.hw.ex12_r_hw.models;
+package ru.otus.hw.ex13.models;
 
 
 import lombok.AllArgsConstructor;
@@ -37,6 +37,9 @@ public class User {
 
     @Column("password")
     private String password;
+
+    @Column("role")
+    private String role;
 
     @Override
     public boolean equals(Object o) {

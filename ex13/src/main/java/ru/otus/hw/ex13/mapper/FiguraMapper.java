@@ -1,8 +1,8 @@
-package ru.otus.hw.ex12_r_hw.mapper;
+package ru.otus.hw.ex13.mapper;
 
 import org.springframework.stereotype.Component;
-import ru.otus.hw.ex12_r_hw.dto.FiguraDto;
-import ru.otus.hw.ex12_r_hw.models.Figura;
+import ru.otus.hw.ex13.dto.FiguraDto;
+import ru.otus.hw.ex13.models.Figura;
 
 @Component
 public class FiguraMapper {

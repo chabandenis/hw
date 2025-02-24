@@ -1,10 +1,10 @@
-package ru.otus.hw.ex12_r_hw.mapper;
+package ru.otus.hw.ex13.mapper;
 
 import org.springframework.stereotype.Component;
-import ru.otus.hw.ex12_r_hw.dto.UserDto;
-import ru.otus.hw.ex12_r_hw.dto.user.UserCreateDto;
-import ru.otus.hw.ex12_r_hw.dto.user.UserUpdateDto;
-import ru.otus.hw.ex12_r_hw.models.User;
+import ru.otus.hw.ex13.dto.UserDto;
+import ru.otus.hw.ex13.dto.user.UserCreateDto;
+import ru.otus.hw.ex13.dto.user.UserUpdateDto;
+import ru.otus.hw.ex13.models.User;
 
 @Component
 public class UserMapper {
@@ -14,7 +14,8 @@ public class UserMapper {
                 user.getId(),
                 user.getName(),
                 user.getLogin(),
-                user.getPassword()
+                user.getPassword(),
+                user.getRole()
         );
         return userDto;
     }
@@ -32,7 +33,8 @@ public class UserMapper {
                 userId,
                 user.getName(),
                 user.getLogin(),
-                user.getPassword()
+                user.getPassword(),
+                user.getRole()
         );
         return userAllDto;
     }
@@ -42,7 +44,8 @@ public class UserMapper {
                 user.getId(),
                 user.getName(),
                 user.getLogin(),
-                user.getPassword()
+                user.getPassword(),
+                user.getRole()
         );
         return userAllDto;
     }
@@ -52,7 +55,8 @@ public class UserMapper {
                 userId,
                 user.getName(),
                 user.getLogin(),
-                user.getPassword()
+                user.getPassword(),
+                user.getRole()
         );
         return userAllDto;
     }

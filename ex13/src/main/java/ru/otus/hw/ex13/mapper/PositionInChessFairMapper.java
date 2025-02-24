@@ -1,11 +1,11 @@
-package ru.otus.hw.ex12_r_hw.mapper;
+package ru.otus.hw.ex13.mapper;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
-import ru.otus.hw.ex12_r_hw.dto.PositionInChessFairDto;
-import ru.otus.hw.ex12_r_hw.models.ChessFair;
-import ru.otus.hw.ex12_r_hw.models.Figura;
-import ru.otus.hw.ex12_r_hw.models.PositionInChessFair;
+import ru.otus.hw.ex13.dto.PositionInChessFairDto;
+import ru.otus.hw.ex13.models.ChessFair;
+import ru.otus.hw.ex13.models.Figura;
+import ru.otus.hw.ex13.models.PositionInChessFair;
 
 @Component
 @AllArgsConstructor

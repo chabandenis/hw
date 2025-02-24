@@ -1,8 +1,8 @@
-package ru.otus.hw.ex12_r_hw.services;
+package ru.otus.hw.ex13.services;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import ru.otus.hw.ex12_r_hw.dto.game.CoordinatesDto;
+import ru.otus.hw.ex13.dto.game.CoordinatesDto;
 
 @RequiredArgsConstructor
 @Service

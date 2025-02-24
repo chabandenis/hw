@@ -1,4 +1,4 @@
-package ru.otus.hw.ex12_r_hw.dto.user;
+package ru.otus.hw.ex13.dto.user;
 
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -6,7 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import ru.otus.hw.ex12_r_hw.models.User;
+import ru.otus.hw.ex13.models.User;
 
 /**
  * DTO for {@link User}
@@ -25,4 +25,7 @@ public class UserCreateDto {
 
     @NotNull
     private String password;
+
+    @NotNull
+    private String role;
 }

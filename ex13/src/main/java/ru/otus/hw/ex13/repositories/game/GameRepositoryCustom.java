@@ -1,4 +1,4 @@
-package ru.otus.hw.ex12_r_hw.repositories.game;
+package ru.otus.hw.ex13.repositories.game;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -9,13 +9,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.r2dbc.core.R2dbcEntityTemplate;
 import org.springframework.stereotype.Repository;
 import reactor.core.publisher.Flux;
-import ru.otus.hw.ex12_r_hw.dto.ChessFairDto;
-import ru.otus.hw.ex12_r_hw.dto.FiguraDto;
-import ru.otus.hw.ex12_r_hw.dto.GameDto;
-import ru.otus.hw.ex12_r_hw.dto.PositionInChessFairDto;
-import ru.otus.hw.ex12_r_hw.dto.PositionInChessFairInDbDto;
-import ru.otus.hw.ex12_r_hw.dto.UserDto;
-import ru.otus.hw.ex12_r_hw.services.Game.GameService;
+import ru.otus.hw.ex13.dto.ChessFairDto;
+import ru.otus.hw.ex13.dto.FiguraDto;
+import ru.otus.hw.ex13.dto.GameDto;
+import ru.otus.hw.ex13.dto.PositionInChessFairDto;
+import ru.otus.hw.ex13.dto.PositionInChessFairInDbDto;
+import ru.otus.hw.ex13.dto.UserDto;
+import ru.otus.hw.ex13.services.Game.GameService;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -35,14 +35,17 @@ public class GameRepositoryCustom {
             	u_black."name" black_name,
             	u_black.login black_login,
             	u_black."password" black_password,
+            	u_black.role black_role,
             	u_white.id white_id,
             	u_white."name" white_name,
             	u_white.login white_login,
             	u_white."password" white_password,
+            	u_white.role white_role,
             	u_next.id next_id,
             	u_next."name" next_name,
             	u_next.login next_login,
             	u_next."password" next_password,
+            	u_next.role next_role,            	
             	cf.id cf_id,
             	-- для удобства обработки json объекта из строки создаю в нужном виде. 
             	-- Решается проблема. получения недостающих данных из бд.	
@@ -110,21 +113,30 @@ public class GameRepositoryCustom {
     }
 
     private void addUsers(Readable selectedRecord, GameDto gameDto) {
-        UserDto userBlack = new UserDto(selectedRecord.get("black_id", Long.class),
-                selectedRecord.get("black_name", String.class), selectedRecord.get("black_login", String.class),
-                selectedRecord.get("black_password", String.class)
+        UserDto userBlack = new UserDto(
+                selectedRecord.get("black_id", Long.class),
+                selectedRecord.get("black_name", String.class),
+                selectedRecord.get("black_login", String.class),
+                selectedRecord.get("black_password", String.class),
+                selectedRecord.get("black_role", String.class)
         );
         gameDto.setUserBlack(userBlack);
 
-        UserDto userWhite = new UserDto(selectedRecord.get("white_id", Long.class),
-                selectedRecord.get("white_name", String.class), selectedRecord.get("white_login", String.class),
-                selectedRecord.get("white_password", String.class)
+        UserDto userWhite = new UserDto(
+                selectedRecord.get("white_id", Long.class),
+                selectedRecord.get("white_name", String.class),
+                selectedRecord.get("white_login", String.class),
+                selectedRecord.get("white_password", String.class),
+                selectedRecord.get("white_role", String.class)
         );
         gameDto.setUserWhite(userWhite);
 
-        UserDto userNext = new UserDto(selectedRecord.get("next_id", Long.class),
-                selectedRecord.get("next_name", String.class), selectedRecord.get("next_login", String.class),
-                selectedRecord.get("next_password", String.class)
+        UserDto userNext = new UserDto(
+                selectedRecord.get("next_id", Long.class),
+                selectedRecord.get("next_name", String.class),
+                selectedRecord.get("next_login", String.class),
+                selectedRecord.get("next_password", String.class),
+                selectedRecord.get("next_role", String.class)
         );
         gameDto.setUserNext(userNext);
     }

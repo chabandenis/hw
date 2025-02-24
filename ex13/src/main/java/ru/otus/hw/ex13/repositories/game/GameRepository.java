@@ -1,9 +1,9 @@
-package ru.otus.hw.ex12_r_hw.repositories.game;
+package ru.otus.hw.ex13.repositories.game;
 
 import org.springframework.data.repository.reactive.ReactiveCrudRepository;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
-import ru.otus.hw.ex12_r_hw.models.Game;
+import ru.otus.hw.ex13.models.Game;
 
 import java.util.Collection;
 

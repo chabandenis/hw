@@ -1,4 +1,4 @@
-package ru.otus.hw.ex12_r_hw.dto.desk;
+package ru.otus.hw.ex13.dto.desk;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

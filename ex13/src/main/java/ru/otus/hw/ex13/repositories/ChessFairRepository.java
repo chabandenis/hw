@@ -1,7 +1,7 @@
-package ru.otus.hw.ex12_r_hw.repositories;
+package ru.otus.hw.ex13.repositories;
 
 import org.springframework.data.repository.reactive.ReactiveCrudRepository;
-import ru.otus.hw.ex12_r_hw.models.ChessFair;
+import ru.otus.hw.ex13.models.ChessFair;
 
 public interface ChessFairRepository extends ReactiveCrudRepository<ChessFair, Long> {
 

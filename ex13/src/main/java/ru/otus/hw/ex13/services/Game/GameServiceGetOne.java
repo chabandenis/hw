@@ -1,4 +1,4 @@
-package ru.otus.hw.ex12_r_hw.services.Game;
+package ru.otus.hw.ex13.services.Game;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -6,17 +6,17 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 import reactor.core.scheduler.Scheduler;
-import ru.otus.hw.ex12_r_hw.controller.NotFoundException;
-import ru.otus.hw.ex12_r_hw.dto.ChessFairDto;
-import ru.otus.hw.ex12_r_hw.dto.GameDto;
-import ru.otus.hw.ex12_r_hw.dto.UserDto;
-import ru.otus.hw.ex12_r_hw.mapper.GameMapper;
-import ru.otus.hw.ex12_r_hw.mapper.UserMapper;
-import ru.otus.hw.ex12_r_hw.models.Game;
-import ru.otus.hw.ex12_r_hw.models.User;
-import ru.otus.hw.ex12_r_hw.repositories.PositionInChessFairRepository;
-import ru.otus.hw.ex12_r_hw.repositories.UserRepository;
-import ru.otus.hw.ex12_r_hw.repositories.game.GameRepository;
+import ru.otus.hw.ex13.controller.NotFoundException;
+import ru.otus.hw.ex13.dto.ChessFairDto;
+import ru.otus.hw.ex13.dto.GameDto;
+import ru.otus.hw.ex13.dto.UserDto;
+import ru.otus.hw.ex13.mapper.GameMapper;
+import ru.otus.hw.ex13.mapper.UserMapper;
+import ru.otus.hw.ex13.models.Game;
+import ru.otus.hw.ex13.models.User;
+import ru.otus.hw.ex13.repositories.PositionInChessFairRepository;
+import ru.otus.hw.ex13.repositories.UserRepository;
+import ru.otus.hw.ex13.repositories.game.GameRepository;
 
 import java.util.List;
 
