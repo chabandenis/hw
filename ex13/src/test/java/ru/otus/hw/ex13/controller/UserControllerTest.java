@@ -67,12 +67,14 @@ public class UserControllerTest extends BaseContainerTest {
         user1.setName("John Doe");
         user1.setLogin("john.doe");
         user1.setPassword("password123");
+        user1.setRole("USER");
 
         User user2 = new User();
         user2.setId(2L);
         user2.setName("Jane Doe");
         user2.setLogin("jane.doe");
         user2.setPassword("password456");
+        user2.setRole("USER");
 
         Flux<User> userFlux = Flux.just(user1, user2);
         when(userRepository.findAll()).thenReturn(userFlux);
