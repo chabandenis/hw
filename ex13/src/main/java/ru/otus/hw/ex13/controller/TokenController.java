@@ -36,3 +36,18 @@ public class TokenController {
         return this.encoder.encode(JwtEncoderParameters.from(claims)).getTokenValue();
     }
 }
+
+/*
+public Mono<AuthorizationDecision> check(Mono<Authentication> authentication, T object) {
+    return authentication.filter(Authentication::isAuthenticated).
+            flatMapIterable(Authentication::getAuthorities)
+            .map(GrantedAuthority::getAuthority)
+            .any((grantedAuthority) -> this.authorities.stream().anyMatch((authority) -> authority.getAuthority().equals(grantedAuthority)))
+
+            .map((granted) -> new AuthorityAuthorizationDecision(granted, this.authorities))
+
+            .defaultIfEmpty(new AuthorityAuthorizationDecision(false, this.authorities));
+
+}
+
+ */
