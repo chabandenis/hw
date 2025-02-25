@@ -158,7 +158,7 @@ public class UserControllerTest extends BaseContainerTest {
 
     @WithMockUser(
             username = "USER1",
-            authorities = {"ROLE_ADMIN"}
+            authorities = {"SCOPE_ROLE_ADMIN"}
     )
     @Test
     public void delete() throws Exception {

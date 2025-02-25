@@ -140,7 +140,7 @@ public class GameControllerWebTest {
 
         // разрешение удаление под админом
         webTestClient
-                .mutateWith(mockUser().roles("ADMIN"))
+                .mutateWith(mockUser().authorities("SCOPE_ROLE_ADMIN"))
                 .delete()
                 .uri("/api/game/{id}", id)
                 .exchange()

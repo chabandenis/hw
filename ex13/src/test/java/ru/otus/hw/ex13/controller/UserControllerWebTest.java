@@ -184,7 +184,7 @@ public class UserControllerWebTest {
 
         // разрешение на удаление под пользователем с правами ADMIN
         webTestClient
-                .mutateWith(mockUser().roles("ADMIN"))
+                .mutateWith(mockUser().authorities("SCOPE_ROLE_ADMIN"))
                 .delete()
                 .uri("/api/user/4")
                 .exchange()
