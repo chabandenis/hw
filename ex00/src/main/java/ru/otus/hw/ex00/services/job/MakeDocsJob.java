@@ -1,7 +1,6 @@
 package ru.otus.hw.ex00.services.job;
 
 import lombok.AllArgsConstructor;
-import lombok.extern.log4j.Log4j;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Component;
 import ru.otus.hw.ex00.services.RepaymentService;
@@ -14,19 +13,17 @@ import java.util.concurrent.TimeUnit;
 @Log4j2
 @Component
 @AllArgsConstructor
-public class RepaymentJob {
+public class MakeDocsJob {
 
     private final RepaymentService repaymentService;
 
-    public void start(){
+    public void start() {
         ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
         executor.scheduleWithFixedDelay(() -> {
-            System.out.println("Repayment job here !!! " + LocalDateTime.now());
-
-            log.debug("\t Найдена запись " + repaymentService.findFirstByStatus().orElse(null)
+            System.out.println("MakeDocs job here !!! " + LocalDateTime.now()
                     + "; " + Thread.currentThread().getId());
 
-        }, 100, 5000, TimeUnit.MILLISECONDS);
+        }, 200, 5000, TimeUnit.MILLISECONDS);
 
     }
 

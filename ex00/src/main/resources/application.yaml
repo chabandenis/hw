@@ -1,6 +1,6 @@
 logging:
   level:
-    ru.otus.hw.ex00.*: OFF
+    ru.otus.hw.ex00.*: DEBUG
     org.hibernate.SQL: OFF
 
 spring:

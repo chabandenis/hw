@@ -8,6 +8,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 /*
     Информация для погашения кредитного договора
@@ -16,6 +17,7 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(name = "repayment")
+@ToString
 public class Repayment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
