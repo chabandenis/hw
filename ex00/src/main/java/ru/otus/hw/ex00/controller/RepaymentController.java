@@ -25,7 +25,7 @@ public class RepaymentController {
     // http://localhost:8080/api/user
     // {"name":"user5", "login":"login", "password":"1" }
     @PostMapping(value = "")
-    public ResponseEntity<RepaymentDto> create(@RequestBody @Valid RepaymentCreateDto repaymentCreateDto) {
+    public ResponseEntity create(@RequestBody @Valid RepaymentCreateDto repaymentCreateDto) {
         return ResponseEntity.status(HttpStatus.CREATED).body(repaymentService.create(repaymentCreateDto));
     }
 

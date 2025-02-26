@@ -1,6 +1,6 @@
 logging:
   level:
-    ru.otus.hw.ex09.*: DEBUG
+    ru.otus.hw.ex00.*: DEBUG
     org.hibernate.SQL: DEBUG
 
 spring:
