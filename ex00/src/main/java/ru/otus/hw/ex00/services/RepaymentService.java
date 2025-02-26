@@ -9,6 +9,8 @@ import ru.otus.hw.ex00.mapper.RepaymentMapper;
 import ru.otus.hw.ex00.models.Repayment;
 import ru.otus.hw.ex00.repositories.RepaymentRepository;
 
+import java.util.Optional;
+
 @RequiredArgsConstructor
 @Service
 public class RepaymentService {
@@ -27,6 +29,16 @@ public class RepaymentService {
     @Transactional
     public RepaymentDto create(RepaymentCreateDto userCreateDto) {
         return repaymentMapper.toRepaymentDto(repaymentRepository.save(createRepayment(userCreateDto)));
+    }
+
+    @Transactional
+    public Optional<Repayment> findFirstByStatus(){
+        var repayment = repaymentRepository.findFirstByStatus("CREATED");
+        if (repayment.isPresent()){
+            repayment.get().setStatus("PROCESS");
+        }
+
+        return repayment;
     }
 
 }
