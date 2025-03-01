@@ -12,4 +12,5 @@ public class RepaymentDto {
     Long id;
     String numCred;
     String status;
+    Object jsonData;
 }
