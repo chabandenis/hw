@@ -13,7 +13,6 @@ import ru.otus.hw.ex13.dto.game.GamesCreateDto;
 import ru.otus.hw.ex13.repositories.UserRepository;
 import ru.otus.hw.ex13.repositories.game.GameRepositoryCustom;
 import ru.otus.hw.ex13.security.CustomReactiveUserDetailsService;
-import ru.otus.hw.ex13.security.MethodSecurityConfiguration;
 import ru.otus.hw.ex13.security.SecurityConfiguration;
 import ru.otus.hw.ex13.services.Game.GameService;
 import ru.otus.hw.ex13.services.Game.GameServiceCreate;
@@ -28,7 +27,6 @@ import static org.springframework.security.test.web.reactive.server.SecurityMock
 @WebFluxTest({GameController.class})
 @Import({ApplConfig.class,
         SecurityConfiguration.class,
-        MethodSecurityConfiguration.class,
         CustomReactiveUserDetailsService.class})
 public class GameControllerWebTest {
 

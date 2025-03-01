@@ -22,7 +22,6 @@ import ru.otus.hw.ex13.models.User;
 import ru.otus.hw.ex13.repositories.UserRepository;
 import ru.otus.hw.ex13.repositories.game.GameRepository;
 import ru.otus.hw.ex13.security.CustomReactiveUserDetailsService;
-import ru.otus.hw.ex13.security.MethodSecurityConfiguration;
 import ru.otus.hw.ex13.security.SecurityConfiguration;
 
 import java.util.List;
@@ -39,7 +38,6 @@ import static org.springframework.http.MediaType.APPLICATION_JSON;
 @Import({
         ApplConfig.class,
         SecurityConfiguration.class,
-        MethodSecurityConfiguration.class,
         CustomReactiveUserDetailsService.class})
 public class UserControllerTest extends BaseContainerTest {
 
@@ -96,7 +94,7 @@ public class UserControllerTest extends BaseContainerTest {
     @Test
     public void login() throws Exception {
         UserLoginDto userLoginDto = new UserLoginDto("user1", "1");
-        UserDto userDto = new UserDto(1L, "John Doe", "user1", "1","USER");
+        UserDto userDto = new UserDto(1L, "John Doe", "user1", "1", "USER");
 
         when(userRepository.findByLoginAndPassword(any(), any()))
                 .thenReturn(Mono.just(new User(1L, "John Doe", "user1", "1", "USER")));

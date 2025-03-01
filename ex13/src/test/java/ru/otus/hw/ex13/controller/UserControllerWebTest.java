@@ -20,7 +20,6 @@ import ru.otus.hw.ex13.models.User;
 import ru.otus.hw.ex13.repositories.UserRepository;
 import ru.otus.hw.ex13.repositories.game.GameRepository;
 import ru.otus.hw.ex13.security.CustomReactiveUserDetailsService;
-import ru.otus.hw.ex13.security.MethodSecurityConfiguration;
 import ru.otus.hw.ex13.security.SecurityConfiguration;
 
 import java.time.LocalDateTime;
@@ -36,7 +35,6 @@ import static org.springframework.security.test.web.reactive.server.SecurityMock
 @WebFluxTest({UserController.class})
 @Import({ApplConfig.class,
         SecurityConfiguration.class,
-        MethodSecurityConfiguration.class,
         CustomReactiveUserDetailsService.class})
 public class UserControllerWebTest {
     @MockBean
