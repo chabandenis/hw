@@ -1,4 +1,4 @@
-package ru.otus.hw.ex13.dto.game;
+package ru.otus.hw.ex14.dto.game;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;

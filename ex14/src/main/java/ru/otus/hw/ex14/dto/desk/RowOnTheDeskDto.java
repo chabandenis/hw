@@ -1,4 +1,4 @@
-package ru.otus.hw.ex13.dto.desk;
+package ru.otus.hw.ex14.dto.desk;
 
 import lombok.Data;
 

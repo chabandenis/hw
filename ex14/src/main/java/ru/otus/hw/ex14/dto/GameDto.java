@@ -1,9 +1,9 @@
-package ru.otus.hw.ex13.dto;
+package ru.otus.hw.ex14.dto;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import ru.otus.hw.ex13.models.Game;
+import ru.otus.hw.ex14.models.Game;
 
 import java.time.LocalDateTime;
 

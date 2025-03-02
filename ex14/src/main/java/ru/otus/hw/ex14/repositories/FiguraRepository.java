@@ -1,8 +1,8 @@
-package ru.otus.hw.ex13.repositories;
+package ru.otus.hw.ex14.repositories;
 
 import org.springframework.data.repository.reactive.ReactiveCrudRepository;
 import reactor.core.publisher.Flux;
-import ru.otus.hw.ex13.models.Figura;
+import ru.otus.hw.ex14.models.Figura;
 
 import java.util.Collection;
 

@@ -1,20 +1,4 @@
-FROM maven:latest AS builder
-WORKDIR /application
-COPY . .
-RUN --mount=type=cache,target=/root/.m2  mvn clean install -Dmaven.test.skip
-
-FROM bellsoft/liberica-openjre-debian:23.0.2 AS layers
-WORKDIR /application
-COPY --from=builder /application/target/*.jar app.jar
-RUN java -Djarmode=layertools -jar app.jar extract
-
-FROM bellsoft/liberica-openjre-debian:23.0.2
-VOLUME /tmp
-RUN useradd -ms /bin/bash spring-user
-USER spring-user
-COPY --from=layers /application/dependencies/ ./
-COPY --from=layers /application/spring-boot-loader/ ./
-COPY --from=layers /application/snapshot-dependencies/ ./
-COPY --from=layers /application/application/ ./
-
-ENTRYPOINT ["java", "org.springframework.boot.loader.launch.JarLauncher"]
+FROM bellsoft/liberica-openjdk-alpine-musl:21.0.1
+COPY /target/corners.jar /app/app.jar
+EXPOSE 8080
+ENTRYPOINT ["java", "-jar", "/app/app.jar"]

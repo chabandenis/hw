@@ -1,4 +1,4 @@
-package ru.otus.hw.ex13.repositories.game;
+package ru.otus.hw.ex14.repositories.game;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -9,13 +9,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.r2dbc.core.R2dbcEntityTemplate;
 import org.springframework.stereotype.Repository;
 import reactor.core.publisher.Flux;
-import ru.otus.hw.ex13.dto.ChessFairDto;
-import ru.otus.hw.ex13.dto.FiguraDto;
-import ru.otus.hw.ex13.dto.GameDto;
-import ru.otus.hw.ex13.dto.PositionInChessFairDto;
-import ru.otus.hw.ex13.dto.PositionInChessFairInDbDto;
-import ru.otus.hw.ex13.dto.UserDto;
-import ru.otus.hw.ex13.services.Game.GameService;
+import ru.otus.hw.ex14.dto.ChessFairDto;
+import ru.otus.hw.ex14.dto.FiguraDto;
+import ru.otus.hw.ex14.dto.GameDto;
+import ru.otus.hw.ex14.dto.PositionInChessFairDto;
+import ru.otus.hw.ex14.dto.PositionInChessFairInDbDto;
+import ru.otus.hw.ex14.dto.UserDto;
+import ru.otus.hw.ex14.services.Game.GameService;
 
 import java.time.LocalDateTime;
 import java.util.List;

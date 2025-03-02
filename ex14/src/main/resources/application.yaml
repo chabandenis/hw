@@ -1,18 +1,19 @@
 logging:
   level:
-    ru.otus.hw.ex13.*: DEBUG
+    ru.otus.hw.ex14.*: DEBUG
     org.springframework.jdbc.core.JdbcTemplate: TRACE
     org.springframework.security: DEBUG
 
 spring:
   r2dbc:
-    url: r2dbc:postgresql://localhost:5432/postgres
+    url: r2dbc:postgresql://localhost:5432/db
     username: postgres
-    password: 1
+    password: postgres
   flyway:
-    url: jdbc:postgresql://localhost:5432/postgres
+    schema: public
+    url: jdbc:postgresql://localhost:5432/db
     user: postgres
-    password: 1
+    password: postgres
 
 jwt:
   private.key: classpath:app.key

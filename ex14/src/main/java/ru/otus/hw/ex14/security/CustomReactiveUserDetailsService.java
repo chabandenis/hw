@@ -1,11 +1,11 @@
-package ru.otus.hw.ex13.security;
+package ru.otus.hw.ex14.security;
 
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.userdetails.ReactiveUserDetailsService;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
-import ru.otus.hw.ex13.repositories.UserRepository;
+import ru.otus.hw.ex14.repositories.UserRepository;
 
 import static org.springframework.security.core.userdetails.User.withUsername;
 

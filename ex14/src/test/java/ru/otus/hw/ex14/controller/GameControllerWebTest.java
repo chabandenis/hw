@@ -1,4 +1,4 @@
-package ru.otus.hw.ex13.controller;
+package ru.otus.hw.ex14.controller;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -7,17 +7,17 @@ import org.springframework.boot.test.autoconfigure.web.reactive.WebFluxTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.web.reactive.server.WebTestClient;
-import ru.otus.hw.ex13.config.ApplConfig;
-import ru.otus.hw.ex13.dto.game.CoordinatesDto;
-import ru.otus.hw.ex13.dto.game.GamesCreateDto;
-import ru.otus.hw.ex13.repositories.UserRepository;
-import ru.otus.hw.ex13.repositories.game.GameRepositoryCustom;
-import ru.otus.hw.ex13.security.CustomReactiveUserDetailsService;
-import ru.otus.hw.ex13.security.SecurityConfiguration;
-import ru.otus.hw.ex13.services.Game.GameService;
-import ru.otus.hw.ex13.services.Game.GameServiceCreate;
-import ru.otus.hw.ex13.services.Game.GameServiceGetOne;
-import ru.otus.hw.ex13.services.Game.GameServiceStep;
+import ru.otus.hw.ex14.config.ApplConfig;
+import ru.otus.hw.ex14.dto.game.CoordinatesDto;
+import ru.otus.hw.ex14.dto.game.GamesCreateDto;
+import ru.otus.hw.ex14.repositories.UserRepository;
+import ru.otus.hw.ex14.repositories.game.GameRepositoryCustom;
+import ru.otus.hw.ex14.security.CustomReactiveUserDetailsService;
+import ru.otus.hw.ex14.security.SecurityConfiguration;
+import ru.otus.hw.ex14.services.Game.GameService;
+import ru.otus.hw.ex14.services.Game.GameServiceCreate;
+import ru.otus.hw.ex14.services.Game.GameServiceGetOne;
+import ru.otus.hw.ex14.services.Game.GameServiceStep;
 
 import static org.springframework.security.test.web.reactive.server.SecurityMockServerConfigurers.mockUser;
 

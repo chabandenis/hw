@@ -1,4 +1,4 @@
-package ru.otus.hw.ex13.controller;
+package ru.otus.hw.ex14.controller;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -10,17 +10,17 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
-import ru.otus.hw.ex13.config.ApplConfig;
-import ru.otus.hw.ex13.dto.UserDto;
-import ru.otus.hw.ex13.dto.user.UserCreateDto;
-import ru.otus.hw.ex13.dto.user.UserLoginDto;
-import ru.otus.hw.ex13.dto.user.UserUpdateDto;
-import ru.otus.hw.ex13.models.Game;
-import ru.otus.hw.ex13.models.User;
-import ru.otus.hw.ex13.repositories.UserRepository;
-import ru.otus.hw.ex13.repositories.game.GameRepository;
-import ru.otus.hw.ex13.security.CustomReactiveUserDetailsService;
-import ru.otus.hw.ex13.security.SecurityConfiguration;
+import ru.otus.hw.ex14.config.ApplConfig;
+import ru.otus.hw.ex14.dto.UserDto;
+import ru.otus.hw.ex14.dto.user.UserCreateDto;
+import ru.otus.hw.ex14.dto.user.UserLoginDto;
+import ru.otus.hw.ex14.dto.user.UserUpdateDto;
+import ru.otus.hw.ex14.models.Game;
+import ru.otus.hw.ex14.models.User;
+import ru.otus.hw.ex14.repositories.UserRepository;
+import ru.otus.hw.ex14.repositories.game.GameRepository;
+import ru.otus.hw.ex14.security.CustomReactiveUserDetailsService;
+import ru.otus.hw.ex14.security.SecurityConfiguration;
 
 import java.time.LocalDateTime;
 

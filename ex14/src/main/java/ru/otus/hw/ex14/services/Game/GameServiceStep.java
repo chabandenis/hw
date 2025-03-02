@@ -1,16 +1,16 @@
-package ru.otus.hw.ex13.services.Game;
+package ru.otus.hw.ex14.services.Game;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
-import ru.otus.hw.ex13.dto.GameDto;
-import ru.otus.hw.ex13.dto.game.CoordinatesDto;
-import ru.otus.hw.ex13.models.Figura;
-import ru.otus.hw.ex13.models.User;
-import ru.otus.hw.ex13.repositories.PositionInChessFairRepository;
-import ru.otus.hw.ex13.services.InputXYService;
+import ru.otus.hw.ex14.dto.GameDto;
+import ru.otus.hw.ex14.dto.game.CoordinatesDto;
+import ru.otus.hw.ex14.models.Figura;
+import ru.otus.hw.ex14.models.User;
+import ru.otus.hw.ex14.repositories.PositionInChessFairRepository;
+import ru.otus.hw.ex14.services.InputXYService;
 
 import java.util.HashMap;
 import java.util.Map;

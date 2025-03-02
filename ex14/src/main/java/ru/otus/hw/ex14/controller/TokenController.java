@@ -1,4 +1,4 @@
-package ru.otus.hw.ex13.controller;
+package ru.otus.hw.ex14.controller;
 
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.Authentication;

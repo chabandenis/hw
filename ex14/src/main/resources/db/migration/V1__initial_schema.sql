@@ -1,3 +1,5 @@
+CREATE SCHEMA IF NOT EXISTS public;
+
 DROP TABLE if EXISTS public.chess_fairs CASCADE;
 DROP TABLE if EXISTS public.figuras CASCADE;
 DROP TABLE if EXISTS public.games CASCADE;

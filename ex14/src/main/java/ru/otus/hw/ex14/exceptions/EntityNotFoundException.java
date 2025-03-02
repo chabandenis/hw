@@ -1,4 +1,4 @@
-package ru.otus.hw.ex13.exceptions;
+package ru.otus.hw.ex14.exceptions;
 
 public class EntityNotFoundException extends RuntimeException {
     public EntityNotFoundException(String message) {

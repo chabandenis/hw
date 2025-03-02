@@ -1,4 +1,4 @@
-package ru.otus.hw.ex13.controller;
+package ru.otus.hw.ex14.controller;
 
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -17,13 +17,13 @@ import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.core.scheduler.Scheduler;
-import ru.otus.hw.ex13.dto.UserDto;
-import ru.otus.hw.ex13.dto.user.UserCreateDto;
-import ru.otus.hw.ex13.dto.user.UserLoginDto;
-import ru.otus.hw.ex13.dto.user.UserUpdateDto;
-import ru.otus.hw.ex13.mapper.UserMapper;
-import ru.otus.hw.ex13.repositories.UserRepository;
-import ru.otus.hw.ex13.repositories.game.GameRepository;
+import ru.otus.hw.ex14.dto.UserDto;
+import ru.otus.hw.ex14.dto.user.UserCreateDto;
+import ru.otus.hw.ex14.dto.user.UserLoginDto;
+import ru.otus.hw.ex14.dto.user.UserUpdateDto;
+import ru.otus.hw.ex14.mapper.UserMapper;
+import ru.otus.hw.ex14.repositories.UserRepository;
+import ru.otus.hw.ex14.repositories.game.GameRepository;
 
 import java.util.List;
 

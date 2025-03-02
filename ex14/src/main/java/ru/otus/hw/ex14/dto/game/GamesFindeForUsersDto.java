@@ -1,4 +1,4 @@
-package ru.otus.hw.ex13.dto.game;
+package ru.otus.hw.ex14.dto.game;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
