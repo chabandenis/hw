@@ -6,12 +6,12 @@ logging:
 
 spring:
   r2dbc:
-    url: r2dbc:postgresql://localhost:5432/db
+    url: r2dbc:postgresql://localhost:5433/db
     username: postgres
     password: postgres
   flyway:
     schema: public
-    url: jdbc:postgresql://localhost:5432/db
+    url: jdbc:postgresql://localhost:5433/db
     user: postgres
     password: postgres
 
