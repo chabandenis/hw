@@ -15,7 +15,7 @@ services:
       - SPRING_R2DBC_PASSWORD=postgres
 
   postgres:
-    image: "postgres"
+    image: "postgres:15-alpine3.21"
     ports:
       - "5433:5432"
     environment:
