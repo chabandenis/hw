@@ -1,7 +1,6 @@
-DROP TABLE if EXISTS public.eggs CASCADE;
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
-create table egg (
-    id varchar(32) not null,
-    name varchar(255) not null,
-    primary key (id)
+CREATE TABLE egg (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    name VARCHAR(255) NOT NULL
 );

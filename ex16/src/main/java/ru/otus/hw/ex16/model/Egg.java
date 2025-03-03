@@ -11,6 +11,7 @@ import org.springframework.data.annotation.Id;
 @AllArgsConstructor
 @ToString
 public class Egg {
+
     @Id
     private String id;
 

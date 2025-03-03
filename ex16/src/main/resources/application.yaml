@@ -16,6 +16,7 @@ spring:
     url: jdbc:postgresql://localhost:5433/db
     user: postgres
     password: postgres
+    clean-disabled: false
 
 
   #  datasource:
