@@ -10,8 +10,8 @@ import org.springframework.data.annotation.Id;
 @Builder
 @AllArgsConstructor
 @ToString
-// яйцо
-public class Egg {
+// трава
+public class Grass {
 
     @Id
     private String id;

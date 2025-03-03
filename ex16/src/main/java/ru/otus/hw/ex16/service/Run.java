@@ -13,7 +13,7 @@ public class Run {
 
     private void generateEgg() {
         for (int i = 0; i < 10; i++) {
-            var egg = eggRepository.save(Egg.builder().name("00"+i).build());
+            var egg = eggRepository.save(Egg.builder().name("00" + i).build());
             System.out.println("egg" + egg);
         }
     }
