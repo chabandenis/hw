@@ -12,6 +12,7 @@ public class FlywayRunner {
 
     private final Flyway flyway;
 
+
     @Bean
     public CommandLineRunner cleanAndMigrate() {
         return args -> {
