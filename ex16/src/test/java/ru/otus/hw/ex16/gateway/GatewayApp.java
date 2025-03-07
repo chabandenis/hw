@@ -11,11 +11,14 @@ import org.springframework.integration.annotation.MessagingGateway;
 import org.springframework.integration.dsl.IntegrationFlow;
 import org.springframework.messaging.MessageChannel;
 import org.springframework.messaging.MessageHandler;
-import ru.otus.hw.ex16.model.Butterfly;
+import ru.otus.hw.ex16.model.Caterpillar;
 import ru.otus.hw.ex16.model.Egg;
+import ru.otus.hw.ex16.model.Grass;
 import ru.otus.hw.ex16.model.Pupae;
 import ru.otus.hw.ex16.model.Sun;
 import ru.otus.hw.ex16.service.ButterflyService;
+import ru.otus.hw.ex16.service.CaterpillarService;
+import ru.otus.hw.ex16.service.EggService;
 import ru.otus.hw.ex16.service.PupaeService;
 
 import java.util.Collection;
@@ -41,52 +44,55 @@ public class GatewayApp {
         for (Map.Entry<String, MessageHandler> entry : endpoints.entrySet()) {
             log.warn("{}. {}/{} -> {}", ++i, entry.getKey(), entry.getValue().getClass().getSimpleName(), entry.getValue());
         }
-        Upcase2 upcase = ctx.getBean(Upcase2.class);
-        Collection<Butterfly> result =
-                upcase.upcase2(
+        Butterfly upcase = ctx.getBean(Butterfly.class);
+        Collection<ru.otus.hw.ex16.model.Butterfly> result =
+                upcase.life(
                         List.of(
-                                new Pupae(null, "Куколка 1"),
-                                new Pupae(null, "Куколка 2"))
+                                new Egg(null, "Яйцо 001"),
+                                new Egg(null, "Яйцо 002"))
                 );
         log.warn("Upcase result: {}", result);
 
     }
 
     @MessagingGateway
-    public interface Upcase2 {
+    public interface Butterfly {
         @Gateway(requestChannel = "upcase33.input")
-        Collection<Butterfly> upcase2(Collection<Pupae> strings);
+        Collection<ru.otus.hw.ex16.model.Butterfly> life(Collection<Egg> strings);
     }
 
     @Bean
     public IntegrationFlow upcase33() {
         return f -> f//.channel("from-input-to-split")
                 .split()
-//				.split(list -> list.getObject().spliterator())
-//				.split(getCustomSplitter(), "split")
                 .channel("from-split-to-transformer")
 
-                .<Pupae, Butterfly>transform(PupaeService::growing) // 3. из куколки в бабочку
+                // 1. Яйца (гусеницы) + бабочка мальчик => Гусеница
+                .<Egg, Caterpillar>transform(
+                        egg -> EggService.fertilization(
+                                egg,
+                                new ru.otus.hw.ex16.model.Butterfly(null, "Бабочка 001")))
 
-                .<Butterfly, List<Egg>>transform(ButterflyService::growing) // 4. бабочка откладывает яйца
+                .channel("from-Caterpillar-to-Pupae")
+
+                //  2. гусеницы + трава => куколки
+                //var pupae = caterpillarService.growing(caterpillar, grass);
+                .<Caterpillar, Pupae>transform(
+                        caterpillar->CaterpillarService.growing(
+                                caterpillar, new Grass(null, "Greass001")))
+                .channel("from-Pupae-to-Butterfly")
+
+                // 3. из куколки в бабочку
+                .<Pupae, ru.otus.hw.ex16.model.Butterfly>transform(PupaeService::growing)
+                .channel("from-Butterfly-to-Eggs")
+
+                // 4. бабочка откладывает яйца
+                .<ru.otus.hw.ex16.model.Butterfly, List<Egg>>transform(
+                        pupae -> ButterflyService.growing(
+                                pupae,
+                                new Sun(null, "sun 001")))
 
                 .channel("from-transformer-to-aggregate")
-                .aggregate()
-                ;
-//				.<Collection<String>>filter(source -> source.stream().anyMatch(s -> s.startsWith("a")))
+                .aggregate();
     }
-
-
-//	@Bean
-//	CustomSplitter getCustomSplitter() {
-//		return new CustomSplitter();
-//	}
-//
-//	public static class CustomSplitter {
-//		public Collection<String> split(Message<Collection<String>> message) {
-//			return message.getPayload().stream().skip(1).collect(Collectors.toList());
-//		}
-//	}
-
-
 }

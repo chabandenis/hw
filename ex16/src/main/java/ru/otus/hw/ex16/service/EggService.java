@@ -11,7 +11,7 @@ import ru.otus.hw.ex16.model.Egg;
 public class EggService {
 
     // оплодотворение
-    public Caterpillar fertilization(Egg egg, Butterfly butterfly) {
+    public static Caterpillar fertilization(Egg egg, Butterfly butterfly) {
         log.debug("оплодотворение");
         return Caterpillar.builder().name(egg + " + " + butterfly).build();
     }

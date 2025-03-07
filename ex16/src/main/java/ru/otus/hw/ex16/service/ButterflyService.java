@@ -13,8 +13,11 @@ import java.util.List;
 public class ButterflyService {
     // Растет
     public static List<Egg> growing(Butterfly butterfly, Sun sun) {
-        log.debug("Откладывание яиц");
-        return List.of(new Egg(null, "egg02"), new Egg(null, "egg03"));
+        var eggs = List.of(
+                new Egg(null, butterfly.getName() + "=> Яйцо 001"),
+                new Egg(null, butterfly.getName() + "=> Яйцо 002"));
+        log.debug("Откладывание яиц. " + eggs.toString());
+        return eggs;
     }
 
 }

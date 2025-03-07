@@ -11,7 +11,7 @@ import ru.otus.hw.ex16.model.Pupae;
 public class CaterpillarService {
 
     // Растет
-    public Pupae growing(Caterpillar caterpillar, Grass grass) {
+    public static Pupae growing(Caterpillar caterpillar, Grass grass) {
         log.debug("превращение в куколку");
         return new Pupae(null, caterpillar + " + " + grass);
     }

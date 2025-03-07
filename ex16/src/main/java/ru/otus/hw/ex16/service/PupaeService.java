@@ -11,8 +11,9 @@ public class PupaeService {
 
     // Растет
     public static Butterfly growing(Pupae pupae) {
-        log.debug("превращение в бабочку");
-        return new Butterfly(null, pupae.getName() + "; превращение из куколки в бабочку ");
+        var butterfly = new Butterfly(null, pupae.getName() + "; превращение из куколки в бабочку ");
+        log.debug("превращение в бабочку. " + butterfly.getName());
+        return butterfly;
     }
 
 }
