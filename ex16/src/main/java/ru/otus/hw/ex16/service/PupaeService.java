@@ -10,9 +10,9 @@ import ru.otus.hw.ex16.model.Pupae;
 public class PupaeService {
 
     // Растет
-    public Butterfly growing(Pupae pupae) {
+    public static Butterfly growing(Pupae pupae) {
         log.debug("превращение в бабочку");
-        return new Butterfly(null, pupae.getName());
+        return new Butterfly(null, pupae.getName() + "; превращение из куколки в бабочку ");
     }
 
 }

@@ -12,7 +12,7 @@ import java.util.List;
 @Component
 public class ButterflyService {
     // Растет
-    public List<Egg> growing(Butterfly butterfly, Sun sun) {
+    public static List<Egg> growing(Butterfly butterfly, Sun sun) {
         log.debug("Откладывание яиц");
         return List.of(new Egg(null, "egg02"), new Egg(null, "egg03"));
     }

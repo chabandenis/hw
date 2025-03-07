@@ -1,5 +1,6 @@
 package ru.otus.hw.ex16.config;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.integration.dsl.IntegrationFlow;
@@ -9,6 +10,7 @@ import org.springframework.integration.dsl.PollerSpec;
 import org.springframework.integration.dsl.Pollers;
 import org.springframework.integration.scheduling.PollerMetadata;
 
+@Slf4j
 @Configuration
 public class IntegrationConfig {
 
@@ -28,7 +30,8 @@ public class IntegrationConfig {
     }
 
     @Bean
-    public IntegrationFlow cafeFlow(/*KitchenService kitchenService*/) {
+    public IntegrationFlow lifeFlow(/*KitchenService kitchenService*/) {
+        log.debug("lifeFlow");
         return IntegrationFlow.from(itemsChannel())
 //				.split()
 //				.handle(kitchenService, "cook")
