@@ -6,9 +6,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.integration.dsl.IntegrationFlow;
 import org.springframework.integration.dsl.MessageChannelSpec;
 import org.springframework.integration.dsl.MessageChannels;
-import org.springframework.integration.dsl.PollerSpec;
-import org.springframework.integration.dsl.Pollers;
-import org.springframework.integration.scheduling.PollerMetadata;
 import ru.otus.hw.ex16.model.Butterfly;
 import ru.otus.hw.ex16.model.Caterpillar;
 import ru.otus.hw.ex16.model.Egg;
@@ -71,7 +68,7 @@ public class IntegrationConfig {
     }
 
     @Bean
-    public IntegrationFlow сaterpillarFlow() {
+    public IntegrationFlow caterpillarFlow() {
         log.debug("сaterpillar => pupae");
         return IntegrationFlow
                 .from(caterpillarChannel())
