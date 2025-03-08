@@ -10,6 +10,8 @@ public class Ex16Application {
 
         var context = SpringApplication.run(Ex16Application.class, args);
 
+        // Если реализовать через автозапуск, то получалось, что флайвей стартовал последним.
+        // Так он стартует первым и отрабатывает бизнес логика в конце
         var testRunnerService = context.getBean(Run.class);
 
         try {

@@ -92,18 +92,20 @@ public class Run {
         Sun sun = new Sun(null, "sun 001");
 
 
+        // процедурный код
+
         //  1.
         //    Яйца (гусеницы) + бабочка мальчик => Гусеница
-        var caterpillar = eggService.fertilization(egg, butterfly);
+//!        var caterpillar = eggService.fertilization(egg, butterfly);
 
         //  2. гусеницы + трава => куколки
-        var pupae = caterpillarService.growing(caterpillar, grass);
+//!        var pupae = caterpillarService.growing(caterpillar, grass);
 
         //  3.   куколки => бабочки
-        var butterfly2 = pupaeService.growing(pupae);
+//!        var butterfly2 = pupaeService.growing(pupae);
 
         // 4.   бабочка+солнце => яйца
-        var eggs = butterflyService.growing(butterfly2, sun);
+//!        var eggs = butterflyService.growing(butterfly2, sun);
 
     }
 }

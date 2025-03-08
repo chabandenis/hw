@@ -9,18 +9,21 @@ import org.springframework.integration.dsl.MessageChannels;
 import org.springframework.integration.dsl.PollerSpec;
 import org.springframework.integration.dsl.Pollers;
 import org.springframework.integration.scheduling.PollerMetadata;
+import ru.otus.hw.ex16.model.Caterpillar;
+import ru.otus.hw.ex16.model.Egg;
+import ru.otus.hw.ex16.service.EggService;
 
 @Slf4j
 @Configuration
 public class IntegrationConfig {
 
     @Bean
-    public MessageChannelSpec<?, ?> itemsChannel() {
+    public MessageChannelSpec<?, ?> eggsChannel() {
         return MessageChannels.queue(10);
     }
 
     @Bean
-    public MessageChannelSpec<?, ?> foodChannel() {
+    public MessageChannelSpec<?, ?> caterpillarChannel() {
         return MessageChannels.publishSubscribe();
     }
 
@@ -30,14 +33,17 @@ public class IntegrationConfig {
     }
 
     @Bean
-    public IntegrationFlow lifeFlow(/*KitchenService kitchenService*/) {
-        log.debug("lifeFlow");
-        return IntegrationFlow.from(itemsChannel())
-//				.split()
-//				.handle(kitchenService, "cook")
-//				.<Food, Food>transform(f -> new Food(f.getName().toUpperCase()))
-//				.aggregate()
-                .channel(foodChannel())
+    public IntegrationFlow lifeFlow() {
+        log.debug("egg => caterpillar");
+        return IntegrationFlow
+                .from(eggsChannel())
+
+                .<Egg, Caterpillar>transform(
+                        egg -> EggService.fertilization(
+                                egg,
+                                new ru.otus.hw.ex16.model.Butterfly(null, "Бабочка 001")))
+
+                .channel(caterpillarChannel())
                 .get();
     }
 }
