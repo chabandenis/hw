@@ -5,6 +5,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Import;
 import org.springframework.integration.annotation.Gateway;
 import org.springframework.integration.annotation.IntegrationComponentScan;
 import org.springframework.integration.annotation.MessagingGateway;
@@ -19,6 +20,7 @@ import ru.otus.hw.ex16.model.Pupae;
 import ru.otus.hw.ex16.model.Sun;
 import ru.otus.hw.ex16.service.ButterflyService;
 import ru.otus.hw.ex16.service.CaterpillarService;
+import ru.otus.hw.ex16.service.EggGateway;
 import ru.otus.hw.ex16.service.EggService;
 import ru.otus.hw.ex16.service.PupaeService;
 
@@ -30,6 +32,7 @@ import java.util.Map;
 @SpringBootApplication
 @IntegrationComponentScan
 @Slf4j
+@Import(EggGateway.class)
 public class GatewayApp {
     public static void main(String[] args) {
         ConfigurableApplicationContext ctx = SpringApplication.run(GatewayApp.class, args);

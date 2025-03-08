@@ -1,7 +1,6 @@
 package ru.otus.hw.ex16.service;
 
 import lombok.AllArgsConstructor;
-import org.springframework.context.annotation.Import;
 import org.springframework.stereotype.Component;
 import ru.otus.hw.ex16.model.Egg;
 
@@ -29,7 +28,6 @@ import java.util.List;
 
 @AllArgsConstructor
 @Component
-@Import(EggGateway.class)
 public class Run {
 
     private final EggGateway eggGateway;
