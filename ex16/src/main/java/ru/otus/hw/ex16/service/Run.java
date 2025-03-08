@@ -13,9 +13,13 @@ import ru.otus.hw.ex16.repository.EggRepository;
 import ru.otus.hw.ex16.repository.GrassRepository;
 import ru.otus.hw.ex16.repository.SunRepository;
 
+import java.util.List;
+
 @AllArgsConstructor
 @Component
 public class Run {
+
+    private final EggGateway eggGateway;
 
     private final ButterflyRepository butterflyRepository;
 
@@ -39,6 +43,7 @@ public class Run {
 
     private final PupaeService pupaeService;
 
+    /*
     private void generateButterfly() {
         for (int i = 0; i < 10; i++) {
             var butterfly = butterflyRepository.save(Butterfly.builder().name("00" + i).build());
@@ -73,7 +78,7 @@ public class Run {
             System.out.println("caterpillar " + caterpillar);
         }
     }
-
+*/
 
     public void run() throws Exception {
         System.out.println("start");
@@ -106,6 +111,10 @@ public class Run {
 
         // 4.   бабочка+солнце => яйца
 //!        var eggs = butterflyService.growing(butterfly2, sun);
+
+        eggGateway.fertilization(List.of(
+                new Egg(null, "Яйцо 001"),
+                new Egg(null, "Яйцо 002")));
 
     }
 }

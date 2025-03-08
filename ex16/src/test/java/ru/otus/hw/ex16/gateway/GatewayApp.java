@@ -12,6 +12,7 @@ import org.springframework.integration.dsl.IntegrationFlow;
 import org.springframework.messaging.MessageChannel;
 import org.springframework.messaging.MessageHandler;
 import ru.otus.hw.ex16.model.Caterpillar;
+import ru.otus.hw.ex16.model.Butterfly;
 import ru.otus.hw.ex16.model.Egg;
 import ru.otus.hw.ex16.model.Grass;
 import ru.otus.hw.ex16.model.Pupae;
@@ -44,9 +45,9 @@ public class GatewayApp {
         for (Map.Entry<String, MessageHandler> entry : endpoints.entrySet()) {
             log.warn("{}. {}/{} -> {}", ++i, entry.getKey(), entry.getValue().getClass().getSimpleName(), entry.getValue());
         }
-        Butterfly upcase = ctx.getBean(Butterfly.class);
+        Butterflys trans = ctx.getBean(Butterflys.class);
         Collection<ru.otus.hw.ex16.model.Butterfly> result =
-                upcase.life(
+                trans.life(
                         List.of(
                                 new Egg(null, "Яйцо 001"),
                                 new Egg(null, "Яйцо 002"))
@@ -56,9 +57,9 @@ public class GatewayApp {
     }
 
     @MessagingGateway
-    public interface Butterfly {
+    public interface Butterflys {
         @Gateway(requestChannel = "upcase33.input")
-        Collection<ru.otus.hw.ex16.model.Butterfly> life(Collection<Egg> strings);
+        Collection<Butterfly> life(Collection<Egg> strings);
     }
 
     @Bean
@@ -78,16 +79,16 @@ public class GatewayApp {
                 //  2. гусеницы + трава => куколки
                 //var pupae = caterpillarService.growing(caterpillar, grass);
                 .<Caterpillar, Pupae>transform(
-                        caterpillar->CaterpillarService.growing(
+                        caterpillar -> CaterpillarService.growing(
                                 caterpillar, new Grass(null, "Greass001")))
                 .channel("from-Pupae-to-Butterfly")
 
                 // 3. из куколки в бабочку
-                .<Pupae, ru.otus.hw.ex16.model.Butterfly>transform(PupaeService::growing)
+                .<Pupae, Butterfly>transform(PupaeService::growing)
                 .channel("from-Butterfly-to-Eggs")
 
                 // 4. бабочка откладывает яйца
-                .<ru.otus.hw.ex16.model.Butterfly, List<Egg>>transform(
+                .<Butterfly, List<Egg>>transform(
                         pupae -> ButterflyService.growing(
                                 pupae,
                                 new Sun(null, "sun 001")))
