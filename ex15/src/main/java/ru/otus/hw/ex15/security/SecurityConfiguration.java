@@ -9,6 +9,10 @@ import com.nimbusds.jose.proc.SecurityContext;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
+import org.springframework.context.annotation.Profile;
+import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity;
@@ -26,6 +30,7 @@ import java.security.interfaces.RSAPublicKey;
 
 @EnableWebFluxSecurity
 @Configuration
+@Order(1)
 public class SecurityConfiguration {
 
     @Value("${jwt.public.key}")
