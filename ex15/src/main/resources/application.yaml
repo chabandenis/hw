@@ -17,9 +17,6 @@ management:
       enabled: true
 
 spring:
-  data:
-    rest:
-      base-path: /datarest
   jmx:
     enabled: true
   r2dbc:
