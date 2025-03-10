@@ -8,6 +8,6 @@ public class Ex17_Application {
 
     public static void main(String[] args) {
         SpringApplication.run(Ex17_Application.class, args);
-        System.out.println("Только ресты");
+        System.out.println("ресты");
     }
 }
