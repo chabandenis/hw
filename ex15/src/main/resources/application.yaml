@@ -3,6 +3,8 @@ logging:
     ru.otus.hw.ex15.*: DEBUG
     org.springframework.jdbc.core.JdbcTemplate: TRACE
     org.springframework.security: DEBUG
+  file:
+    name: ex15/log/dbg.log
 
 management:
   endpoints:
@@ -12,9 +14,12 @@ management:
   endpoint:
     health:
       show-details: always
+    logfile:
+      enabled: true
   health:
     defaults:
       enabled: true
+
 
 spring:
   jmx:
