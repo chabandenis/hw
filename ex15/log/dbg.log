@@ -1,0 +1,59 @@
+2025-03-11T17:02:29.072+07:00  INFO 31768 --- [main] ru.otus.hw.ex15.Ex15_Application         : Starting Ex15_Application using Java 21.0.5 with PID 31768 (C:\Users\dchaban\IdeaProjects\hw\ex15\target\classes started by DCHaban in C:\Users\dchaban\IdeaProjects\hw)
+2025-03-11T17:02:29.094+07:00 DEBUG 31768 --- [main] ru.otus.hw.ex15.Ex15_Application         : Running with Spring Boot v3.1.0, Spring v6.0.9
+2025-03-11T17:02:29.097+07:00  INFO 31768 --- [main] ru.otus.hw.ex15.Ex15_Application         : No active profile set, falling back to 1 default profile: "default"
+2025-03-11T17:02:33.450+07:00  INFO 31768 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-03-11T17:02:33.726+07:00  INFO 31768 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 225 ms. Found 1 JPA repository interfaces.
+2025-03-11T17:02:36.692+07:00  INFO 31768 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2025-03-11T17:02:36.736+07:00  INFO 31768 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-03-11T17:02:36.738+07:00  INFO 31768 --- [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.8]
+2025-03-11T17:02:37.092+07:00  INFO 31768 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2025-03-11T17:02:37.094+07:00  INFO 31768 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 7682 ms
+2025-03-11T17:02:37.992+07:00  INFO 31768 --- [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-03-11T17:02:38.157+07:00  INFO 31768 --- [main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.2.2.Final
+2025-03-11T17:02:38.166+07:00  INFO 31768 --- [main] org.hibernate.cfg.Environment            : HHH000406: Using bytecode reflection optimizer
+2025-03-11T17:02:38.715+07:00  INFO 31768 --- [main] o.h.b.i.BytecodeProviderInitiator        : HHH000021: Bytecode provider name : bytebuddy
+2025-03-11T17:02:39.177+07:00  INFO 31768 --- [main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-03-11T17:02:39.231+07:00  INFO 31768 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2025-03-11T17:02:40.138+07:00  INFO 31768 --- [main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@7b4b8199
+2025-03-11T17:02:40.144+07:00  INFO 31768 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2025-03-11T17:02:40.332+07:00  INFO 31768 --- [main] org.hibernate.orm.dialect                : HHH035001: Using dialect: org.hibernate.dialect.PostgreSQLDialect, version: org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$DialectResolutionInfoImpl@401926df
+2025-03-11T17:02:41.293+07:00  INFO 31768 --- [main] o.h.b.i.BytecodeProviderInitiator        : HHH000021: Bytecode provider name : bytebuddy
+2025-03-11T17:02:43.000+07:00  INFO 31768 --- [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2025-03-11T17:02:43.088+07:00  INFO 31768 --- [main] o.h.t.s.i.e.GenerationTargetToDatabase   : HHH000476: Executing script '[injected ScriptSourceInputNonExistentImpl script]'
+2025-03-11T17:02:43.091+07:00  INFO 31768 --- [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-03-11T17:02:43.818+07:00  WARN 31768 --- [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-03-11T17:02:47.417+07:00  INFO 31768 --- [main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 14 endpoint(s) beneath base path '/actuator'
+2025-03-11T17:02:47.718+07:00  INFO 31768 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
+2025-03-11T17:02:47.773+07:00  INFO 31768 --- [main] ru.otus.hw.ex15.Ex15_Application         : Started Ex15_Application in 20.355 seconds (process running for 21.93)
+2025-03-11T17:02:48.063+07:00 DEBUG 31768 --- [main] ru.otus.hw.ex15.Ex15_Application         : ресты
+2025-03-11T17:03:24.958+07:00  INFO 31768 --- [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-03-11T17:03:24.971+07:00  INFO 31768 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2025-03-11T17:03:24.995+07:00  INFO 31768 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2025-03-11T17:03:30.595+07:00  INFO 19136 --- [main] ru.otus.hw.ex15.Ex15_Application         : Starting Ex15_Application using Java 21.0.5 with PID 19136 (C:\Users\dchaban\IdeaProjects\hw\ex15\target\classes started by DCHaban in C:\Users\dchaban\IdeaProjects\hw)
+2025-03-11T17:03:30.600+07:00 DEBUG 19136 --- [main] ru.otus.hw.ex15.Ex15_Application         : Running with Spring Boot v3.1.0, Spring v6.0.9
+2025-03-11T17:03:30.602+07:00  INFO 19136 --- [main] ru.otus.hw.ex15.Ex15_Application         : No active profile set, falling back to 1 default profile: "default"
+2025-03-11T17:03:33.194+07:00  INFO 19136 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-03-11T17:03:33.328+07:00  INFO 19136 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 109 ms. Found 1 JPA repository interfaces.
+2025-03-11T17:03:34.858+07:00  INFO 19136 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2025-03-11T17:03:34.878+07:00  INFO 19136 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-03-11T17:03:34.879+07:00  INFO 19136 --- [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.8]
+2025-03-11T17:03:35.108+07:00  INFO 19136 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2025-03-11T17:03:35.109+07:00  INFO 19136 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 4367 ms
+2025-03-11T17:03:35.704+07:00  INFO 19136 --- [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-03-11T17:03:35.818+07:00  INFO 19136 --- [main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.2.2.Final
+2025-03-11T17:03:35.823+07:00  INFO 19136 --- [main] org.hibernate.cfg.Environment            : HHH000406: Using bytecode reflection optimizer
+2025-03-11T17:03:36.099+07:00  INFO 19136 --- [main] o.h.b.i.BytecodeProviderInitiator        : HHH000021: Bytecode provider name : bytebuddy
+2025-03-11T17:03:36.442+07:00  INFO 19136 --- [main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-03-11T17:03:36.480+07:00  INFO 19136 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2025-03-11T17:03:36.796+07:00  INFO 19136 --- [main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@3d71e10b
+2025-03-11T17:03:36.800+07:00  INFO 19136 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2025-03-11T17:03:36.884+07:00  INFO 19136 --- [main] org.hibernate.orm.dialect                : HHH035001: Using dialect: org.hibernate.dialect.PostgreSQLDialect, version: org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$DialectResolutionInfoImpl@6851b296
+2025-03-11T17:03:37.330+07:00  INFO 19136 --- [main] o.h.b.i.BytecodeProviderInitiator        : HHH000021: Bytecode provider name : bytebuddy
+2025-03-11T17:03:38.238+07:00  INFO 19136 --- [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2025-03-11T17:03:38.362+07:00  INFO 19136 --- [main] o.h.t.s.i.e.GenerationTargetToDatabase   : HHH000476: Executing script '[injected ScriptSourceInputNonExistentImpl script]'
+2025-03-11T17:03:38.364+07:00  INFO 19136 --- [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-03-11T17:03:39.014+07:00  WARN 19136 --- [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-03-11T17:03:41.866+07:00  INFO 19136 --- [main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 14 endpoint(s) beneath base path '/actuator'
+2025-03-11T17:03:42.026+07:00  INFO 19136 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
+2025-03-11T17:03:42.055+07:00  INFO 19136 --- [main] ru.otus.hw.ex15.Ex15_Application         : Started Ex15_Application in 12.855 seconds (process running for 13.823)
+2025-03-11T17:03:42.285+07:00 DEBUG 19136 --- [main] ru.otus.hw.ex15.Ex15_Application         : ресты
