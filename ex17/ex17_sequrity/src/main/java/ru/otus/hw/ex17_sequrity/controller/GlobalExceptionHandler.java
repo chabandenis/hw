@@ -1,4 +1,4 @@
-package ru.otus.hw.ex17.controller;
+package ru.otus.hw.ex17_sequrity.controller;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

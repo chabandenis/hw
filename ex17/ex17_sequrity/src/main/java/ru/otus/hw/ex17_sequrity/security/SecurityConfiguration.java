@@ -1,4 +1,4 @@
-package ru.otus.hw.ex17.security;
+package ru.otus.hw.ex17_sequrity.security;
 
 import com.nimbusds.jose.jwk.JWK;
 import com.nimbusds.jose.jwk.JWKSet;
@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity;
 import org.springframework.security.config.web.server.ServerHttpSecurity;
@@ -40,12 +39,7 @@ public class SecurityConfiguration {
     public SecurityWebFilterChain springWebFilterChain(ServerHttpSecurity http) {
         http
                 .authorizeExchange((exchanges) -> exchanges
-                                .pathMatchers(HttpMethod.POST, "/api/user").permitAll()
-//                        .pathMatchers(HttpMethod.DELETE, "/api/user/*").hasAnyRole("ADMIN")
-//                        .pathMatchers(HttpMethod.DELETE, "/api/game/*").hasAnyRole("ADMIN")
-                                .pathMatchers(HttpMethod.DELETE, "/api/user/*").hasAuthority("SCOPE_ROLE_ADMIN")
-                                .pathMatchers(HttpMethod.DELETE, "/api/game/*").hasAuthority("SCOPE_ROLE_ADMIN")
-                                .anyExchange().authenticated()
+                        .anyExchange().authenticated()
                 )
                 .csrf(csrf -> csrf.disable())
                 .httpBasic(Customizer.withDefaults())

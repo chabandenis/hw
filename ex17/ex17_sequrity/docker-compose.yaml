@@ -1,4 +1,3 @@
-version: '0'
 services:
   app:
     build:
@@ -13,12 +12,3 @@ services:
       - SPRING_R2DBC_URL=r2dbc:postgresql://postgres:5432/db
       - SPRING_R2DBC_USERNAME=postgres
       - SPRING_R2DBC_PASSWORD=postgres
-
-  postgres:
-    image: "postgres"
-    ports:
-      - "5433:5432"
-    environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
-      - POSTGRES_DB=db
