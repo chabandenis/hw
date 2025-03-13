@@ -20,8 +20,6 @@ import org.springframework.data.relational.core.mapping.Table;
 @ToString
 public class Figura {
     @Id
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
-//    @Column(name = "id", nullable = false)
     private Long id;
 
     private String name;

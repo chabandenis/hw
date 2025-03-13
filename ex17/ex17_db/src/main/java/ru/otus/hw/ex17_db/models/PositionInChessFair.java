@@ -20,17 +20,11 @@ import org.springframework.data.relational.core.mapping.Table;
 @Setter
 //@Entity
 @Table(name = "position_in_chess_fairs")
-//@NamedEntityGraph(name = "position-in-chess-fair-graph",
-//        attributeNodes = {
-//                @NamedAttributeNode("chessFair"),
-//                @NamedAttributeNode("figura")
-//        })
 @AllArgsConstructor
 @NoArgsConstructor(force = true)
 @ToString
 public class PositionInChessFair {
     @Id
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column("id")
     private Long id;
 
@@ -43,13 +37,9 @@ public class PositionInChessFair {
     private Integer positionY;
 
     // доска на которой стоит фишка
-    //@ManyToOne(fetch = FetchType.LAZY)
-    //@JoinColumn(name = "chess_fair_id")
     private Long chessFairId;
 
-    // пока цвет черный/белый
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "figura_id")
+    // цвет черный/белый
     private Long figuraId;
 
 }

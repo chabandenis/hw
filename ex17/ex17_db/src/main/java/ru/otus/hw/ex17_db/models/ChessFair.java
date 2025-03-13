@@ -25,11 +25,5 @@ import org.springframework.data.relational.core.mapping.Table;
 public class ChessFair {
 
     @Id
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
-//    @Column(name = "id", nullable = false)
     private Long id;
-
-//    @OneToMany(mappedBy = "chessFair", orphanRemoval = true)
-//    private List<PositionInChessFair> positionInChessFairs = new ArrayList<>();
-
 }
