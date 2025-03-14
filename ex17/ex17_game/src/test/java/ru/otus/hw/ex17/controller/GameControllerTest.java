@@ -12,15 +12,16 @@ import org.springframework.test.web.reactive.server.WebTestClient;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import ru.otus.hw.ex17.container.BaseContainerTest;
-import ru.otus.hw.ex17.dto.GameDto;
-import ru.otus.hw.ex17.dto.game.CoordinatesDto;
-import ru.otus.hw.ex17.dto.game.GamesCreateDto;
-import ru.otus.hw.ex17.repositories.game.GameRepositoryCustom;
-import ru.otus.hw.ex17.security.SecurityConfiguration;
-import ru.otus.hw.ex17.services.Game.GameService;
-import ru.otus.hw.ex17.services.Game.GameServiceCreate;
-import ru.otus.hw.ex17.services.Game.GameServiceGetOne;
-import ru.otus.hw.ex17.services.Game.GameServiceStep;
+import ru.otus.hw.ex17_game.controller.GameController;
+import ru.otus.hw.ex17_game.dto.GameDto;
+import ru.otus.hw.ex17_game.dto.game.CoordinatesDto;
+import ru.otus.hw.ex17_game.dto.game.GamesCreateDto;
+import ru.otus.hw.ex17_game.repositories.game.GameRepositoryCustom;
+import ru.otus.hw.ex17_game.security.SecurityConfiguration;
+import ru.otus.hw.ex17_game.services.Game.GameService;
+import ru.otus.hw.ex17_game.services.Game.GameServiceCreate;
+import ru.otus.hw.ex17_game.services.Game.GameServiceGetOne;
+import ru.otus.hw.ex17_game.services.Game.GameServiceStep;
 
 import java.util.List;
 
