@@ -1,3 +1,6 @@
+server:
+  port: 8083
+
 logging:
   level:
     ru.otus.hw.ex17_db.*: DEBUG

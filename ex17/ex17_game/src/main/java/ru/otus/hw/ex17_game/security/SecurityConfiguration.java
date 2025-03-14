@@ -41,18 +41,13 @@ public class SecurityConfiguration {
         http
                 .authorizeExchange((exchanges) -> exchanges
                                 .pathMatchers(HttpMethod.POST, "/api/user").permitAll()
-//                        .pathMatchers(HttpMethod.DELETE, "/api/user/*").hasAnyRole("ADMIN")
-//                        .pathMatchers(HttpMethod.DELETE, "/api/game/*").hasAnyRole("ADMIN")
                                 .pathMatchers(HttpMethod.DELETE, "/api/user/*").hasAuthority("SCOPE_ROLE_ADMIN")
                                 .pathMatchers(HttpMethod.DELETE, "/api/game/*").hasAuthority("SCOPE_ROLE_ADMIN")
                                 .anyExchange().authenticated()
                 )
                 .csrf(csrf -> csrf.disable())
-                .httpBasic(Customizer.withDefaults())
                 .oauth2ResourceServer(oauth2
-                        -> oauth2.jwt(Customizer.withDefaults()))
-        ;
-
+                        -> oauth2.jwt(Customizer.withDefaults()));
         return http.build();
     }
 
