@@ -122,6 +122,6 @@
                 </configuration>
             </plugin>
         </plugins>
-        <finalName>corners</finalName>
+        <finalName>db</finalName>
     </build>
 </project>
