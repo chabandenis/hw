@@ -13,6 +13,8 @@ services:
       - SPRING_R2DBC_URL=r2dbc:postgresql://postgres:5432/db
       - SPRING_R2DBC_USERNAME=postgres
       - SPRING_R2DBC_PASSWORD=postgres
+    networks:
+        - bdnet
 
   postgres:
     image: "postgres"
