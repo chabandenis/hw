@@ -1,3 +1,6 @@
+server:
+  port: 8085
+
 logging:
   level:
     ru.otus.hw.ex17_sequrity.*: DEBUG
