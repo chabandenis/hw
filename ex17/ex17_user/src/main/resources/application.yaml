@@ -1,0 +1,33 @@
+server:
+  port: 8081
+
+logging:
+  level:
+    ru.otus.hw.ex17_user.*: DEBUG
+    org.springframework.jdbc.core.JdbcTemplate: TRACE
+    org.springframework.security: DEBUG
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: always
+  health:
+    defaults:
+      enabled: true
+
+spring:
+  jmx:
+    enabled: true
+  r2dbc:
+    url: r2dbc:postgresql://localhost:5433/db
+    username: postgres
+    password: postgres
+
+jwt:
+  private.key: classpath:app.key
+  public.key: classpath:app.pub
+

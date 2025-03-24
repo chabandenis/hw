@@ -1,0 +1,64 @@
+spring:
+  application:
+    name: api-gateway
+
+
+server:
+  port: 7777
+
+# пользователи
+# http://localhost:8080/api/user/456
+#
+# токен
+# http://localhost:8080/api/token
+#
+# игры
+# http://localhost:8082/api/game/1/2
+
+application:
+  api-routes:
+    - id: "service-user"
+      from: "user"
+      to: "lb://SERVICE-USER"
+    - id: "service-game"
+      from: "game"
+      to: "lb://SERVICE-GAME"
+    - id: "service-token"
+      from: "token"
+      to: "lb://SERVICE-TOKEN"
+
+eureka:
+  client:
+    registerWithEureka: false
+    fetchRegistry: true
+    serviceUrl:
+      defaultZone: http://localhost:9999/eureka/
+  instance:
+    lease-renewal-interval-in-seconds: 30
+    metadataMap:
+      zone: zone1
+
+management:
+  tracing:
+    sampling:
+      probability: 1.0
+  endpoint:
+    prometheus:
+      enabled: true
+    metrics:
+      enabled: true
+    health:
+      enabled: true
+      probes:
+        enabled: true
+    refresh:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include:
+          - prometheus
+          - health
+          - metrics
+          - refresh
+    enabled-by-default: false

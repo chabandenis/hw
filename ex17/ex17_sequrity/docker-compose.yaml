@@ -1,0 +1,14 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 8085:8085
+    environment:
+      - SPRING_R2DBC_URL=r2dbc:postgresql://postgres:5432/db
+    networks:
+      - ex17_db_bdnet
+networks:
+  ex17_db_bdnet:
+    external: true

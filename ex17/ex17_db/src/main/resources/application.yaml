@@ -1,0 +1,22 @@
+server:
+  port: 8083
+
+logging:
+  level:
+    ru.otus.hw.ex17_db.*: DEBUG
+    org.springframework.jdbc.core.JdbcTemplate: TRACE
+    org.springframework.security: DEBUG
+
+spring:
+  jmx:
+    enabled: true
+  r2dbc:
+    url: r2dbc:postgresql://localhost:5433/db
+    username: postgres
+    password: postgres
+  flyway:
+    schema: public
+    url: jdbc:postgresql://localhost:5433/db
+    user: postgres
+    password: postgres
+
