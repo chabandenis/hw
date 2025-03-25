@@ -108,10 +108,12 @@ services:
 
   zipkin:
     container_name: zipkin
-    image: openzipkin/zipkin:3
-    network_mode: "host"
-    expose:
-      - "9411"
+    image: openzipkin/zipkin
+    ports:
+      - "9411:9411"
+#    network_mode: "host"
+#    expose:
+#      - "9411"
 
   prometheus:
     image: bitnami/prometheus:3.0.1
