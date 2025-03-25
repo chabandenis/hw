@@ -24,11 +24,6 @@ spring:
     url: r2dbc:postgresql://localhost:5433/db
     username: postgres
     password: postgres
-  flyway:
-    schema: public
-    url: jdbc:postgresql://localhost:5433/db
-    user: postgres
-    password: postgres
 
 jwt:
   private.key: classpath:app.key
@@ -43,9 +38,6 @@ eureka:
     lease-renewal-interval-in-seconds: 30
     metadataMap:
       zone: zone1
-
-server:
-  port: 8082
 
 logging:
   level:

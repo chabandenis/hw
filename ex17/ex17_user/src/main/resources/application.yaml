@@ -1,5 +1,44 @@
-server:
-  port: 8081
+spring:
+  application:
+    name: game
+
+  cloud:
+    config:
+      fail-fast: true
+      retry:
+        initial-interval: 5000
+        max-attempts: 10
+        max-interval: 5000
+        multiplier: 1.2
+  config:
+    import: optional:configserver:http://localhost:8888
+  codec:
+    max-in-memory-size: 10MB
+
+  data:
+    rest:
+      base-path: /datarest
+  jmx:
+    enabled: true
+  r2dbc:
+    url: r2dbc:postgresql://localhost:5433/db
+    username: postgres
+    password: postgres
+  flyway:
+    schema: public
+    url: jdbc:postgresql://localhost:5433/db
+    user: postgres
+    password: postgres
+
+eureka:
+  client:
+    fetchRegistry: false
+    serviceUrl:
+      defaultZone: http://localhost:9999/eureka/
+  instance:
+    lease-renewal-interval-in-seconds: 30
+    metadataMap:
+      zone: zone1
 
 logging:
   level:
@@ -18,14 +57,6 @@ management:
   health:
     defaults:
       enabled: true
-
-spring:
-  jmx:
-    enabled: true
-  r2dbc:
-    url: r2dbc:postgresql://localhost:5433/db
-    username: postgres
-    password: postgres
 
 jwt:
   private.key: classpath:app.key
