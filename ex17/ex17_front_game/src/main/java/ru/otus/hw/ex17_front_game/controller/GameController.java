@@ -1,6 +1,5 @@
 package ru.otus.hw.ex17_front_game.controller;
 
-import com.netflix.discovery.EurekaClient;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,10 +15,10 @@ import ru.otus.hw.ex17_front_game.dto.GamesCreateDto;
 @RequestMapping("/api/game")
 public class GameController {
 
-//    private static final Logger log = LoggerFactory.getLogger(ClientController.class);
+    //private static final Logger log = LoggerFactory.getLogger(ClientController.class);
 
-    //    private final MetricsManager metricsManager;
-    private final EurekaClient discoveryClient;
+    //private final MetricsManager metricsManager;
+//    private final EurekaClient discoveryClient;
 //    private final CheckedFunction<RequestForData, String> getAdditionalInfoFunction;
 
     // выбрать совместные игры

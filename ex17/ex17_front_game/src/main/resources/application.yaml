@@ -25,7 +25,7 @@ eureka:
       zone: zone1
 
 server:
-  port: 8087
+  port: 8094
 
 logging:
   level:
