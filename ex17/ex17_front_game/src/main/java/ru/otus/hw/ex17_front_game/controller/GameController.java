@@ -1,25 +1,28 @@
 package ru.otus.hw.ex17_front_game.controller;
 
+import com.netflix.discovery.EurekaClient;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+
 import ru.otus.hw.ex17_front_game.dto.CoordinatesDto;
 import ru.otus.hw.ex17_front_game.dto.GameDto;
 import ru.otus.hw.ex17_front_game.dto.GamesCreateDto;
+import ru.otus.hw.ex17_front_game.metrics.MetricsManager;
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/game")
 public class GameController {
 
-    //private static final Logger log = LoggerFactory.getLogger(ClientController.class);
+    //private static final Logger log = LoggerFactory.getLogger(GameController.class);
 
-    //private final MetricsManager metricsManager;
-//    private final EurekaClient discoveryClient;
-//    private final CheckedFunction<RequestForData, String> getAdditionalInfoFunction;
+    private final MetricsManager metricsManager;
+    private final EurekaClient discoveryClient;
+    //private final CheckedFunction<RequestForData, String> getAdditionalInfoFunction;
 
     // выбрать совместные игры
     // http://localhost:8080/api/game/1/2
