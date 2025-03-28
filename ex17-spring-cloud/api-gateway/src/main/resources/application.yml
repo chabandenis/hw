@@ -18,14 +18,14 @@ server:
 application:
   api-routes:
     - id: "service-user"
-      from: "user"
-      to: "lb://SERVICE-USER"
+      from: "api/user"
+      to: "lb://USER"
     - id: "service-game"
-      from: "game"
-      to: "lb://SERVICE-GAME"
+      from: "api/game"
+      to: "lb://GAME"
     - id: "service-token"
-      from: "token"
-      to: "lb://SERVICE-TOKEN"
+      from: "api/token"
+      to: "lb://SEQURITY"
 
 eureka:
   client:
