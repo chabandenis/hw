@@ -15,7 +15,8 @@ import java.util.stream.Collectors;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("/api/token")
+//@RequestMapping("/api/token")
+@RequestMapping("")
 public class TokenController {
     private final JwtEncoder encoder;
 

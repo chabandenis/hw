@@ -28,7 +28,8 @@ import ru.otus.hw.ex17_game.services.Game.GameServiceStep;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/game")
+//@RequestMapping("/api/game")
+@RequestMapping("")
 public class GameController {
 
     private final GameServiceCreate gameServiceCreate;

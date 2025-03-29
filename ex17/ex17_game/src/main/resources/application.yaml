@@ -38,6 +38,7 @@ eureka:
     lease-renewal-interval-in-seconds: 30
     metadataMap:
       zone: zone1
+    import: optional:configserver:http://localhost:8888
 
 logging:
   level:

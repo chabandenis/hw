@@ -30,7 +30,8 @@ import java.util.List;
 @Slf4j
 @RestController
 @AllArgsConstructor
-@RequestMapping("/api/user")
+//@RequestMapping("/api/user")
+@RequestMapping("/")
 public class UserController {
 
     private final UserRepository userRepository;
