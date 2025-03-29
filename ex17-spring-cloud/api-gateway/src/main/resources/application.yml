@@ -25,16 +25,16 @@ application:
   api-routes:
     - id: "service-user"
       from: "api/user"
-#      to: "lb://USER"
-      to: "http://localhost:8087"
+      to: "lb://USER"
+#      to: "http://localhost:8087"
     - id: "service-game"
       from: "api/game"
-#      to: "lb://GAME"
-      to: "http://localhost:8089"
+      to: "lb://GAME"
+#      to: "http://localhost:8089"
     - id: "service-token"
       from: "api/token"
-#      to: "lb://SEQURITY"
-      to: "http://localhost:8085"
+      to: "lb://SEQURITY"
+#      to: "http://localhost:8085"
 
 eureka:
   client:
