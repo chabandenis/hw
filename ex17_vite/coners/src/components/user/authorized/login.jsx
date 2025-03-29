@@ -11,7 +11,7 @@ export default function Login(login, password, updateMainUser, setError) {
 
   const encodedCredentials = btoa(`${login}:${password}`);
 
-  fetch("/api/token", {
+  fetch("/api/token/", {
     method: "POST", // Метод отправки
     headers: {
       //"Content-Type": "application/x-www-form-urlencoded",

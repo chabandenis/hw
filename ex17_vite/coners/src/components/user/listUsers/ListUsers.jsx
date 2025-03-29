@@ -29,7 +29,7 @@ export default function ListUsers({ seconUser, updateSecondUser }) {
 
   const getApiData = async () => {
     const jwtToken = localStorage.getItem("jwt_token");
-    const response = await fetch("/api/user", {
+    const response = await fetch("/api/user/", {
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${jwtToken}`,
