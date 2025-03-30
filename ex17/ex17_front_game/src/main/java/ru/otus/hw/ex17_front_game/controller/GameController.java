@@ -15,7 +15,7 @@ import ru.otus.hw.ex17_front_game.metrics.MetricsManager;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/game")
+@RequestMapping("")
 public class GameController {
 
     //private static final Logger log = LoggerFactory.getLogger(GameController.class);
