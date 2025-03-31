@@ -93,6 +93,9 @@ export default function SelectGame({ mainUser, seconUser, desk, setDesk }) {
             >
               <td style={styles.personsTableItem}>{game.id}</td>
               <td style={styles.personsTableItem}>{game.dateGame}</td>
+
+
+              
               <td style={styles.personsTableItem}>{game.userWhite.name}</td>
               <td style={styles.personsTableItem}>{game.userBlack.name}</td>
             </tr>

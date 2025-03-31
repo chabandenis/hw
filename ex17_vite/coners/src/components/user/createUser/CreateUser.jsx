@@ -19,7 +19,7 @@ export default function CreateUser({ mainUser, updateMainUser }) {
 
     console.log("создать пользователя ");
 
-    let a = fetch("/api/user", {
+    let a = fetch("/api/user/", {
       method: "POST", // Метод отправки
       headers: {
         "Content-Type": "application/json",
@@ -33,7 +33,7 @@ export default function CreateUser({ mainUser, updateMainUser }) {
         return response.json();
       })
       .then((data) => {
-        console.log("создали ");
+        console.log("создали ", login, password, updateMainUser, setError);
         //updateMainUser(data);
         Login(login, password, updateMainUser, setError);
       })

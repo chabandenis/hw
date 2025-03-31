@@ -38,11 +38,12 @@ public class SecurityConfiguration {
     public SecurityWebFilterChain springWebFilterChain(ServerHttpSecurity http) {
         http
                 .authorizeExchange((exchanges) -> exchanges
-                                .pathMatchers(HttpMethod.POST, "/api/user").permitAll()
+//                                .pathMatchers(HttpMethod.POST, "/api/user").permitAll()
+                                .pathMatchers(HttpMethod.POST, "/").permitAll()
 //                        .pathMatchers(HttpMethod.DELETE, "/api/user/*").hasAnyRole("ADMIN")
 //                        .pathMatchers(HttpMethod.DELETE, "/api/game/*").hasAnyRole("ADMIN")
-                                .pathMatchers(HttpMethod.DELETE, "/api/user/*").hasAuthority("SCOPE_ROLE_ADMIN")
-                                .pathMatchers(HttpMethod.DELETE, "/api/game/*").hasAuthority("SCOPE_ROLE_ADMIN")
+                                .pathMatchers(HttpMethod.DELETE, "/*").hasAuthority("SCOPE_ROLE_ADMIN")
+                                .pathMatchers(HttpMethod.DELETE, "/*").hasAuthority("SCOPE_ROLE_ADMIN")
                                 .anyExchange().authenticated()
                 )
                 .csrf(csrf -> csrf.disable())
