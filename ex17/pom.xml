@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-    <project xmlns="http://maven.apache.org/POM/4.0.0"
-             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-             xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-        <modelVersion>4.0.0</modelVersion>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
 
     <!--parent>
         <groupId>ru.chaban</groupId>
@@ -26,7 +26,7 @@
         <module>ex17_front_game</module>
         <module>ex17_game</module>
         <module>ex17_sequrity</module>
-<!--        <module>ex17_front_user</module>-->
+        <!--        <module>ex17_front_user</module>-->
         <module>ex17_user</module>
         <module>ex17_db</module>
     </modules>

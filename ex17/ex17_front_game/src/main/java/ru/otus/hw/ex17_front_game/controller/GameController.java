@@ -8,9 +8,7 @@ import org.slf4j.MDC;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
-
 import ru.otus.hw.ex17_front_game.dto.CoordinatesDto;
 import ru.otus.hw.ex17_front_game.dto.GameDto;
 import ru.otus.hw.ex17_front_game.dto.GamesCreateDto;
@@ -44,7 +42,7 @@ public class GameController {
     // выбрать совместные игры
     // http://localhost:8080/api/game/1/2
     @GetMapping("/{mainUser}/{secondUser}")
-    public Flux<GameDto> getGamesForUsers(@PathVariable Long mainUser, @PathVariable Long secondUser) {
+    public List<GameDto> getGamesForUsers(@PathVariable Long mainUser, @PathVariable Long secondUser) {
         //return gameRepositoryCustom.findAll(mainUser, secondUser);
         return getGamesForUsersInfo(mainUser, secondUser);
     }
@@ -85,12 +83,12 @@ public class GameController {
 //        return gameServiceGetOne.getOne(id);
     }
 
-    private Flux<GameDto> getGamesForUsersInfo(Long mainUser, Long secondUser) {
+    private List<GameDto> getGamesForUsersInfo(Long mainUser, Long secondUser) {
 
         try {
             var clientInfo = discoveryClient.getNextServerFromEureka("GAME", false);
             log.info("GAME from Eureka:{}", clientInfo);
-            Flux<GameDto> gamesForUsersInfo = requestGamesForUsers.getGamesForUsers(
+            List<GameDto> gamesForUsersInfo = requestGamesForUsers.getGamesForUsers(
                     MDC.get(MDC_REQUEST_ID),
                     MDC.get(MDC_AUTHORIZATION),
                     new URI(clientInfo.getHomePageUrl()),
@@ -105,10 +103,10 @@ public class GameController {
         }
     }
 
-//    public Mono<ResponseEntity<GameDto>> step(@PathVariable Long gameId,
+    //    public Mono<ResponseEntity<GameDto>> step(@PathVariable Long gameId,
 //                                              @RequestBody CoordinatesDto coordinatesDto)
     private Mono<ResponseEntity<GameDto>> stepInfo(Long gameId,
-                                              CoordinatesDto coordinatesDto) {
+                                                   CoordinatesDto coordinatesDto) {
         try {
             var clientInfo = discoveryClient.getNextServerFromEureka("GAME", false);
             log.info("GAME from Eureka:{}", clientInfo);
@@ -159,7 +157,7 @@ public class GameController {
         }
     }
 
-    private  Mono<ResponseEntity<GameDto>> getOneInfo(@PathVariable Long id) {
+    private Mono<ResponseEntity<GameDto>> getOneInfo(@PathVariable Long id) {
         try {
             var clientInfo = discoveryClient.getNextServerFromEureka("GAME", false);
             log.info("GAME from Eureka:{}", clientInfo);

@@ -27,11 +27,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.web.filter.OncePerRequestFilter;
-import ru.otus.hw.ex17_front_game.controller.GameInfo;
+import ru.otus.hw.ex17_front_game.controller.*;
 import ru.otus.hw.ex17_front_game.filter.MdcFilter;
 import ru.otus.hw.ex17_front_game.metrics.MetricsManager;
 import ru.otus.hw.ex17_front_game.metrics.MicrometerMetricsManager;
-
 
 import java.time.Duration;
 
@@ -82,7 +81,7 @@ public class ServiceClientApplConf {
     }
 
     @Bean
-    public GameInfo clientAdditionalInfoClient(
+    public RequestCreate requestCreateMethod(
             Decoder decoder,
             Encoder encoder,
             Contract contract,
@@ -98,7 +97,87 @@ public class ServiceClientApplConf {
                 .addCapability(new MicrometerObservationCapability(observationRegistry)) // <-- THIS IS NEW
                 .addCapability(new MicrometerCapability(meterRegistry)) // <-- THIS IS NEW
                 .retryer(new Retryer.Default(500, 5_000, 10))
-                .target(GameInfo.class, "http");
+                .target(RequestCreate.class, "http");
+    }
+
+    @Bean
+    public RequestDelete requestDeleteMethod(
+            Decoder decoder,
+            Encoder encoder,
+            Contract contract,
+            ObjectMapper mapper,
+            MeterRegistry meterRegistry,
+            ObservationRegistry observationRegistry) {
+
+        return Feign.builder()
+                .encoder(new RequestEncoder(encoder))
+                .decoder(new ResponseDecoder(decoder, mapper))
+                .contract(contract)
+                .logLevel(Logger.Level.FULL)
+                .addCapability(new MicrometerObservationCapability(observationRegistry)) // <-- THIS IS NEW
+                .addCapability(new MicrometerCapability(meterRegistry)) // <-- THIS IS NEW
+                .retryer(new Retryer.Default(500, 5_000, 10))
+                .target(RequestDelete.class, "http");
+    }
+
+    @Bean
+    public RequestGamesForUsers requestGamesForUsersMethod(
+            Decoder decoder,
+            Encoder encoder,
+            Contract contract,
+            ObjectMapper mapper,
+            MeterRegistry meterRegistry,
+            ObservationRegistry observationRegistry) {
+
+        return Feign.builder()
+                .encoder(new RequestEncoder(encoder))
+                .decoder(new ResponseDecoderGamesForUsers(decoder, mapper))
+                .contract(contract)
+                .logLevel(Logger.Level.FULL)
+                .addCapability(new MicrometerObservationCapability(observationRegistry)) // <-- THIS IS NEW
+                .addCapability(new MicrometerCapability(meterRegistry)) // <-- THIS IS NEW
+                .retryer(new Retryer.Default(500, 5_000, 10))
+                .target(RequestGamesForUsers.class, "http");
+    }
+
+    @Bean
+    public RequestGetOne requestGetOneMethod(
+            Decoder decoder,
+            Encoder encoder,
+            Contract contract,
+            ObjectMapper mapper,
+            MeterRegistry meterRegistry,
+            ObservationRegistry observationRegistry) {
+
+        return Feign.builder()
+                .encoder(new RequestEncoder(encoder))
+                .decoder(new ResponseDecoder(decoder, mapper))
+                .contract(contract)
+                .logLevel(Logger.Level.FULL)
+                .addCapability(new MicrometerObservationCapability(observationRegistry)) // <-- THIS IS NEW
+                .addCapability(new MicrometerCapability(meterRegistry)) // <-- THIS IS NEW
+                .retryer(new Retryer.Default(500, 5_000, 10))
+                .target(RequestGetOne.class, "http");
+    }
+
+    @Bean
+    public RequestStep RequestStepMethod(
+            Decoder decoder,
+            Encoder encoder,
+            Contract contract,
+            ObjectMapper mapper,
+            MeterRegistry meterRegistry,
+            ObservationRegistry observationRegistry) {
+
+        return Feign.builder()
+                .encoder(new RequestEncoder(encoder))
+                .decoder(new ResponseDecoder(decoder, mapper))
+                .contract(contract)
+                .logLevel(Logger.Level.FULL)
+                .addCapability(new MicrometerObservationCapability(observationRegistry)) // <-- THIS IS NEW
+                .addCapability(new MicrometerCapability(meterRegistry)) // <-- THIS IS NEW
+                .retryer(new Retryer.Default(500, 5_000, 10))
+                .target(RequestStep.class, "http");
     }
 
     @Bean

@@ -8,7 +8,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.otus.hw.ex17_front_game.model.ClientData;
 
-
 import java.io.IOException;
 import java.lang.reflect.Type;
 
