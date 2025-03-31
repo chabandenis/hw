@@ -17,7 +17,7 @@ public interface GameInfo {
 
     // выбрать совместные игры
     // http://localhost:8080/api/game/1/2
-    @GetMapping(value = "/{mainUser}/{secondUser}", consumes = "application/json")
+    @GetMapping(value = "/{mainUser}/{secondUser}"/*, consumes = "application/json"*/)
     Flux<GameDto> getGamesForUsers(
             @RequestHeader(HEADER_X_REQUEST_ID) String xRequestId,
             @RequestHeader("Authorization") String authorizationHeader,

@@ -17,6 +17,7 @@ import ru.otus.hw.ex17_front_game.dto.GamesCreateDto;
 import ru.otus.hw.ex17_front_game.metrics.MetricsManager;
 
 import java.net.URI;
+import java.util.List;
 
 import static ru.otus.hw.ex17_front_game.filter.MdcFilter.MDC_AUTHORIZATION;
 import static ru.otus.hw.ex17_front_game.filter.MdcFilter.MDC_REQUEST_ID;
@@ -28,7 +29,11 @@ public class GameController {
 
     private static final Logger log = LoggerFactory.getLogger(GameController.class);
 
-    private final GameInfo gameInfo;
+    private final RequestCreate requestCreate;
+    private final RequestDelete requestDelete;
+    private final RequestGamesForUsers requestGamesForUsers;
+    private final RequestGetOne requestGetOne;
+    private final RequestStep requestStep;
 
     private final MetricsManager metricsManager;
 
@@ -84,18 +89,18 @@ public class GameController {
 
         try {
             var clientInfo = discoveryClient.getNextServerFromEureka("GAME", false);
-            log.info("clientInfo from Eureka:{}", clientInfo);
-            var gamesForUsersInfo = gameInfo.getGamesForUsers(
+            log.info("GAME from Eureka:{}", clientInfo);
+            Flux<GameDto> gamesForUsersInfo = requestGamesForUsers.getGamesForUsers(
                     MDC.get(MDC_REQUEST_ID),
                     MDC.get(MDC_AUTHORIZATION),
                     new URI(clientInfo.getHomePageUrl()),
                     mainUser,
                     secondUser);
-            log.info("gamesForUsersInfo:{}", gamesForUsersInfo);
+            log.info("requestGamesForUsers:{}", gamesForUsersInfo);
             //return gamesForUsersInfo.data();
             return gamesForUsersInfo;
         } catch (Exception ex) {
-            log.error("can't get additional info, mainUser:{}, secondUser:{}, error:{}", mainUser, secondUser, ex.getMessage());
+            log.error("can't get requestGamesForUsers, mainUser:{}, secondUser:{}, error:{}", mainUser, secondUser, ex.getMessage());
             return null;
         }
     }
@@ -106,16 +111,16 @@ public class GameController {
                                               CoordinatesDto coordinatesDto) {
         try {
             var clientInfo = discoveryClient.getNextServerFromEureka("GAME", false);
-            log.info("clientInfo from Eureka:{}", clientInfo);
-            var additionalInfo = gameInfo.step(
+            log.info("GAME from Eureka:{}", clientInfo);
+            var additionalInfo = requestStep.step(
                     MDC.get(MDC_REQUEST_ID),
                     MDC.get(MDC_AUTHORIZATION),
                     new URI(clientInfo.getHomePageUrl()),
                     gameId, coordinatesDto);
-            log.info("additionalInfo:{}", additionalInfo);
+            log.info("requestStep:{}", additionalInfo);
             return additionalInfo;
         } catch (Exception ex) {
-            log.error("can't get additional info, name:{}, gameId:{}, coordinatesDto:{}", gameId, coordinatesDto, ex.getMessage());
+            log.error("can't get requestStep, name:{}, gameId:{}, coordinatesDto:{}", gameId, coordinatesDto, ex.getMessage());
             return null;
         }
     }
@@ -123,16 +128,16 @@ public class GameController {
     private Mono<ResponseEntity<GameDto>> createInfo(GamesCreateDto gamesCreateDto) {
         try {
             var clientInfo = discoveryClient.getNextServerFromEureka("GAME", false);
-            log.info("clientInfo from Eureka:{}", clientInfo);
-            var additionalInfo = gameInfo.create(
+            log.info("GAME from Eureka:{}", clientInfo);
+            var additionalInfo = requestCreate.create(
                     MDC.get(MDC_REQUEST_ID),
                     MDC.get(MDC_AUTHORIZATION),
                     new URI(clientInfo.getHomePageUrl()),
                     gamesCreateDto);
-            log.info("additionalInfo:{}", additionalInfo);
+            log.info("requestCreate:{}", additionalInfo);
             return additionalInfo;
         } catch (Exception ex) {
-            log.error("can't get additional info, name:{}, error:{}", gamesCreateDto, ex.getMessage());
+            log.error("can't get requestCreate, name:{}, error:{}", gamesCreateDto, ex.getMessage());
             return null;
         }
     }
@@ -140,16 +145,16 @@ public class GameController {
     private Mono<Void> deleteInfo(Long id) {
         try {
             var clientInfo = discoveryClient.getNextServerFromEureka("GAME", false);
-            log.info("clientInfo from Eureka:{}", clientInfo);
-            var additionalInfo = gameInfo.delete(
+            log.info("GAME from Eureka:{}", clientInfo);
+            var additionalInfo = requestDelete.delete(
                     MDC.get(MDC_REQUEST_ID),
                     MDC.get(MDC_AUTHORIZATION),
                     new URI(clientInfo.getHomePageUrl()),
                     id);
-            log.info("additionalInfo:{}", additionalInfo);
+            log.info("requestDelete:{}", additionalInfo);
             return additionalInfo;
         } catch (Exception ex) {
-            log.error("can't get additional info, id:{}, error:{}", id, ex.getMessage());
+            log.error("can't get requestDelete, id:{}, error:{}", id, ex.getMessage());
             return null;
         }
     }
@@ -157,19 +162,17 @@ public class GameController {
     private  Mono<ResponseEntity<GameDto>> getOneInfo(@PathVariable Long id) {
         try {
             var clientInfo = discoveryClient.getNextServerFromEureka("GAME", false);
-            log.info("clientInfo from Eureka:{}", clientInfo);
-            var additionalInfo = gameInfo.getOne(
+            log.info("GAME from Eureka:{}", clientInfo);
+            var additionalInfo = requestGetOne.getOne(
                     MDC.get(MDC_REQUEST_ID),
                     MDC.get(MDC_AUTHORIZATION),
                     new URI(clientInfo.getHomePageUrl()),
                     id);
-            log.info("additionalInfo:{}", additionalInfo);
+            log.info("getOneInfo:{}", additionalInfo);
             return additionalInfo;
         } catch (Exception ex) {
-            log.error("can't get additional info, id:{}, error:{}", id, ex.getMessage());
+            log.error("can't get getOneInfo, id:{}, error:{}", id, ex.getMessage());
             return null;
         }
     }
-
-
 }
