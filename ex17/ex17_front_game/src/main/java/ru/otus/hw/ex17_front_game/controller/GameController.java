@@ -8,6 +8,7 @@ import org.slf4j.MDC;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import ru.otus.hw.ex17_front_game.dto.CoordinatesDto;
 import ru.otus.hw.ex17_front_game.dto.GameDto;
@@ -42,7 +43,7 @@ public class GameController {
     // выбрать совместные игры
     // http://localhost:8080/api/game/1/2
     @GetMapping("/{mainUser}/{secondUser}")
-    public List<GameDto> getGamesForUsers(@PathVariable Long mainUser, @PathVariable Long secondUser) {
+    public Flux<GameDto> getGamesForUsers(@PathVariable Long mainUser, @PathVariable Long secondUser) {
         //return gameRepositoryCustom.findAll(mainUser, secondUser);
         return getGamesForUsersInfo(mainUser, secondUser);
     }
@@ -83,12 +84,12 @@ public class GameController {
 //        return gameServiceGetOne.getOne(id);
     }
 
-    private List<GameDto> getGamesForUsersInfo(Long mainUser, Long secondUser) {
+    private Flux<GameDto> getGamesForUsersInfo(Long mainUser, Long secondUser) {
 
         try {
             var clientInfo = discoveryClient.getNextServerFromEureka("GAME", false);
             log.info("GAME from Eureka:{}", clientInfo);
-            List<GameDto> gamesForUsersInfo = requestGamesForUsers.getGamesForUsers(
+            Flux<GameDto> gamesForUsersInfo = requestGamesForUsers.getGamesForUsers(
                     MDC.get(MDC_REQUEST_ID),
                     MDC.get(MDC_AUTHORIZATION),
                     new URI(clientInfo.getHomePageUrl()),
