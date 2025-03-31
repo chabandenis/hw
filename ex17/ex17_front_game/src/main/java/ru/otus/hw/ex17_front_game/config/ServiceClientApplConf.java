@@ -151,7 +151,7 @@ public class ServiceClientApplConf {
 
         return Feign.builder()
                 .encoder(new RequestEncoder(encoder))
-                .decoder(new ResponseDecoder(decoder, mapper))
+                .decoder(new ResponseDecoderGetOne(decoder, mapper))
                 .contract(contract)
                 .logLevel(Logger.Level.FULL)
                 .addCapability(new MicrometerObservationCapability(observationRegistry)) // <-- THIS IS NEW

@@ -31,44 +31,9 @@ public class ResponseDecoderGamesForUsers implements Decoder {
     public Flux<GameDto> decode(Response response, Type type) throws IOException, FeignException {
         var responseAsString = (String) defaultDecoder.decode(response, String.class);
         log.info("response:{}", responseAsString);
-        //return mapper.readValue(responseAsString, new TypeReference<Flux<GameDto>>() {});
 
         List<GameDto> gameDtos = mapper.readValue(responseAsString, new TypeReference<List<GameDto>>() {});
         return Flux.fromIterable(gameDtos);
     }
-
-/*    @Override
-    public Flux<GameDto> decode(Response response, Type type) throws IOException, FeignException {
-        var responseAsString = ( Flux<GameDto>) defaultDecoder.decode(response, GameDto.class);
-        log.info("response:{}", responseAsString);
-        //return mapper.readValue(responseAsString, GameDto.class);*/
-
-
-/*        TypeReference<List<GameDto>> jacksonTypeReference = new TypeReference<List<GameDto>>() {
-        };
-
-        Flux<GameDto> jacksonList = mapper.readValue(response.body().toString(), jacksonTypeReference);*/
-/*        return responseAsString;
-    }*/
-
-/*
-    public Flux<GameDto> decode(Response response, Type type) throws IOException, FeignException {
-        // Получаем ответ в виде строки или потока байтов
-        Flux<GameDto> responseAsString = (Flux<GameDto>) defaultDecoder.decode(response, GameDto.class);
-
-        // Используем mapper для преобразования каждой строки в объект GameDto
-        Flux<GameDto> gameDtos = responseAsString.flatMap(jsonString -> {
-            try {
-                return Flux.just(mapper.readValue(jsonString, GameDto.class));
-            } catch (IOException e) {
-                // Обработка ошибки при преобразовании JSON в объект
-                throw new FeignException(e.getMessage(), response);
-            }
-        });
-
-        log.info("response:{}", gameDtos);
-        return gameDtos;
-    }
-*/
 
 }
