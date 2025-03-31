@@ -26,7 +26,7 @@
         <module>ex17_front_game</module>
         <module>ex17_game</module>
         <module>ex17_sequrity</module>
-        <module>ex17_front_user</module>
+<!--        <module>ex17_front_user</module>-->
         <module>ex17_user</module>
         <module>ex17_db</module>
     </modules>

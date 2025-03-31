@@ -15,6 +15,7 @@ import java.util.ArrayList;
 public class MdcFilter extends OncePerRequestFilter {
     public static final String HEADER_X_REQUEST_ID = "X-Request-Id";
     public static final String MDC_REQUEST_ID = "requestId";
+    public static final String MDC_AUTHORIZATION = "Authorization";
     private final Logger log = LoggerFactory.getLogger(MdcFilter.class);
 
     @Override
@@ -25,14 +26,24 @@ public class MdcFilter extends OncePerRequestFilter {
         if (xRequestId != null) {
             MDC.put(MDC_REQUEST_ID, xRequestId);
         }
+
+        var xAuthorization = request.getHeader(MDC_AUTHORIZATION);
+        log.debug("xAuthorization:{}", xAuthorization);
+        if (xAuthorization != null) {
+            MDC.put(MDC_AUTHORIZATION, xAuthorization);
+        }
+
         var headerIterator = request.getHeaderNames().asIterator();
         var headers = new ArrayList<String>();
         while (headerIterator.hasNext()) {
-            headers.add(headerIterator.next());
+            var head = headerIterator.next();
+            headers.add(head);
+            log.debug("headers :{}, {}", head, request.getHeader(head));
         }
         log.debug("request headers:{}", headers);
         response.addHeader(HEADER_X_REQUEST_ID, xRequestId);
         filterChain.doFilter(request, response);
+        MDC.remove(MDC_REQUEST_ID);
         MDC.remove(MDC_REQUEST_ID);
         log.debug("response headers:{}", response.getHeaderNames());
     }

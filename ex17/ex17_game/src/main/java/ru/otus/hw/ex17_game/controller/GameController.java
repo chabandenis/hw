@@ -78,6 +78,7 @@ public class GameController {
     // http://localhost:8080/api/game/1
     @GetMapping("/{id}")
     public Mono<ResponseEntity<GameDto>> getOne(@PathVariable Long id) {
+
         return gameServiceGetOne.getOne(id);
     }
 }

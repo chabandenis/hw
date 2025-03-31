@@ -27,7 +27,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.web.filter.OncePerRequestFilter;
-import ru.otus.hw.ex17_front_game.controller.ClientAdditionalInfoClient;
+import ru.otus.hw.ex17_front_game.controller.GameInfo;
 import ru.otus.hw.ex17_front_game.filter.MdcFilter;
 import ru.otus.hw.ex17_front_game.metrics.MetricsManager;
 import ru.otus.hw.ex17_front_game.metrics.MicrometerMetricsManager;
@@ -82,7 +82,7 @@ public class ServiceClientApplConf {
     }
 
     @Bean
-    public ClientAdditionalInfoClient clientAdditionalInfoClient(
+    public GameInfo clientAdditionalInfoClient(
             Decoder decoder,
             Encoder encoder,
             Contract contract,
@@ -98,7 +98,7 @@ public class ServiceClientApplConf {
                 .addCapability(new MicrometerObservationCapability(observationRegistry)) // <-- THIS IS NEW
                 .addCapability(new MicrometerCapability(meterRegistry)) // <-- THIS IS NEW
                 .retryer(new Retryer.Default(500, 5_000, 10))
-                .target(ClientAdditionalInfoClient.class, "http");
+                .target(GameInfo.class, "http");
     }
 
     @Bean
