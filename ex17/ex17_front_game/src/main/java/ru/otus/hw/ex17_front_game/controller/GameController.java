@@ -120,57 +120,55 @@ public class GameController {
         }
     }
 
-
     private Mono<ResponseEntity<GameDto>> createInfo(GamesCreateDto gamesCreateDto) {
-/*
         try {
             var clientInfo = discoveryClient.getNextServerFromEureka("GAME", false);
             log.info("clientInfo from Eureka:{}", clientInfo);
-            var additionalInfo = clientAdditionalInfoClient.additionalInfo(
-                    MDC.get(MDC_REQUEST_ID), new URI(clientInfo.getHomePageUrl()), name);
+            var additionalInfo = gameInfo.create(
+                    MDC.get(MDC_REQUEST_ID),
+                    MDC.get(MDC_AUTHORIZATION),
+                    new URI(clientInfo.getHomePageUrl()),
+                    gamesCreateDto);
             log.info("additionalInfo:{}", additionalInfo);
-            return additionalInfo.data();
+            return additionalInfo;
         } catch (Exception ex) {
-            log.error("can't get additional info, name:{}, error:{}", name, ex.getMessage());
+            log.error("can't get additional info, name:{}, error:{}", gamesCreateDto, ex.getMessage());
             return null;
         }
-*/
-        return null;
     }
 
-
     private Mono<Void> deleteInfo(Long id) {
-/*
         try {
             var clientInfo = discoveryClient.getNextServerFromEureka("GAME", false);
             log.info("clientInfo from Eureka:{}", clientInfo);
-            var additionalInfo = clientAdditionalInfoClient.additionalInfo(
-                    MDC.get(MDC_REQUEST_ID), new URI(clientInfo.getHomePageUrl()), name);
+            var additionalInfo = gameInfo.delete(
+                    MDC.get(MDC_REQUEST_ID),
+                    MDC.get(MDC_AUTHORIZATION),
+                    new URI(clientInfo.getHomePageUrl()),
+                    id);
             log.info("additionalInfo:{}", additionalInfo);
-            return additionalInfo.data();
+            return additionalInfo;
         } catch (Exception ex) {
-            log.error("can't get additional info, name:{}, error:{}", name, ex.getMessage());
+            log.error("can't get additional info, id:{}, error:{}", id, ex.getMessage());
             return null;
         }
-*/
-        return null;
     }
 
     private  Mono<ResponseEntity<GameDto>> getOneInfo(@PathVariable Long id) {
-/*
         try {
             var clientInfo = discoveryClient.getNextServerFromEureka("GAME", false);
             log.info("clientInfo from Eureka:{}", clientInfo);
-            var additionalInfo = clientAdditionalInfoClient.additionalInfo(
-                    MDC.get(MDC_REQUEST_ID), new URI(clientInfo.getHomePageUrl()), name);
+            var additionalInfo = gameInfo.getOne(
+                    MDC.get(MDC_REQUEST_ID),
+                    MDC.get(MDC_AUTHORIZATION),
+                    new URI(clientInfo.getHomePageUrl()),
+                    id);
             log.info("additionalInfo:{}", additionalInfo);
-            return additionalInfo.data();
+            return additionalInfo;
         } catch (Exception ex) {
-            log.error("can't get additional info, name:{}, error:{}", name, ex.getMessage());
+            log.error("can't get additional info, id:{}, error:{}", id, ex.getMessage());
             return null;
         }
-*/
-            return null;
     }
 
 
