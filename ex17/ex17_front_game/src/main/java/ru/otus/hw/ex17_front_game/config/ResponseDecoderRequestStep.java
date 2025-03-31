@@ -15,13 +15,13 @@ import ru.otus.hw.ex17_front_game.dto.GameDto;
 import java.io.IOException;
 import java.lang.reflect.Type;
 
-public class ResponseDecoderGetOne implements Decoder {
-    private static final Logger log = LoggerFactory.getLogger(ResponseDecoderGetOne.class);
+public class ResponseDecoderRequestStep implements Decoder {
+    private static final Logger log = LoggerFactory.getLogger(ResponseDecoderRequestStep.class);
 
     private final Decoder defaultDecoder;
     private final ObjectMapper mapper;
 
-    public ResponseDecoderGetOne(Decoder defaultDecoder, ObjectMapper mapper) {
+    public ResponseDecoderRequestStep(Decoder defaultDecoder, ObjectMapper mapper) {
         this.defaultDecoder = defaultDecoder;
         this.mapper = mapper;
         this.mapper.registerModule(new JavaTimeModule());

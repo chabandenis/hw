@@ -49,7 +49,7 @@ export default function SelectGame({ mainUser, seconUser, desk, setDesk }) {
     return Object.values(game)
       .join("")
       .toLowerCase()
-      .includes(searchInput.toLowerCase());
+      .includes(typeof searchInput === 'string' ? searchInput.toLowerCase() : '');      
   });
 
   return (

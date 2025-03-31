@@ -15,18 +15,28 @@ import ru.otus.hw.ex17_front_game.dto.GameDto;
 import java.io.IOException;
 import java.lang.reflect.Type;
 
-public class ResponseDecoderGetOne implements Decoder {
-    private static final Logger log = LoggerFactory.getLogger(ResponseDecoderGetOne.class);
+public class ResponseDecoderDelete implements Decoder {
+    private static final Logger log = LoggerFactory.getLogger(ResponseDecoderDelete.class);
 
     private final Decoder defaultDecoder;
     private final ObjectMapper mapper;
 
-    public ResponseDecoderGetOne(Decoder defaultDecoder, ObjectMapper mapper) {
+    public ResponseDecoderDelete(Decoder defaultDecoder, ObjectMapper mapper) {
         this.defaultDecoder = defaultDecoder;
         this.mapper = mapper;
         this.mapper.registerModule(new JavaTimeModule());
     }
 
+    @Override
+    public Mono<Void> decode(Response response, Type type) throws IOException, FeignException {
+        var responseAsString = (String) defaultDecoder.decode(response, String.class);
+        log.info("response:{}", responseAsString);
+
+        GameDto gameDto = mapper.readValue(responseAsString, GameDto.class);
+        return Mono.empty();
+    }
+
+/*
     @Override
     public Mono<ResponseEntity<GameDto>> decode(Response response, Type type) throws IOException, FeignException {
         var responseAsString = (String) defaultDecoder.decode(response, String.class);
@@ -35,5 +45,6 @@ public class ResponseDecoderGetOne implements Decoder {
         GameDto gameDto = mapper.readValue(responseAsString, GameDto.class);
         return Mono.just(new ResponseEntity<>(gameDto, HttpStatus.OK));
     }
+*/
 
 }
