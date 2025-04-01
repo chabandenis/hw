@@ -30,7 +30,6 @@ application:
     - id: "service-game"
       from: "api/game"
       to: "lb://FRONT-GAME"
-#      to: "lb://GAME"
 #      to: "http://localhost:8089"
     - id: "service-token"
       from: "api/token"
