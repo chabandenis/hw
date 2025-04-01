@@ -9,7 +9,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.r2dbc.core.R2dbcEntityTemplate;
 import org.springframework.stereotype.Repository;
 import reactor.core.publisher.Flux;
-import ru.otus.hw.ex17_game.dto.*;
+import ru.otus.hw.ex17_game.dto.ChessFairDto;
+import ru.otus.hw.ex17_game.dto.FiguraDto;
+import ru.otus.hw.ex17_game.dto.GameDto;
+import ru.otus.hw.ex17_game.dto.PositionInChessFairDto;
+import ru.otus.hw.ex17_game.dto.PositionInChessFairInDbDto;
+import ru.otus.hw.ex17_game.dto.UserDto;
 import ru.otus.hw.ex17_game.services.Game.GameService;
 
 import java.time.LocalDateTime;

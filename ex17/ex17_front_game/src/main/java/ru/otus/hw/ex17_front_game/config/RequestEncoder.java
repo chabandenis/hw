@@ -9,7 +9,8 @@ import org.slf4j.LoggerFactory;
 import java.lang.reflect.Type;
 
 public class RequestEncoder implements Encoder {
-    private static final Logger log = LoggerFactory.getLogger(RequestEncoder.class);
+    private static final Logger LOG = LoggerFactory.getLogger(RequestEncoder.class);
+
     private final Encoder defaultEncoder;
 
     public RequestEncoder(Encoder defaultEncoder) {
@@ -18,7 +19,7 @@ public class RequestEncoder implements Encoder {
 
     @Override
     public void encode(Object object, Type bodyType, RequestTemplate template) throws EncodeException {
-        log.info("encode value:{}", object);
+        LOG.info("encode value:{}", object);
         defaultEncoder.encode(object, bodyType, template);
     }
 }

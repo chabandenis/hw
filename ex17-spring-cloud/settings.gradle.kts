@@ -20,7 +20,7 @@ rootProject.name = "spring-cloud"
 include("api-gateway")
 include("config-server")
 include("eureka-server")
-include("service-client")
+//include("service-client")
 //include("service-client-info")
 //include("service-order")
 

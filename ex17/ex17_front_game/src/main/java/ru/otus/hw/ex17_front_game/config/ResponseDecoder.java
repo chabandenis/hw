@@ -12,9 +12,10 @@ import java.io.IOException;
 import java.lang.reflect.Type;
 
 public class ResponseDecoder implements Decoder {
-    private static final Logger log = LoggerFactory.getLogger(ResponseDecoder.class);
+    private static final Logger LOG = LoggerFactory.getLogger(ResponseDecoder.class);
 
     private final Decoder defaultDecoder;
+
     private final ObjectMapper mapper;
 
     public ResponseDecoder(Decoder defaultDecoder, ObjectMapper mapper) {
@@ -25,7 +26,7 @@ public class ResponseDecoder implements Decoder {
     @Override
     public ClientData decode(Response response, Type type) throws IOException, FeignException {
         var responseAsString = (String) defaultDecoder.decode(response, String.class);
-        log.info("response:{}", responseAsString);
+        LOG.info("response:{}", responseAsString);
         return mapper.readValue(responseAsString, ClientData.class);
     }
 }

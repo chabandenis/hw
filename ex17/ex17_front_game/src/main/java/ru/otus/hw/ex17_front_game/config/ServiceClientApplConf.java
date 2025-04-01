@@ -27,7 +27,11 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.web.filter.OncePerRequestFilter;
-import ru.otus.hw.ex17_front_game.controller.*;
+import ru.otus.hw.ex17_front_game.controller.RequestCreate;
+import ru.otus.hw.ex17_front_game.controller.RequestDelete;
+import ru.otus.hw.ex17_front_game.controller.RequestGamesForUsers;
+import ru.otus.hw.ex17_front_game.controller.RequestGetOne;
+import ru.otus.hw.ex17_front_game.controller.RequestStep;
 import ru.otus.hw.ex17_front_game.filter.MdcFilter;
 import ru.otus.hw.ex17_front_game.metrics.MetricsManager;
 import ru.otus.hw.ex17_front_game.metrics.MicrometerMetricsManager;
@@ -81,6 +85,7 @@ public class ServiceClientApplConf {
     }
 
     @Bean
+    // CHECKSTYLE:OFF
     public RequestCreate requestCreateMethod(
             Decoder decoder,
             Encoder encoder,
@@ -99,6 +104,7 @@ public class ServiceClientApplConf {
                 .retryer(new Retryer.Default(500, 5_000, 10))
                 .target(RequestCreate.class, "http");
     }
+    // CHECKSTYLE:ON
 
     @Bean
     public RequestDelete requestDeleteMethod(
@@ -161,7 +167,7 @@ public class ServiceClientApplConf {
     }
 
     @Bean
-    public RequestStep RequestStepMethod(
+    public RequestStep requestStepMethod(
             Decoder decoder,
             Encoder encoder,
             Contract contract,

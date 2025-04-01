@@ -10,7 +10,11 @@ import ru.otus.hw.ex17_game.dto.ChessFairDto;
 import ru.otus.hw.ex17_game.dto.GameDto;
 import ru.otus.hw.ex17_game.dto.game.GamesCreateDto;
 import ru.otus.hw.ex17_game.mapper.UserMapper;
-import ru.otus.hw.ex17_game.models.*;
+import ru.otus.hw.ex17_game.models.ChessFair;
+import ru.otus.hw.ex17_game.models.Figura;
+import ru.otus.hw.ex17_game.models.Game;
+import ru.otus.hw.ex17_game.models.PositionInChessFair;
+import ru.otus.hw.ex17_game.models.User;
 import ru.otus.hw.ex17_game.repositories.ChessFairRepository;
 import ru.otus.hw.ex17_game.repositories.FiguraRepository;
 import ru.otus.hw.ex17_game.repositories.PositionInChessFairRepository;
@@ -62,8 +66,8 @@ public class GameServiceCreate {
 
     // 1. Информацию о пользователях
     private Mono<ResponseEntity<GameDto>> loadUsers(GamesCreateDto gamesCreateDto) {
-        mainUser=gamesCreateDto.getMainUser();
-        secondUser=gamesCreateDto.getSecondUser();
+        mainUser = gamesCreateDto.getMainUser();
+        secondUser = gamesCreateDto.getSecondUser();
         return userRepository.findByIdIn(List.of(gamesCreateDto.getMainUser(), gamesCreateDto.getSecondUser()))
                 .publishOn(workerPool)
                 // запомнить пользователей

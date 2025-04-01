@@ -16,9 +16,10 @@ import java.io.IOException;
 import java.lang.reflect.Type;
 
 public class ResponseDecoderRequestStep implements Decoder {
-    private static final Logger log = LoggerFactory.getLogger(ResponseDecoderRequestStep.class);
+    private static final Logger LOG = LoggerFactory.getLogger(ResponseDecoderRequestStep.class);
 
     private final Decoder defaultDecoder;
+
     private final ObjectMapper mapper;
 
     public ResponseDecoderRequestStep(Decoder defaultDecoder, ObjectMapper mapper) {
@@ -30,7 +31,7 @@ public class ResponseDecoderRequestStep implements Decoder {
     @Override
     public Mono<ResponseEntity<GameDto>> decode(Response response, Type type) throws IOException, FeignException {
         var responseAsString = (String) defaultDecoder.decode(response, String.class);
-        log.info("response:{}", responseAsString);
+        LOG.info("response:{}", responseAsString);
 
         GameDto gameDto = mapper.readValue(responseAsString, GameDto.class);
         return Mono.just(new ResponseEntity<>(gameDto, HttpStatus.OK));

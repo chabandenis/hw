@@ -16,9 +16,10 @@ import java.lang.reflect.Type;
 import java.util.List;
 
 public class ResponseDecoderGamesForUsers implements Decoder {
-    private static final Logger log = LoggerFactory.getLogger(ResponseDecoderGamesForUsers.class);
+    private static final Logger LOG = LoggerFactory.getLogger(ResponseDecoderGamesForUsers.class);
 
     private final Decoder defaultDecoder;
+
     private final ObjectMapper mapper;
 
     public ResponseDecoderGamesForUsers(Decoder defaultDecoder, ObjectMapper mapper) {
@@ -30,7 +31,7 @@ public class ResponseDecoderGamesForUsers implements Decoder {
     @Override
     public Flux<GameDto> decode(Response response, Type type) throws IOException, FeignException {
         var responseAsString = (String) defaultDecoder.decode(response, String.class);
-        log.info("response:{}", responseAsString);
+        LOG.info("response:{}", responseAsString);
 
         List<GameDto> gameDtos = mapper.readValue(responseAsString, new TypeReference<List<GameDto>>() {});
         return Flux.fromIterable(gameDtos);

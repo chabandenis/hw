@@ -11,7 +11,9 @@ import java.util.function.Supplier;
 
 public class MicrometerMetricsManager implements MetricsManager {
     private final MeterRegistry meterRegistry;
+
     private final Map<String, AtomicLong> gauges = new ConcurrentHashMap<>();
+
     private final Map<String, Counter> counters = new ConcurrentHashMap<>();
 
     public MicrometerMetricsManager(MeterRegistry meterRegistry) {
