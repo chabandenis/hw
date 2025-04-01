@@ -31,9 +31,9 @@ public class GameServiceCreate {
 
     private static final String BLACK = "black";
 
-    private static final Long MAIN_USER = 1l;
+    private Long mainUser;
 
-    private static final Long SECOND_USER = 2l;
+    private Long secondUser;
 
     private final UserRepository userRepository;
 
@@ -62,6 +62,8 @@ public class GameServiceCreate {
 
     // 1. Информацию о пользователях
     private Mono<ResponseEntity<GameDto>> loadUsers(GamesCreateDto gamesCreateDto) {
+        mainUser=gamesCreateDto.getMainUser();
+        secondUser=gamesCreateDto.getSecondUser();
         return userRepository.findByIdIn(List.of(gamesCreateDto.getMainUser(), gamesCreateDto.getSecondUser()))
                 .publishOn(workerPool)
                 // запомнить пользователей
@@ -101,10 +103,10 @@ public class GameServiceCreate {
 
     void fillGame() {
         game.setDateGame(LocalDateTime.now());
-        game.setUserWhiteId(userInGame.get(MAIN_USER).getId());
-        game.setUserNextId(userInGame.get(MAIN_USER).getId());
+        game.setUserWhiteId(userInGame.get(mainUser).getId());
+        game.setUserNextId(userInGame.get(mainUser).getId());
         game.setChessFairId(chessFair.getId());
-        game.setUserBlackId(userInGame.get(SECOND_USER).getId());
+        game.setUserBlackId(userInGame.get(secondUser).getId());
     }
 
     // 4. сохраняю информацию о шахматной доске
@@ -126,9 +128,9 @@ public class GameServiceCreate {
         GameDto gameDto = new GameDto();
         gameDto.setId(game.getId());
         gameDto.setDateGame(game.getDateGame());
-        gameDto.setUserWhite(UserMapper.toUserDto(userInGame.get(MAIN_USER)));
-        gameDto.setUserBlack(UserMapper.toUserDto(userInGame.get(SECOND_USER)));
-        gameDto.setUserNext(UserMapper.toUserDto(userInGame.get(MAIN_USER)));
+        gameDto.setUserWhite(UserMapper.toUserDto(userInGame.get(mainUser)));
+        gameDto.setUserBlack(UserMapper.toUserDto(userInGame.get(secondUser)));
+        gameDto.setUserNext(UserMapper.toUserDto(userInGame.get(mainUser)));
         gameDto.setChessFair(new ChessFairDto(chessFair.getId(), gameService.fillFigureOnTheDesk(positions)));
         return gameDto;
     }

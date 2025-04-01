@@ -33,7 +33,7 @@ export default function CreateUser({ mainUser, updateMainUser }) {
         return response.json();
       })
       .then((data) => {
-        console.log("создали ", login, password, updateMainUser, setError);
+        console.log("*** создали ", name, login, password);
         //updateMainUser(data);
         Login(login, password, updateMainUser, setError);
       })

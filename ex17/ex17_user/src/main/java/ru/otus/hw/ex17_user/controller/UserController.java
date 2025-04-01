@@ -56,6 +56,7 @@ public class UserController {
     // {"name":"user5", "login":"login", "password":"1" }
     @PostMapping(value = "")
     public Mono<ResponseEntity<UserDto>> create(@RequestBody /*@Valid*/ UserCreateDto userCreateDto) {
+        userCreateDto.setRole("USER");
         log.debug("Создать пользователя {} ", userCreateDto);
         return userRepository.save(UserMapper.toUser(userCreateDto)).publishOn(workerPool)
                 .map(y -> UserMapper.toUserDto(y))
@@ -78,6 +79,7 @@ public class UserController {
                             user.setName(userUpdateDto.getName());
                             user.setLogin(userUpdateDto.getLogin());
                             user.setPassword(userUpdateDto.getPassword());
+                            user.setRole(user.getRole());
 
                             log.debug("user after {}", user);
 

@@ -18,6 +18,8 @@ export default function NewGame({ mainUser, secondUser, desk, setDesk }) {
       secondUser: secondUser.id,
     };
 
+    console.log("ss ", mainUser, secondUser)
+
     const jwtToken = localStorage.getItem("jwt_token");
 
     let a = fetch("/api/game/", {
